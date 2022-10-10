@@ -1,0 +1,4 @@
+SQLAlchemy>=1.4.27
+pendulum>=2.1.2
+psycopg2-binary>=2.9.3
+SQLAlchemy-Utils>=0.38.2
