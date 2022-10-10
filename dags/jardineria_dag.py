@@ -1,11 +1,11 @@
 from airflow import DAG
 from datetime import timedelta
 from airflow.providers.docker.operators.docker import DockerOperator
-from tasks.t_branch_pull_ssh import build_branch_pull_ssh_task
-from tasks.t_git_clone_ssh import build_git_clone_ssh_task
-from tasks.t_check_repo import build_check_repo_task
-from tasks.t_image_build import build_image_build_task
-from tasks.t_remove_image import build_remove_image_task
+from util_tasks.t_branch_pull_ssh import build_branch_pull_ssh_task
+from util_tasks.t_git_clone_ssh import build_git_clone_ssh_task
+from util_tasks.t_check_repo import build_check_repo_task
+from util_tasks.t_image_build import build_image_build_task
+from util_tasks.t_remove_image import build_remove_image_task
 from docker.types import Mount, DriverConfig
 from datetime import datetime, timedelta
 from airflow.models import Variable
