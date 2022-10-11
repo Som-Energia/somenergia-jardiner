@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "jardiner"
+version = "0.1.0"
+description = ""
+authors = ["pol <pol.monso@somenergia.coop>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+dbt-postgres = "^1.2.2"
+sqlalchemy = "^1.4.41"
+sqlalchemy-utils = "^0.38.3"
+psycopg2-binary = "^2.9.4"
+pendulum = "^2.1.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
