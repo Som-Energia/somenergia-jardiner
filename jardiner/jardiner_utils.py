@@ -5,9 +5,11 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(me
 
 def get_config(dbapi_argument):
     if dbapi_argument == 'prod':
-        return dotenv_values(".env.prod")
+        env_dict = dotenv_values(".env.prod")
+        return env_dict['plantmonitor_dbapi']
     elif dbapi_argument == 'pre':
-        return dotenv_values(".env.pre")
+        env_dict = dotenv_values(".env.pre")
+        return env_dict['plantmonitor_dbapi']
     else:
         return dbapi_argument
 

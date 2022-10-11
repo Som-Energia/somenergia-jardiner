@@ -15,12 +15,12 @@ app = typer.Typer()
 def notify_alarms(
         data_interval_start : datetime,
         data_interval_end: datetime,
-        plantmonitor_prod_db: str,
+        plantmonitor_db: str,
         novu_url: str,
         api_key: str
     ):
     logging.info(f"Got {novu_url} and {api_key}")
-    dbapi = get_config(plantmonitor_prod_db)
+    dbapi = get_config(plantmonitor_db)
     db_engine = sqlalchemy.create_engine(dbapi)
     with db_engine.begin() as conn:
         alarms = get_alarms(conn)
