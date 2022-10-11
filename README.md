@@ -1,6 +1,6 @@
 # somenergia-jardiner
-Mending and nurturing of green energy plants
 
+Mending and nurturing of green energy plants
 
 ## install dependencies
 

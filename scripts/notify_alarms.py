@@ -1,21 +1,15 @@
 import logging
 import typer
 from datetime import datetime
-from dotenv import dotenv_values
 import sqlalchemy
+
+from jardiner.jardiner_utils import get_config
+from jardiner.jardineria import get_alarms
 
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
 app = typer.Typer()
-
-def get_config(dbapi_argument):
-    if dbapi_argument == 'prod':
-        return dotenv_values(".env.prod")
-    elif dbapi_argument == 'pre':
-        return dotenv_values(".env.pre")
-    else:
-        return dbapi_argument
 
 @app.command()
 def notify_alarms(
@@ -28,8 +22,10 @@ def notify_alarms(
     logging.info(f"Got {novu_url} and {api_key}")
     dbapi = get_config(plantmonitor_prod_db)
     db_engine = sqlalchemy.create_engine(dbapi)
-
-
+    with db_engine.begin() as conn:
+        alarms = get_alarms(conn)
+        for alarm in alarms:
+            logging.debug(f"Alarm {alarm}")
 
 if __name__ == '__main__':
   app()
