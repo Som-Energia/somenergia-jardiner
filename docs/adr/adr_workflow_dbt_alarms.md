@@ -65,6 +65,9 @@ from raw_app_data.events
 
 quan entri un device nou hem de comprovar que where event_time > NULL torna totsels resultats
 
+* without lag: left join with itself on row_number()-24 < row_number() < row_number()
+
+[source](https://learn.microsoft.com/en-us/answers/questions/874769/sql-server-how-to-get-previous-row39s-value-withou.html)
 
 ## Decision Outcome
 
