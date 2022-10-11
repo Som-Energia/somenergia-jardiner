@@ -1,7 +1,9 @@
-import typer
 import logging
-
+import typer
 from datetime import datetime
+from dotenv import dotenv_values
+import sqlalchemy
+
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
@@ -25,6 +27,9 @@ def notify_alarms(
     ):
     logging.info(f"Got {novu_url} and {api_key}")
     dbapi = get_config(plantmonitor_prod_db)
+    db_engine = sqlalchemy.create_engine(dbapi)
+
+
 
 if __name__ == '__main__':
   app()
