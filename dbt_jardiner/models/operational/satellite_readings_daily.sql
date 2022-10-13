@@ -1,7 +1,7 @@
 {{ config(materialized='view') }}
 
 select
-    date_trunc('day', time_start_hour),
+    date_trunc('day', time_start_hour) as day,
     plant,
     sum(global_horizontal_irradiation_wh_m2) as global_horizontal_irradiation_wh_m2,
     sum(global_tilted_irradiation_wh_m2) as global_tilted_irradiation_wh_m2,

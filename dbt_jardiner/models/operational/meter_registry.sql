@@ -2,7 +2,7 @@
 
 
 SELECT
-  time as time_end_hour,
+  time - interval '1 hour' as time_start_hour,
   export_energy_wh,
   import_energy_wh,
   meter,
