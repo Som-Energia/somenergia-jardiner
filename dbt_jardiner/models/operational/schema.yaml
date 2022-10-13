@@ -7,6 +7,11 @@ sources:
       - name: alarm_status
       - name: alarm
       - name: alarm_historic
+      - name: meter
+      - name: meterregistry
+      - name: plant
+      - name: solarevent
+      - name: satellite_readings
 
 models:
 
