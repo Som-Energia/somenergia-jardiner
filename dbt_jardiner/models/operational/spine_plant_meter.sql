@@ -2,7 +2,7 @@
 {{ config(materialized = 'table') }}
 
 select
-  spine.*,
+  spine.day as day,
   plant.id as plant_id,
   plant.name as plant_name,
   plant.codename as plant_codename,

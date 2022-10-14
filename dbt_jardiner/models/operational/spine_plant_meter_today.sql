@@ -4,4 +4,4 @@
 select
 *
 from {{ ref('spine_plant_meter')}} as spine
-where date_day <= NOW()
+where day <= NOW()
