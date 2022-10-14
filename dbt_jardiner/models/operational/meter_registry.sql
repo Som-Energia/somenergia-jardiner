@@ -10,6 +10,7 @@ SELECT
   plant.id as plant_id,
   plant.name as plant_name,
   plant.codename as plant_code,
+  TRUE
 FROM {{source('plantmonitor','meterregistry')}} as mr
 left join {{source('plantmonitor','meter')}} on meter.id = mr.meter
 left join {{source('plantmonitor','plant')}} as plant on plant.id = meter.plant

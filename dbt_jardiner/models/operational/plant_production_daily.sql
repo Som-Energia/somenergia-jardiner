@@ -30,7 +30,7 @@ select
   *,
   satellite_readings_energy_output_kwh - meter_registry_export_energy_kwh as satellite_meter_difference_energy_wh,
   forecast_energy_kwh - meter_registry_export_energy_kwh as forecast_meter_difference_energy_wh,
-  solar_hours_minimum - hours_with_energy as unexpected_hours_without_energy
+  solar_hours_minimum - hours_with_energy as unexpected_hours_without_energy,
   --100*(photovoltaic_energy_output_wh/NULLIF(export_energy_wh_total, 0.0)) as relative_energy_difference
   TRUE
   from combined_meter_satellite
