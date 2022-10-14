@@ -8,8 +8,8 @@ with meter_registry_hourly_raw as (
     plant_id,
     plant_name,
     plant_code,
-    avg(export_energy_wh) as export_energy_wh,
-    avg(import_energy_wh) as import_energy_wh
+    round(avg(export_energy_wh),2) as export_energy_wh,
+    round(avg(import_energy_wh),2) as import_energy_wh
   from {{ ref('meter_registry') }} as meter_registry
   --WHERE time >= '' and time <  max(time)
   group by date_trunc('hour', time_start_hour), plant_id, plant_name, plant_code, meter

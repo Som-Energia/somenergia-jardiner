@@ -2,11 +2,12 @@
 
 select
     date_trunc('day', time_start_hour) as day,
-    plant,
-    sum(global_horizontal_irradiation_wh_m2) as global_horizontal_irradiation_wh_m2,
-    sum(global_tilted_irradiation_wh_m2) as global_tilted_irradiation_wh_m2,
-    avg(module_temperature_dc) as module_temperature_dc_mean,
-    sum(photovoltaic_energy_output_wh) as photovoltaic_energy_output_wh
+    plant_id,
+    sum(horizontal_irradiation_wh_m2) as horizontal_irradiation_wh_m2,
+    sum(tilted_irradiation_wh_m2) as tilted_irradiation_wh_m2,
+    round(avg(module_temperature_dc),2) as module_temperature_dc_mean,
+    sum(energy_output_wh) as energy_output_wh,
+    TRUE
 FROM {{ref('satellite_readings_hourly')}} as srh
-group by date_trunc('day', time_start_hour), plant
+group by date_trunc('day', time_start_hour), plant_id
 

@@ -12,6 +12,10 @@ sources:
       - name: plant
       - name: solarevent
       - name: satellite_readings
+      - name: forecast
+      - name: forecastmetadata
+      - name: forecastpredictor
+      - name: forecastvariable
 
 models:
 

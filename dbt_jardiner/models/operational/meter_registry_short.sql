@@ -1,6 +1,5 @@
 {{ config(materialized='view') }}
 
-
 select *
 from {{ref('meter_registry')}}
 where plant_code = 'SomEnergia_Riudarenes_BR'
