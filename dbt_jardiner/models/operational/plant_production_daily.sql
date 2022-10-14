@@ -6,7 +6,8 @@ with combined_meter_satellite as (
     meter_registry.plant_id as plant_id,
     meter_registry.plant_name as plant_name,
     meter_registry.plant_code as plant_code,
-    meter_registry.meter as meter_registry_meter,
+    meter_registry.meter_id as meter_id,
+    meter_registry.meter_name as meter_name,
     meter_registry.hours_with_reading as meter_registry_hours_with_readings,
     round(meter_registry.export_energy_wh::numeric/1000, 2) as meter_registry_export_energy_kwh,
     meter_registry.hours_with_energy as meter_registry_hours_with_energy,
@@ -16,7 +17,7 @@ with combined_meter_satellite as (
     round(satellite_readings.energy_output_wh::numeric/1000, 2) as satellite_readings_energy_output_kwh,
     solar_events.solar_hours_real,
     solar_events.solar_hours_minimum,
-    forecast.energy_kwh
+    round(forecast.energy_kwh,2) as forecast_energy_kwh
   from {{ref('meter_registry_daily')}} as meter_registry
   left join {{ ref('satellite_readings_daily') }} as satellite_readings
     using(plant_id, day)
@@ -29,9 +30,8 @@ with combined_meter_satellite as (
 select
   *,
   satellite_readings_energy_output_kwh - meter_registry_export_energy_kwh as satellite_meter_difference_energy_wh,
-  forecast_energy_kwh - meter_registry_export_energy_kwh as forecast_meter_difference_energy_wh,
-  solar_hours_minimum - hours_with_energy as unexpected_hours_without_energy,
+  forecast_energy_kwh - meter_registry_export_energy_kwh as forecast_meter_difference_energy_kwh,
+  solar_hours_minimum - meter_registry_hours_with_energy as unexpected_hours_without_energy
   --100*(photovoltaic_energy_output_wh/NULLIF(export_energy_wh_total, 0.0)) as relative_energy_difference
-  TRUE
   from combined_meter_satellite
 order by day desc

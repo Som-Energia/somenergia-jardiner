@@ -19,10 +19,8 @@ sources:
 
 models:
 
-  - name: alarms_model
+  - name: alarm_meter_no_energy
     description: "Cleaned alarm model"
-    config:
-      schema: prod
     columns:
       - name: create_date
         description: "alarm create date"
