@@ -6,7 +6,7 @@ authors = ["pol <pol.monso@somenergia.coop>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.8,<3.11"
 dbt-postgres = "^1.2.2"
 sqlalchemy = "^1.4.41"
 sqlalchemy-utils = "^0.38.3"
@@ -21,6 +21,7 @@ pytest = "^7.1.3"
 mkdocs = "^1.4.0"
 pymdown-extensions = "^9.6"
 mkdocs-material = "^8.3.0"
+dbt-osmosis = "^0.9.5"
 
 [build-system]
 requires = ["poetry-core"]
