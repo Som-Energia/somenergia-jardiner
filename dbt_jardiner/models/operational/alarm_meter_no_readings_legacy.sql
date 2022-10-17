@@ -13,4 +13,4 @@ LEFT JOIN meter ON meter.id=reg.meter
 LEFT JOIN plant ON plant.id=meter.plant
 GROUP BY plant.name,
          meter.name,
-         meter.connection_protocol;
+         meter.connection_protocol
