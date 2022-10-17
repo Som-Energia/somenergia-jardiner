@@ -2,13 +2,14 @@
 
 with combined_meter_satellite as (
   select
-    meter_registry.day as day,
-    meter_registry.plant_id as plant_id,
-    meter_registry.plant_name as plant_name,
-    meter_registry.plant_code as plant_code,
-    meter_registry.meter_id as meter_id,
-    meter_registry.meter_name as meter_name,
-    meter_registry.hours_with_reading as meter_registry_hours_with_readings,
+    spine.day::date as day,
+    spine.plant_id as plant_id,
+    spine.plant_name as plant_name,
+    spine.plant_codename as plant_codename,
+    spine.meter_id as meter_id,
+    spine.meter_name as meter_name,
+    spine.meter_connection_protocol as meter_connection_protocol,
+    coalesce(meter_registry.hours_with_reading, 0) as meter_registry_hours_with_readings,
     round(meter_registry.export_energy_wh::numeric/1000, 2) as meter_registry_export_energy_kwh,
     meter_registry.hours_with_energy as meter_registry_hours_with_energy,
     round(satellite_readings.horizontal_irradiation_wh_m2::numeric/1000, 2) as satellite_readings_horizontal_irradiation_kwh_m2,
@@ -18,7 +19,9 @@ with combined_meter_satellite as (
     solar_events.solar_hours_real,
     solar_events.solar_hours_minimum,
     round(forecast.energy_kwh,2) as forecast_energy_kwh
-  from {{ref('meter_registry_daily')}} as meter_registry
+  from {{ref('spine_plant_meter_today')}} as spine
+  left join {{ref('meter_registry_daily')}} as meter_registry
+    using(plant_id, day)
   left join {{ ref('satellite_readings_daily') }} as satellite_readings
     using(plant_id, day)
   left join {{ ref('solar_events_generous') }} as solar_events
