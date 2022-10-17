@@ -54,7 +54,7 @@ with DAG(dag_id='jardiner_dag', start_date=datetime(2022,9,26), schedule_interva
         task_id='jardineria',
         image=f'{repo_github_name}-requirements:latest',
         working_dir=f'/repos/{repo_github_name}',
-        command='python3 -m scripts.notify_alarms "{{ data_interval_start }}" "{{ data_interval_end }}" "{{ var.value.plantmonitor_db }}"\
+        command='python3 -m scripts.notify_alarms "{{ var.value.plantmonitor_db }}"\
                 "{{ var.value.novu_url }}" "{{ var.value.novu_api_key }}"',
         docker_url=Variable.get("moll_url"),
         mounts=[mount_nfs],

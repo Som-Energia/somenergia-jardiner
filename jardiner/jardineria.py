@@ -1,7 +1,12 @@
 from sqlalchemy.engine import Transaction
+import pandas as pd
 
 def get_alarms(conn: Transaction):
-    alarms = conn.execute('select * from alarm_status').fetchall()
-    return alarms
+
+    # alarms = conn.execute('select * from prod.alarm_everything_today_vs_yesterday').fetchall()
+    alarms = pd.read_sql_table('alarm_everything_today_vs_yesterday', conn, schema='prod')
+    return alarms.to_dict()
+
 
 # vim: et sw=4 ts=4
+
