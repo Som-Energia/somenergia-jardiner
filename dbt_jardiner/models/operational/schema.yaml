@@ -16,6 +16,12 @@ sources:
       - name: forecastmetadata
       - name: forecastpredictor
       - name: forecastvariable
+      - name: sensorirradiationregistry
+      - name: plantmoduleparameters
+      - name: sensor
+      - name: view_hd_daily
+      - name: view_satellite_irradiation
+      - name: plantparameters
 
 models:
 
