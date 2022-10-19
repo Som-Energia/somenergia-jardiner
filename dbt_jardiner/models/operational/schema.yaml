@@ -32,3 +32,34 @@ models:
         description: "alarm create date"
         tests:
           - not_null
+
+  
+  - name: view_q_monthly.sql
+    description: "energy import/export and q import/export by month, by plant"
+    
+  - name: view_availability.sql
+    description: availability ("ht hours('ht' = hour with satellite irradiation bigger than 5 wh/m2) / hd hours ('hd' = hour with production bigger than 0.7/hour)) by day, by plant"
+
+  - name: view_cos_phi_monthly.sql
+    description: 
+
+  - name: view_expected_power.sql
+    description: 
+
+  - name: view_hd_daily.sql
+    description: "Count hours hd ('hd' = hour with production bigger than 0.7/hour),  by plant"
+
+  - name: view_ht_daily.sql
+    description: "Count hours ht ('ht' = hour with satellite irradiation bigger than 5 wh/m2) by day , by plant"
+
+  - name: view_ht_monthly.sql
+    description: "Count hours ht ('ht' = hour with  satellite irradiation bigger than 5 wh/m2), by month, by plant"
+
+  - name: view_pr_hourly.sql
+    description: "export energy, irradiation and production, by hour, by plant"
+   
+  - name: view_target_energy.sql
+    description: "no idea"
+
+  - name: view_satellite_irradiation.sql
+    description: "satellite irradiation readings in wh_m2, by hour, by plant"
