@@ -16,6 +16,8 @@ sources:
       - name: forecastmetadata
       - name: forecastpredictor
       - name: forecastvariable
+      - name: inverter
+      - name: inverterregistry
 
 models:
 
