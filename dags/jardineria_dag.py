@@ -39,7 +39,7 @@ driver_config = DriverConfig(name='local', options=nfs_config)
 mount_nfs = Mount(source="local", target="/repos", type="volume", driver_config=driver_config)
 
 
-with DAG(dag_id='jardiner_dag', start_date=datetime(2022,9,26), schedule_interval='@hourly', catchup=False, tags=["Plantmonitor", "Jardiner"], default_args=args) as dag:
+with DAG(dag_id='jardiner_dag_v2', start_date=datetime(2022,10,21), schedule_interval='@daily', catchup=False, tags=["Plantmonitor", "Jardiner"], default_args=args) as dag:
 
     repo_github_name = 'somenergia-jardiner'
 
@@ -55,7 +55,7 @@ with DAG(dag_id='jardiner_dag', start_date=datetime(2022,9,26), schedule_interva
         image=f'{repo_github_name}-requirements:latest',
         working_dir=f'/repos/{repo_github_name}',
         command='python3 -m scripts.notify_alarms "{{ var.value.plantmonitor_db }}"\
-                "{{ var.value.novu_url }}" "{{ var.value.novu_api_key }}"',
+                "{{ var.value.novu_url }}" "{{ var.value.novu_api_key }}" "{{ var.value.plantmonitor_db_prod_schema }}"',
         docker_url=Variable.get("moll_url"),
         mounts=[mount_nfs],
         mount_tmp_dir=False,
