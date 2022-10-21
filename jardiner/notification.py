@@ -2,7 +2,7 @@ import requests
 import logging
 import datetime
 
-def notify(url, api_key, payload):
+def notify(url, api_key, payload, email):
     last_day_alarm = datetime.datetime.today().date() - datetime.timedelta(days = 1) # not sure if 1 or 2 days
 
     headers = {
@@ -12,8 +12,8 @@ def notify(url, api_key, payload):
     data={
         "name": "alarmes-del-jardi",
         "to":  {
-            "subscriberId": "roger_recipient",
-            "email": "roger.sanjaume@somenergia.coop"
+            "subscriberId": "recipient",
+            "email": email
         },
         "payload": {
             'name': [{'yesterday':last_day_alarm.strftime("%d/%m/%Y")}],
