@@ -18,7 +18,8 @@ SELECT
     ir.voltage_cc_v,
     ir.voltage_ca_v,
     ir.uptime_h,
-    ir.temperature_c
+    ir.temperature_c,
+    ir.readings
 FROM {{ref('inverterregistry_gapfilled')}} as ir
 left join {{source('plantmonitor','inverter')}} as inverter on inverter.id = ir.inverter_id
 left join {{source('plantmonitor','plant')}} as plant on plant.id = inverter.plant

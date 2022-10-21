@@ -11,6 +11,7 @@ SELECT
     round(ir.voltage_cc_mv/1000.0,2) as voltage_cc_v,
     round(ir.voltage_ca_mv/1000.0,2) as voltage_ca_v,
     ir.uptime_h,
-    round(ir.temperature_dc/1000.0,2) as temperature_c -- wrong unit dc is mc
+    round(ir.temperature_dc/1000.0,2) as temperature_c, -- wrong unit dc is mc
+    1 as readings
 FROM {{source('plantmonitor','inverterregistry')}} as ir
 order by time desc
