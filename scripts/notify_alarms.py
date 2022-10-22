@@ -31,7 +31,7 @@ def get_alarms_to_notify(
         logging.info(f"No new alarms. {alarms}.")
         return
 
-    alarms['day'] = alarms['day'].dt.strftime("%Y-%m-%d")
+    #alarms['day'] = alarms['day'].dt.strftime("%Y-%m-%d")
     alarms_payload = alarms.to_dict(orient='records')
     return notify(novu_url, api_key, alarms_payload, reciver_email)
 
