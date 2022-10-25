@@ -26,7 +26,7 @@ alarm_meter_no_energy as (
   from {{ ref('alarm_meter_no_energy') }}
 ),
 alarm_inverter_temperature as (
-  select
+  select distinct
     date_trunc('day', time) as day,
     plant_id,
     plant_name,
@@ -35,12 +35,30 @@ alarm_inverter_temperature as (
     'alarm_inverter_temperature' as alarm_name,
     TRUE as is_alarmed
   from {{ ref('alarm_inverter_temperature') }}
-), alarm_everything as (
+),
+{# TODO acabar query
+alarm_inverter_zero_power_at_daylight as (
+    select
+    day,
+    plant_id,
+    plant_name,
+    'inverter' as device_type,
+    inverter_id::text as device_name,
+    'alarm_inverter_zero_power_at_daylight' as alarm_name,
+    TRUE as is_alarmed
+  from {{ ref('alarm_inverter_zero_power_at_daylight') }}
+),
+#}
+alarm_everything as (
   select * from alarm_meter_no_readings
   UNION
   select * from alarm_meter_no_energy
   UNION
-  select distinct * from alarm_inverter_temperature
+  select * from alarm_inverter_temperature
+  {# TODO acabar query
+  UNION
+  select * from alarm_inverter_zero_power_at_daylight
+  #}
 )
 
 select *

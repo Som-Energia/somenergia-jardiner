@@ -1,6 +1,5 @@
 {{ config(materialized='view') }}
 
-
 SELECT
     ir.time,
     plant.id as plant_id,

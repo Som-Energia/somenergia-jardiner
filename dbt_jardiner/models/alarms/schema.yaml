@@ -1,0 +1,10 @@
+version: 2
+models:
+
+  - name: alarm_inverter_zero_power_at_daylight
+    description: "Cleaned alarm model"
+    columns:
+      - name: power_kw
+        description: "null energy is filtered out"
+        tests:
+          - not_null
