@@ -1,4 +1,4 @@
-{{ config(materialized='view') }}
+{{ config(materialized='table') }}
 
 {# TODO we have to limit per connection_day per plant to avoid having NULL readings before plant existed#}
 
@@ -36,8 +36,7 @@ alarm_inverter_temperature as (
     TRUE as is_alarmed
   from {{ ref('alarm_inverter_temperature') }}
 ),
-{# TODO acabar query
-alarm_inverter_zero_power_at_daylight as (
+alarm_inverter_zero_power_at_daylight_daily as (
     select
     day,
     plant_id,
@@ -46,19 +45,16 @@ alarm_inverter_zero_power_at_daylight as (
     inverter_id::text as device_name,
     'alarm_inverter_zero_power_at_daylight' as alarm_name,
     TRUE as is_alarmed
-  from {{ ref('alarm_inverter_zero_power_at_daylight') }}
+  from {{ ref('alarm_inverter_zero_power_at_daylight_daily') }}
 ),
-#}
 alarm_everything as (
   select * from alarm_meter_no_readings
   UNION
   select * from alarm_meter_no_energy
   UNION
   select * from alarm_inverter_temperature
-  {# TODO acabar query
   UNION
-  select * from alarm_inverter_zero_power_at_daylight
-  #}
+  select * from alarm_inverter_zero_power_at_daylight_daily
 )
 
 select *
