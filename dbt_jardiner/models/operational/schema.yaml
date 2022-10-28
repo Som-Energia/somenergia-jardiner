@@ -27,15 +27,6 @@ sources:
 
 models:
 
-  - name: alarm_meter_no_energy
-    description: "Cleaned alarm model"
-    columns:
-      - name: create_date
-        description: "alarm create date"
-        tests:
-          - not_null
-
-
   - name: view_q_monthly
     description: "energy import/export and q import/export by month, by plant"
 
