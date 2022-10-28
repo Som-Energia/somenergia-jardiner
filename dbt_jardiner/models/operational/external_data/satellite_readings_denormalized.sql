@@ -7,6 +7,5 @@ select
     global_horizontal_irradiation_wh_m2 as horizontal_irradiation_wh_m2,
     global_tilted_irradiation_wh_m2 as tilted_irradiation_wh_m2,
     module_temperature_dc as module_temperature_dc,
-    photovoltaic_energy_output_wh as energy_output_wh,
-    TRUE
+    photovoltaic_energy_output_wh as energy_output_kwh -- data is in kwh, column name is wrong
 from {{ source('plantmonitor','satellite_readings') }}

@@ -15,7 +15,7 @@ with combined_meter_satellite as (
     round(satellite_readings.horizontal_irradiation_wh_m2::numeric/1000, 2) as satellite_readings_horizontal_irradiation_kwh_m2,
     round(satellite_readings.tilted_irradiation_wh_m2::numeric/1000, 2) as satellite_readings_tilted_irradiation_kwh_m2,
     round(satellite_readings.module_temperature_dc_mean::numeric/100, 2) as satellite_readings_module_temperature_dc_mean,
-    round(satellite_readings.energy_output_wh::numeric/1000, 2) as satellite_readings_energy_output_kwh,
+    round(satellite_readings.energy_output_kwh::numeric, 2) as satellite_readings_energy_output_kwh,
     solar_events.solar_hours_real,
     solar_events.solar_hours_minimum,
     round(forecast.energy_kwh,2) as forecast_energy_kwh
