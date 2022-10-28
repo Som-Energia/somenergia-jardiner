@@ -134,3 +134,7 @@ dmypy.json
 # dotenvs
 .env.pre
 .env.prod
+
+# tmux shenanigans
+tmux_jardiner
+..lock

@@ -15,25 +15,25 @@ app = typer.Typer()
 
 @app.command()
 def get_alarms_to_notify(
-        # data_interval_start : datetime,
-        # data_interval_end: datetime,
         plantmonitor_db: str,
         novu_url: str,
-        api_key: str
+        api_key: str,
+        schema: str,
+        reciver_email: str
     ):
     logging.info(f"Got {novu_url} and {api_key}")
     dbapi = get_config(plantmonitor_db) # dbapi = plantmonitor_db when run by airflow
     db_engine = sqlalchemy.create_engine(dbapi)
     with db_engine.begin() as conn:
-        alarms = pd.read_sql_table('alarm_everything_today', conn, schema='prod')
+        alarms = pd.read_sql_table('alarm_current_alarmed', conn, schema=schema)
 
     if alarms.shape[0] == 0:
         logging.info(f"No new alarms. {alarms}.")
         return
 
-    alarms['day'] = alarms['day'].dt.strftime("%Y-%m-%d")
+    #alarms['day'] = alarms['day'].dt.strftime("%Y-%m-%d")
     alarms_payload = alarms.to_dict(orient='records')
-    return notify(novu_url, api_key, alarms_payload)
+    return notify(novu_url, api_key, alarms_payload, reciver_email)
 
 
 
