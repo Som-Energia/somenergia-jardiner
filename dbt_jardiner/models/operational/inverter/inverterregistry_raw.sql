@@ -14,4 +14,5 @@ SELECT
     round(ir.temperature_dc/1000.0,2) as temperature_c, -- wrong unit dc is mc
     1 as readings
 FROM {{source('plantmonitor','inverterregistry')}} as ir
+where time > '2022-10-01'
 order by time desc

@@ -66,7 +66,12 @@ Poden aparèixer lectures antigues: No
 
 ## Decision Outcome
 
-Chosen option: "[option 1]", because [justification. e.g., only option, which meets k.o. criterion decision driver | which resolves force force | … | comes out best (see below)].
+Hem decidit atacar la opció HI i veure si podem reduir a 5 minuts d'execució amb incremental.
+Probablement no serà possible i necessitarem un fast-track (opció RL) per les alertes real-time.24h
+
+Aquest fast track s'executarà cincminutalment o podem veure si es podria fer en streaming EL -> T -> N(otificació)
+Serà exclusiu per alertes i amb poca consolidació a base de dades i no revisitarà el passat. Només NOW()-ish.
+
 
 ### Positive Consequences <!-- optional -->
 

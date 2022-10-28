@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='view') }}
 
 {# TODO we have to limit per connection_day per plant to avoid having NULL readings before plant existed#}
 
