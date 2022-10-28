@@ -6,11 +6,11 @@ with alarm_zero_power as (
         ir.plant_id,
         ir.plant_name,
         ir.inverter_id,
-        ir.sunrise_generous,
-        ir.sunset_generous,
+        ir.daylight_start,
+        ir.daylight_end,
         count(*) as alarm_count
     FROM {{ref('alarm_inverter_zero_power_at_daylight')}} as ir
-    group by date_trunc('day', ir.time), plant_id, plant_name, inverter_id, sunset_generous, sunrise_generous
+    group by date_trunc('day', ir.time), plant_id, plant_name, inverter_id, daylight_start, daylight_end
 )
 
 select

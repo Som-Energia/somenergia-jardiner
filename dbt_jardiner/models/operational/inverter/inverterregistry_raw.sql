@@ -1,5 +1,6 @@
 {{ config(materialized='view') }}
 
+{# wrong unit temperature_dc is temperature_mc #}
 
 SELECT
     ir.time,
@@ -11,8 +12,10 @@ SELECT
     round(ir.voltage_cc_mv/1000.0,2) as voltage_cc_v,
     round(ir.voltage_ca_mv/1000.0,2) as voltage_ca_v,
     ir.uptime_h,
-    round(ir.temperature_dc/1000.0,2) as temperature_c, -- wrong unit dc is mc
+    round(ir.temperature_dc/1000.0,2) as temperature_c,
     1 as readings
 FROM {{source('plantmonitor','inverterregistry')}} as ir
+
 where time > '2022-10-01'
+
 order by time desc
