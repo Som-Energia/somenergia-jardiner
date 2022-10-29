@@ -4,10 +4,14 @@ Mending and nurturing of green energy plants
 
 ## install dependencies
 
+The appropriate way to install poetry is in its own isolated environment
+
 ```bash
-pip install poetry
-poetry install
+curl -sSL https://install.python-poetry.org | python3 -
 ```
+
+Otherwise [poetry will delete itself](https://github.com/python-poetry/poetry/issues/3957) when running `poetry install --sync`
+
 
 alternativelly you can do
 
