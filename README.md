@@ -19,6 +19,11 @@ alternativelly you can do
 pip install -r requirements.txt
 ```
 
+Check the poetry documentation for more, shortlist `poetry add <package>` to add package, `poetry install` to install `poetry.lock` packages 
+and `poetry show --tree` will show the dependencies tree. Additionally `deptry .` will analyze the project and find inconsistencies between project and dependencies.
+
+If you get wheel errors on manylinux2014, update your `pip` to solve it. `poetry` doesn't fetch wheels from manylinux2014. `orjson` will cause this issue with pip 20 for example.
+
 ## testing
 
 just run `pytest` on the root directory

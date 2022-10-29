@@ -32,3 +32,12 @@ build-backend = "poetry.core.masonry.api"
 # ignore until dbt-utils fixes pytest conf must be in root
 [tool.pytest.ini_options]
 addopts = "--ignore=dbt_jardiner/dbt_packages"
+
+[tool.deptry]
+ignore_missing = [
+'airflow',
+'docker'
+]
+exclude = [
+'tests', 'docs'
+]
