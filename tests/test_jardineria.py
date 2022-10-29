@@ -1,7 +1,8 @@
 from collections import OrderedDict
 from sqlalchemy import create_engine
-from jardiner.jardiner_utils import get_config
-
+from jardiner import get_dbapi
+from jardiner import get_alarms
+import pytest
 
 @pytest.fixture(scope="session")
 def engine():
@@ -9,6 +10,6 @@ def engine():
 
 
 def test___notify_alarms__pre_config():
-    config = get_alarms('pre')
+    config = get_dbapi('pre')
     assert config
-    assert type(config) is OrderedDict
+    assert type(config) is str
