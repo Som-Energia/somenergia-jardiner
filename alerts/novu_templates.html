@@ -1,0 +1,22 @@
+<!-- Subject: [Alarma] Alarmes activades ahir -->
+
+Hi ha alarmes noves del dia {{#each name}}{{yesterday}}{{/each}}.
+<br>
+Pots consultar l'històric complet al <a href="https://redash.somenergia.coop/dashboard/dashboard-alarmes-unificat?p_plant=0&p_interval=d_last_7_days&p_w224_status=%5B%22ALARMA!%22%5D&p_w225_interval=d_this_month">Redash</a>
+<br>
+<table style="width:300px;">
+  <tr style="background-color:lightgrey;">
+    <th style="padding: 5px; border: solid 1px #777;">alarm_name</th>
+    <th style="padding: 5px; border: solid 1px #777;">plant_name</th>
+    <th style="padding: 5px; border: solid 1px #777;">device_type</th>
+    <th style="padding: 5px; border: solid 1px #777;">device_name</th>
+  </tr>
+  {{#each alarms}}
+	  <tr>
+		  <td style="padding: 5px; border: solid 1px #777;">{{alarm_name}}</td>
+		  <td style="padding: 5px; border: solid 1px #777;">{{plant_name}}</td>
+		  <td style="padding: 5px; border: solid 1px #777;">{{device_type}}</td>
+		  <td style="padding: 5px; border: solid 1px #777;">{{device_name}}</td>
+	  </tr>
+  {{/each}}
+</table>
