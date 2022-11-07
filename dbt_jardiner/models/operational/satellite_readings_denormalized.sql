@@ -9,4 +9,4 @@ select
     module_temperature_dc as module_temperature_dc,
     photovoltaic_energy_output_wh as energy_output_wh,
     TRUE
-from {{ source('plantmonitor','satellite_readings') }}
+from {{ source('plantmonitordb','satellite_readings') }}

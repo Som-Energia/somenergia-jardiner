@@ -8,8 +8,8 @@ with forecast_denormalized as (
     forecastmetadata.forecastdate as forecastdate,
     forecast.percentil50/1000.0 as energy_kwh,
     TRUE
-  FROM {{source('plantmonitor','forecast')}}
-  LEFT JOIN {{source('plantmonitor','forecastmetadata')}} ON forecastmetadata.id = forecast.forecastmetadata
-  LEFT JOIN {{source('plantmonitor','plant')}} ON plant.id = forecastmetadata.plant
+  FROM {{source('plantmonitordb','forecast')}}
+  LEFT JOIN {{source('plantmonitordb','forecastmetadata')}} ON forecastmetadata.id = forecast.forecastmetadata
+  LEFT JOIN {{source('plantmonitordb','plant')}} ON plant.id = forecastmetadata.plant
 )
 select * from forecast_denormalized

@@ -1,3 +1,3 @@
 {{ config(materialized='view') }}
 
-select * from {{source('plantmonitor', 'alarm_status') }}
+select * from {{source('plantmonitordb', 'alarm_status') }}
