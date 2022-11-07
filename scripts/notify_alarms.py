@@ -5,7 +5,7 @@ import sqlalchemy
 import pandas as pd
 from jardiner.notification import notify
 
-from jardiner.jardiner_utils import get_config
+from jardiner.jardiner_utils import get_dbapi
 from jardiner.jardineria import get_alarms
 
 
@@ -22,7 +22,7 @@ def get_alarms_to_notify(
         reciver_email: str
     ):
     logging.info(f"Got {novu_url} and {api_key}")
-    dbapi = get_config(plantmonitor_db) # dbapi = plantmonitor_db when run by airflow
+    dbapi = get_dbapi(plantmonitor_db) # dbapi = plantmonitor_db when run by airflow
     db_engine = sqlalchemy.create_engine(dbapi)
     with db_engine.begin() as conn:
         alarms = pd.read_sql_table('alarm_current_alarmed', conn, schema=schema)

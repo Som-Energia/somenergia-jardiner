@@ -6,5 +6,13 @@ models:
     columns:
       - name: power_kw
         description: "null energy is filtered out"
+        #tests: # test takes too long
+        #  - not_null
+
+  - name: alarm_meter_no_energy
+    description: "Cleaned alarm model"
+    columns:
+      - name: day
+        description: "alarm create date"
         tests:
           - not_null

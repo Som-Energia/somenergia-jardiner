@@ -16,6 +16,7 @@ SELECT
     1 as readings
 FROM {{source('plantmonitor','inverterregistry')}} as ir
 
-where time > '2022-10-01'
-
+{% if target.name == 'pre' %}
+where ir.time >= current_date - interval '3 days'
+{% endif %}
 order by time desc

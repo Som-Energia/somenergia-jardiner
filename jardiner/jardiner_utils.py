@@ -3,7 +3,7 @@ from dotenv import dotenv_values
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
-def get_config(dbapi_argument):
+def get_dbapi(dbapi_argument):
     if dbapi_argument == 'prod':
         env_dict = dotenv_values(".env.prod")
         return env_dict['plantmonitor_dbapi']
