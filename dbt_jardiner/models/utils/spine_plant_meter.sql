@@ -11,7 +11,7 @@ select
   meter.connection_protocol as meter_connection_protocol
 from {{ ref('spine_days_localized')}} as spine
 left join {{ref('som_plants')}} as plant ON TRUE
-left join {{source('plantmonitor','meter')}} on meter.plant = plant.plant_id
+left join {{source('plantmonitordb','meter')}} on meter.plant = plant.plant_id
 
 
 {{ config(materialized='view') }}
