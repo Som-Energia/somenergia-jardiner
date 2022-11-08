@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: plantmonitor
+  - name: plantmonitordb
     schema: public
     tables:
       - name: alarm_status
@@ -49,10 +49,10 @@ models:
     description: "Count hours ht ('ht' = hour with  satellite irradiation bigger than 5 wh/m2), by month, by plant"
 
   - name: view_pr_hourly
-    description: "export energy, irradiation and production, by hour, by plant"
-
+    description: "export energy, irradiation and performance ratio (pr), hourly, by plant"
+  
   - name: view_target_energy
-    description: "Energy output goals"
+    description: "monthly alcolea energy production target"
 
   - name: view_satellite_irradiation
-    description: "satellite irradiation readings in wh_m2, by hour, by plant"
+    description: "satellite irradiation readings in wh_m2, hourly, by plant"

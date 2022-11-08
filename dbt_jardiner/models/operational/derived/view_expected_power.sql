@@ -23,10 +23,10 @@ SELECT
     END AS expectedpower,
     reg.temperature_dc,
     reg.irradiation_w_m2
-    FROM {{source('plantmonitor','sensorirradiationregistry')}} AS reg
-    LEFT JOIN {{source('plantmonitor','sensor')}} AS sensor
+    FROM {{source('plantmonitordb','sensorirradiationregistry')}} AS reg
+    LEFT JOIN {{source('plantmonitordb','sensor')}} AS sensor
     ON sensor.id = reg.sensor
-    LEFT JOIN {{source('plantmonitor','plantmoduleparameters')}} AS par
+    LEFT JOIN {{source('plantmonitordb','plantmoduleparameters')}} AS par
     ON par.plant = sensor.plant
     ORDER BY time, plant, sensor
 

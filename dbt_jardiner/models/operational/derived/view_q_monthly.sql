@@ -8,9 +8,9 @@ select
  sum(reg.export_energy_wh) AS export_energy_wh,
  sum(reg.r1_varh-reg.r4_varh) AS qimportada,
  sum(reg.r2_varh-reg.r3_varh) AS qexportada
-from {{source('plantmonitor','meterregistry')}} as reg
-left join {{source('plantmonitor','meter')}} on meter.id = reg.meter
-left join {{source('plantmonitor','plant')}} on plant.id = meter.plant
+from {{source('plantmonitordb','meterregistry')}} as reg
+left join {{source('plantmonitordb','meter')}} on meter.id = reg.meter
+left join {{source('plantmonitordb','plant')}} on plant.id = meter.plant
 GROUP BY date_trunc('month', reg.time at time zone 'Europe/Madrid'),
     plant.id,
     reg.meter,

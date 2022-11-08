@@ -14,7 +14,7 @@ SELECT
     ir.uptime_h,
     round(ir.temperature_dc/1000.0,2) as temperature_c,
     1 as readings
-FROM {{source('plantmonitor','inverterregistry')}} as ir
+FROM {{source('plantmonitordb','inverterregistry')}} as ir
 
 {% if target.name == 'pre' %}
 where ir.time >= current_date - interval '3 days'

@@ -20,6 +20,6 @@ SELECT
     ir.temperature_c,
     ir.readings
 FROM {{ref('inverterregistry_gapfilled')}} as ir
-left join {{source('plantmonitor','inverter')}} as inverter on inverter.id = ir.inverter_id
-left join {{source('plantmonitor','plant')}} as plant on plant.id = inverter.plant
+left join {{source('plantmonitordb','inverter')}} as inverter on inverter.id = ir.inverter_id
+left join {{source('plantmonitordb','plant')}} as plant on plant.id = inverter.plant
 order by time desc
