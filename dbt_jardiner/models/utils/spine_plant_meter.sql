@@ -14,4 +14,4 @@ left join {{ref('som_plants')}} as plant ON TRUE
 left join {{source('plantmonitordb','meter')}} on meter.plant = plant.plant_id
 
 
-{{ config(materialized='view') }}
+{{ config(materialized='table') }}

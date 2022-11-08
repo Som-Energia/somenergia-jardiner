@@ -1,4 +1,4 @@
-{{ config(materialized='view') }}
+{{ config(materialized='table') }}
 
 {# wrong unit temperature_dc is temperature_mc #}
 

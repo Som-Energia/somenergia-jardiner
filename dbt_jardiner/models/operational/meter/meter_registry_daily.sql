@@ -1,4 +1,4 @@
-{{ config(materialized='view') }}
+{{ config(materialized='table') }}
 
 select
   date_trunc('day', time_start_hour) AS day,

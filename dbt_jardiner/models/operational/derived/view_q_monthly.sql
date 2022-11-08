@@ -1,4 +1,4 @@
-{{ config(materialized='view') }}
+{{ config(materialized='table') }}
 
 select
  date_trunc('month', reg.time at time zone 'Europe/Madrid') at time zone 'Europe/Madrid' AS time,
