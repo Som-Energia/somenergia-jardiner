@@ -4,8 +4,7 @@ from airflow.providers.docker.operators.docker import DockerOperator
 from util_tasks.t_branch_pull_ssh import build_branch_pull_ssh_task
 from util_tasks.t_git_clone_ssh import build_git_clone_ssh_task
 from util_tasks.t_check_repo import build_check_repo_task
-from util_tasks.t_image_build import build_image_build_task
-from util_tasks.t_remove_image import build_remove_image_task
+from util_tasks.t_update_docker_image import build_update_image_task
 from docker.types import Mount, DriverConfig
 from datetime import datetime, timedelta
 from airflow.models import Variable
@@ -43,17 +42,16 @@ with DAG(dag_id='jardiner_dag_v2', start_date=datetime(2022,10,21), schedule_int
 
     repo_name = 'somenergia-jardiner'
 
-    task_branch_pull_ssh = build_branch_pull_ssh_task(dag=dag, task_name='jardineria', repo_name=repo_name)
-    task_git_clone = build_git_clone_ssh_task(dag=dag, repo_name=repo_name)
     task_check_repo = build_check_repo_task(dag=dag, repo_name=repo_name)
-    task_image_build = build_image_build_task(dag=dag, repo_name=repo_name)
-    task_remove_image = build_remove_image_task(dag=dag, repo_name=repo_name)
+    task_git_clone = build_git_clone_ssh_task(dag=dag, repo_name=repo_name)
+    task_branch_pull_ssh = build_branch_pull_ssh_task(dag=dag, task_name='jardineria', repo_name=repo_name)
+    task_update_image = build_update_image_task(dag=dag, repo_name=repo_name)
 
     notify_alarms_task = DockerOperator(
         api_version='auto',
         task_id='jardineria',
         docker_conn_id='somenergia_registry',
-        image='{}/{}-requirements:latest'.format('{{ conn.somenergia_registry.host }}',repo_name),
+        image='{}/{}-requirements:latest'.format('{{ conn.somenergia_registry.host }}', repo_name),
         working_dir=f'/repos/{repo_name}',
         command='python3 -m scripts.notify_alarms "{{ var.value.plantmonitor_db }}"\
                 "{{ var.value.novu_url }}" "{{ var.value.novu_api_key }}" "{{ var.value.plantmonitor_db_prod_schema }}" "{{ var.value.plantmonitor_alert_reciver }}"',
@@ -67,7 +65,7 @@ with DAG(dag_id='jardiner_dag_v2', start_date=datetime(2022,10,21), schedule_int
 
     task_check_repo >> task_git_clone
     task_check_repo >> task_branch_pull_ssh
-    task_git_clone >> task_image_build
+    task_git_clone >> task_update_image
     task_branch_pull_ssh >> notify_alarms_task
-    task_branch_pull_ssh >> task_remove_image
-    task_remove_image >> task_image_build >> notify_alarms_task
+    task_branch_pull_ssh >> task_update_image
+    task_update_image >> notify_alarms_task
