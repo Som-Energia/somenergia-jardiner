@@ -4,8 +4,7 @@
 
 SELECT
     sr.time,
-    sr.string as string_id
-    sr.inverter as inverter_id,
+    sr.string as string_id,
     sr.intensity_ma
 FROM {{ source('plantmonitordb','stringregistry') }} as sr
 

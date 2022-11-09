@@ -25,6 +25,8 @@ select
             and power_kw_count_existing_last_12_readings = 12
             and power_kw_max_last_12_readings = 0
         then TRUE
+        when power_kw_count_existing_last_12_readings < 12
+        then NULL
         else FALSE
     end as alarm_inverter_zero_power_at_daylight
 from sub_ir

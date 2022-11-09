@@ -10,7 +10,7 @@ models:
   - name: alert_inverter_temperature
     description: "temperature >55 during >2h"
 
-  - name: alert_inverters_temperature
+  - name: alert_inverter_interinverter_relative_temperature
     description: "inverter temperature > 40 AND difererence between inverters tempretarure > 10"
 
   - name: alert_meter_no_energy

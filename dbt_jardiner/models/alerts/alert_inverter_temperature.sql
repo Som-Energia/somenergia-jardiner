@@ -1,23 +1,27 @@
 {{ config(materialized='view') }}
 
-with inverterregistry_last_results as (
-    select *
-    from {{ref('inverterregistry_clean')}} as ir
-    where time between (NOW() - interval '1 hour') and NOW()
-), inverterregistry_sct as (
+with inverterregistry_sct as (
     SELECT
         time,
         plant_id,
         plant_name,
         inverter_id,
         inverter_name,
-        temperature_c as temp,
-        min(temperature_c) OVER (PARTITION BY inverter_id ORDER By time ROWS BETWEEN 12 PRECEDING AND current row) AS temperature_c_min
+        temperature_c as temperature_c,
+        50 < temperature_c  as alarm_inverter_temperature
     FROM
-        inverterregistry_last_results
-
+        {{ref('alert_inverterregistry_clean_last_hour')}}
 )
 
-select *,  55 < temperature_c_min as alarm_inverter_temperature
+select
+    max(time) as time,
+    plant_id,
+    plant_name,
+    inverter_id,
+    inverter_name,
+    min(temperature_c) as min_temperature_c,
+    max(temperature_c) as max_temperature_c,
+    every(alarm_inverter_temperature) as alarm_inverter_temperature
 from inverterregistry_sct
+group by plant_id, plant_name, inverter_id, inverter_name
 order by time desc

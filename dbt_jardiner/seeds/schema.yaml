@@ -1,0 +1,4 @@
+version: 2
+
+seeds:
+  - name: alert_inverterregistry_clean_last_hour_temperature_sample

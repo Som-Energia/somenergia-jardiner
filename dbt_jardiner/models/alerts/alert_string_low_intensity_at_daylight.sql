@@ -4,38 +4,36 @@ with inverterregistry_last_readings as (
     select * from {{ ref('inverterregistry_clean') }}
     where timezone('utc', now()) - interval '1 hour' < time
 ),
-stringregistry_last_readings as (
-    select * from {{ ref('stringregistry_raw') }}
-    where timezone('utc', now()) - interval '1 hour' < time
-), sub_sr as (
-    select
-        time as time,
+inverter_join as (
+select
+        sub_sr.time as time,
         plant.plant_id,
-        ir.inverter_id,
-        string.string_name,
-        coalesce(string.stringbox_name, string.name) as stringbox,
-        sr.intensity_ma,
-        ir.power_ma,
-        sr.intensity_ma < 500 and ir.power_kw > 10 as is_low_intensity
-    FROM stringregistry_last_readings AS sr
-    LEFT JOIN {{ ref('strings_raw') }} as string using string_id
-    LEFT JOIN {{ ref('inverters_raw') }} as inverter using inverter_id
-    left join inverterregistry_last_readings as ir using inverter_id
-    LEFT JOIN {{ ref('som_plants_raw') }} as plant using plant_id
-
+        plant.plant_name as plant_name,
+        sub_sr.inverter_id,
+        sub_sr.inverter_name,
+        sub_sr.string_name,
+        sub_sr.stringdevice_name,
+        sub_sr.intensity_ma,
+        ir.power_kw,
+        sub_sr.intensity_ma < 500 and ir.power_kw > 10 as is_low_intensity
+from {{ ref('stringregistry_denormalized') }} as sub_sr
+    left join inverterregistry_last_readings as ir on sub_sr.time = ir.time and sub_sr.inverter_id = ir.inverter_id
+    left join {{ ref('som_plants_raw') }} as plant on plant.plant_id = sub_sr.plant_id
 ),
 sr_grouped as (
 select
         max(time) as time,
-        plant.plant_id,
-        ir.inverter_id,
-        string.string_name,
-        coalesce(string.stringbox_name, string.name) as stringbox_name,
-        sum(sr.intensity_ma) as intensity_ma,
-        sum(ir.power_ma),
-        max(is_low_intensity) as low_intensity_alarm
-    from sub_sr
-    GROUP BY plant_id, inverter_id, string_name, stringbox_name
+        plant_id,
+        plant_name,
+        inverter_id,
+        inverter_name,
+        string_name,
+        stringdevice_name,
+        sum(intensity_ma) as intensity_ma,
+        sum(power_kw) as power_kw,
+        every(is_low_intensity) as low_intensity_alarm
+    from inverter_join
+    GROUP BY plant_id, plant_name, inverter_id, inverter_name, string_name, stringdevice_name
 )
 
 select

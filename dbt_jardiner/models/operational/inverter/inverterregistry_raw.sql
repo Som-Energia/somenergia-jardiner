@@ -12,7 +12,7 @@ SELECT
     round(ir.voltage_cc_mv/1000.0,2) as voltage_cc_v,
     round(ir.voltage_ca_mv/1000.0,2) as voltage_ca_v,
     ir.uptime_h,
-    round(ir.temperature_dc/1000.0,2) as temperature_c,
+    round(ir.temperature_dc/10.0,2) as temperature_c,
     1 as readings
 FROM {{source('plantmonitordb','inverterregistry')}} as ir
 
