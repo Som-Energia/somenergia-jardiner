@@ -24,6 +24,8 @@ sources:
       - name: plantparameters
       - name: inverter
       - name: inverterregistry
+      - name: string
+      - name: stringregistry
 
 models:
 
@@ -50,7 +52,7 @@ models:
 
   - name: view_pr_hourly
     description: "export energy, irradiation and performance ratio (pr), hourly, by plant"
-  
+
   - name: view_target_energy
     description: "monthly alcolea energy production target"
 
