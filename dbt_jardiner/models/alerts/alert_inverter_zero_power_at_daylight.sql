@@ -27,7 +27,7 @@ with sub_ir as (
         when power_kw_count_existing_last_12_readings < 12
         then NULL
         else FALSE
-    end as alarm_inverter_zero_power_at_daylight
+    end as is_alarmed
     from sub_ir
 )
 

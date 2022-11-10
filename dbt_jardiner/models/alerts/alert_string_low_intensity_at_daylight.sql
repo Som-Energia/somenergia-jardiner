@@ -19,8 +19,7 @@ select
 from {{ ref('stringregistry_denormalized') }} as sub_sr
     left join inverterregistry_last_readings as ir on sub_sr.time = ir.time and sub_sr.inverter_id = ir.inverter_id
     left join {{ ref('som_plants_raw') }} as plant on plant.plant_id = sub_sr.plant_id
-),
-sr_grouped as (
+), sr_grouped as (
 select
         max(time) as time,
         plant_id,
