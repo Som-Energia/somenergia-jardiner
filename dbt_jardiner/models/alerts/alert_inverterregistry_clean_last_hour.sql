@@ -1,4 +1,7 @@
+{{ config(materialized='view') }}
+
 {% if target.name == 'testing' %}
+ --vars{“test_sample”:“sample_name”} 
 
 select
     time::TIMESTAMPTZ as time,
@@ -19,7 +22,9 @@ select
     uptime_h,
     temperature_c,
     readings
-from {{ ref('alert_inverterregistry_clean_last_hour_temperature_sample') }}
+
+from {{ ref(var('test_sample')) }}
+
 
 {% else %}
 
