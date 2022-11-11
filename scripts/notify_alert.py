@@ -31,6 +31,29 @@ def notify(url, api_key, payload, email):
 
     return response
 
+def refresh_notification_table(con, schema, alertdf, alert_name):
+    
+    alertdf_new = alertdf
+    
+    alerts_status_df_old = pd.read_sql_table(con=con, table_name=alert_name+'_status', schema=schema)
+
+    one_alert_status_df_old = alerts_status_df_old[alerts_status_df_old['alarm_name'] == alert_name]
+    
+    import ipdb; ipdb.set_trace()
+    drop.time
+    alertdf_diff: pd.DataFrame = alertdf_new - one_alert_status_df_old # difference
+    
+    alertdf_diff.to_sql(con=con, name='alerts_historic', if_exists='append', schema=schema)
+    
+    # filter out all previous status for this alarm type
+    alerts_status_df = alerts_status_df_old[alerts_status_df_old['alarm_name'] != alert_name]
+    
+    alerts_status_df.append(alertdf_new)
+    
+    alerts_status_df.to_sql(con=con, name=alert_name+'_status', if_exists='replace', schema=schema)
+    
+    return alerts_status_df
+
 @app.command()
 def get_alarms_to_notify(
         plantmonitor_db: str,
@@ -41,23 +64,21 @@ def get_alarms_to_notify(
         alert: str
     ):
     logging.info(f"Got {novu_url} and {api_key}")
-    alertdf = pd.read_sql_table(alert, plantmonitor_db, schema=schema)
-    alertdf = alertdf[alertdf['is_alarmed'] == True]
-    alertjson = alertdf.to_json(orient='table')
+    dbapi = get_dbapi(plantmonitor_db) # dbapi = plantmonitor_db when run by airflow
+    db_engine = sqlalchemy.create_engine(dbapi)
+    with db_engine.begin() as conn:
+        alertdf = pd.read_sql_table(alert, plantmonitor_db, schema=schema)
+        alertdf = alertdf[alertdf['is_alarmed'] == True]
 
-    if len(alertdf) > 0:
-        #notify(novu_url, api_key, alertjson, reciver_email)
-        logging.info(f"Alert {alert} notifed.")
+        alertdf_diff = refresh_notification_table()
 
-        delete(taula_already_Notified - alertdf)
-        alert_df_new = alertdf (- time) filter is not in taula_already_Notified
-        notify(alert_df_new)
-        alert_df_new append to taula_already_Notified
-        alertdf (amb time) append to alerts_historic
+        alertjson = alertdf_diff.to_json(orient='table')
 
-
-    else:
-        logging.info(f"Any alert {alert} to notify.")
+        if len(alertdf_diff) > 0:
+            #notify(novu_url, api_key, alertjson, reciver_email)
+            logging.info(f"Alert {alert} notifed.")
+        else:
+            logging.info(f"Any alert {alert} to notify.")
 
     return True
 

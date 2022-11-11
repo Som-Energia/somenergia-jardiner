@@ -134,6 +134,7 @@ dmypy.json
 # dotenvs
 .env.pre
 .env.prod
+.env.testing
 
 # tmux shenanigans
 tmux_jardiner
