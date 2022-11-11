@@ -1,5 +1,10 @@
 {{ config(materialized='view') }}
 
+-- see below
+-- use left join lateral if you want meters without readings within threshold range
+-- (moxa usually has 12h delay which means we never have readings within range)
+-- use **inner join lateral** if you only want meters with readings
+
 with meterregistry_last_readings as (
     select * from {{ ref('meter_registry_raw') }}
     where current_date < time
@@ -29,7 +34,7 @@ meter_registry_hourly_raw as (
     mr.export_energy_wh,
     mr.is_daylight
   from {{ ref('meters_with_thresholds') }} as meters
-  left join lateral ( -- use left if you want meters without readings, inner otherwise
+  inner join lateral ( -- use left if you want meters without readings, inner otherwise
     select
       mr.time,
       mr.meter_id,
