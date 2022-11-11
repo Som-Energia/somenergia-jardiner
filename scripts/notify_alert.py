@@ -1,9 +1,10 @@
 import logging
 import requests
 import typer
-from datetime import datetime
+import datetime
 import sqlalchemy
 import pandas as pd
+from jardiner.jardiner_utils import get_dbapi
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
@@ -35,24 +36,34 @@ def refresh_notification_table(con, schema, alertdf, alert_name):
     
     alertdf_new = alertdf
     
-    alerts_status_df_old = pd.read_sql_table(con=con, table_name=alert_name+'_status', schema=schema)
+    table_name = alert_name + '_status'
 
-    one_alert_status_df_old = alerts_status_df_old[alerts_status_df_old['alarm_name'] == alert_name]
+    # Don't try it at home
+    table_exists = True
+    try:
+        alert_status_df_old = pd.read_sql_table(con=con, table_name=table_name, schema=schema)
+    except ValueError:
+        table_exists = False
+
+    if table_exists:
+        alertdf_new_clean = alertdf_new.drop(columns=['time', 'daylight_start', 'daylight_end'])
+        
+        alert_status_df_old_clean = alert_status_df_old.drop(columns=['time', 'daylight_start', 'daylight_end'])
+        
+        alertdf_diff = alertdf_new_clean[~alertdf_new_clean.isin(alert_status_df_old_clean)].dropna(how='all')
+
+    else:
+        alertdf_new.to_sql(con=con, name=table_name, schema=schema)
+        alertdf_diff = alertdf_new
+        alertdf_diff.drop(columns=['time', 'daylight_start', 'daylight_end'], inplace=True)
+
+    alertdf_diff['notification_time'] = datetime.datetime.now(datetime.timezone.utc)
+
+    alertdf_diff.to_sql(con=con, name=alert_name + '_historic', if_exists='append', schema=schema)
+     
+    alertdf_new.to_sql(con=con, name=table_name, if_exists='replace', schema=schema)
     
-    import ipdb; ipdb.set_trace()
-    drop.time
-    alertdf_diff: pd.DataFrame = alertdf_new - one_alert_status_df_old # difference
-    
-    alertdf_diff.to_sql(con=con, name='alerts_historic', if_exists='append', schema=schema)
-    
-    # filter out all previous status for this alarm type
-    alerts_status_df = alerts_status_df_old[alerts_status_df_old['alarm_name'] != alert_name]
-    
-    alerts_status_df.append(alertdf_new)
-    
-    alerts_status_df.to_sql(con=con, name=alert_name+'_status', if_exists='replace', schema=schema)
-    
-    return alerts_status_df
+    return alertdf_new, alertdf_diff
 
 @app.command()
 def get_alarms_to_notify(
@@ -60,7 +71,7 @@ def get_alarms_to_notify(
         novu_url: str,
         api_key: str,
         schema: str,
-        reciver_email: str,
+        receiver_email: str,
         alert: str
     ):
     logging.info(f"Got {novu_url} and {api_key}")
@@ -68,17 +79,22 @@ def get_alarms_to_notify(
     db_engine = sqlalchemy.create_engine(dbapi)
     with db_engine.begin() as conn:
         alertdf = pd.read_sql_table(alert, plantmonitor_db, schema=schema)
-        alertdf = alertdf[alertdf['is_alarmed'] == True]
+        # to do dilluns: estandaritzar els models d'alertes (com hem fet a alert_inverter_zero_power_at_daylight)
+        # i aquí filtrar per agafar les columns que ens interessen.
+        # eliminar els drops.
+        if len(alertdf) == 0:
+            logging.info(f"No alert {alert} returned..")
+            return True
 
-        alertdf_diff = refresh_notification_table()
+        alertdf, alertdf_diff = refresh_notification_table(con=conn, schema=schema, alertdf=alertdf, alert_name=alert)
 
         alertjson = alertdf_diff.to_json(orient='table')
 
         if len(alertdf_diff) > 0:
-            #notify(novu_url, api_key, alertjson, reciver_email)
+            notify(novu_url, api_key, alertjson, receiver_email)
             logging.info(f"Alert {alert} notifed.")
         else:
-            logging.info(f"Any alert {alert} to notify.")
+            logging.info(f"No alert {alert} to notify.")
 
     return True
 

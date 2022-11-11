@@ -31,7 +31,12 @@ with sub_ir as (
     from sub_ir
 )
 
-SELECT *
+SELECT *,
+    'inverter' as device_type,
+    inverter_id as device_id,
+    inverter_name as device_name,
+    'alert_inverter_zero_power_at_daylight' as alarm_name,
+    is_alarmed
 FROM sub_alarm
 where (time,plant_id, inverter_name) in
 	( select max(time) as time, plant_id, inverter_name
