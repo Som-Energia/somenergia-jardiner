@@ -39,7 +39,7 @@ meter_registry_hourly_raw as (
     where
         mr.meter_id = meters.meter_id
         and now() - make_interval(hours=>(meters.num_hours_threshold + 2)) < time
-  ) as mr on mr.meter_id = meters.meter_id
+  ) as mr on true
 ),
 
 meter_registry_group as (
