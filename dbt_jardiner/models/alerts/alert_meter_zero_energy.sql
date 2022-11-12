@@ -1,5 +1,19 @@
 {{ config(materialized='view') }}
 
+
+{#
+  see below
+  use left join lateral if you want meters without readings within threshold range
+  (moxa usually has 12h delay which means we never have readings within range)
+  use **inner join lateral** if you only want meters with readings
+
+  tcp usually has a 2h delay. The ERP polls every 2h or so, and we sync every 20 minutes,
+  so we'll likely get at least 1h20 delay.
+
+  to mitigate this we add a baseline +2h to the thresholds
+#}
+
+
 with meterregistry_last_readings as (
     select * from {{ ref('meter_registry_raw') }}
     where current_date < time
