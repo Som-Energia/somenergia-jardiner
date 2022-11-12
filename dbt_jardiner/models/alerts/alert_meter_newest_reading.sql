@@ -2,7 +2,7 @@
 
 with meterregistry_newest_readings as (
     select * from {{ ref('meter_registry_raw') }}
-    where current_date - interval '1 day' < time
+    where current_date - interval '90 day' < time
 ),
 
 meter_registry_newest_reading as (
