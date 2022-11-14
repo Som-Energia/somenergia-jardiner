@@ -39,7 +39,7 @@ meter_registry_hourly_raw as (
         mr.meter_id = meters.meter_id
     order by time desc
     limit meters.num_hours_threshold
-  ) as mr on mr.meter_id = meters.meter_id
+  ) as mr on true
 ),
 
 meter_registry_group as (
