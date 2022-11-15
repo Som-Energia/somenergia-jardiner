@@ -1,22 +1,28 @@
-<!-- Subject: [Alarma] Alarmes activades ahir -->
+<!-- Subject: [Alarms] Inverter zero power at daylight -->
 
-Hi ha alarmes noves del dia {{#each name}}{{yesterday}}{{/each}}.
-<br>
-Pots consultar l'històric complet al <a href="https://redash.somenergia.coop/dashboard/dashboard-alarmes-unificat?p_plant=0&p_interval=d_last_7_days&p_w224_status=%5B%22ALARMA!%22%5D&p_w225_interval=d_this_month">Redash</a>
-<br>
+Hola,<br>
+<br/>
+Hi ha inversors sense potència durant el dia o bé tornen a estar en estat OK.<br>
+<br/>
 <table style="width:300px;">
   <tr style="background-color:lightgrey;">
     <th style="padding: 5px; border: solid 1px #777;">alarm_name</th>
     <th style="padding: 5px; border: solid 1px #777;">plant_name</th>
     <th style="padding: 5px; border: solid 1px #777;">device_type</th>
     <th style="padding: 5px; border: solid 1px #777;">device_name</th>
+    <th style="padding: 5px; border: solid 1px #777;">is_alarmed</th>
   </tr>
-  {{#each alarms}}
+  {{#each alerts}}
 	  <tr>
 		  <td style="padding: 5px; border: solid 1px #777;">{{alarm_name}}</td>
 		  <td style="padding: 5px; border: solid 1px #777;">{{plant_name}}</td>
 		  <td style="padding: 5px; border: solid 1px #777;">{{device_type}}</td>
 		  <td style="padding: 5px; border: solid 1px #777;">{{device_name}}</td>
+      <td style="padding: 5px; border: solid 1px #777; background-color: {{color}};">{{is_alarmed}}</td>
 	  </tr>
   {{/each}}
 </table>
+<br/>
+Una alarma en estat false significa que acaba de desactiva-se.<br>
+Una alarma en estat true significa que acaba d'activa-se.<br>
+Una alarma sense estat ni true ni false vol dir que no hi ha prou registres per calcular-la i farà saltar una altre alarma.<br>

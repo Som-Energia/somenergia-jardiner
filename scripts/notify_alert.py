@@ -4,24 +4,26 @@ import typer
 import datetime
 import sqlalchemy
 import pandas as pd
+import json
+import numpy as np
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
 app = typer.Typer()
 
-def notify(url, api_key, payload, email):
+def notify(url, api_key, payload, email, alert):
+    alert = alert.replace('_','')
     headers = {
         'Authorization': f'ApiKey {api_key}'
     }
-
     data={
-        "name": "alertes-del-jardi",
+        "name": alert,
         "to":  {
-            "subscriberId": "recipient",
+            "subscriberId": "recipient_lucia",
             "email": email
         },
         "payload": {
-            'alarms': payload
+            'alerts': payload
         }
     }
 
@@ -54,7 +56,7 @@ def refresh_notification_table(con, schema, alertdf, alert_name):
         difference_rows = [x[0] for x in groupby_df.groups.values() if len(x) == 1]
         df = df.reindex(difference_rows)
         alertdf_diff = df[df['xgroupby']=='new'].drop('xgroupby',axis=1)
-
+        
     else:
         alertdf_diff = alertdf_new.copy()
         alertdf_diff.drop(columns=['time'], inplace=True)
@@ -87,10 +89,12 @@ def get_alarms_to_notify(
 
         alertdf, alertdf_diff = refresh_notification_table(con=conn, schema=schema, alertdf=alertdf, alert_name=alert)
 
+        alertdf_diff['color'] = np.where(alertdf_diff['is_alarmed'] == True, '#FD0D0D', '#2F9905')
         alertjson = alertdf_diff.to_json(orient='table')
+        alertdata = json.loads(alertjson)['data']
 
         if len(alertdf_diff) > 0:
-            #notify(novu_url, api_key, alertjson, receiver_email)
+            notify(novu_url, api_key, alertdata, receiver_email, alert)
             logging.info(f"Alert {alert} notifed.")
         else:
             logging.info(f"No alert {alert} to notify.")
