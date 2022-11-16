@@ -75,7 +75,8 @@ def get_alarms_to_notify(
         api_key: str,
         schema: str,
         receiver_email: str,
-        alert: str
+        alert: str,
+        to_notify: str
     ):
     logging.info(f"Got {novu_url} and {api_key}")
     dbapi = plantmonitor_db # pending implement custom function jardiner.utils get_dbapi
@@ -94,8 +95,11 @@ def get_alarms_to_notify(
         alertdata = json.loads(alertjson)['data']
 
         if len(alertdf_diff) > 0:
-            notify(novu_url, api_key, alertdata, receiver_email, alert)
-            logging.info(f"Alert {alert} notifed.")
+            if to_notify:
+                notify(novu_url, api_key, alertdata, receiver_email, alert)
+                logging.info(f"Alert {alert} notifed.")
+            else:
+                logging.info(f"Alert {alert} to notify but to_notify is False.")
         else:
             logging.info(f"No alert {alert} to notify.")
 

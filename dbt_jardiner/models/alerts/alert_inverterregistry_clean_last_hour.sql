@@ -1,7 +1,6 @@
 {{ config(materialized='view') }}
 
 {% if target.name == 'testing' %}
- --vars{“test_sample”:“sample_name”} 
 
 select
     time::TIMESTAMPTZ as time,
@@ -23,8 +22,8 @@ select
     temperature_c,
     readings
 
-from {{ ref(var('test_sample')) }}
-
+from {{ ref(var('inverter_test_sample')) }}
+--vars{“inverter_test_sample”:“inverter_test_name”} 
 
 {% else %}
 

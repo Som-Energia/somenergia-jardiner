@@ -25,9 +25,9 @@ meter_registry_newest_reading as (
 select
   *,
   case
-  when mrg.meter_connection_protocol ilike 'moxa' then now() - newest_reading_time < interval '24 hours'
-  when mrg.meter_connection_protocol ilike 'tcp' then now() - newest_reading_time < interval '12 hours'
-  else false
+    when mrg.meter_connection_protocol ilike 'moxa' then now() - newest_reading_time < interval '24 hours'
+    when mrg.meter_connection_protocol ilike 'tcp' then now() - newest_reading_time < interval '12 hours'
+    else false
   end as alarm_no_reading
 FROM meter_registry_newest_reading as mrg
 inner join {{ ref('som_plants') }} as plants using(plant_id)
