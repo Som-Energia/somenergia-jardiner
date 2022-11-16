@@ -1,18 +1,14 @@
 {{ config(materialized='view') }}
 
+  -- see below
+  -- use left join lateral if you want meters without readings within threshold range
+  -- (moxa usually has 12h delay which means we never have readings within range)
+  -- use **inner join lateral** if you only want meters with readings
 
-{#
-  see below
-  use left join lateral if you want meters without readings within threshold range
-  (moxa usually has 12h delay which means we never have readings within range)
-  use **inner join lateral** if you only want meters with readings
+  -- tcp usually has a 2h delay. The ERP polls every 2h or so, and we sync every 20 minutes,
+  -- so we'll likely get at least 1h20 delay.
 
-  tcp usually has a 2h delay. The ERP polls every 2h or so, and we sync every 20 minutes,
-  so we'll likely get at least 1h20 delay.
-
-  to mitigate this we add a baseline +2h to the thresholds
-#}
-
+  -- to mitigate this we add a baseline +2h to the thresholds
 
 with meterregistry_last_readings as (
     select * from {{ ref('meter_registry_raw') }}
@@ -89,7 +85,15 @@ select
   END as has_energy,
   nr.newest_reading_time,
   mrg.from_time,
-  mrg.num_hours_threshold
+  mrg.num_hours_threshold,
+  'meter' as device_type,
+  mrg.meter_name as device_name,
+  'alert_meter_zero_energy' as alarm_name,
+  CASE
+    WHEN reading_count > 0 and export_energy_wh > 0 THEN FALSE
+    WHEN reading_count > 0 and export_energy_wh = 0 THEN TRUE
+    ELSE NULL
+  END as is_alarmed
 FROM meter_registry_group as mrg
 inner join {{ ref('som_plants') }} as plants using(plant_id)
 left join {{ ref('alert_meter_newest_reading') }} as nr on nr.meter_id = mrg.meter_id
