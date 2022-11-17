@@ -38,7 +38,7 @@ driver_config = DriverConfig(name='local', options=nfs_config)
 mount_nfs = Mount(source="local", target="/repos", type="volume", driver_config=driver_config)
 
 
-with DAG(dag_id='alert_inverter_zero_power_v1', start_date=datetime(2022,11,17), schedule_interval='*/5 * * * *', catchup=False, tags=["Plantmonitor", "Jardiner"], default_args=args) as dag:
+with DAG(dag_id='alert_inverter_zero_power_v2', start_date=datetime(2022,11,17), schedule_interval='3-59/5 * * * *', catchup=False, tags=["Plantmonitor", "Jardiner"], default_args=args) as dag:
 
     repo_name = 'somenergia-jardiner'
 
