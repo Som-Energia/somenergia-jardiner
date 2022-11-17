@@ -56,7 +56,7 @@ def refresh_notification_table(con, schema, alertdf, alert_name):
         difference_rows = [x[0] for x in groupby_df.groups.values() if len(x) == 1]
         df = df.reindex(difference_rows)
         alertdf_diff = df[df['xgroupby']=='new'].drop('xgroupby',axis=1)
-        
+
     else:
         alertdf_diff = alertdf_new.copy()
         alertdf_diff.drop(columns=['time'], inplace=True)
