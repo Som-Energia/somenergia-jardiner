@@ -38,7 +38,7 @@ driver_config = DriverConfig(name='local', options=nfs_config)
 mount_nfs = Mount(source="local", target="/repos", type="volume", driver_config=driver_config)
 
 
-with DAG(dag_id='alert_inverter_interinverter_relative_temperature_v1', start_date=datetime(2022,11,17), schedule_interval='3-59/5 * * * *', catchup=False, tags=["Plantmonitor", "Jardiner"], default_args=args) as dag:
+with DAG(dag_id='alert_inverter_interinverter_relative_temperature_v2', start_date=datetime(2022,11,17), schedule_interval='3-59/5 * * * *', catchup=False, tags=["Plantmonitor", "Jardiner"], default_args=args) as dag:
 
     repo_name = 'somenergia-jardiner'
 
@@ -54,7 +54,7 @@ with DAG(dag_id='alert_inverter_interinverter_relative_temperature_v1', start_da
         image='{}/{}-requirements:latest'.format('{{ conn.somenergia_registry.host }}', repo_name),
         working_dir=f'/repos/{repo_name}',
         command='python3 -m scripts.notify_alert "{{ var.value.plantmonitor_db }}"\
-                "{{ var.value.novu_url }}" "{{ var.value.novu_api_key }}" "{{ var.value.plantmonitor_db_prod_schema }}" "{{ var.value.plantmonitor_alert_reciver }}" alert_inverter_temperature False',
+                "{{ var.value.novu_url }}" "{{ var.value.novu_api_key }}" "{{ var.value.plantmonitor_db_prod_schema }}" "{{ var.value.plantmonitor_alert_reciver }}" alert_inverter_interinverter_relative_temperature False',
         docker_url=Variable.get("generic_moll_url"),
         mounts=[mount_nfs],
         mount_tmp_dir=False,
