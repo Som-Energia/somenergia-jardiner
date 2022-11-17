@@ -20,12 +20,12 @@ with sub_ir as (
     select
         *,
     case
-        when is_daylight
-            and power_kw_count_existing_last_12_readings = 12
-            and power_kw_max_last_12_readings = 0
-        then TRUE
+        when not is_daylight
+            then NULL
         when power_kw_count_existing_last_12_readings < 12
-        then NULL
+            then NULL
+        when power_kw_max_last_12_readings = 0
+            then TRUE
         else FALSE
     end as is_alarmed
     from sub_ir

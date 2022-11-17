@@ -1,5 +1,19 @@
 version: 2
+
+sources:
+  - name: plantmonitordb
+    schema: prod
+    config:
+        tags: alerts_historic
+    tables:
+        - name: alert_inverter_zero_power_at_daylight_historic
+
 models:
+
+  - name: alerts_historic
+    description: union of all notified alerts tables
+    config:
+      tags: alerts_historic
 
   - name: alert_inverter_zero_power_at_daylight
     description: "Inverter 1h without power during daylight"
