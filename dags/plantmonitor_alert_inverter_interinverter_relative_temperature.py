@@ -38,23 +38,23 @@ driver_config = DriverConfig(name='local', options=nfs_config)
 mount_nfs = Mount(source="local", target="/repos", type="volume", driver_config=driver_config)
 
 
-with DAG(dag_id='alert_meter_zero_energy_v2', start_date=datetime(2022,11,17), schedule_interval='3-59/5 * * * *', catchup=False, tags=["Plantmonitor", "Jardiner"], default_args=args) as dag:
+with DAG(dag_id='alert_inverter_interinverter_relative_temperature_v1', start_date=datetime(2022,11,17), schedule_interval='3-59/5 * * * *', catchup=False, tags=["Plantmonitor", "Jardiner"], default_args=args) as dag:
 
     repo_name = 'somenergia-jardiner'
 
     task_check_repo = build_check_repo_task(dag=dag, repo_name=repo_name)
     task_git_clone = build_git_clone_ssh_task(dag=dag, repo_name=repo_name)
-    task_branch_pull_ssh = build_branch_pull_ssh_task(dag=dag, task_name='alert_meter_zero_energy', repo_name=repo_name)
+    task_branch_pull_ssh = build_branch_pull_ssh_task(dag=dag, task_name='alert_inverter_interinverter_relative_temperature', repo_name=repo_name)
     task_update_image = build_update_image_task(dag=dag, repo_name=repo_name)
 
     notify_alarms_task = DockerOperator(
         api_version='auto',
-        task_id='alert_meter_zero_energy',
+        task_id='alert_inverter_interinverter_relative_temperature',
         docker_conn_id='somenergia_registry',
         image='{}/{}-requirements:latest'.format('{{ conn.somenergia_registry.host }}', repo_name),
         working_dir=f'/repos/{repo_name}',
         command='python3 -m scripts.notify_alert "{{ var.value.plantmonitor_db }}"\
-                "{{ var.value.novu_url }}" "{{ var.value.novu_api_key }}" "{{ var.value.plantmonitor_db_prod_schema }}" "{{ var.value.plantmonitor_alert_reciver }}" alert_meter_zero_energy True',
+                "{{ var.value.novu_url }}" "{{ var.value.novu_api_key }}" "{{ var.value.plantmonitor_db_prod_schema }}" "{{ var.value.plantmonitor_alert_reciver }}" alert_inverter_temperature False',
         docker_url=Variable.get("generic_moll_url"),
         mounts=[mount_nfs],
         mount_tmp_dir=False,
