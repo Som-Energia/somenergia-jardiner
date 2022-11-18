@@ -62,13 +62,14 @@ def refresh_notification_table(con, schema, alertdf, alert_name):
 
     else:
         alertdf_new['is_alarmed'] = False
+        alertdf_new_clean = alertdf_new.copy()
         alertdf_diff = alertdf_new.copy()
         alertdf_diff.drop(columns=['time'], inplace=True)
 
     alertdf_diff['notification_time'] = pd.Timestamp.utcnow()
 
     alertdf_diff.to_sql(con=con, name=alert_name + '_historic', if_exists='append', schema=schema, index=False)
-    alertdf_new.to_sql(con=con, name=table_name, if_exists='replace', schema=schema, index=False)
+    alertdf_new_clean.to_sql(con=con, name=table_name, if_exists='replace', schema=schema, index=False)
 
     return alertdf_new, alertdf_diff
 

@@ -1,18 +1,8 @@
 {{ config(materialized='view') }}
 
-  -- see below
-  -- use left join lateral if you want meters without readings within threshold range
-  -- (moxa usually has 12h delay which means we never have readings within range)
-  -- use **inner join lateral** if you only want meters with readings
-
-  -- tcp usually has a 2h delay. The ERP polls every 2h or so, and we sync every 20 minutes,
-  -- so we'll likely get at least 1h20 delay.
-
-  -- to mitigate this we add a baseline +2h to the thresholds
-
 with meterregistry_last_readings as (
     select * from {{ ref('meter_registry_raw') }}
-    where current_date < time
+    where current_date - interval '30 days' < time
 ),
 
 meterregistry_daylight as (
@@ -29,7 +19,6 @@ meterregistry_daylight as (
 meter_registry_hourly_raw as (
   select
     mr.time,
-    now() - make_interval(hours=>meters.num_hours_threshold + 2) as from_time,
     meters.num_hours_threshold,
     meters.plant_id,
     meters.meter_id,
@@ -48,24 +37,30 @@ meter_registry_hourly_raw as (
     from meterregistry_daylight as mr
     where
         mr.meter_id = meters.meter_id
-        and now() - make_interval(hours=>(meters.num_hours_threshold + 2)) < time
+    order by time desc
+    limit meters.num_hours_threshold
   ) as mr on true
 ),
 
 meter_registry_group as (
   select
     max(time) as time,
-    from_time,
+    min(time) as from_time,
     num_hours_threshold,
+    every(is_daylight) as is_daylight,
     plant_id,
     meter_id,
     meter_name,
     meter_connection_protocol,
     count(export_energy_wh) as reading_count,
     max(export_energy_wh) as export_energy_wh,
-    max(export_energy_wh) = 0 as alarm_zero_energy
+    case
+    when every(is_daylight) then max(export_energy_wh) = 0
+    when not every(is_daylight) then NULL -- if not daylight we don't know 
+    else NULL
+    end as alarm_zero_energy
   from meter_registry_hourly_raw
-  group by plant_id, meter_id, meter_name, meter_connection_protocol, from_time, num_hours_threshold
+  group by plant_id, meter_id, meter_name, meter_connection_protocol, num_hours_threshold
 )
 
 select
@@ -77,14 +72,16 @@ select
   mrg.meter_connection_protocol,
   mrg.reading_count,
   mrg.export_energy_wh,
+  mrg.is_daylight,
   mrg.alarm_zero_energy,
   CASE
     WHEN reading_count > 0 and export_energy_wh > 0 THEN 1
     WHEN reading_count > 0 and export_energy_wh = 0 THEN 0
     ELSE NULL
   END as has_energy,
-  nr.newest_reading_time,
   mrg.from_time,
+  mrg.time as to_time,
+  nr.newest_reading_time,
   mrg.num_hours_threshold,
   'meter' as device_type,
   mrg.meter_name as device_name,
