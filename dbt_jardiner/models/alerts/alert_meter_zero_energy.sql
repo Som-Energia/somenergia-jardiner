@@ -26,14 +26,18 @@ meter_registry_hourly_raw as (
     mr.meter_id as mr_meter_id,
     meters.meter_connection_protocol,
     mr.export_energy_wh,
-    mr.is_daylight
+    mr.is_daylight,
+    mr.daylight_start,
+    mr.daylight_end
   from {{ ref('meters_with_thresholds') }} as meters
   left join lateral ( -- use left if you want meters without readings, inner otherwise
     select
       mr.time,
       mr.meter_id,
       mr.export_energy_wh,
-      mr.is_daylight
+      mr.is_daylight,
+      mr.daylight_start,
+      mr.daylight_end
     from meterregistry_daylight as mr
     where
         mr.meter_id = meters.meter_id
@@ -48,6 +52,8 @@ meter_registry_group as (
     min(time) as from_time,
     num_hours_threshold,
     every(is_daylight) as is_daylight,
+    min(daylight_start) as daylight_start,
+    min(daylight_end) as daylight_end,
     plant_id,
     meter_id,
     meter_name,
@@ -55,9 +61,9 @@ meter_registry_group as (
     count(export_energy_wh) as reading_count,
     max(export_energy_wh) as export_energy_wh,
     case
-    when every(is_daylight) then max(export_energy_wh) = 0
-    when not every(is_daylight) then NULL -- if not daylight we don't know 
-    else NULL
+      when every(is_daylight) then max(export_energy_wh) = 0
+      when not every(is_daylight) then NULL -- if not daylight we don't know 
+      else NULL
     end as alarm_zero_energy
   from meter_registry_hourly_raw
   group by plant_id, meter_id, meter_name, meter_connection_protocol, num_hours_threshold
@@ -73,6 +79,8 @@ select
   mrg.reading_count,
   mrg.export_energy_wh,
   mrg.is_daylight,
+  mrg.daylight_start,
+  mrg.daylight_end,
   mrg.alarm_zero_energy,
   CASE
     WHEN reading_count > 0 and export_energy_wh > 0 THEN 1
@@ -86,11 +94,7 @@ select
   'meter' as device_type,
   mrg.meter_name as device_name,
   'alert_meter_zero_energy' as alarm_name,
-  CASE
-    WHEN reading_count > 0 and export_energy_wh > 0 THEN FALSE
-    WHEN reading_count > 0 and export_energy_wh = 0 THEN TRUE
-    ELSE NULL
-  END as is_alarmed
+  alarm_zero_energy as is_alarmed
 FROM meter_registry_group as mrg
 inner join {{ ref('som_plants') }} as plants using(plant_id)
 left join {{ ref('alert_meter_newest_reading') }} as nr on nr.meter_id = mrg.meter_id
