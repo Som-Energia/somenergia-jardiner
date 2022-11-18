@@ -47,7 +47,7 @@ def refresh_notification_table(con, schema, alertdf, alert_name):
 
     if table_exists:
         alertdf_new_clean = alertdf_new.drop(columns=['time'])
-        alert_status_df_old_clean = alert_status_df_old.drop(columns=['time'])
+        alert_status_df_old_clean = alert_status_df_old.copy()
 
         alertdf_new_clean_merged = alertdf_new_clean.merge(alert_status_df_old_clean, how='left', on=['plant_id','plant_name' ,'device_type' ,'device_name' ,'alarm_name'])
         alertdf_new_clean['is_alarmed'] = np.where(alertdf_new_clean_merged['is_alarmed_x'].isnull(), alertdf_new_clean_merged['is_alarmed_y'], alertdf_new_clean_merged['is_alarmed_x'])
@@ -59,10 +59,12 @@ def refresh_notification_table(con, schema, alertdf, alert_name):
         difference_rows = [x[0] for x in groupby_df.groups.values() if len(x) == 1]
         df = df.reindex(difference_rows)
         alertdf_diff = df[df['xgroupby']=='new'].drop('xgroupby',axis=1)
+        alertdf_new_clean.drop('xgroupby',axis=1, inplace=True)
 
     else:
         alertdf_new['is_alarmed'] = False
         alertdf_new_clean = alertdf_new.copy()
+        alertdf_new_clean.drop(columns=['time'], inplace=True)
         alertdf_diff = alertdf_new.copy()
         alertdf_diff.drop(columns=['time'], inplace=True)
 
