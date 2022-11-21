@@ -30,7 +30,7 @@ select
     else NULL
   end as time_from_last_reading,
   case
-    when mrg.meter_connection_protocol ilike 'moxa' then now() - newest_reading_time > interval '24 hours'
+    when mrg.meter_connection_protocol ilike 'moxa' then now() - newest_reading_time > interval '30 hours' -- 24 hours + 6h margin
     when mrg.meter_connection_protocol ilike 'ip' then now() - newest_reading_time > interval '12 hours'
     else false
   end as alarm_no_reading
