@@ -51,6 +51,8 @@ def refresh_notification_table(con, schema, alertdf, alert_name):
 
         alertdf_new_clean_merged = alertdf_new_clean.merge(alert_status_df_old_clean, how='left', on=['plant_id','plant_name' ,'device_type' ,'device_name' ,'alarm_name'])
         alertdf_new_clean['is_alarmed'] = np.where(alertdf_new_clean_merged['is_alarmed_x'].isnull(), alertdf_new_clean_merged['is_alarmed_y'], alertdf_new_clean_merged['is_alarmed_x'])
+        # If still NULL then False (rare case without readings 30 days before):
+        alertdf_new_clean['is_alarmed'] = np.where(alertdf_new_clean['is_alarmed'].isnull(), False, alertdf_new_clean['is_alarmed'])
 
         alert_status_df_old_clean['xgroupby'] = 'old'
         alertdf_new_clean['xgroupby'] = 'new'
