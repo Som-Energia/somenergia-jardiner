@@ -139,3 +139,5 @@ dmypy.json
 # tmux shenanigans
 tmux_jardiner
 ..lock
+
+dbt_jardiner/tmp/
