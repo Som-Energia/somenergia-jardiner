@@ -29,7 +29,7 @@ nfs_config = {
 driver_config = DriverConfig(name='local', options=nfs_config)
 mount_nfs = Mount(source="local", target="/repos", type="volume", driver_config=driver_config)
 
-with DAG(dag_id='plantmonitor_production_dataset_dag', start_date=datetime(2023,1,10), schedule_interval='@daily', catchup=False, tags=["Plantmonitor","Jardiner", "Transform", "DBT"], default_args=args) as dag:
+with DAG(dag_id='plant_production_datasets', start_date=datetime(2023,1,10), schedule_interval='@daily', catchup=False, tags=["Plantmonitor","Jardiner", "Transform", "DBT"], default_args=args) as dag:
 
     repo_name = 'somenergia-jardiner'
 
