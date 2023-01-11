@@ -41,7 +41,7 @@ with DAG(dag_id='plant_production_datasets_v3', start_date=datetime(2023,1,10), 
     environment = {
         'DBUSER': '{{ var.value.plantmonitor_db_user }}',
         'DBPASSWORD': '{{ var.value.plantmonitor_db_password_secret }}',
-        'DBHOST': 'planmonitor.somenergia.lan',
+        'DBHOST': 'plantmonitor.somenergia.lan',
         'DBPORT': 5432,
         'DBNAME': 'plants'
     }
