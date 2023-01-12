@@ -27,6 +27,11 @@ sources:
       - name: string
       - name: stringregistry
 
+  - name: plantlake
+    schema: airbyte_imported
+    tables:
+      - name: modbus_readings
+
 models:
 
   - name: view_q_monthly
