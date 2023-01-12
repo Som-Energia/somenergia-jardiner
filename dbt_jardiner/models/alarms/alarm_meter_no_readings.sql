@@ -6,8 +6,8 @@ select
     day,
     somplants.plant_id,
     somplants.plant_name,
-    meter_name,
-    meter_connection_protocol,
+    current_meter_name,
+    current_meter_connection_protocol,
     COALESCE(meter_registry_hours_with_readings,0) as meter_registry_hours_with_readings,
     1 as alarm_priority
 from {{ref('plant_production_daily') }} as plant_production_daily
