@@ -1,4 +1,5 @@
 version: 2
 
 seeds:
+  - name: modbus_registries
   - name: alert_inverterregistry_clean_last_hour_temperature_sample
