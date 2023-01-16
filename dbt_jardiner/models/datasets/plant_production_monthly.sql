@@ -42,6 +42,7 @@ select
   round(((meter_registry_export_energy_kwh / satellite_readings_energy_output_kwh)-1)::numeric*100,2) as p_deviation_exported_vs_expected_solargis,
   round(((meter_registry_export_energy_kwh / plant_peak_power_kw)::float / satellite_readings_tilted_irradiation_kwh_m2)::numeric,4) as performance_ratio
 from plant_production_daily
+order by month desc
 
 
 -- afegir percent readings of irradiaton solargis
