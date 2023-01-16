@@ -1,5 +1,9 @@
 {{ config(materialized='table') }}
 
+-- current providers:
+-- Satellite: Solargis
+-- Forecast: OMIE (Meteologica)
+
 with plant_production_daily as (
   select
   date_trunc('month', day) as month,
@@ -21,8 +25,8 @@ with plant_production_daily as (
   sum(solar_hours_real) as solar_hours_real,
   sum(solar_hours_minimum) as solar_hours_minimum,
   sum(forecast_energy_kwh) as forecast_energy_kwh,
-  sum(satellite_meter_difference_energy_kwh) as satellite_meter_difference_energy_kwh,
-  sum(forecast_meter_difference_energy_kwh) as forecast_meter_difference_energy_kwh,
+  sum(deviation_exported_vs_satellite_expected_kwh) as deviation_exported_vs_satellite_expected_kwh,
+  sum(deviation_exported_vs_forecast_expected_kwh) as deviation_exported_vs_forecast_expected_kwh,
   sum(unexpected_hours_without_energy) as unexpected_hours_without_energy
   from {{ref('plant_production_daily')}}
   group by
@@ -37,12 +41,8 @@ with plant_production_daily as (
 )
 select
   *,
-  round(((meter_registry_export_energy_kwh / forecast_energy_kwh)-1)::numeric*100,2) as p_deviation_exported_vs_expected_omie_meteologica,
-  satellite_readings_energy_output_kwh*0.1 as acceptable_deviation_from_expected_solargis_kwh,
-  round(((meter_registry_export_energy_kwh / satellite_readings_energy_output_kwh)-1)::numeric*100,2) as p_deviation_exported_vs_expected_solargis,
+  round(((meter_registry_export_energy_kwh / forecast_energy_kwh)-1)::numeric*100,2) as p_deviation_exported_vs_expected_omie_forecast,
+  round(((meter_registry_export_energy_kwh / satellite_readings_energy_output_kwh)-1)::numeric*100,2) as p_deviation_exported_vs_expected_satellite,
   round(((meter_registry_export_energy_kwh / plant_peak_power_kw)::float / satellite_readings_tilted_irradiation_kwh_m2)::numeric,4) as performance_ratio
 from plant_production_daily
 order by month desc
-
-
--- afegir percent readings of irradiaton solargis

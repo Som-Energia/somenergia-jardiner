@@ -34,9 +34,8 @@ with combined_meter_satellite as (
 
 select
   *,
-  satellite_readings_energy_output_kwh - meter_registry_export_energy_kwh as satellite_meter_difference_energy_kwh,
-  forecast_energy_kwh - meter_registry_export_energy_kwh as forecast_meter_difference_energy_kwh,
+  meter_registry_export_energy_kwh - satellite_readings_energy_output_kwh as deviation_exported_vs_satellite_expected_kwh,
+  meter_registry_export_energy_kwh - forecast_energy_kwh as deviation_exported_vs_forecast_expected_kwh,
   solar_hours_minimum - meter_registry_hours_with_energy as unexpected_hours_without_energy
-  --100*(photovoltaic_energy_output_wh/NULLIF(export_energy_wh_total, 0.0)) as relative_energy_difference
   from combined_meter_satellite
 order by day desc
