@@ -10,6 +10,7 @@ Assumes signed registries. We've seen that only uptime is unsigned, meaning that
 with inverter_modbus as (
     select
         five_minute,
+        inverter_id,
         {{concat_bytes('power_w')}},
         {{concat_bytes('temperature_c')}},
         {{concat_bytes('uptime_h')}},

@@ -13,7 +13,7 @@ SELECT
     round(max(ir.uptime_h),2) as uptime_h,
     round(min(ir.temperature_c),2) as temperature_c,
     round(sum(readings),2) as readings
-FROM {{ref('inverterregistry_raw')}} as ir
+FROM {{ref('inverterregistry_multisource')}} as ir
 WHERE time >= '{{ start_date }}' and time < NOW() - interval '5 minutes'
 GROUP by ir.inverter_id, time_bucket_gapfill('5 minutes', ir.time)
 order by time desc

@@ -1,0 +1,13 @@
+version: 2
+
+models:
+
+  - name: lake_modbusreadings_stringboxes
+    description: "string intensity of Asomada, standarized"
+    columns:
+      - name: string_id
+        tests:
+          - not_null
+      - name: transactional_string_id
+        tests:
+          - not_null

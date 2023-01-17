@@ -1,7 +1,16 @@
 {{ config(materialized='view') }}
 
 select
-    *,
+    plant_ip,
+    modbus_port,
+    modbus_unit,
+    modbus_register_address,
+    value,
+    query_time,
+    create_date,
+    device_type,
+    device_id,
+    register_name,
     time_bucket('5 minutes', query_time) as five_minute
 from (
     select

@@ -1,7 +1,7 @@
 {{ config(materialized='view') }}
 
 with stringregistry_last_readings as (
-    select * from {{ ref('stringregistry_raw') }}
+    select * from {{ ref('stringregistry_multisource') }}
     where timezone('utc', now()) - interval '1 hour' < time
 )
 select
