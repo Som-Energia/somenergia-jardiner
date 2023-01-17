@@ -36,6 +36,23 @@ select
   *,
   meter_registry_export_energy_kwh - satellite_readings_energy_output_kwh as deviation_exported_vs_satellite_expected_kwh,
   meter_registry_export_energy_kwh - forecast_energy_kwh as deviation_exported_vs_forecast_expected_kwh,
-  solar_hours_minimum - meter_registry_hours_with_energy as unexpected_hours_without_energy
+  solar_hours_minimum - meter_registry_hours_with_energy as unexpected_hours_without_energy,
+  CASE
+    WHEN meter_registry_export_energy_kwh is not null and meter_registry_export_energy_kwh > 0
+      and forecast_energy_kwh is not null and forecast_energy_kwh > 0
+    THEN round(((meter_registry_export_energy_kwh / forecast_energy_kwh)-1)::numeric*100,2)
+    ELSE NULL
+  END as p_deviation_exported_vs_expected_omie_forecast,
+  CASE
+    WHEN meter_registry_export_energy_kwh is not null and meter_registry_export_energy_kwh > 0
+      AND satellite_readings_energy_output_kwh is not null and satellite_readings_energy_output_kwh > 0
+    THEN round(((meter_registry_export_energy_kwh / satellite_readings_energy_output_kwh)-1)::numeric*100,2)
+  END as p_deviation_exported_vs_expected_satellite,
+  CASE
+    WHEN meter_registry_export_energy_kwh is not null and meter_registry_export_energy_kwh > 0
+      AND plant_peak_power_kw is not null and plant_peak_power_kw > 0
+      AND satellite_readings_tilted_irradiation_kwh_m2 is not null and satellite_readings_tilted_irradiation_kwh_m2 > 0
+    THEN round(((meter_registry_export_energy_kwh / plant_peak_power_kw)::float / satellite_readings_tilted_irradiation_kwh_m2)::numeric,4)
+  END as performance_ratio
   from combined_meter_satellite
 order by day desc
