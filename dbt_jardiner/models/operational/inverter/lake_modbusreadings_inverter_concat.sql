@@ -11,11 +11,11 @@ with inverter_modbus as (
     select
         five_minute,
         inverter_id,
-        {{concat_bytes('power_w')}},
-        {{concat_bytes('temperature_c')}},
-        {{concat_bytes('uptime_h')}},
-        {{concat_bytes('energy_total_wh')}},
-        {{concat_bytes('energy_wh_daily')}}
+        {{concat_bytes('power_kw')}},
+        {{concat_bytes('temperature_dc')}},
+        {{concat_bytes('uptime_s')}},
+        {{concat_bytes('energy_total_10kwh')}},
+        {{concat_bytes('energy_10kwh_daily')}}
     from {{ ref("lake_modbusreadings_inverter_pivoted")}}
 )
 

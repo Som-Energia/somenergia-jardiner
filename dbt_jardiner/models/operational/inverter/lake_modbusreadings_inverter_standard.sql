@@ -11,14 +11,14 @@ with inverter_modbus as (
     select
         five_minute as time,
         inverter_id,
-        (power_w/1000.0)::numeric as power_kw,
-        (energy_wh_daily/1000.0)::numeric as energy_kwh,
+        power_kw::numeric as power_kw,
+        (energy_10kwh_daily*10)::numeric as energy_kwh,
         NULL::numeric as intensity_cc_a,
         NULL::numeric as intensity_ca_a,
         NULL::numeric as voltage_cc_v,
         NULL::numeric as voltage_ca_v,
-        uptime_h::numeric,
-        temperature_c::numeric,
+        (uptime_s/3600.0)::numeric as uptime_h,
+        (0.1*temperature_dc)::numeric as temperature_c,
         1 as readings
     from {{ ref("lake_modbusreadings_inverter_concat")}}
 )
