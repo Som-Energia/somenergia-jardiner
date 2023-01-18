@@ -27,4 +27,3 @@ select
     every(is_alarmed) as is_alarmed
 from inverterregistry_sct
 group by plant_id, plant_name, inverter_id, inverter_name
-order by time desc

@@ -15,4 +15,3 @@ SELECT
 FROM {{source('plantmonitordb','meterregistry')}} as mr
 left join {{source('plantmonitordb','meter')}} on meter.id = mr.meter
 left join {{source('plantmonitordb','plant')}} as plant on plant.id = meter.plant
-order by time desc

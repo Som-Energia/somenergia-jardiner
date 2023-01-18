@@ -118,4 +118,3 @@ select
 FROM meter_registry_group as mrg
 inner join {{ ref('som_plants') }} as plants using(plant_id)
 left join {{ ref('alert_meter_newest_reading') }} as nr on nr.meter_id = mrg.meter_id
-order by time desc

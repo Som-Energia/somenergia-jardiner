@@ -42,4 +42,3 @@ group by
     irc.inverter_brand,
     irc.inverter_model,
     irc.inverter_nominal_power_kw
-order by time desc

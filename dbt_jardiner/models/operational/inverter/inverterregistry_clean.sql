@@ -22,4 +22,3 @@ SELECT
 FROM {{ref('inverterregistry_gapfilled')}} as ir
 left join {{source('plantmonitordb','inverter')}} as inverter on inverter.id = ir.inverter_id
 left join {{source('plantmonitordb','plant')}} as plant on plant.id = inverter.plant
-order by time desc

@@ -17,4 +17,3 @@ with inverterregistry_sct as (
 
 select * from inverterregistry_sct
 where 55 < temperature_c_min
-order by time desc

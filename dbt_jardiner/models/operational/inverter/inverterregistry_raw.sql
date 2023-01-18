@@ -19,4 +19,3 @@ FROM {{source('plantmonitordb','inverterregistry')}} as ir
 {% if target.name == 'pre' %}
 where ir.time >= current_date - interval '3 days'
 {% endif %}
-order by time desc

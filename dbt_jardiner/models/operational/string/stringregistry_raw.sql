@@ -11,4 +11,3 @@ FROM {{ source('plantmonitordb','stringregistry') }} as sr
 {% if target.name == 'pre' %}
 where sr.time >= current_date - interval '3 days'
 {% endif %}
-order by time desc

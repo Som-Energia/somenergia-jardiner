@@ -16,4 +16,3 @@ SELECT
 FROM {{ref('inverterregistry_multisource')}} as ir
 WHERE time >= '{{ start_date }}' and time < NOW() - interval '5 minutes'
 GROUP by ir.inverter_id, time_bucket_gapfill('5 minutes', ir.time)
-order by time desc

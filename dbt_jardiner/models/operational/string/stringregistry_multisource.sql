@@ -22,4 +22,3 @@ select * from stringregistry
 {% if target.name == 'pre' %}
 where time >= current_date - interval '3 days'
 {% endif %}
-order by time desc

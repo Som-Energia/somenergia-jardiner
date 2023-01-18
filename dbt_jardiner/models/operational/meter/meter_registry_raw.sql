@@ -1,9 +1,9 @@
 {{ config(materialized='view') }}
 
 {% if target.name == 'testing' %}
---vars{“meter_test_sample”:“meter_sample_name”} 
+--vars{“meter_test_sample”:“meter_sample_name”}
 
-  select 
+  select
     time::TIMESTAMPTZ as time,
     export_energy_wh,
     import_energy_wh,
@@ -12,7 +12,6 @@
     connection_protocol
   from  {{ ref(var('meter_test_sample')) }}
   where current_date - interval '90 day' < time::TIMESTAMPTZ
-  order by time desc
 
 {% else %}
 
@@ -26,6 +25,5 @@
   FROM {{source('plantmonitordb','meterregistry')}} as mr
   left join {{source('plantmonitordb','meter')}} on meter.id = mr.meter
   left join {{source('plantmonitordb','plant')}} as plant on plant.id = meter.plant
-  order by time desc
 
 {% endif %}
