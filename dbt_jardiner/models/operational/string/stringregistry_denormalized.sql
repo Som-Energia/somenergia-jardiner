@@ -9,6 +9,7 @@ select
     inverter.plant_id,
     inverter.inverter_id,
     inverter.inverter_name,
+    sr.string_id,
     string.string_name,
     coalesce(string.stringbox_name, string.string_name) as stringdevice_name,
     sr.intensity_ma
