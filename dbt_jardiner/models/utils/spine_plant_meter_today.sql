@@ -3,5 +3,5 @@
 
 select
 *
-from {{ ref('spine_plant_meter')}} as spine
+from {{ ref('spine_plant_meter_daily')}} as spine
 where day <= NOW()
