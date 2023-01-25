@@ -5,20 +5,17 @@ with combined_meter_satellite as (
     spine.start_hour as start_hour,
     spine.start_hour::date as day,
     spine.plant_id as plant_id,
-    spine.plant_name as current_plant_name,
-    spine.plant_codename as current_plant_codename,
+    spine.plant_name as plant_name,
+    spine.plant_codename as plant_codename,
     spine.meter_id as meter_id,
-    spine.meter_name as current_meter_name,
+    spine.meter_name as meter_name,
     spine.meter_connection_protocol as current_meter_connection_protocol,
     round(spine.peak_power_w::numeric/1000, 2) as plant_peak_power_kw,
-    --coalesce(meter_registry.hours_with_reading,0) as meter_registry_hours_with_readings,
     round(meter_registry.export_energy_wh::numeric/1000, 2) as meter_registry_export_energy_kwh,
-    --meter_registry.hours_with_energy as meter_registry_hours_with_energy,
     round(satellite_readings.horizontal_irradiation_wh_m2::numeric/1000, 2) as satellite_readings_horizontal_irradiation_kwh_m2,
     round(satellite_readings.tilted_irradiation_wh_m2::numeric/1000, 2) as satellite_readings_tilted_irradiation_kwh_m2,
     round(satellite_readings.module_temperature_dc::numeric/100, 2) as satellite_readings_module_temperature_dc,
     round(satellite_readings.energy_output_kwh::numeric, 2) as satellite_readings_energy_output_kwh,
-    --coalesce(satellite_readings.hours_with_reading,0)  as satellite_hours_with_readings,
     start_hour between sunrise_real and sunset_real as daylight_real,
     start_hour between sunrise_generous and sunset_generous as daylight_generous,
     round(forecast.energy_kwh,2) as forecast_energy_kwh
@@ -37,7 +34,6 @@ select
   *,
   meter_registry_export_energy_kwh - satellite_readings_energy_output_kwh as deviation_exported_vs_satellite_expected_kwh,
   meter_registry_export_energy_kwh - forecast_energy_kwh as deviation_exported_vs_forecast_expected_kwh,
-  --solar_hours_minimum - meter_registry_hours_with_energy as unexpected_hours_without_energy,
   CASE
     WHEN meter_registry_export_energy_kwh is not null and meter_registry_export_energy_kwh > 0
       AND satellite_readings_energy_output_kwh is not null and satellite_readings_energy_output_kwh > 0

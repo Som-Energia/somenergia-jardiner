@@ -3,8 +3,8 @@
 with plant_production_daily as (
   select
   *
-  from {{ ref('plant_production_daily') }}
-  left join {{ ref('alarm_meter_no_energy_plant_thresholds') }} on current_plant_name = plant_name
+  from {{ ref('plant_production_daily') }} as ppd
+  left join {{ ref('alarm_meter_no_energy_plant_thresholds') }} as amnept USING (plant_name)
 )
 select
 *,
