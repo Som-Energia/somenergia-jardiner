@@ -112,6 +112,21 @@ def get_alarms_to_notify(
         else:
             logging.info(f"No alert {alert} to notify.")
 
+        # o bé llegim la taula de correspondències plantes <-> tecnics o bé
+        # -> fem el left join amb dbt de alertdf de quins topics (aka grups de tecnics) <-
+        # problem: el diff també compararà les columnes de aqui notificar si no fem re per a canviar-ho
+        # e.g. topic grup de tecnics lotr té subscriberIDs: aragorn@lotr.coop, legolas@lotr.coop, gimli@lotr.coop
+
+        # com a minim cada planta tindrà 3 topics: dades, ga i un dels topics de tecnics
+        # etc
+
+        for notification_topic in notification_topics:
+            #filter alertdf_diff by alertdf['notification_topic']
+            if len(sub_alertdf_diff) > 0:
+                notify(novu_url, api_key, alertdata, notification_topic, alert)
+
+        alertdf_df
+
     return True
 
 if __name__ == '__main__':
