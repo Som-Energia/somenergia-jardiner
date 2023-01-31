@@ -5,3 +5,4 @@ seeds:
     description: Correspondence between modbus reading tuples and device-metric (TODO register_name represents device and metrics)
     notes: https://docs.google.com/spreadsheets/d/1c9mdfauouESDz_LB995RnonyT9H6Uo-XpbVFlPxuJLY/edit#gid=313475710
   - name: alert_inverterregistry_clean_last_hour_temperature_sample
+  - name: plant_topic_association
