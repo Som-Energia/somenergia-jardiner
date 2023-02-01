@@ -6,12 +6,13 @@ import sqlalchemy
 import pandas as pd
 import json
 import numpy as np
+from typing import List
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
 app = typer.Typer()
 
-def notify(url, api_key, payload, email, alert):
+def notify_subscriber(url, api_key, payload, email, alert):
     alert = alert.replace('_','')
     headers = {
         'Authorization': f'ApiKey {api_key}'
@@ -41,13 +42,15 @@ def notify_topic(url, api_key, payload, topic_ids, alert):
     }
     data={
         "name": alert,
-        "to":  topic_ids,
+        "to":  [{'type': 'Topic', 'topicKey': topic_id} for topic_id in topic_ids],
         "payload": {
             'alerts': payload
         }
     }
 
-    response = requests.post(url, headers=headers, json=data)
+    topic_url = f'{url}/events/trigger'
+
+    response = requests.post(topic_url, headers=headers, json=data)
     logging.info(response.text)
     response.raise_for_status()
 
@@ -74,6 +77,8 @@ def refresh_notification_table(con, schema, alertdf, alert_name):
         # If still NULL then False (rare case without readings 30 days before):
         alertdf_new_clean['is_alarmed'] = np.where(alertdf_new_clean['is_alarmed'].isnull(), False, alertdf_new_clean['is_alarmed'])
 
+        # TODO to solve the futurewarning of bool reduction we might have to cast is_alarmed column to bool (since it can't have nulls at this point)
+
         alert_status_df_old_clean['xgroupby'] = 'old'
         alertdf_new_clean['xgroupby'] = 'new'
         df = pd.concat([alert_status_df_old_clean,alertdf_new_clean]).reset_index(drop=True)
@@ -97,31 +102,31 @@ def refresh_notification_table(con, schema, alertdf, alert_name):
 
     return alertdf_new, alertdf_diff
 
-def df_notify_topic_if_diff(alertdf_diff, novu_url, api_key, topic_keys, alert):
-    
+def df_notify_topic_if_diff(alertdf_diff, novu_url, api_key, topic_ids, alert):
+
     alertjson = alertdf_diff.to_json(orient='table')
     alertdata = json.loads(alertjson)['data']
 
     if len(alertdf_diff) > 0:
-            notify_topic(novu_url, api_key, alertdata, topic_keys, alert)
-            logging.info(f"Alert {alert} notifed.")
+        notify_topic(novu_url, api_key, alertdata, topic_ids, alert)
+        logging.info(f"Alert {alert} notifed.")
+        return topic_ids
     else:
         logging.info(f"No alert {alert} to notify.")
+        return []
 
-@app.command()
-def get_alarms_to_notify(
-        plantmonitor_db: str,
+def evaluate_and_notify_alarm(
+        conn: str,
         novu_url: str,
         api_key: str,
         schema: str,
         alert: str,
-        to_notify: str
+        to_notify: str,
+        default_topic_ids: List[str] = None
     ):
-    logging.info(f"Got {novu_url} and {api_key}")
-    dbapi = plantmonitor_db # pending implement custom function jardiner.utils get_dbapi
-    db_engine = sqlalchemy.create_engine(dbapi)
-    with db_engine.begin() as conn:
-        alertdf = pd.read_sql_table(alert, plantmonitor_db, schema=schema)
+        topic_ids = default_topic_ids or ['dades', 'gestio_dactius']
+
+        alertdf = pd.read_sql_table(alert, conn, schema=schema)
         alertdf = alertdf.filter(items=['time','plant_id','plant_name','device_type','device_name','alarm_name','is_alarmed'])
         if len(alertdf) == 0:
             logging.info(f"No alert {alert} returned..")
@@ -134,19 +139,38 @@ def get_alarms_to_notify(
             logging.info(f"Alert {alert} would notify but to_notify is False.")
             return True
 
-        topic_keys = ['dades', 'gestio_dactius']
+        notified = df_notify_topic_if_diff(alertdf_diff, novu_url, api_key, topic_ids, alert)
 
-        df_notify_topic_if_diff(alertdf_diff, novu_url, api_key, topic_keys, alert)
-            
-        notification_topics_df = pd.read_sql_table('plant_topic_association', plantmonitor_db, schema=schema)
+        notification_topics_df = pd.read_sql_table('plant_topic_association', conn, schema=schema)
 
-        plants_by_topic = notification_topics_df.groupby('notification_topic')['plant_id'].apply(list).to_dict() 
+        plants_by_topic = notification_topics_df.groupby('notification_topic')['plant_id'].apply(list).to_dict()
 
         for notification_topic, plants in plants_by_topic.items():
-           
-            sub_alertdf_diff = alertdf_diff[alertdf_diff['plant_id'] in plants]
 
-            df_notify_topic_if_diff(sub_alertdf_diff, novu_url, api_key, notification_topic, alert)
+            sub_alertdf_diff = alertdf_diff[alertdf_diff['plant_id'].isin(plants)]
+
+            sub_notified = df_notify_topic_if_diff(sub_alertdf_diff, novu_url, api_key, [notification_topic], alert)
+
+            notified = notified + sub_notified
+
+        return notified
+
+@app.command()
+def refresh_alert(
+        plantmonitor_db: str,
+        novu_url: str,
+        api_key: str,
+        schema: str,
+        alert: str,
+        to_notify: str
+    ):
+    logging.info(f"Got {novu_url} and {api_key}")
+    dbapi = plantmonitor_db # pending implement custom function jardiner.utils get_dbapi
+    db_engine = sqlalchemy.create_engine(dbapi)
+    with db_engine.begin() as conn:
+        notified = evaluate_and_notify_alarm(conn, novu_url, api_key, schema, alert, to_notify)
+
+    logging.info(f"Notified topics: {notified}")
 
     return True
 
