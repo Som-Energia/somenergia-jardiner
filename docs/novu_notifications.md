@@ -1,6 +1,6 @@
 # Swagger API
 
-https://api.novu.co/api/
+[Novu api](https://api.novu.co/api/)
 
 # overview
 
@@ -38,6 +38,7 @@ Usage: python -m scripts.novu_interface add-topic [OPTIONS] URL API_KEY
 
 ```bash
 $ python -m scripts.novu_interface add-topic {novu_url} {api_key} {topic_key} {topic_name}
+$ python -m scripts.novu_interface add-topic http://moll3.somenergia.lan:3000/v1/topics {api_key} asomada-topic-1 "asomada general topic"
 ```
 and to get the topics
 
@@ -52,7 +53,10 @@ $ python -m scripts.novu_interface get-topic {novu_url} {api_key} {topic_key} {t
 Let's add some subcribers to it:
 
 ```bash
-$ python -m scripts.novu_interface get-topic {novu_url} {api_key} {topic_key} {topic_name}
+$ python -m scripts.novu_interface add-subscriber http://moll3.somenergia.lan:3000/v1/subscribers {api_key} pol_recipient 
+$ python -m scripts.novu_interface add-topic-subscriber http://moll3.somenergia.lan:3000/v1/topics {api_key} asomada-topic-1 pol_recipient
 ```
+
+
 
 
