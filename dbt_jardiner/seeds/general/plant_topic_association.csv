@@ -1,8 +1,8 @@
 plant_id,plant,notification_topic
-1,"Alcolea",nrgs
-3,"Fontivsolar",rcm
-6,"Florida",nrgs
-7,"Matallana",nrgs
-11,"Valteina",nrgtc
-22,"Llanillos",xm
-40,"Asomada",xm
+1,"Alcolea",dades
+3,"Fontivsolar",dades
+6,"Florida",dades
+7,"Matallana",dades
+11,"Valteina",dades
+22,"Llanillos",dades
+40,"Asomada",dades

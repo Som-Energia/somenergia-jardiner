@@ -27,7 +27,27 @@ def notify(url, api_key, payload, email, alert):
         }
     }
 
-    response = requests.post(url,headers=headers, json=data)
+    response = requests.post(url, headers=headers, json=data)
+    logging.info(response.text)
+    response.raise_for_status()
+
+    return response
+
+
+def notify_topic(url, api_key, payload, topic_ids, alert):
+    alert = alert.replace('_','')
+    headers = {
+        'Authorization': f'ApiKey {api_key}'
+    }
+    data={
+        "name": alert,
+        "to":  topic_ids,
+        "payload": {
+            'alerts': payload
+        }
+    }
+
+    response = requests.post(url, headers=headers, json=data)
     logging.info(response.text)
     response.raise_for_status()
 
@@ -77,13 +97,23 @@ def refresh_notification_table(con, schema, alertdf, alert_name):
 
     return alertdf_new, alertdf_diff
 
+def df_notify_topic_if_diff(alertdf_diff, novu_url, api_key, topic_keys, alert):
+    
+    alertjson = alertdf_diff.to_json(orient='table')
+    alertdata = json.loads(alertjson)['data']
+
+    if len(alertdf_diff) > 0:
+            notify_topic(novu_url, api_key, alertdata, topic_keys, alert)
+            logging.info(f"Alert {alert} notifed.")
+    else:
+        logging.info(f"No alert {alert} to notify.")
+
 @app.command()
 def get_alarms_to_notify(
         plantmonitor_db: str,
         novu_url: str,
         api_key: str,
         schema: str,
-        receiver_email: str,
         alert: str,
         to_notify: str
     ):
@@ -98,36 +128,25 @@ def get_alarms_to_notify(
             return True
 
         alertdf, alertdf_diff = refresh_notification_table(con=conn, schema=schema, alertdf=alertdf, alert_name=alert)
-
         alertdf_diff['color'] = np.where(alertdf_diff['is_alarmed'] == True, '#FD0D0D', '#2F9905')
-        alertjson = alertdf_diff.to_json(orient='table')
-        alertdata = json.loads(alertjson)['data']
 
-        if len(alertdf_diff) > 0:
-            if to_notify:
-                notify(novu_url, api_key, alertdata, receiver_email, alert)
-                logging.info(f"Alert {alert} notifed.")
-            else:
-                logging.info(f"Alert {alert} to notify but to_notify is False.")
-        else:
-            logging.info(f"No alert {alert} to notify.")
+        if not to_notify:
+            logging.info(f"Alert {alert} would notify but to_notify is False.")
+            return True
 
+        topic_keys = ['dades', 'gestio_dactius']
 
-        # o bé llegim la taula de correspondències plantes <-> tecnics o bé
-        # -> fem el left join amb dbt de alertdf de quins topics (aka grups de tecnics) <-
-        # problem: el diff també compararà les columnes de aqui notificar si no fem re per a canviar-ho
-        # e.g. topic grup de tecnics lotr té subscriberIDs: aragorn@lotr.coop, legolas@lotr.coop, gimli@lotr.coop
+        df_notify_topic_if_diff(alertdf_diff, novu_url, api_key, topic_keys, alert)
+            
+        notification_topics_df = pd.read_sql_table('plant_topic_association', plantmonitor_db, schema=schema)
 
-        # com a minim cada planta tindrà 3 topics: dades, ga i un dels topics de tecnics
-        # etc
+        plants_by_topic = notification_topics_df.groupby('notification_topic')['plant_id'].apply(list).to_dict() 
 
+        for notification_topic, plants in plants_by_topic.items():
+           
+            sub_alertdf_diff = alertdf_diff[alertdf_diff['plant_id'] in plants]
 
-        for notification_topic in notification_topics:
-            #filter alertdf_diff by alertdf['notification_topic']
-            if len(sub_alertdf_diff) > 0:
-                notify(novu_url, api_key, alertdata, notification_topic, alert)
-
-        alertdf_df
+            df_notify_topic_if_diff(sub_alertdf_diff, novu_url, api_key, notification_topic, alert)
 
     return True
 

@@ -1,7 +1,7 @@
 import logging
 import requests
 import typer
-from typing import List
+from typing import List, Optional
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
@@ -74,7 +74,8 @@ def add_topic_subscriber(url, api_key, topic_key, subscriber_ids: List[str]):
         "subscribers": subscriber_ids
     }
 
-    topic_url = f'{url}/{topic_key}/subscribers'
+    topic_url = f'{url}/topics/{topic_key}/subscribers'
+
 
 
     response = requests.post(topic_url, headers=headers, json=data)
@@ -84,6 +85,47 @@ def add_topic_subscriber(url, api_key, topic_key, subscriber_ids: List[str]):
 
     return response
 
+@app.command()
+def add_subscriber(url: str, api_key: str, subscriber_id: str, email: str, first_name: str, last_name: Optional[str] = typer.Argument(''), locale: Optional[str] = typer.Argument('ca')):
+
+    headers = {
+        'Authorization': f'ApiKey {api_key}'
+    }
+
+    data={
+        "subscriberId": subscriber_id,
+        "email": email,
+        "firstName": first_name,
+        "lastName": last_name,
+        "locale": locale,
+    }
+
+    topic_url = f'{url}/subscribers'
+
+
+    response = requests.post(topic_url, headers=headers, json=data)
+
+    logging.info(response.text)
+    response.raise_for_status()
+
+    return response
+
+@app.command()
+def delete_subscriber(url: str, api_key: str, subscriber_id: str):
+
+    headers = {
+        'Authorization': f'ApiKey {api_key}'
+    }
+
+    topic_url = f'{url}/subscribers/{subscriber_id}'
+
+
+    response = requests.delete(topic_url, headers=headers)
+
+    logging.info(response.text)
+    response.raise_for_status()
+
+    return response    
 
 
 if __name__ == '__main__':
