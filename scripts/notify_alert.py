@@ -162,7 +162,7 @@ def refresh_alert(
         api_key: str,
         schema: str,
         alert: str,
-        to_notify: str
+        to_notify: bool
     ):
     logging.info(f"Got {novu_url} and {api_key}")
     dbapi = plantmonitor_db # pending implement custom function jardiner.utils get_dbapi

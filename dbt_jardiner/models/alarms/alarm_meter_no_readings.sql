@@ -6,7 +6,7 @@ select
     day,
     somplants.plant_id,
     somplants.plant_name,
-    current_meter_name,
+    meter_name,
     current_meter_connection_protocol,
     COALESCE(meter_registry_hours_with_readings,0) as meter_registry_hours_with_readings,
     1 as alarm_priority

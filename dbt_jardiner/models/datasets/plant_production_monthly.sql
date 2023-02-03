@@ -8,10 +8,10 @@ with plant_production_daily as (
   select
   date_trunc('month', day) as month,
   plant_id,
-  current_plant_name,
-  current_plant_codename,
+  plant_name,
+  plant_codename,
   meter_id,
-  current_meter_name,
+  meter_name,
   current_meter_connection_protocol,
   plant_peak_power_kw,
   round(sum(meter_registry_hours_with_readings)/(count(*)*24)*100,2) as p_meter_hours_with_readings, --ens mengem el cavni d'hora
@@ -26,27 +26,22 @@ with plant_production_daily as (
   sum(solar_hours_minimum) as solar_hours_minimum,
   sum(forecast_energy_kwh) as forecast_energy_kwh,
   sum(deviation_exported_vs_satellite_expected_kwh) as deviation_exported_vs_satellite_expected_kwh,
-  sum(deviation_exported_vs_forecast_expected_kwh) as deviation_exported_vs_forecast_expected_kwh,
+  sum(deviation_exported_vs_forecast_expected_kwh_cumsum_abs) as deviation_exported_vs_forecast_expected_kwh_cumsum_abs,
   sum(unexpected_hours_without_energy) as unexpected_hours_without_energy
   from {{ref('plant_production_daily')}}
   group by
     month,
     plant_id,
-    current_plant_name,
-    current_plant_codename,
+    plant_name,
+    plant_codename,
     meter_id,
-    current_meter_name,
+    meter_name,
     current_meter_connection_protocol,
     plant_peak_power_kw
 )
 select
   *,
-  CASE
-    WHEN meter_registry_export_energy_kwh is not null and meter_registry_export_energy_kwh > 0
-      and forecast_energy_kwh is not null and forecast_energy_kwh > 0
-    THEN round(((meter_registry_export_energy_kwh / forecast_energy_kwh)-1)::numeric*100,2)
-    ELSE NULL
-  END as p_deviation_exported_vs_expected_omie_forecast,
+  round((deviation_exported_vs_forecast_expected_kwh_cumsum_abs / NULLIF(meter_registry_export_energy_kwh,0)) * 100,2) as deviation_from_forecast_cumsum_ratio,
   CASE
     WHEN meter_registry_export_energy_kwh is not null and meter_registry_export_energy_kwh > 0
       AND satellite_readings_energy_output_kwh is not null and satellite_readings_energy_output_kwh > 0
