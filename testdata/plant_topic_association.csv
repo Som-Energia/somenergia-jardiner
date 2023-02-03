@@ -1,5 +1,5 @@
 plant_id,plant,notification_topic
-1,"Alcolea",dades2
-3,"Fontivsolar",dades2
-6,"Florida",dades2
-7,"Matallana",dades2
+1,"Alcolea",testing_topic
+3,"Fontivsolar",testing_topic
+6,"Florida",testing_topic
+7,"Matallana",testing_topic

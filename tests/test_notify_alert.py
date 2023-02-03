@@ -122,16 +122,17 @@ def csv_to_sqltable(csvpath, conn, schema, table, ifexists):
     df.to_sql(table, con=conn, schema=schema, if_exists=ifexists, index=False)
 
 
-# integration test. check if you recievied the notification
+# This is an integration test. Check if you recieved the notification.
+# NOTE: notifies testing_topic which has no subscribors. Subscribe to it if you want to get the test notifications.
 def test__evaluate_and_notify_alarm__notify_one_alert(initdb, get_secrets):
 
     conn, schema = initdb
     alert_name = 'alert_inverter_zero_power_at_daylight'
     novu_url, api_key = get_secrets
 
-    notified = evaluate_and_notify_alarm(conn, novu_url, api_key, schema, alert_name, to_notify=True, default_topic_ids = ['dades2'])
+    notified = evaluate_and_notify_alarm(conn, novu_url, api_key, schema, alert_name, to_notify=True, default_topic_ids = ['testing_topic'])
 
-    expected = ['dades2', 'dades2']
+    expected = ['testing_topic', 'testing_topic']
     assert notified == expected
 
 
@@ -141,9 +142,9 @@ def test__evaluate_and_notify_alarm__skip_other_plant(initdb, reassociate_plant_
     alert_name = 'alert_inverter_zero_power_at_daylight'
     novu_url, api_key = get_secrets
 
-    notified = evaluate_and_notify_alarm(conn, novu_url, api_key, schema, alert_name, to_notify=True, default_topic_ids = ['dades2'])
+    notified = evaluate_and_notify_alarm(conn, novu_url, api_key, schema, alert_name, to_notify=True, default_topic_ids = ['testing_topic'])
 
-    expected = ['dades2', 'empty_topic']
+    expected = ['testing_topic', 'empty_topic']
     assert notified == expected
 
 
