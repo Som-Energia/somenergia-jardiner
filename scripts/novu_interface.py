@@ -126,7 +126,6 @@ def remove_subscriber(base_url, api_key, subscriber_id):
 
     return response
 
-
 @app.command()
 def add_topic_subscriber(base_url, api_key, topic_key, subscriber_ids: List[str]):
 
@@ -146,6 +145,30 @@ def add_topic_subscriber(base_url, api_key, topic_key, subscriber_ids: List[str]
     response.raise_for_status()
 
     return response
+
+@app.command()
+def remove_topic_subscriber(base_url, api_key, topic_key, subscriber_ids: List[str]):
+
+    headers = {
+        'Authorization': f'ApiKey {api_key}'
+    }
+
+    data={
+        "subscribers": subscriber_ids
+    }
+
+    topic_url = f'{base_url}/topics/{topic_key}/subscribers/removal'
+
+    response = requests.post(topic_url, headers=headers, json=data)
+
+    if response.status_code != requests.codes.no_content:
+        logging.info(json.dumps(response.json(), indent=2))
+    else:
+        logging.info(response.status_code)
+    response.raise_for_status()
+
+    return response
+
 
 @app.command()
 def add_subscriber(base_url: str, api_key: str, subscriber_id: str, email: str, first_name: str, last_name: Optional[str] = typer.Argument(''), locale: Optional[str] = typer.Argument('ca')):
