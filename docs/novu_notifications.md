@@ -37,13 +37,13 @@ Usage: python -m scripts.novu_interface add-topic [OPTIONS] URL API_KEY
 ```
 
 ```bash
-$ python -m scripts.novu_interface add-topic {novu_url} {api_key} {topic_key} {topic_name}
-$ python -m scripts.novu_interface add-topic http://moll3.somenergia.lan:3000/v1/topics {api_key} asomada-topic-1 "asomada general topic"
+$ python -m scripts.novu_interface add-topic {novu_base_url} {api_key} {topic_key} {topic_name}
+$ python -m scripts.novu_interface add-topic http://moll3.somenergia.lan:3000/v1 {api_key} asomada-topic-1 "asomada general topic"
 ```
 and to get the topics
 
 ```bash
-$ python -m scripts.novu_interface get-topic {novu_url} {api_key} {topic_key} {topic_name}
+$ python -m scripts.novu_interface get-topic {novu_base_url} {api_key} {topic_key} {topic_name}
 
 2023-01-27 16:39:29,080 [INFO] {"page":0,"totalCount":1,"pageSize":10,"data":[
     {"_id":"63d3ef030d600f1df1a3829e","_environmentId":"6349479f3043d373c3d5fc07","_organizationId":"6349479f3043d373c3d5fc02","key":"asomada-topic-1","name":"asomada general topic","subscribers":[]}
@@ -53,8 +53,8 @@ $ python -m scripts.novu_interface get-topic {novu_url} {api_key} {topic_key} {t
 Let's add some subcribers to it:
 
 ```bash
-$ python -m scripts.novu_interface add-subscriber http://moll3.somenergia.lan:3000/v1/subscribers {api_key} pol_recipient 
-$ python -m scripts.novu_interface add-topic-subscriber http://moll3.somenergia.lan:3000/v1/topics {api_key} asomada-topic-1 pol_recipient
+$ python -m scripts.novu_interface add-subscriber http://moll3.somenergia.lan:3000/v1 {api_key} pol_recipient
+$ python -m scripts.novu_interface add-topic-subscriber http://moll3.somenergia.lan:3000/v1 {api_key} asomada-topic-1 pol_recipient
 ```
 
 

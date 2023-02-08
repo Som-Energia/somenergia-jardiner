@@ -54,7 +54,7 @@ with DAG(dag_id='jardiner_dag_v2', start_date=datetime(2022,10,21), schedule_int
         image='{}/{}-requirements:latest'.format('{{ conn.somenergia_registry.host }}', repo_name),
         working_dir=f'/repos/{repo_name}',
         command='python3 -m scripts.notify_alarms "{{ var.value.plantmonitor_db }}"\
-                "{{ var.value.novu_url }}" "{{ var.value.novu_api_key }}" "{{ var.value.plantmonitor_db_prod_schema }}"',
+                "{{ var.value.novu_base_url }}" "{{ var.value.novu_api_key }}" "{{ var.value.plantmonitor_db_prod_schema }}"',
         docker_url=Variable.get("generic_moll_url"),
         mounts=[mount_nfs],
         mount_tmp_dir=False,

@@ -61,10 +61,10 @@ def get_secrets():
 
     secrets = dotenv_values(".env.testing")
 
-    novu_url = secrets['novu_url']
+    novu_base_url = secrets['novu_base_url']
     api_key = secrets['novu_api_key']
 
-    return novu_url, api_key
+    return novu_base_url, api_key
 
 def test___notify_alarms__pre_config():
     config = get_dbapi('pre')
@@ -128,9 +128,9 @@ def test__evaluate_and_notify_alarm__notify_one_alert(initdb, get_secrets):
 
     conn, schema = initdb
     alert_name = 'alert_inverter_zero_power_at_daylight'
-    novu_url, api_key = get_secrets
+    novu_base_url, api_key = get_secrets
 
-    notified = evaluate_and_notify_alarm(conn, novu_url, api_key, schema, alert_name, to_notify=True, default_topic_ids = ['testing_topic'])
+    notified = evaluate_and_notify_alarm(conn, novu_base_url, api_key, schema, alert_name, to_notify=True, default_topic_ids = ['testing_topic'])
 
     expected = ['testing_topic', 'testing_topic']
     assert notified == expected
@@ -140,9 +140,9 @@ def test__evaluate_and_notify_alarm__skip_other_plant(initdb, reassociate_plant_
 
     conn, schema = initdb
     alert_name = 'alert_inverter_zero_power_at_daylight'
-    novu_url, api_key = get_secrets
+    novu_base_url, api_key = get_secrets
 
-    notified = evaluate_and_notify_alarm(conn, novu_url, api_key, schema, alert_name, to_notify=True, default_topic_ids = ['testing_topic'])
+    notified = evaluate_and_notify_alarm(conn, novu_base_url, api_key, schema, alert_name, to_notify=True, default_topic_ids = ['testing_topic'])
 
     expected = ['testing_topic', 'empty_topic']
     assert notified == expected

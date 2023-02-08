@@ -54,7 +54,7 @@ with DAG(dag_id='alert_inverter_interinverter_relative_temperature_v2', start_da
         image='{}/{}-requirements:latest'.format('{{ conn.somenergia_registry.host }}', repo_name),
         working_dir=f'/repos/{repo_name}',
         command='python3 -m scripts.notify_alert "{{ var.value.plantmonitor_db }}"\
-                "{{ var.value.novu_url }}" "{{ var.value.novu_api_key }}" "{{ var.value.plantmonitor_db_prod_schema }}" alert_inverter_interinverter_relative_temperature False',
+                "{{ var.value.novu_base_url }}" "{{ var.value.novu_api_key }}" "{{ var.value.plantmonitor_db_prod_schema }}" alert_inverter_interinverter_relative_temperature False',
         docker_url=Variable.get("generic_moll_url"),
         mounts=[mount_nfs],
         mount_tmp_dir=False,

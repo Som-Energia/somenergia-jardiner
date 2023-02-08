@@ -102,13 +102,13 @@ def refresh_notification_table(con, schema, alertdf, alert_name):
 
     return alertdf_new, alertdf_diff
 
-def df_notify_topic_if_diff(alertdf_diff, novu_url, api_key, topic_ids, alert):
+def df_notify_topic_if_diff(alertdf_diff, novu_base_url, api_key, topic_ids, alert):
 
     alertjson = alertdf_diff.to_json(orient='table')
     alertdata = json.loads(alertjson)['data']
 
     if len(alertdf_diff) > 0:
-        notify_topic(novu_url, api_key, alertdata, topic_ids, alert)
+        notify_topic(novu_base_url, api_key, alertdata, topic_ids, alert)
         logging.info(f"Alert {alert} notifed.")
         return topic_ids
     else:
@@ -117,7 +117,7 @@ def df_notify_topic_if_diff(alertdf_diff, novu_url, api_key, topic_ids, alert):
 
 def evaluate_and_notify_alarm(
         conn: str,
-        novu_url: str,
+        novu_base_url: str,
         api_key: str,
         schema: str,
         alert: str,
@@ -130,16 +130,16 @@ def evaluate_and_notify_alarm(
         alertdf = alertdf.filter(items=['time','plant_id','plant_name','device_type','device_name','alarm_name','is_alarmed'])
         if len(alertdf) == 0:
             logging.info(f"No alert {alert} returned..")
-            return True
+            return []
 
         alertdf, alertdf_diff = refresh_notification_table(con=conn, schema=schema, alertdf=alertdf, alert_name=alert)
         alertdf_diff['color'] = np.where(alertdf_diff['is_alarmed'] == True, '#FD0D0D', '#2F9905')
 
         if not to_notify:
             logging.info(f"Alert {alert} would notify but to_notify is False.")
-            return True
+            return []
 
-        notified = df_notify_topic_if_diff(alertdf_diff, novu_url, api_key, topic_ids, alert)
+        notified = df_notify_topic_if_diff(alertdf_diff, novu_base_url, api_key, topic_ids, alert)
 
         notification_topics_df = pd.read_sql_table('plant_topic_association', conn, schema=schema)
 
@@ -149,7 +149,7 @@ def evaluate_and_notify_alarm(
 
             sub_alertdf_diff = alertdf_diff[alertdf_diff['plant_id'].isin(plants)]
 
-            sub_notified = df_notify_topic_if_diff(sub_alertdf_diff, novu_url, api_key, [notification_topic], alert)
+            sub_notified = df_notify_topic_if_diff(sub_alertdf_diff, novu_base_url, api_key, [notification_topic], alert)
 
             notified = notified + sub_notified
 
@@ -158,17 +158,17 @@ def evaluate_and_notify_alarm(
 @app.command()
 def refresh_alert(
         plantmonitor_db: str,
-        novu_url: str,
+        novu_base_url: str,
         api_key: str,
         schema: str,
         alert: str,
         to_notify: bool
     ):
-    logging.info(f"Got {novu_url} and {api_key}")
+    logging.info(f"Got {novu_base_url} and {api_key}")
     dbapi = plantmonitor_db # pending implement custom function jardiner.utils get_dbapi
     db_engine = sqlalchemy.create_engine(dbapi)
     with db_engine.begin() as conn:
-        notified = evaluate_and_notify_alarm(conn, novu_url, api_key, schema, alert, to_notify)
+        notified = evaluate_and_notify_alarm(conn, novu_base_url, api_key, schema, alert, to_notify)
 
     logging.info(f"Notified topics: {notified}")
 
