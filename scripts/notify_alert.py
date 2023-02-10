@@ -116,7 +116,7 @@ def df_notify_topic_if_diff(alertdf_diff, novu_base_url, api_key, topic_ids, ale
         return []
 
 def evaluate_and_notify_alarm(
-        conn: str,
+        conn,
         novu_base_url: str,
         api_key: str,
         schema: str,
