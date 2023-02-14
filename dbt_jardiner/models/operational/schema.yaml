@@ -34,6 +34,9 @@ sources:
 
 models:
 
+  - name: view_inverter_metrics_daily
+    description: "TO BE DEPRECATED extended metrics of inverterregistry"
+
   - name: view_q_monthly
     description: "energy import/export and q import/export by month, by plant"
 
