@@ -17,7 +17,7 @@ inverter_join as (
         sub_sr.intensity_ma,
         ir.power_kw,
         sub_sr.intensity_ma < 500 and ir.power_kw > 10 as is_low_intensity
-    from {{ ref('stringregistry_denormalized') }} as sub_sr
+    from {{ ref('stringregistry_latest_hour') }} as sub_sr
     left join inverterregistry_last_readings as ir on sub_sr.time = ir.time and sub_sr.inverter_id = ir.inverter_id
     left join {{ ref('som_plants_raw') }} as plant on plant.plant_id = sub_sr.plant_id
 ),
