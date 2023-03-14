@@ -26,6 +26,7 @@ sources:
       - name: inverterregistry
       - name: string
       - name: stringregistry
+      - name: irradiationregistry
 
   - name: plantlake
     schema: airbyte_imported
