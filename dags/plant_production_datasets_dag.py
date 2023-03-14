@@ -62,6 +62,8 @@ with DAG(dag_id='plant_production_datasets_v3', start_date=datetime(2023,1,10), 
         'DBNAME': dbapi_dict['database']
     }
 
+    print(environment)
+
     dbt_deps_task = DockerOperator(
         api_version='auto',
         task_id='dbt_deps_task',
