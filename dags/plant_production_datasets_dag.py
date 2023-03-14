@@ -53,7 +53,7 @@ with DAG(dag_id='plant_production_datasets_v3', start_date=datetime(2023,1,10), 
     task_update_image = build_update_image_task(dag=dag, repo_name=repo_name)
 
 
-    dbapi = '{}'.format("{{ var.value.plantmonitor_db }}")
+    dbapi = '{}'.format(Variable.get("{{ var.value.plantmonitor_db }}"))
     print(dbapi)
     parsed_string = urllib.parse.urlparse(dbapi)
 
