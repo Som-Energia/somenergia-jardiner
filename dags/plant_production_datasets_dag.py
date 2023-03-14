@@ -8,6 +8,8 @@ from docker.types import Mount, DriverConfig
 from datetime import datetime, timedelta
 from airflow.models import Variable
 
+import urllib.parse
+
 my_email = Variable.get("fail_email")
 addr = Variable.get("repo_server_url")
 
@@ -29,6 +31,18 @@ nfs_config = {
 driver_config = DriverConfig(name='local', options=nfs_config)
 mount_nfs = Mount(source="local", target="/repos", type="volume", driver_config=driver_config)
 
+def dbapi_to_dict(dbapi: str):
+    parsed_string = urllib.parse.urlparse(dbapi)
+
+    return {
+        "provider": parsed_string.scheme,
+        "user": parsed_string.username,
+        "password": urllib.parse.unquote(parsed_string.password) if parsed_string.password else None,
+        "host": parsed_string.hostname,
+        "port": parsed_string.port,
+        "database": parsed_string.path[1:]
+    }
+
 with DAG(dag_id='plant_production_datasets_v3', start_date=datetime(2023,1,10), schedule_interval='@daily', catchup=False, tags=["Plantmonitor","Jardiner", "Transform", "DBT"], default_args=args) as dag:
 
     repo_name = 'somenergia-jardiner'
@@ -38,12 +52,14 @@ with DAG(dag_id='plant_production_datasets_v3', start_date=datetime(2023,1,10), 
     task_branch_pull_ssh = build_branch_pull_ssh_task(dag=dag, task_name='dbt_deps_task', repo_name=repo_name)
     task_update_image = build_update_image_task(dag=dag, repo_name=repo_name)
 
+    dbapi_dict = dbapi_to_dict('{{ var.value.plantmonitor_db }}')
+
     environment = {
-        'DBUSER': '{{ var.value.plantmonitor_db_user }}',
-        'DBPASSWORD': '{{ var.value.plantmonitor_db_password_secret }}',
-        'DBHOST': 'dbdades.somenergia.lan',
-        'DBPORT': 5432,
-        'DBNAME': 'plants'
+        'DBUSER': dbapi_dict['user'],
+        'DBPASSWORD': dbapi_dict['password'],
+        'DBHOST': dbapi_dict['host'],
+        'DBPORT': dbapi_dict['port'],
+        'DBNAME': dbapi_dict['database']
     }
 
     dbt_deps_task = DockerOperator(
