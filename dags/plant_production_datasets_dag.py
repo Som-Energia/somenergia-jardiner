@@ -52,7 +52,21 @@ with DAG(dag_id='plant_production_datasets_v3', start_date=datetime(2023,1,10), 
     task_branch_pull_ssh = build_branch_pull_ssh_task(dag=dag, task_name='dbt_deps_task', repo_name=repo_name)
     task_update_image = build_update_image_task(dag=dag, repo_name=repo_name)
 
-    dbapi_dict = dbapi_to_dict('{{ var.value.plantmonitor_db }}')
+
+    dbapi = '{{ var.value.plantmonitor_db }}'
+    print(dbapi)
+    parsed_string = urllib.parse.urlparse(dbapi)
+
+    dbapi_dict = {
+        "provider": parsed_string.scheme,
+        "user": parsed_string.username,
+        "password": urllib.parse.unquote(parsed_string.password) if parsed_string.password else None,
+        "host": parsed_string.hostname,
+        "port": parsed_string.port,
+        "database": parsed_string.path[1:]
+    }
+
+    # dbapi_dict = dbapi_to_dict('{}'.format('{{ var.value.plantmonitor_db }}'))
 
     environment = {
         'DBUSER': dbapi_dict['user'],
