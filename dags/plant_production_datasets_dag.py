@@ -53,9 +53,9 @@ with DAG(dag_id='plant_production_datasets_v3', start_date=datetime(2023,1,10), 
     task_update_image = build_update_image_task(dag=dag, repo_name=repo_name)
 
 
-    dbapi = '{}'.format(Variable.get("plantmonitor_db"))
+    dbapi = Variable.get("plantmonitor_db")
 
-    dbapi_dict = dbapi_to_dict('{}'.format('{{ var.value.plantmonitor_db }}'))
+    dbapi_dict = dbapi_to_dict(dbapi)
 
     environment = {
         'DBUSER': dbapi_dict['user'],
