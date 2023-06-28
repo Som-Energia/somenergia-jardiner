@@ -1,12 +1,23 @@
 {{ config(materialized='view') }}
 
-select
-    date_trunc('month', (time - interval '1 hour') at time zone 'Europe/Madrid') as time,
-    meter.plant as plant_id,
-    meter as meter_id,
-    sum(export_energy_wh) as export_energy_wh,
-    sum(import_energy_wh) as import_energy_wh
-from {{ source('plantmonitordb','meterregistry') }} as mr
-left join {{ source('plantmonitordb','meter') }} on meter.id = mr.meter
-left join {{ source('plantmonitordb','plant') }} as plant on plant.id = meter.plant
-group by time, plant_id, meter_id
+SELECT
+	date_trunc('month', meterregistry."time") AS "time",
+	plant.id AS plant_id,
+	plant.name AS plant_name,
+	meter.id AS meter_id,
+	meter.name AS meter_name,
+	sum(meterregistry.export_energy_wh) AS export_energy_wh
+FROM 
+	{{ source('plantmonitordb','meter') }} as meter
+LEFT JOIN 
+	{{ source('plantmonitordb','plant') }} as plant
+ON
+	plant.id = meter.plant
+LEFT JOIN 
+	{{ source('plantmonitordb','meterregistry') }} as meterregistry
+ON 
+	meter.id = meterregistry.meter
+GROUP BY 
+	date_trunc('month', meterregistry."time"), plant_id, plant_name, meter_id, meter_name
+ORDER BY 
+	date_trunc('month', meterregistry."time"), plant_id, plant_name, meter_id, meter_name
