@@ -1,0 +1,12 @@
+# Context de naixement
+
+* A quin objectiu respon?  *Guanyar autonomia dins del mercat elèctric**
+
+* Context: per què és important? per guanyar en eficiència i optimitzar  la producció (problema)
+
+* Intenció: on volem arribar? tenir un sistema de monitorització unificat per a totes les plantes de producció (solució)
+
+* Criteris d’èxit: com mesurar progrés i èxit?
+
+    - Número de plantes que poden gestionar per persona (20-25 plantes /persona)
+    - Agilitat en detectar incidències (1.800 €/dia per pèrdues de producció seria el cas més extrem per una planta de  5MW. Si triguem una setmana en detectar-ho serien 12.600 €)
