@@ -7,7 +7,7 @@
 
   {% if var('plants_code') == 'SomEnergia_Riudarenes_ZE' %}
       {%- set time_to_sum = '1 hour' -%}
-  {% elif var('plants_code') == 'SomEnergia_Matalalana' %}
+  {% elif var('plants_code') == 'SomEnergia_Matallana' %}
       {%- set time_to_sum = '4 hour' -%}
   {% else %}
           {{ ref('accounts') }}   accounts
