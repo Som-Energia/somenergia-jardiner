@@ -14,7 +14,7 @@ La meitat del plantmonitor acabarà deprecated pel proveïdor de dades.
 
 [Plant Reader](https://github.com/Som-Energia/somenergia-plant-reader)
 
-Lectura remota de les plantes. Actualment només Asomada es llegeix remotament.
+Lectura remota de les plantes. Actualment només Asomada es llegeix remotament i es guarda a `plant_lake`.
 
 Acabarà deprecated pel proveïdor de dades.
 
@@ -25,6 +25,7 @@ dbt de les plantes. Actualment tot views.
 #### Data sources
 
 - rPIs
+- plant_reader
 - Irradiation satellite data provider (SAT)
 - Meteo forecast provider (METEO)
 - Plant data provider (PLANT)
@@ -43,14 +44,20 @@ dbt de les plantes. Actualment tot views.
 ```mermaid
 flowchart LR
 
-rPIs -- push 5'  --> dw[db/plants]
-ERP -- pull 20' º\n meter data --> dw
+dw[db/plants]
+
+plants -- pull 5' \n plant_reader --> lake[db/plant_lake]
+lake -- pull 5' \n airbyte --> dw
+
+plants -- pull 5' \n plantmonitor/main.py --> rPIs -- push 5'  --> dw
+plants -- pull 2h/12h \n meter \n import_tm_data_click.py --> ERP -- pull 20' º\n meter data --> dw
 SAT -- pull daily\n irr/expected energy --> dw
 METEO <-- pull daily\n meter data +  irr/kWh forecast --> dw
-PLANT -- pull 15'\n devices data --> dw
+plants -- pull 15' --> PLANT -- pull 15'\n devices data --> dw
 
 dw -- dbt views --> prod --> alarms
 prod --> alerts
+prod --> datasets
 ```
 
 º: plantmonitor does it. Update rate defined at conf/startup_configuration.py
@@ -60,18 +67,21 @@ prod --> alerts
 ```mermaid
 flowchart LR
 
-ERP -- pull 20' º\n meter data --> dw
+dw[db/plants]
+
+plants -- pull 2h/12h \n meter \n import_tm_data_click.py --> ERP -- pull 20' º\n meter data --> dw
 SAT -- pull daily\n irr/expected energy --> dw
 METEO <-- pull daily\n meter data +  irr/kWh forecast --> dw
-PLANT -- pull 15'\n devices data --> dw
+plants -- pull 15' --> PLANT -- pull 15'\n devices data --> dw
 
 
 dw -- dbt fast --> fast[dbt_prod/fast_] --> union
 dw -- dbt --> obt --> alarms
 obt --> union
 union -- notify.py --> alerts
+obt --> datasets
 ```
 
-See [Roadmap](docs/projecte/2023-06-03-macrofase%20roadmap)
+See [Roadmap](/docs/projecte/2023-06-03-macrofase%20roadmap)
 
 
