@@ -1,8 +1,8 @@
-# Overview per a devs
+# Overview for devs
 
-## Estat actual
+## Current State of the project
 
-### Peces
+### Pieces
 
 #### repos
 
@@ -22,40 +22,56 @@ Acabarà deprecated pel proveïdor de dades.
 
 dbt de les plantes. Actualment tot views.
 
-#### Fonts de dades
+#### Data sources
 
 - rPIs
-- Proveïdor de dades Sateŀlitals (SAT)
-- Proveïdor de dades meteorològiques (METEO)
-- Proveïdor de dades de plantes (PLANT)
-- Proveïdor de preus (Previst) (PRICE)
+- Irradiation satellite data provider (SAT)
+- Meteo forecast provider (METEO)
+- Plant data provider (PLANT)
+- Price provider (Planned) (PRICE)
 
-#### Visualització
+#### Visualization
 
 - redash
-- notificacions novu -> helpscout/notificació
-- superset (altres àmbits)
+- novu notifications -> helpscout/mail
+- superset (other àmbits of the cooperative)
 
-### Esquema
+### Project tructure
+
+#### Actual
 
 ```mermaid
 flowchart LR
 
 rPIs -- push 5'  --> dw[db/plants]
-SAT -- pull 20' --> dw
-METEO -- pull 20' --> dw
-PLANT -- pull 15' --> dw
+ERP -- pull 20' º\n meter data --> dw
+SAT -- pull daily\n irr/expected energy --> dw
+METEO <-- pull daily\n meter data +  irr/kWh forecast --> dw
+PLANT -- pull 15'\n devices data --> dw
 
-dw -- dbt --> obt --> alarms
-obt --> notify
+dw -- dbt views --> prod --> alarms
+prod --> alerts
 ```
 
+º: plantmonitor does it. Update rate defined at conf/startup_configuration.py
+
+#### Planned scheme
 
 ```mermaid
 flowchart LR
 
-Pipe de dades bàsic --> s(pick_best_view) --> obt_table --> marts_table
+ERP -- pull 20' º\n meter data --> dw
+SAT -- pull daily\n irr/expected energy --> dw
+METEO <-- pull daily\n meter data +  irr/kWh forecast --> dw
+PLANT -- pull 15'\n devices data --> dw
+
+
+dw -- dbt fast --> fast[dbt_prod/fast_] --> union
+dw -- dbt --> obt --> alarms
+obt --> union
+union -- notify.py --> alerts
 ```
 
-## Visió final
+See [Roadmap](docs/projecte/2023-06-03-macrofase%20roadmap)
+
 

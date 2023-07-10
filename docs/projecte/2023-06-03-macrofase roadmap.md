@@ -2,10 +2,25 @@
 
 [Roadmap](https://docs.google.com/spreadsheets/d/11dNYUeBwkIjPpcYOHmcOoNDpLoUxH9qfcm6h2YXRtoI/edit#gid=1971023159)
 
+### Roadmap overview
+
+
+
+
+### Flux de dades
 
 ```mermaid
 flowchart LR
-Pipe de dades bàsic --> s(pick_best_view) --> obt_table --> marts_table
+
+rPIs -- push 5'  --> dw[db/plants]
+ERP -- pull 20' º\n meter data --> dw
+SAT -- pull daily\n irr/expected energy --> dw
+METEO <-- pull daily\n meter data +  irr/kWh forecast --> dw
+PLANT -- pull 15'\n devices data --> dw
+
+dw -- dbt views --> prod --> alarms
+prod --> alerts
+prod --> datasets
 ```
 
 ## Fita 1
@@ -26,17 +41,15 @@ DoD: TODO
 
 ###	Obtenció de dades de tots els equips i totes les plantes
 
-Definir estratègia d'obtenció de dades (remot/hardware/api's a plataformes...) (1)
+- [x] Definir estratègia d'obtenció de dades (remot/hardware/api's a plataformes...) (1)
+- [x] Coordinació amb altres equips de la cooperativa per veure altres alternatives (6)
+- [x] Proves pilot amb algún proveïdor (8)
+- [-] Analisi de proveïdors/alternatives i selecció de partner per externalitzar l'obtenció de dades dels  inversors i sondes (2)
+- [-] Obtenció de dades tots els comptadors per IP.
+    - [ ] Adaptació a frequència quarthoraria. (3)
 
-Coordinació amb altres equips de la cooperativa per veure altres alternatives (6)
-
-Proves pilot amb algún proveïdor (8)
-
-Analisi de proveïdors/alternatives i selecció de partner per externalitzar l'obtenció de dades dels  inversors i sondes (2)
-
-Obtenció de dades tots els comptadors per IP. Adaptació a frequència quarthoraria. (3)
-
-Suport a la integració de prova pilot (6)
+- [-] Suport a la integració de prova pilot (6)
+    - Falta saber com es diferencien les plantes
 
 DoD:
 - [ ] Els equips mencionats en el pipe
@@ -53,6 +66,24 @@ Crear la obt cincminutal incremental i/o el fast-lane cincminutal i la obt diàr
 Crear el live per _late arriving facts_ de comptadors i apis.
 
 En funcionament normal són delays de màxim un dia. Amb incidència poden ser 1-2 mesos màxim. I en casos excepcionals, molt més (candidat a full-refresh manual o alguna altra cosa)
+
+### Aterració de tot plegat
+
+- [ ] Intro per devs
+    - Més doc?
+- [ ] Refer el pipe (fast+slow)
+    - Que no tardi 30s
+    - DBT standards
+- [ ] Dset integrat al pipe
+- [ ] Definir el dashboard de tècnics
+    - Volem fer servir redash?
+    - Parlar amb GA per si volen el Dashboard diferent [al actual]()
+    - [ ] Dashboard tecnics Exiom amb Asomada
+    - [ ] Dashboard tecnics Exiom amb Llanillos (source original és dset)
+- [ ] Deute tècnic Dev
+    - CDD
+    - Private doc github project
+
 
 ## Fita 2: Dashboard Overview plantes
 
