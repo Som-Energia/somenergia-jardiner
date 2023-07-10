@@ -52,6 +52,7 @@ DoD: TODO
     - Falta saber com es diferencien les plantes
 
 DoD:
+
 - [ ] Els equips mencionats en el pipe
 - [ ] Dset integrat al pipe
 
