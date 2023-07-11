@@ -46,21 +46,21 @@ flowchart LR
 
 dw[db/plants]
 
-plants -- pull 5' \n plant_reader --> lake[db/plant_lake]
-lake -- pull 5' \n airbyte --> dw
+plants -- pull 5' \n plant_reader/dags --> lake[db/plant_lake]
+lake -- push 5' \n airbyte --> dw
 
 plants -- pull 5' \n plantmonitor/main.py --> rPIs -- push 5'  --> dw
-plants -- pull 2h/12h \n meter \n import_tm_data_click.py --> ERP -- pull 20' º\n meter data --> dw
-SAT -- pull daily\n irr/expected energy --> dw
-METEO <-- pull daily\n meter data +  irr/kWh forecast --> dw
-plants -- pull 15' --> PLANT -- pull 15'\n devices data --> dw
+plants -- pull 2h/12h \n meter \n ERP's import_tm_data_click.py --> ERP -- pull 20'º\n meter data --> dw
+SAT -- pull dailyº\n irr/expected energy --> dw
+METEO <-- pull dailyº\n meter data +  irr/kWh forecast --> dw
+plants -- pull 15'\n plant_reader/dags --> PLANT -- pull 15'\n devices data --> dw
 
 dw -- dbt views --> prod --> alarms
 prod --> alerts
 prod --> datasets
 ```
 
-º: plantmonitor does it. Update rate defined at conf/startup_configuration.py
+º: plantmonitor does it. Update rate defined at conf/startup_configuration.py and each task is run as a function.
 
 #### Planned scheme
 

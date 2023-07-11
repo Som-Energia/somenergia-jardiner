@@ -4,7 +4,7 @@ Mending and nurturing of green energy plants
 
 ## Usuàries de Gestió d'actius
 
-Gestió d'actius! Aneu [aquí](/docs/gestio-d'actius/)
+Gestió d'actius! Aneu [aquí](/docs/gestió d'actius/)
 
 SomEnergia Devs! Aneu [aquí](/docs/desenvolupadors/)
 

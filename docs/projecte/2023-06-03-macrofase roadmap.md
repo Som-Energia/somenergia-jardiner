@@ -72,10 +72,11 @@ En funcionament normal són delays de màxim un dia. Amb incidència poden ser 1
 
 - [ ] Intro per devs
     - Més doc?
+- [ ] Afegit la proveïdora de dades al pipe
+    - Decidir com (multisource/sol)
 - [ ] Refer el pipe (fast+slow)
     - Que no tardi 30s
     - DBT standards
-- [ ] Dset integrat al pipe
 - [ ] Definir el dashboard de tècnics
     - Volem fer servir redash?
     - Parlar amb GA per si volen el Dashboard diferent [al actual]()
