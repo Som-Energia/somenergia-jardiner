@@ -18,6 +18,8 @@ Lectura remota de les plantes. Actualment només Asomada es llegeix remotament i
 
 Acabarà deprecated pel proveïdor de dades.
 
+Actualment també allotja la lectura de la API del proveïdor de dades.
+
 [Jardiner](https://github.com/Som-Energia/somenergia-jardiner)
 
 dbt de les plantes. Actualment tot views.
@@ -53,7 +55,7 @@ plants -- pull 5' \n plantmonitor/main.py --> rPIs -- push 5'  --> dw
 plants -- pull 2h/12h \n meter \n ERP's import_tm_data_click.py --> ERP -- pull 20'º\n meter data --> dw
 SAT -- pull dailyº\n irr/expected energy --> dw
 METEO <-- pull dailyº\n meter data +  irr/kWh forecast --> dw
-plants -- pull 15'\n plant_reader/dags --> PLANT -- pull 15'\n devices data --> dw
+plants -- pull 15'\n plant_reader/dags --> PLANT -- pull 15'\n devices data --> db/plant_lake
 
 dw -- dbt views --> prod --> alarms
 prod --> alerts
@@ -82,6 +84,8 @@ union -- notify.py --> alerts
 obt --> datasets
 ```
 
-See [Roadmap](/docs/projecte/2023-06-03-macrofase%20roadmap)
+Després de l'[ADR d'estructura de pipeline](/adr/2023-06-13-pipeline_dades_llargues)
+
+See [Roadmap](/projecte/2023-06-03-macrofase roadmap/)
 
 
