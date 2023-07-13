@@ -84,8 +84,8 @@ union -- notify.py --> alerts
 obt --> datasets
 ```
 
-Després de l'[ADR d'estructura de pipeline](/adr/2023-06-13-pipeline_dades_llargues)
+Després de l'[ADR d'estructura de pipeline](/somenergia-jardiner/adr/2023-06-13-pipeline_dades_llargues)
 
-See [Roadmap](/projecte/2023-06-03-macrofase roadmap/)
+See [Roadmap](/somenergia-jardiner/projecte/2023-06-03-macrofase roadmap/)
 
 

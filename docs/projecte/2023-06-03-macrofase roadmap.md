@@ -79,7 +79,7 @@ En funcionament normal són delays de màxim un dia. Amb incidència poden ser 1
     - DBT standards
 - [ ] Definir el dashboard de tècnics
     - Volem fer servir redash?
-    - Parlar amb GA per si volen el Dashboard diferent [al actual]()
+    - ~Parlar amb GA per si volen el Dashboard diferent [al actual]()~ El volen tal com són
     - [ ] Dashboard tecnics Exiom amb Asomada
     - [ ] Dashboard tecnics Exiom amb Llanillos (source original és dset)
 - [ ] Deute tècnic Dev
