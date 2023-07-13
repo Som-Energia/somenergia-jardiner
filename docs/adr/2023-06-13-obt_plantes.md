@@ -1,24 +1,23 @@
-# Spines
+# Pipeline de dades revisited
 
-* Status: Unknown
-* Deciders: [list everyone involved in the decision] <!-- optional -->
-* Date: [YYYY-MM-DD when the decision was last updated] <!-- optional -->
+* Status: proposed
+* Deciders:
+* Date:
 
-Technical Story: [description | ticket/issue URL] <!-- optional -->
+Technical Story:
+
+Com serà la obt? horaria calculada un cop cada hora? I quan passem a comptadors 15-minutals, segurem amb dbt run 15-minutal? Quina frescor de les dades cal? --> posem-ho a un adr diferent
 
 ## Context and Problem Statement
 
-[Podem fer un spine amb un left join sense condició contra plant i meter per tenir el carret buit i després fer un left join amb les lectures
+Si les dades cincminutals són horaries, la obt de tots els indicadors també?
 
-dbt_spine
-left join plant
-left join meter on plant.id = meter.plant
-
+Passarem a comptadors 15minutals en algun moment proper.
 
 ## Decision Drivers <!-- optional -->
 
-* [driver 1, e.g., a force, facing concern, …]
-* [driver 2, e.g., a force, facing concern, …]
+* Ús real de la obt
+* Frescor necessària
 * … <!-- numbers of drivers can vary -->
 
 ## Considered Options

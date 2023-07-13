@@ -14,6 +14,7 @@ typer = "^0.6.1"
 python-dotenv = "^0.21.0"
 pandas = "^1.5.0"
 requests = "^2.28.1"
+dbt-fal = {extras = ["postgres"], version = "^1.4.4"}
 
 
 [tool.poetry.group.dev.dependencies]
@@ -24,6 +25,7 @@ mkdocs-material = "^8.3.0"
 ipdb = "^0.13.9"
 deptry = "^0.6.3"
 dbt-osmosis = "^0.9.7"
+ipykernel = "^6.21.3"
 
 [build-system]
 requires = ["poetry-core"]

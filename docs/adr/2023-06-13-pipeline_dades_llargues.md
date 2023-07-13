@@ -1,36 +1,36 @@
-# Spines
+# Pipeline de dades revisited
 
-* Status: Unknown
-* Deciders: [list everyone involved in the decision] <!-- optional -->
-* Date: [YYYY-MM-DD when the decision was last updated] <!-- optional -->
+* Status: proposed
+* Deciders: Diego, Roger, Pol
+* Date: 2023-06-12
 
-Technical Story: [description | ticket/issue URL] <!-- optional -->
+Technical Story:
+
+https://trello.com/c/rmCTOJrH/205-decidir-com-farem-lobt-i-el-cincminutal-r%C3%A0pid
+
+Passem a una macrotaula de dades llargues clau-valor per a les dades cincminutals?
+
+Com serà la obt? horaria calculada un cop cada hora? I quan passem a comptadors 15-minutals, segurem amb dbt run 15-minutal? Quina frescor de les dades cal? --> posem la discussió de la obt a [un adr diferent](/adr/2023-06-13-obt_plantes)
 
 ## Context and Problem Statement
 
-[Podem fer un spine amb un left join sense condició contra plant i meter per tenir el carret buit i després fer un left join amb les lectures
-
-dbt_spine
-left join plant
-left join meter on plant.id = meter.plant
-
+Ara que sabem molt més dbt i que incorporarem un proveïdor de dades cincminutals amb dades llargues que deprecarà l'esquema antic, ens plantegem si hauríem de basar en una macrotaula de dades llargues per les dades cincminutals.
 
 ## Decision Drivers <!-- optional -->
 
-* [driver 1, e.g., a force, facing concern, …]
-* [driver 2, e.g., a force, facing concern, …]
+* Ús real del cinc-minutal
+* Frescor necessària
 * … <!-- numbers of drivers can vary -->
 
 ## Considered Options
 
-* [option 1]
-* [option 2]
-* [option 3]
-* … <!-- numbers of options can vary -->
+1. normalitzar dset i fer un multisource normalitzat com està ara
+2. desnormalitzar lo que hi ha ara i fer un multisource com ens envia dset
+3. fer una pseudo-obt llarga a partir de dset i fer le multisource al mart
 
 ## Decision Outcome
 
-Chosen option: "[option 1]", because [justification. e.g., only option, which meets k.o. criterion decision driver | which resolves force force | … | comes out best (see below)].
+Chosen option: opció 3
 
 ### Positive Consequences <!-- optional -->
 
