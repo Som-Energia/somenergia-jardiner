@@ -4,9 +4,9 @@ Mending and nurturing of green energy plants
 
 ## Usuàries de Gestió d'actius
 
-Gestió d'actius! Aneu [aquí](/docs/gestió d'actius/)
+Gestió d'actius! Aneu [aquí](/projecte/2023-06-03-macrofase roadmap/)
 
-SomEnergia Devs! Aneu [aquí](/docs/desenvolupadors/)
+SomEnergia Devs! Aneu [aquí](/desenvolupadors/2023-06-10-overview-devs/)
 
 ## install dependencies
 

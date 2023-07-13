@@ -1,4 +1,6 @@
-# dbt sql for rolling window
+# Reusuable sqls
+
+## dbt sql for rolling window
 
 ```sql
 {%- set plant_alarm_ranges = dbt_utils.get_query_results_as_dict(ref('plant_alarm_ranges')) -%}

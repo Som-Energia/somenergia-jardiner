@@ -1,12 +1,14 @@
-# Swagger API
+# Novu helpers and quickstart
+
+## Swagger API
 
 [Novu api](https://api.novu.co/api/)
 
-# overview
+## overview
 
 Features in novu get to the api waaaay before the get to the UI, so keep it at hand since most of the changes (adding removing subscribers, topics, etc.) will be done via python, react or postman via api rest calls.
 
-# helpers
+## helpers
 
 We have a handful of scripts to interact with novu via airflow or command-line `scripts/notify_alert.py` and `scripts/novu_interface.py`.
 

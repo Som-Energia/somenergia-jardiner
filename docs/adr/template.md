@@ -1,4 +1,6 @@
-# [short title of solved problem and solution]
+# Template
+
+^-- [short title of solved problem and solution]
 
 * Status: [proposed | rejected | accepted | deprecated | … | superseded by `[ADR-0005](0005-example.md)]` <!-- optional -->
 * Deciders: [list everyone involved in the decision] <!-- optional -->

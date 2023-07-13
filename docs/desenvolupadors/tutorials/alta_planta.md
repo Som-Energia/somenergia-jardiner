@@ -1,5 +1,5 @@
-Procediment a seguir a l’incorporar una nova planta fotovoltaica
-================================================================
+# Procediment a seguir a l’incorporar una nova planta fotovoltaica
+
 
 Dades
 -----
