@@ -1,4 +1,5 @@
 from airflow import DAG
+import random
 from airflow.providers.docker.operators.docker import DockerOperator
 from util_tasks.t_branch_pull_ssh import build_branch_pull_ssh_task
 from util_tasks.t_git_clone_ssh import build_git_clone_ssh_task
@@ -28,6 +29,12 @@ nfs_config = {
     'device': ':/opt/airflow/repos'
 }
 
+
+def get_random_moll():
+    available_molls = Variable.get("available_molls").split()
+    return random.choice(available_molls)
+
+
 driver_config = DriverConfig(name='local', options=nfs_config)
 mount_nfs = Mount(source="local", target="/repos", type="volume", driver_config=driver_config)
 
@@ -46,6 +53,8 @@ def dbapi_to_dict(dbapi: str):
 with DAG(dag_id='plant_production_datasets_v3', start_date=datetime(2023,1,10), schedule_interval='@daily', catchup=False, tags=["Plantmonitor","Jardiner", "Transform", "DBT"], default_args=args) as dag:
 
     repo_name = 'somenergia-jardiner'
+
+    sampled_moll = get_random_moll()
 
     task_check_repo = build_check_repo_task(dag=dag, repo_name=repo_name)
     task_git_clone = build_git_clone_ssh_task(dag=dag, repo_name=repo_name)
@@ -73,7 +82,7 @@ with DAG(dag_id='plant_production_datasets_v3', start_date=datetime(2023,1,10), 
         image='{}/{}-requirements:latest'.format('{{ conn.somenergia_registry.host }}', repo_name),
         working_dir=f'/repos/{repo_name}/dbt_jardiner',
         command='dbt deps --profiles-dir config',
-        docker_url=Variable.get("generic_moll_url"),
+        docker_url=sampled_moll,
         mounts=[mount_nfs],
         mount_tmp_dir=False,
         auto_remove=True,
@@ -89,7 +98,7 @@ with DAG(dag_id='plant_production_datasets_v3', start_date=datetime(2023,1,10), 
         image='{}/{}-requirements:latest'.format('{{ conn.somenergia_registry.host }}', repo_name),
         working_dir=f'/repos/{repo_name}/dbt_jardiner',
         command='dbt run --profiles-dir config --target pro --select plant_production_hourly+',
-        docker_url=Variable.get("generic_moll_url"),
+        docker_url=sampled_moll,
         mounts=[mount_nfs],
         mount_tmp_dir=False,
         auto_remove=True,
