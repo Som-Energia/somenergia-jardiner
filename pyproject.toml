@@ -3,7 +3,7 @@ authors = ["pol <pol.monso@somenergia.coop>"]
 description = ""
 name = "jardiner"
 readme = "README.md"
-version = "0.1.0"
+version = "0.1.1"
 
 [tool.poetry.dependencies]
 dbt-fal = {extras = ["postgres"], version = "^1.4.4"}
@@ -54,11 +54,6 @@ ignore_missing = [
   'docker',
 ]
 
-
-[[tool.poetry_bumpversion.replacements]]
-files = ["example.env", ".env"]
-replace = 'SOMENERGIA_DOCKER_TAG={new_version}'
-search = 'SOMENERGIA_DOCKER_TAG={current_version}'
 
 [[tool.poetry_bumpversion.replacements]]
 files = ["jardiner/__init__.py"]
