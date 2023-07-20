@@ -186,3 +186,60 @@ COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
 RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/$USERNAME/.dbt
 
 USER ${USERNAME}
+
+
+
+# ---------------------------------------------------------------------------- #
+#                                dbt-docs stage                                #
+# ---------------------------------------------------------------------------- #
+
+FROM builder AS dbt-docs-pre
+
+# install dependencies
+RUN poetry install --no-root --only dbt-docs
+
+# We don't want to use alpine because porting from debian is challenging
+# https://stackoverflow.com/a/67695490/5819113
+FROM python:${PYTHON_VERSION}-slim AS dbt-docs
+
+# refresh global arguments
+ARG WORKDIR
+ARG USERNAME
+ARG USER_UID
+ARG USER_GID
+ARG DBT_PROJECT_DIR
+
+# refresh PATH
+ENV PATH=/opt/pipx/bin:${WORKDIR}/.venv/bin:$PATH \
+	POETRY_VERSION=$POETRY_VERSION \
+	PYTHONPATH=${WORKDIR} \
+	# Don't buffer `stdout`
+	PYTHONUNBUFFERED=1 \
+	# Don't create `.pyc` files:
+	PYTHONDONTWRITEBYTECODE=1
+
+# ------------------------------ user management ----------------------------- #
+
+RUN groupadd --gid $USER_GID "$USERNAME" \
+	&& useradd --uid $USER_UID --gid $USER_GID -m "$USERNAME"
+
+# ------------------------------- app specific ------------------------------- #
+
+
+COPY --from=dbt-docs-pre --chown=${USER_UID}:${USER_GID} ${WORKDIR} ${WORKDIR}
+
+# Run all commands as non-root user
+WORKDIR ${WORKDIR}
+USER ${USERNAME}
+
+# Move profiles to .dbt
+RUN mkdir -p "/home/$USERNAME/.dbt"
+
+COPY ./${DBT_PROJECT_DIR}/config/profiles.yml /home/$USERNAME/.dbt/profiles.yml
+
+# install deps
+RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR}/
+COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
+RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/$USERNAME/.dbt
+
+EXPOSE 80

@@ -13,7 +13,7 @@ x-dbt-common:
 version: "3.7"
 services:
   app:
-    image: "${SOMENERGIA_APP_IMAGE?Variable not set}:${SOMENERGIA_DOCKER_TAG?Variable not set}"
+    image: "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app:${SOMENERGIA_DOCKER_TAG?Variable not set}"
     deploy:
       replicas: 0 # never start service, since it is only for build purposes
     build:
@@ -21,18 +21,18 @@ services:
       dockerfile: containers/dockerfiles/app.Dockerfile
       target: app
       cache_from:
-        - "${SOMENERGIA_APP_IMAGE?Variable not set}:${SOMENERGIA_DOCKER_TAG?Variable not set}"
+        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app:${SOMENERGIA_DOCKER_TAG?Variable not set}"
     environment:
-      - SOMENERGIA_PROJECT_ENVIRONMEN=${SOMENERGIA_PROJECT_ENVIRONMENT?Not defined}
+      - SOMENERGIA_PROJECT_ENVIRONMENT=${SOMENERGIA_PROJECT_ENVIRONMENT?Not defined}
   app-dev:
-    image: "${SOMENERGIA_APP_IMAGE?Variable not set}:dev"
+    image: "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app-dev:${SOMENERGIA_DOCKER_TAG?Variable not set}"
     build:
       context: ../../
       dockerfile: containers/dockerfiles/app.Dockerfile
       target: dev
       cache_from:
-        - "${SOMENERGIA_APP_IMAGE?Variable not set}:${SOMENERGIA_DOCKER_TAG?Variable not set}"
-        - "${SOMENERGIA_APP_IMAGE?Variable not set}:dev"
+        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app:${SOMENERGIA_DOCKER_TAG?Variable not set}"
+        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app-dev:${SOMENERGIA_DOCKER_TAG?Variable not set}"
     environment:
       <<: *dbt-common-env
     volumes:
@@ -42,8 +42,15 @@ services:
     networks:
       - db_nw
   dbt-docs:
-    image: "${SOMENERGIA_APP_IMAGE?Variable not set}:dev"
-    depends_on:
+    image: "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-dbt-docs:${SOMENERGIA_DOCKER_TAG?Variable not set}"
+    build:
+      context: ../../
+      dockerfile: containers/dockerfiles/app.Dockerfile
+      target: dbt-docs
+      cache_from:
+        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app:${SOMENERGIA_DOCKER_TAG?Variable not set}"
+        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app-dev:${SOMENERGIA_DOCKER_TAG?Variable not set}"
+    depends_on: 
       - app-dev
     environment:
       <<: *dbt-common-env

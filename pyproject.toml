@@ -1,46 +1,66 @@
 [tool.poetry]
-name = "jardiner"
-version = "0.1.0"
-description = ""
 authors = ["pol <pol.monso@somenergia.coop>"]
+description = ""
+name = "jardiner"
 readme = "README.md"
+version = "0.1.0"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.11"
-dbt-postgres = "^1.2.2"
-sqlalchemy = "^1.4.41"
-pendulum = "^2.1.2"
-typer = "^0.6.1"
-python-dotenv = "^0.21.0"
-pandas = "^1.5.0"
-requests = "^2.28.1"
 dbt-fal = {extras = ["postgres"], version = "^1.4.4"}
+dbt-postgres = "^1.2.2"
+pandas = "^1.5.0"
+pendulum = "^2.1.2"
+python = ">=3.8,<3.11"
+python-dotenv = "^0.21.0"
 re-data = "^0.10.8"
-
+requests = "^2.28.1"
+sqlalchemy = "^1.4.41"
+typer = "^0.6.1"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.1.3"
-mkdocs = "^1.4.0"
-pymdown-extensions = "^9.6"
-mkdocs-material = "^8.3.0"
-ipdb = "^0.13.9"
-deptry = "^0.6.3"
 dbt-osmosis = "^0.9.7"
+deptry = "^0.6.3"
+ipdb = "^0.13.9"
 ipykernel = "^6.21.3"
+mkdocs = "^1.4.0"
+mkdocs-material = "^8.3.0"
+pymdown-extensions = "^9.6"
+pytest = "^7.1.3"
+
+[tool.poetry.group.mkdocs.dependencies]
+
+mkdocs = "^1.4.3"
+mkdocs-material = "*"
+mkdocs-material-extensions = "^1.1.1"
+[tool.poetry.group.dbt-docs.dependencies]
+dbt-fal = {extras = ["postgres"], version = "^1.4.4"}
+dbt-postgres = "^1.2.2"
 
 [build-system]
-requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
 
 # ignore until dbt-utils fixes pytest conf must be in root
 [tool.pytest.ini_options]
 addopts = "--ignore=dbt_jardiner/dbt_packages"
 
 [tool.deptry]
-ignore_missing = [
-'airflow',
-'docker'
-]
 exclude = [
-'tests', 'docs'
+  'tests',
+  'docs',
 ]
+ignore_missing = [
+  'airflow',
+  'docker',
+]
+
+
+[[tool.poetry_bumpversion.replacements]]
+files = ["example.env", ".env"]
+replace = 'SOMENERGIA_DOCKER_TAG={new_version}'
+search = 'SOMENERGIA_DOCKER_TAG={current_version}'
+
+[[tool.poetry_bumpversion.replacements]]
+files = ["jardiner/__init__.py"]
+replace = '__version__ = "{new_version}"'
+search = '__version__ = "{current_version}"'

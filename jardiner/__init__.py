@@ -1,3 +1,5 @@
-from .jardiner_utils import get_dbapi
-from .jardineria import get_alarms
-from .notification import notify
+__version__ = "0.1.0"
+
+from .jardiner_utils import get_dbapi  # noqa
+from .jardineria import get_alarms  # noqa
+from .notification import notify  # noqa
