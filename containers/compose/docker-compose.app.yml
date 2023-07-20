@@ -12,6 +12,16 @@ x-dbt-common:
 
 version: "3.7"
 services:
+  builder:
+    image: "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-builder:${SOMENERGIA_DOCKER_TAG?Variable not set}"
+    deploy:
+      replicas: 0 # never start service, since it is only for build purposes
+    build:
+      context: ../../
+      dockerfile: containers/dockerfiles/app.Dockerfile
+      target: builder
+      cache_from:
+        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-builder:${SOMENERGIA_DOCKER_TAG?Variable not set}"
   app:
     image: "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app:${SOMENERGIA_DOCKER_TAG?Variable not set}"
     deploy:
@@ -21,6 +31,7 @@ services:
       dockerfile: containers/dockerfiles/app.Dockerfile
       target: app
       cache_from:
+        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-builder:${SOMENERGIA_DOCKER_TAG?Variable not set}"
         - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app:${SOMENERGIA_DOCKER_TAG?Variable not set}"
     environment:
       - SOMENERGIA_PROJECT_ENVIRONMENT=${SOMENERGIA_PROJECT_ENVIRONMENT?Not defined}
@@ -31,6 +42,7 @@ services:
       dockerfile: containers/dockerfiles/app.Dockerfile
       target: dev
       cache_from:
+        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-builder:${SOMENERGIA_DOCKER_TAG?Variable not set}"
         - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app:${SOMENERGIA_DOCKER_TAG?Variable not set}"
         - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app-dev:${SOMENERGIA_DOCKER_TAG?Variable not set}"
     environment:
@@ -48,9 +60,10 @@ services:
       dockerfile: containers/dockerfiles/app.Dockerfile
       target: dbt-docs
       cache_from:
+        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-builder:${SOMENERGIA_DOCKER_TAG?Variable not set}"
         - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app:${SOMENERGIA_DOCKER_TAG?Variable not set}"
         - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app-dev:${SOMENERGIA_DOCKER_TAG?Variable not set}"
-    depends_on: 
+    depends_on:
       - app-dev
     environment:
       <<: *dbt-common-env
