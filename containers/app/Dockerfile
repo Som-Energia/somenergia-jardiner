@@ -98,7 +98,7 @@ COPY pyproject.toml poetry.lock ./
 
 FROM builder AS app-pre
 
-# Install dependencies
+# Install dependencies and creates a a virtualenv at /app/.venv
 RUN poetry install --no-root --only main
 
 
@@ -172,7 +172,7 @@ RUN apt-get update \
 	&& echo "$USERNAME" ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
 	&& chmod 0440 /etc/sudoers.d/$USERNAME
 
-# install dependencies
+# install dependencies from .venv at app-pre
 COPY --from=app-pre ${WORKDIR} .
 RUN poetry install --no-root
 

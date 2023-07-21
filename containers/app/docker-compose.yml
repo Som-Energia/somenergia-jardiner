@@ -2,6 +2,8 @@
 name: somenergia-jardiner
 
 x-app-common:
+  env_file:
+    - .app.env
   volumes: &app-common-volumes
     "../../:/app" # mount current directory at /app
 
@@ -22,7 +24,7 @@ services:
       replicas: 0 # never start service, since it is only for build purposes
     build:
       context: ../../
-      dockerfile: containers/dockerfiles/app.Dockerfile
+      dockerfile: containers/app/Dockerfile
       target: builder
       cache_from:
         - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-builder:${SOMENERGIA_DOCKER_TAG?Variable not set}"
@@ -32,7 +34,7 @@ services:
       replicas: 0 # never start service, since it is only for build purposes
     build:
       context: ../../
-      dockerfile: containers/dockerfiles/app.Dockerfile
+      dockerfile: containers/app/Dockerfile
       target: app
       cache_from:
         - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-builder:${SOMENERGIA_DOCKER_TAG?Variable not set}"
@@ -43,7 +45,7 @@ services:
     image: "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app-dev:${SOMENERGIA_DOCKER_TAG?Variable not set}"
     build:
       context: ../../
-      dockerfile: containers/dockerfiles/app.Dockerfile
+      dockerfile: containers/app/Dockerfile
       target: dev
       cache_from:
         - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-builder:${SOMENERGIA_DOCKER_TAG?Variable not set}"
@@ -61,7 +63,7 @@ services:
     image: "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-dbt-docs:${SOMENERGIA_DOCKER_TAG?Variable not set}"
     build:
       context: ../../
-      dockerfile: containers/dockerfiles/app.Dockerfile
+      dockerfile: containers/app/Dockerfile
       target: dbt-docs
       cache_from:
         - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-builder:${SOMENERGIA_DOCKER_TAG?Variable not set}"
