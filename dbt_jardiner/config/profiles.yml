@@ -22,3 +22,6 @@ dbt_jardiner:
       schema: dbt_pre
 
   target: pre
+
+config:     
+   send_anonymous_usage_stats: False 
