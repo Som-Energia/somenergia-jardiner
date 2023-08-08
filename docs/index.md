@@ -1,3 +1,3 @@
-# Welcome to Jardiner
+# Sobre Som Energia Jardiner
 
---8<-- "README.md"
+Documentació per eines desenvolupades en el context del projecte `somenergia-jardiner` de Som Energia.

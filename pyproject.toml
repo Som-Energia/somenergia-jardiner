@@ -32,6 +32,7 @@ pytest = "^7.1.3"
 mkdocs = "^1.4.3"
 mkdocs-material = "*"
 mkdocs-material-extensions = "^1.1.1"
+
 [tool.poetry.group.dbt-docs.dependencies]
 dbt-fal = {extras = ["postgres"], version = "^1.4.4"}
 dbt-postgres = "^1.2.2"
@@ -53,7 +54,6 @@ ignore_missing = [
   'airflow',
   'docker',
 ]
-
 
 [[tool.poetry_bumpversion.replacements]]
 files = ["jardiner/__init__.py"]
