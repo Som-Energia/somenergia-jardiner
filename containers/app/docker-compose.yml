@@ -37,7 +37,6 @@ services:
       dockerfile: containers/app/Dockerfile
       target: app
       cache_from:
-        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-builder:${SOMENERGIA_DOCKER_TAG?Variable not set}"
         - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app:${SOMENERGIA_DOCKER_TAG?Variable not set}"
     environment:
       - SOMENERGIA_PROJECT_ENVIRONMENT=${SOMENERGIA_PROJECT_ENVIRONMENT?Not defined}
@@ -48,15 +47,13 @@ services:
       dockerfile: containers/app/Dockerfile
       target: dev
       cache_from:
-        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-builder:${SOMENERGIA_DOCKER_TAG?Variable not set}"
-        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app:${SOMENERGIA_DOCKER_TAG?Variable not set}"
         - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app-dev:${SOMENERGIA_DOCKER_TAG?Variable not set}"
     environment:
       <<: *dbt-common-env
     volumes:
       - *app-common-volumes
       - python_venv_app_dev:/app/.venv # mount virtualenv at /venv. See https://stackoverflow.com/a/74015989/5819113
-    command: /bin/sh -c "while sleep 1000; do :; done" # keep container running
+    command: /bin/sh -c "sleep infinity" # keep container running
     networks:
       - db_nw
   dbt-docs:
@@ -66,9 +63,7 @@ services:
       dockerfile: containers/app/Dockerfile
       target: dbt-docs
       cache_from:
-        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-builder:${SOMENERGIA_DOCKER_TAG?Variable not set}"
-        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app:${SOMENERGIA_DOCKER_TAG?Variable not set}"
-        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-app-dev:${SOMENERGIA_DOCKER_TAG?Variable not set}"
+        - "${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-dbt-docs:${SOMENERGIA_DOCKER_TAG?Variable not set}"
     depends_on:
       - app-dev
     environment:

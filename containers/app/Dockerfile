@@ -88,9 +88,18 @@ RUN pipx install --force poetry==${POETRY_VERSION}
 # Copy everything to the container, we filter out what we don't need using .dockerignore
 WORKDIR ${WORKDIR}
 
-# Copy only the files needed for installing dependencies
-COPY pyproject.toml poetry.lock ./
+# make sure the user owns /app
+RUN chown -R ${USER_UID}:${USER_GID} ${WORKDIR}
 
+# Copy only the files needed for installing dependencies
+COPY --chown=${USER_UID}:${USER_GID} pyproject.toml poetry.lock ${WORKDIR}/
+
+USER ${USERNAME}
+
+RUN echo "step 1"
+RUN pwd
+RUN echo "I should be user somenergia, and I am user=$(whoami)"
+RUN ls -lrs -a ${WORKDIR}
 
 # ---------------------------------------------------------------------------- #
 #                                 app-pre stage                                #
@@ -98,9 +107,18 @@ COPY pyproject.toml poetry.lock ./
 
 FROM builder AS app-pre
 
+RUN echo "step 2"
+RUN pwd
+RUN ls -lrs -a ${WORKDIR}
+RUN echo "I should be user somenergia, and I am user=$(whoami)"
+
 # Install dependencies and creates a a virtualenv at /app/.venv
 RUN poetry install --no-root --only main
 
+RUN echo "step 3"
+RUN pwd
+RUN ls -lrs -a ${WORKDIR}
+RUN echo "I should be user somenergia, and I am user=$(whoami)"
 
 # ---------------------------------------------------------------------------- #
 #                                   app stage                                  #
@@ -135,7 +153,13 @@ RUN groupadd --gid $USER_GID "$USERNAME" \
 # ------------------------------- app specific ------------------------------- #
 
 WORKDIR ${WORKDIR}
-COPY --from=app-pre ${WORKDIR} .
+
+RUN echo "step 5"
+RUN pwd
+RUN ls -lrs -a ${WORKDIR}
+RUN echo "I should be user root, and I am user=$(whoami)"
+
+COPY --from=app-pre ${WORKDIR} ${WORKDIR}
 
 # Move profiles to .dbt
 RUN mkdir -p "/home/$USERNAME/.dbt"
@@ -149,6 +173,10 @@ RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/$
 
 USER ${USERNAME}
 
+RUN echo "step 6"
+RUN pwd
+RUN ls -lrs -a ${WORKDIR}
+RUN echo "I should be user somenergia, and I am user=$(whoami)"
 
 ENTRYPOINT [ "python" ]
 CMD [ "--version" ]
@@ -158,32 +186,56 @@ CMD [ "--version" ]
 #                                   dev stage                                  #
 # ---------------------------------------------------------------------------- #
 
-FROM builder AS dev
+FROM app-pre AS dev
 
 # refresh global arguments
 ARG WORKDIR
 ARG USERNAME
 ARG USER_UID
 ARG USER_GID
+ARG DBT_PROJECT_DIR
+
+RUN echo "step 7-dev"
+RUN pwd
+RUN ls -lrs -a ${WORKDIR}
+RUN echo "I should be user somenergia, and I am user=$(whoami)"
+
+USER root
+
+RUN echo "step 8-dev"
+RUN pwd
+RUN ls -lrs -a ${WORKDIR}
+RUN echo "I should be user root, and I am user=$(whoami)"
 
 # Add USERNAME to sudoers. Omit if you don't need to install software after connecting.
 RUN apt-get update \
 	&& apt-get install -y sudo git iputils-ping \
-	&& echo "$USERNAME" ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-	&& chmod 0440 /etc/sudoers.d/$USERNAME
+	&& echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
+	&& chmod 0440 /etc/sudoers.d/${USERNAME}
 
-# install dependencies from .venv at app-pre
-COPY --from=app-pre ${WORKDIR} .
+USER ${USERNAME}
+
+RUN echo "step 9-dev"
+RUN pwd
+RUN ls -lrs -a ${WORKDIR}
+RUN echo "I should be user somenergia, and I am user=$(whoami)"
+
+# install all remaning dependencies
 RUN poetry install --no-root
 
 # Move profiles to .dbt
-RUN mkdir -p "/home/$USERNAME/.dbt"
-COPY ./${DBT_PROJECT_DIR}/config/profiles.yml /home/$USERNAME/.dbt/profiles.yml
+RUN mkdir -p "/home/${USERNAME}/.dbt"
+COPY ./${DBT_PROJECT_DIR}/config/profiles.yml /home/${USERNAME}/.dbt/profiles.yml
 
 # install dbt dependencies
 RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR}/
 COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
-RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/$USERNAME/.dbt
+RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/${USERNAME}/.dbt
+
+RUN echo "step 10-dev"
+RUN pwd
+RUN ls -lrs -a ${WORKDIR}
+RUN echo "I should be user somenergia, and I am user=$(whoami)"
 
 USER ${USERNAME}
 
