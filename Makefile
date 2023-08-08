@@ -31,21 +31,6 @@ dbt.seed.dev: ## run dbt seed in dev environment
 
 
 # ---------------------------------------------------------------------------- #
-#                               airflow commands                               #
-# ---------------------------------------------------------------------------- #
-
-airflow_local.build: ## build the airflow local deployment with docker compose
-	@docker compose -f $(local_airflow_compose_file) --env-file $(local_airflow_compose_env_file) build --progress=plain
-
-airflow_local.up: ## start the airflow local deployment with docker compose
-	@docker compose -f $(local_airflow_compose_file) --verbose --env-file $(local_airflow_compose_env_file) up -d 
-	@docker compose -f $(local_airflow_compose_file) --env-file $(local_airflow_compose_env_file) logs -ft
-
-airflow_local.down: ## stop the airflow local deployment with docker compose
-	@docker compose -f $(local_airflow_compose_file) --verbose --env-file $(local_airflow_compose_env_file) down
-
-
-# ---------------------------------------------------------------------------- #
 #                                mkdocs commands                               #
 # ---------------------------------------------------------------------------- #
 
