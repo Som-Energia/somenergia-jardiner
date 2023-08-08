@@ -71,8 +71,8 @@ ENV PATH=/opt/pipx/bin:${WORKDIR}/.venv/bin:$PATH \
 
 # ------------------------------ add user ----------------------------- #
 
-RUN groupadd --gid $USER_GID "$USERNAME" \
-	&& useradd --uid $USER_UID --gid $USER_GID -m "$USERNAME"
+RUN groupadd --gid $USER_GID "${USERNAME}" \
+	&& useradd --uid $USER_UID --gid $USER_GID -m "${USERNAME}"
 
 # -------------------------- add python dependencies ------------------------- #
 
@@ -119,7 +119,7 @@ FROM python:${PYTHON_VERSION}-slim AS app
 # refresh global arguments
 ARG WORKDIR
 ARG USERNAME
-ARG USER_UID
+ARG USER_UID=1010
 ARG USER_GID
 ARG DBT_PROJECT_DIR
 
@@ -135,29 +135,28 @@ ENV PATH=/opt/pipx/bin:${WORKDIR}/.venv/bin:$PATH \
 
 # ------------------------------ user management ----------------------------- #
 
-RUN groupadd --gid $USER_GID "$USERNAME" \
-	&& useradd --uid $USER_UID --gid $USER_GID -m "$USERNAME"
+RUN groupadd --gid $USER_GID "${USERNAME}" \
+	&& useradd --uid $USER_UID --gid $USER_GID -m "${USERNAME}"
 
 # ------------------------------- app specific ------------------------------- #
 
 WORKDIR ${WORKDIR}
 
+RUN chown -R ${USER_UID}:${USER_GID} ${WORKDIR}
 
-COPY --from=app-pre ${WORKDIR} ${WORKDIR}
+COPY --from=app-pre --chown=${USER_UID}:${USER_GID} ${WORKDIR} ${WORKDIR}
+
+USER ${USERNAME}
 
 # Move profiles to .dbt
-RUN mkdir -p "/home/$USERNAME/.dbt"
+RUN mkdir -p "/home/${USERNAME}/.dbt"
 
-COPY ./${DBT_PROJECT_DIR}/config/profiles.yml /home/$USERNAME/.dbt/profiles.yml
+COPY ./${DBT_PROJECT_DIR}/config/profiles.yml /home/${USERNAME}/.dbt/profiles.yml
 
 # install deps
 RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR}/
 COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
-RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/$USERNAME/.dbt
-
-USER ${USERNAME}
-
-
+RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/${USERNAME}/.dbt
 ENTRYPOINT [ "python" ]
 CMD [ "--version" ]
 
@@ -175,9 +174,7 @@ ARG USER_UID
 ARG USER_GID
 ARG DBT_PROJECT_DIR
 
-
 USER root
-
 
 # Add USERNAME to sudoers. Omit if you don't need to install software after connecting.
 RUN apt-get update \
@@ -234,26 +231,28 @@ ENV PATH=/opt/pipx/bin:${WORKDIR}/.venv/bin:$PATH \
 
 # ------------------------------ user management ----------------------------- #
 
-RUN groupadd --gid $USER_GID "$USERNAME" \
-	&& useradd --uid $USER_UID --gid $USER_GID -m "$USERNAME"
+RUN groupadd --gid $USER_GID "${USERNAME}" \
+	&& useradd --uid $USER_UID --gid $USER_GID -m "${USERNAME}"
 
 # ------------------------------- app specific ------------------------------- #
 
+WORKDIR ${WORKDIR}
+
+RUN chown -R ${USER_UID}:${USER_GID} ${WORKDIR}
 
 COPY --from=dbt-docs-pre --chown=${USER_UID}:${USER_GID} ${WORKDIR} ${WORKDIR}
 
 # Run all commands as non-root user
-WORKDIR ${WORKDIR}
 USER ${USERNAME}
 
 # Move profiles to .dbt
-RUN mkdir -p "/home/$USERNAME/.dbt"
+RUN mkdir -p "/home/${USERNAME}/.dbt"
 
-COPY ./${DBT_PROJECT_DIR}/config/profiles.yml /home/$USERNAME/.dbt/profiles.yml
+COPY ./${DBT_PROJECT_DIR}/config/profiles.yml /home/${USERNAME}/.dbt/profiles.yml
 
 # install deps
 RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR}/
 COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
-RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/$USERNAME/.dbt
+RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/${USERNAME}/.dbt
 
 EXPOSE 80
