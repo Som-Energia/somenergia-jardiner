@@ -36,6 +36,7 @@ dbt.seed.dev: ## run dbt seed in dev environment
 
 mkdocs.requirements.txt: ## update requirements.txt file from pyproject.toml
 	@poetry export -f requirements.txt --only mkdocs --without-hashes > poetry-mkdocs-requirements.txt
+	@echo "poetry-mkdocs-requirements.txt file updated"
 
 mkdocs.serve: ## serve the mkdocs documentation
 	@docker compose -f $(mkdocs_compose_file) --env-file $(mkdocs_compose_env_file) up
