@@ -96,10 +96,6 @@ COPY --chown=${USER_UID}:${USER_GID} pyproject.toml poetry.lock ${WORKDIR}/
 
 USER ${USERNAME}
 
-RUN echo "step 1"
-RUN pwd
-RUN echo "I should be user somenergia, and I am user=$(whoami)"
-RUN ls -lrs -a ${WORKDIR}
 
 # ---------------------------------------------------------------------------- #
 #                                 app-pre stage                                #
@@ -107,18 +103,10 @@ RUN ls -lrs -a ${WORKDIR}
 
 FROM builder AS app-pre
 
-RUN echo "step 2"
-RUN pwd
-RUN ls -lrs -a ${WORKDIR}
-RUN echo "I should be user somenergia, and I am user=$(whoami)"
 
 # Install dependencies and creates a a virtualenv at /app/.venv
 RUN poetry install --no-root --only main
 
-RUN echo "step 3"
-RUN pwd
-RUN ls -lrs -a ${WORKDIR}
-RUN echo "I should be user somenergia, and I am user=$(whoami)"
 
 # ---------------------------------------------------------------------------- #
 #                                   app stage                                  #
@@ -154,10 +142,6 @@ RUN groupadd --gid $USER_GID "$USERNAME" \
 
 WORKDIR ${WORKDIR}
 
-RUN echo "step 5"
-RUN pwd
-RUN ls -lrs -a ${WORKDIR}
-RUN echo "I should be user root, and I am user=$(whoami)"
 
 COPY --from=app-pre ${WORKDIR} ${WORKDIR}
 
@@ -173,10 +157,6 @@ RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/$
 
 USER ${USERNAME}
 
-RUN echo "step 6"
-RUN pwd
-RUN ls -lrs -a ${WORKDIR}
-RUN echo "I should be user somenergia, and I am user=$(whoami)"
 
 ENTRYPOINT [ "python" ]
 CMD [ "--version" ]
@@ -195,17 +175,9 @@ ARG USER_UID
 ARG USER_GID
 ARG DBT_PROJECT_DIR
 
-RUN echo "step 7-dev"
-RUN pwd
-RUN ls -lrs -a ${WORKDIR}
-RUN echo "I should be user somenergia, and I am user=$(whoami)"
 
 USER root
 
-RUN echo "step 8-dev"
-RUN pwd
-RUN ls -lrs -a ${WORKDIR}
-RUN echo "I should be user root, and I am user=$(whoami)"
 
 # Add USERNAME to sudoers. Omit if you don't need to install software after connecting.
 RUN apt-get update \
@@ -215,10 +187,6 @@ RUN apt-get update \
 
 USER ${USERNAME}
 
-RUN echo "step 9-dev"
-RUN pwd
-RUN ls -lrs -a ${WORKDIR}
-RUN echo "I should be user somenergia, and I am user=$(whoami)"
 
 # install all remaning dependencies
 RUN poetry install --no-root
@@ -232,10 +200,6 @@ RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR}/
 COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
 RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/${USERNAME}/.dbt
 
-RUN echo "step 10-dev"
-RUN pwd
-RUN ls -lrs -a ${WORKDIR}
-RUN echo "I should be user somenergia, and I am user=$(whoami)"
 
 USER ${USERNAME}
 
