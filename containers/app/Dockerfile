@@ -155,7 +155,7 @@ COPY ./${DBT_PROJECT_DIR}/config/profiles.yml /home/${USERNAME}/.dbt/profiles.ym
 
 # install deps
 RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR}/
-COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
+COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ./${DBT_PROJECT_DIR}/packages.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
 RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/${USERNAME}/.dbt
 ENTRYPOINT [ "python" ]
 CMD [ "--version" ]
@@ -194,7 +194,7 @@ COPY ./${DBT_PROJECT_DIR}/config/profiles.yml /home/${USERNAME}/.dbt/profiles.ym
 
 # install dbt dependencies
 RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR}/
-COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
+COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ./${DBT_PROJECT_DIR}/packages.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
 RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/${USERNAME}/.dbt
 
 
@@ -252,7 +252,8 @@ COPY ./${DBT_PROJECT_DIR}/config/profiles.yml /home/${USERNAME}/.dbt/profiles.ym
 
 # install deps
 RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR}/
-COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
+
+COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ./${DBT_PROJECT_DIR}/packages.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
 RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/${USERNAME}/.dbt
 
 EXPOSE 80

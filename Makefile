@@ -65,7 +65,7 @@ dbt_docs.serve: ## serve the dbt-docs documentation
 	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) up dbt-docs
 
 dbt_docs.build-image: ## build the dbt-docs image
-	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) build dbt-docs
+	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) build dbt-docs --progress plain
 
 dbt_docs.push-image: ## push the dbt-docs image with tag: latest
 	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) push dbt-docs
