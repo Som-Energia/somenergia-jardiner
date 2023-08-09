@@ -1,8 +1,8 @@
-from collections import OrderedDict
-from sqlalchemy import create_engine
-from jardiner import get_dbapi
-from jardiner import get_alarms
 import pytest
+from sqlalchemy import create_engine
+
+from jardiner import get_dbapi
+
 
 @pytest.fixture(scope="session")
 def engine():
@@ -10,6 +10,6 @@ def engine():
 
 
 def test___notify_alarms__pre_config():
-    config = get_dbapi('pre')
+    config = get_dbapi("pre")
     assert config
-    assert type(config) is str
+    assert isinstance(config, str)

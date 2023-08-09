@@ -11,6 +11,6 @@ select
     TRUE
 from {{ source('plantmonitordb','satellite_readings') }}
 
--- SolarGis PVOUT (aquí photovoltaic_energy_output_wh) retorna l'energia en kwh però plantmonitor per error ho registra com a wh sense fer cap transformació. 
+-- SolarGis PVOUT (aquí photovoltaic_energy_output_wh) retorna l'energia en kwh però plantmonitor per error ho registra com a wh sense fer cap transformació.
 -- Entenem que al redash s'està corregint a mà abans de mostrar el valor.
 -- Aquí canviem el nom perquè s'ajusti a la realitat del valor.

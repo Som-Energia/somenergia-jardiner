@@ -22,5 +22,5 @@ dbt_jardiner:
 
   target: pre
 
-config:     
-   send_anonymous_usage_stats: False 
+config:
+   send_anonymous_usage_stats: False

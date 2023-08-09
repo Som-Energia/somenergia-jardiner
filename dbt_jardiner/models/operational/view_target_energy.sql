@@ -1,7 +1,7 @@
 {{config(materialized='view')}}
 -- Alcolea. Objectiu mensual d'energia produïda (independentment de l'any)
-SELECT * FROM (values 
-('2020-01-01'::timestamptz,221730), 
+SELECT * FROM (values
+('2020-01-01'::timestamptz,221730),
 ('2020-02-01',228929),
 ('2020-03-01',320482),
 ('2020-04-01',300308),
