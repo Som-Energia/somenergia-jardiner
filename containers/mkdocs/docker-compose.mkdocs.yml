@@ -1,0 +1,16 @@
+---
+version: "3.7"
+services:
+  mkdocs:
+    image: ${SOMENERGIA_REGISTRY}/${SOMENERGIA_PROJECT_NAME?Variable not set}-mkdocs:${SOMENERGIA_DOCKER_TAG?Variable not set}
+    build:
+      context: ../../
+      dockerfile: containers/mkdocs/Dockerfile
+    container_name: mkdocs
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../../mkdocs.yml:/docs/mkdocs.yml
+      - ../../docs:/docs/docs
+      - ./README.md:/docs/README.md
+      - ../../git:/docs/.git:ro # needed for plugins

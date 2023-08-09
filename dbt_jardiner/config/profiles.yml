@@ -1,6 +1,5 @@
 dbt_jardiner:
   outputs:
-
     pro:
       type: postgres
       threads: 1

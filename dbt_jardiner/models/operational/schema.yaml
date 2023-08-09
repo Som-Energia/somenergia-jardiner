@@ -27,11 +27,22 @@ sources:
       - name: string
       - name: stringregistry
       - name: irradiationregistry
-
   - name: plantlake
     schema: airbyte_imported
     tables:
       - name: modbus_readings
+  - name: lake
+    schema: lake
+    tables:
+      - name: modbus_readings
+        description: >
+          Lectures crues inserides pel DAG d'ingesta que llegeix directament
+          els dispositius de planta utilitzant modbus a
+          través del router de la planta
+      - name: dset_readings
+        description: >
+          Lectures crues inserides pel DAG d'ingesta que llegeix directament
+          l'API de DSET que ofereix lectures remotes de les plantes de SomEnergia
 
 models:
 
@@ -67,3 +78,18 @@ models:
 
   - name: view_satellite_irradiation
     description: "satellite irradiation readings in wh_m2, hourly, by plant"
+
+  - name: lake_dset_raw
+    description: "Conté les lectures crues que venen de la ingesta"
+    columns:
+      - name: signal_description
+        description: |
+          Conté el tipus de senyal al que fa referència la lectura
+          - Etotal: Sum d'energia acumulada des de l'inici dels temps
+          - Eayer: Suma d'energia acumulada el dia d'ahir només
+          - Ediaria: Suma d'energia acumulada avui fins al moment de la lectura
+
+          És a dir, trobem aquestes equivalències
+
+          - Etotal@avui - Etotal@ahir = Ediaria@ahir
+          - Eayer@avui es aproximadament Ediaria@ahir a les 23:55
