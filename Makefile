@@ -2,7 +2,7 @@
 .PHONY: help
 
 app_compose_file := ./containers/app/docker-compose.yml
-app_compose_env := ./.env
+app_compose_env_file := ./.env
 local_airflow_compose_file := containers/airflow-local/docker-compose.airflow-local.yml
 local_airflow_compose_env_file := containers/airflow-local/.airflow-local.env
 mkdocs_compose_file := containers/mkdocs/docker-compose.mkdocs.yml
