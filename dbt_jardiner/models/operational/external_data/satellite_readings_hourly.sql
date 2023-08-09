@@ -1,6 +1,6 @@
 {{ config(materialized='view') }}
 
-with satellite as 
+with satellite as
 (
     select
     *,

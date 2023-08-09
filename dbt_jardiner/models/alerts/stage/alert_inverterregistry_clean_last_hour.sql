@@ -23,7 +23,7 @@ select
     readings
 
 from {{ ref(var('inverter_test_sample')) }}
---vars{“inverter_test_sample”:“inverter_test_name”} 
+--vars{“inverter_test_sample”:“inverter_test_name”}
 
 {% else %}
 

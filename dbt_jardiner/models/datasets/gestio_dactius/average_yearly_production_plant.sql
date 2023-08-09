@@ -1,4 +1,4 @@
-SELECT yearly.plant_id, 
+SELECT yearly.plant_id,
 yearly.plant,
 avg(yearly.export_energy_mwh) AS historic_avg,
 yearly.time_year AS "time"
