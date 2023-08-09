@@ -1,8 +1,6 @@
 import pytest
 from sqlalchemy import create_engine
 
-from jardiner import get_dbapi
-
 
 @pytest.fixture(scope="session")
 def engine():

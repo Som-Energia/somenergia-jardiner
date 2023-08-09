@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 import pytest
 import sqlalchemy
@@ -5,12 +7,15 @@ from dotenv import dotenv_values
 from pandas.testing import assert_frame_equal
 
 from jardiner.jardiner_utils import get_dbapi
+from jardiner.settings import settings
 from scripts.notify_alert import evaluate_and_notify_alarm, refresh_notification_table
+
+ASSETS_DIR = Path(__file__).parent / "assets"
 
 
 @pytest.fixture()
 def transaction_connection():
-    dbapi = get_dbapi("pre")  # dbapi = plantmonitor_db when run by airflow
+    dbapi = settings.db_url  # dbapi = plantmonitor_db when run by airflow
 
     engine = sqlalchemy.create_engine(dbapi, echo=False)
 
@@ -33,21 +38,21 @@ def initdb(transaction_connection):
     connection.execute(f"CREATE SCHEMA IF NOT EXISTS {schema};")
 
     csv_to_sqltable(
-        csvpath="testdata/plant_topic_association.csv",
+        csvpath=ASSETS_DIR / "plant_topic_association.csv",
         conn=connection,
         schema=schema,
         table="plant_topic_association",
         ifexists="replace",
     )
     csv_to_sqltable(
-        csvpath=f"testdata/{alert_name}.csv",
+        csvpath=ASSETS_DIR / f"{alert_name}.csv",
         conn=connection,
         schema=schema,
         table=alert_name,
         ifexists="replace",
     )
     csv_to_sqltable(
-        csvpath=f"testdata/{alert_name}_status.csv",
+        csvpath=ASSETS_DIR / f"{alert_name}_status.csv",
         conn=connection,
         schema=schema,
         table=f"{alert_name}_status",
@@ -62,7 +67,7 @@ def reassociate_plant_topic(initdb):
     conn, schema = initdb
 
     csv_to_sqltable(
-        csvpath="testdata/plant_topic_association_one_empty.csv",
+        csvpath=ASSETS_DIR / "plant_topic_association_one_empty.csv",
         conn=conn,
         schema=schema,
         table="plant_topic_association",
@@ -72,23 +77,21 @@ def reassociate_plant_topic(initdb):
 
 @pytest.fixture
 def get_secrets():
-    secrets = dotenv_values(".env.testing")
-
-    novu_base_url = secrets["novu_base_url"]
-    api_key = secrets["novu_api_key"]
+    novu_base_url = settings.novu_base_url
+    api_key = settings.novu_api_key
 
     return novu_base_url, api_key
 
 
 def test___notify_alarms__pre_config():
-    config = get_dbapi("pre")
+    config = settings.db_url
     assert config
     assert isinstance(config, str)
 
 
 def _test__notify_alert__base():
     alertdf = pd.DataFrame({})
-    dbapi = get_dbapi("pre")  # dbapi = plantmonitor_db when run by airflow
+    dbapi = settings.db_url  # dbapi = plantmonitor_db when run by airflow
     schema = "dbt_lucia"  # TODO deal with the testing schema
     alert_name = "alert_test"
     db_engine = sqlalchemy.create_engine(dbapi)
@@ -103,7 +106,7 @@ def _test__notify_alert__base():
 # TODO figure out what this is suposed to do and pass it
 #
 def _test__notify_alert__onealert():
-    dbapi = get_dbapi("pre")  # dbapi = plantmonitor_db when run by airflow
+    dbapi = settings.db_url  # dbapi = plantmonitor_db when run by airflow
     schema = "dbt_lucia"  # TODO deal with the testing schema
     alert_name = "alert_inverter_zero_power_at_daylight"
     db_engine = sqlalchemy.create_engine(dbapi)
