@@ -16,9 +16,11 @@ re-data = "^0.10.8"
 requests = "^2.28.1"
 sqlalchemy = "^1.4.41"
 typer = "^0.6.1"
+pydantic = {version = "<2", extras = ["dotenv"]}
+loguru = "^0.7.0"
 
 [tool.poetry.group.dev.dependencies]
-dbt-osmosis = "^0.9.7"
+dbt-osmosis = "^0.11.22"
 deptry = "^0.6.3"
 ipdb = "^0.13.9"
 ipykernel = "^6.21.3"
