@@ -2,7 +2,7 @@
 .PHONY: help
 
 app_compose_file := ./containers/app/docker-compose.yml
-app_compose_env := ./.env
+app_compose_env_file := ./.env
 local_airflow_compose_file := containers/airflow-local/docker-compose.airflow-local.yml
 local_airflow_compose_env_file := containers/airflow-local/.airflow-local.env
 mkdocs_compose_file := containers/mkdocs/docker-compose.mkdocs.yml
@@ -16,11 +16,15 @@ help: ## Print this help
 sh: ## run a shell in the container
 	@docker compose run --rm -it --entrypoint sh app
 
-build.app: ## build image using docker build
-	@COMPOSE_FILE=$(app_compose_file) docker compose build app --progress=plain
+app.build: ## build image using docker build
+	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) build app --progress=plain
 
-build.app_dev: ## build image for development using docker build
-	@COMPOSE_FILE=$(app_compose_file) docker compose build app-dev --progress=plain
+app_dev.build: ## build image for development using docker build
+	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) build app-dev --progress=plain
+
+app_dev.up: ## start development container
+	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) up -d app-dev
+
 
 # ---------------------------------------------------------------------------- #
 #                                 dbt commands                                 #
