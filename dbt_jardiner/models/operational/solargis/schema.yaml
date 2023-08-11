@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: raw_plantmonitordb_satellite_readings
+  - name: raw_plantmonitordb_satellite_readings__solargis
     columns:
       - name: time
         description: timestamp del registre, des de font original sense transformacions
