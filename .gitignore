@@ -143,3 +143,6 @@ dmypy.json
 # tmux shenanigans
 tmux_jardiner
 ..lock
+
+# sqltools extension
+jardiner-pro.session.sql

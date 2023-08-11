@@ -5,8 +5,8 @@ import requests
 
 
 def notify(url, api_key, payload, email):
-    last_day_alarm = datetime.datetime.today().date() - datetime.timedelta(
-        days=1
+    last_day_alarm = (
+        datetime.datetime.today().date() - datetime.timedelta(days=1),
     )  # not sure if 1 or 2 days
 
     headers = {"Authorization": f"ApiKey {api_key}"}

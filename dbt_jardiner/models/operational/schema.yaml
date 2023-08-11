@@ -12,6 +12,23 @@ sources:
       - name: plant
       - name: solarevent
       - name: satellite_readings
+        columns:
+          - name: time
+            description: timestamp del registre
+          - name: plant
+            description: id de la planta
+          - name: global_horizontal_irradiation_wh_m2
+            description: irradiació global horitzontal en wh/m2
+          - name: global_tilted_irradiation_wh_m2
+            description: irradiació global inclinada en wh/m2
+          - name: module_temperature_dc
+            description: temperatura del mòdul en ºC
+          - name: photovoltaic_energy_output_wh
+            description: sortida d'energia fotovoltaica en wh
+          - name: source
+            description: font d'on s'ha obtingut la lectura
+          - name: request_time
+            description: timestamp de quan es va fer la sol·licitud de dades
       - name: forecast
       - name: forecastmetadata
       - name: forecastpredictor
@@ -45,7 +62,6 @@ sources:
           l'API de DSET que ofereix lectures remotes de les plantes de SomEnergia
 
 models:
-
   - name: view_inverter_metrics_daily
     description: "TO BE DEPRECATED extended metrics of inverterregistry"
 
