@@ -38,8 +38,10 @@ mkdocs-material = "*"
 mkdocs-material-extensions = "^1.1.1"
 
 [tool.poetry.group.dbt-docs.dependencies]
+dbt-osmosis = "^0.11.22"
 dbt-fal = {extras = ["postgres"], version = "^1.4.4"}
 dbt-postgres = "^1.2.2"
+re-data = "^0.10.8"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"

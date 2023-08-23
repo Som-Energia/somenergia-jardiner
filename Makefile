@@ -45,13 +45,13 @@ mkdocs.requirements.txt: ## update requirements.txt file from pyproject.toml
 mkdocs.serve: ## serve the mkdocs documentation
 	@docker compose -f $(mkdocs_compose_file) --env-file $(mkdocs_compose_env_file) up
 
-mkdocs.build-image: ## build the mkdocs image
+mkdocs.build_image: ## build the mkdocs image
 	@docker compose -f $(mkdocs_compose_file) --env-file $(mkdocs_compose_env_file) build mkdocs
 
-mkdocs.push-image: ## push the mkdocs image with tag: latest
+mkdocs.push_image: ## push the mkdocs image with tag: latest
 	@docker compose -f $(mkdocs_compose_file) --env-file $(mkdocs_compose_env_file) push mkdocs
 
-mkdocs.build-docs: ## build the mkdocs documentation
+mkdocs.build_docs: ## build the mkdocs documentation
 	@docker compose -f $(mkdocs_compose_file) --env-file $(mkdocs_compose_env_file) run --rm mkdocs build
 
 mkdocs.logs: ## show the logs of the mkdocs container
@@ -64,13 +64,13 @@ mkdocs.logs: ## show the logs of the mkdocs container
 dbt_docs.serve: ## serve the dbt-docs documentation
 	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) up dbt-docs
 
-dbt_docs.build-image: ## build the dbt-docs image
+dbt_docs.build_image: ## build the dbt-docs image
 	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) build dbt-docs --progress plain
 
-dbt_docs.push-image: ## push the dbt-docs image with tag: latest
+dbt_docs.push_image: ## push the dbt-docs image with tag: latest
 	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) push dbt-docs
 
-dbt_docs.build-docs: ## build the dbt-docs documentation
+dbt_docs.build_docs: ## build the dbt-docs documentation
 	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) run --rm dbt-docs build
 
 dbt_docs.logs: ## show the logs of the dbt-docs container

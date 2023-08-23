@@ -1,6 +1,6 @@
 dbt_jardiner:
   outputs:
-    pro:
+    prod:
       type: postgres
       threads: 1
       host: "{{ env_var('DBHOST') }}"
@@ -8,7 +8,7 @@ dbt_jardiner:
       user: "{{ env_var('DBUSER') }}"
       password: "{{ env_var('DBPASSWORD') }}"
       dbname: "{{ env_var('DBNAME') }}"
-      schema: prod
+      schema: dbt_prod
 
     pre:
       type: postgres

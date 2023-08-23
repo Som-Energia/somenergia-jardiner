@@ -34,7 +34,8 @@ ARG USER_GID=1000
 ARG PYTHON_VERSION=3.8.9
 
 # general variables
-ARG DBT_PROJECT_DIR=dbt_jardiner
+# don't use DBT_PROJECT_DIR as it is catched by dbt but not by re_data
+ARG DBT_PROJECT_DIR_NAME=dbt_jardiner
 
 # ---------------------------------------------------------------------------- #
 #                                  build stage                                 #
@@ -47,7 +48,7 @@ ARG WORKDIR
 ARG USERNAME
 ARG USER_UID
 ARG USER_GID
-ARG DBT_PROJECT_DIR
+ARG DBT_PROJECT_DIR_NAME
 
 # Poetry version
 ARG POETRY_VERSION=1.5.1
@@ -121,7 +122,7 @@ ARG WORKDIR
 ARG USERNAME
 ARG USER_UID=1010
 ARG USER_GID
-ARG DBT_PROJECT_DIR
+ARG DBT_PROJECT_DIR_NAME
 
 
 # refresh PATH
@@ -151,12 +152,14 @@ USER ${USERNAME}
 # Move profiles to .dbt
 RUN mkdir -p "/home/${USERNAME}/.dbt"
 
-COPY ./${DBT_PROJECT_DIR}/config/profiles.yml /home/${USERNAME}/.dbt/profiles.yml
+COPY ./${DBT_PROJECT_DIR_NAME}/config/profiles.yml /home/${USERNAME}/.dbt/profiles.yml
 
 # install deps
-RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR}/
-COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ./${DBT_PROJECT_DIR}/packages.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
-RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/${USERNAME}/.dbt
+RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR_NAME}/
+COPY ./${DBT_PROJECT_DIR_NAME}/dbt_project.yml ./${DBT_PROJECT_DIR_NAME}/packages.yml ${WORKDIR}/${DBT_PROJECT_DIR_NAME}/
+# cd into the project dir and install deps since re_data does not understand --project-dir
+RUN cd ${WORKDIR}/${DBT_PROJECT_DIR_NAME}/ && dbt deps --profiles-dir /home/${USERNAME}/.dbt
+
 ENTRYPOINT [ "python" ]
 CMD [ "--version" ]
 
@@ -172,30 +175,32 @@ ARG WORKDIR
 ARG USERNAME
 ARG USER_UID
 ARG USER_GID
-ARG DBT_PROJECT_DIR
+ARG DBT_PROJECT_DIR_NAME
 
 USER root
 
 # Add USERNAME to sudoers. Omit if you don't need to install software after connecting.
 RUN apt-get update \
-	&& apt-get install -y sudo git iputils-ping \
+	&& apt-get install -y sudo git iputils-ping wget \
 	&& echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
 	&& chmod 0440 /etc/sudoers.d/${USERNAME}
 
 USER ${USERNAME}
-
 
 # install all remaning dependencies
 RUN poetry install --no-root
 
 # Move profiles to .dbt
 RUN mkdir -p "/home/${USERNAME}/.dbt"
-COPY ./${DBT_PROJECT_DIR}/config/profiles.yml /home/${USERNAME}/.dbt/profiles.yml
+COPY --chown=${USER_UID}:${USER_GID} ./${DBT_PROJECT_DIR_NAME}/config/profiles.yml /home/${USERNAME}/.dbt/profiles.yml
 
 # install dbt dependencies
-RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR}/
-COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ./${DBT_PROJECT_DIR}/packages.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
-RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/${USERNAME}/.dbt
+RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR_NAME}/
+COPY --chown=${USER_UID}:${USER_GID} ./${DBT_PROJECT_DIR_NAME}/dbt_project.yml ./${DBT_PROJECT_DIR_NAME}/packages.yml ${WORKDIR}/${DBT_PROJECT_DIR_NAME}/
+
+# cd into the project dir and install deps since re_data does not understand --project-dir
+RUN cd ${WORKDIR}/${DBT_PROJECT_DIR_NAME}/ && dbt deps --profiles-dir /home/${USERNAME}/.dbt
+
 
 
 USER ${USERNAME}
@@ -218,7 +223,7 @@ ARG WORKDIR
 ARG USERNAME
 ARG USER_UID
 ARG USER_GID
-ARG DBT_PROJECT_DIR
+ARG DBT_PROJECT_DIR_NAME
 
 # refresh PATH
 ENV PATH=/opt/pipx/bin:${WORKDIR}/.venv/bin:$PATH \
@@ -231,8 +236,13 @@ ENV PATH=/opt/pipx/bin:${WORKDIR}/.venv/bin:$PATH \
 
 # ------------------------------ user management ----------------------------- #
 
-RUN groupadd --gid $USER_GID "${USERNAME}" \
-	&& useradd --uid $USER_UID --gid $USER_GID -m "${USERNAME}"
+RUN groupadd --gid ${USER_GID} "${USERNAME}" \
+	&& useradd --uid ${USER_UID} --gid ${USER_GID} -m "${USERNAME}"
+
+# --------------------------- install dependencies --------------------------- #
+
+RUN apt-get update \
+	&& apt-get install -y git sudo iputils-ping wget
 
 # ------------------------------- app specific ------------------------------- #
 
@@ -248,12 +258,14 @@ USER ${USERNAME}
 # Move profiles to .dbt
 RUN mkdir -p "/home/${USERNAME}/.dbt"
 
-COPY ./${DBT_PROJECT_DIR}/config/profiles.yml /home/${USERNAME}/.dbt/profiles.yml
+COPY --chown=${USER_UID}:${USER_GID} ./${DBT_PROJECT_DIR_NAME}/config/profiles.yml /home/${USERNAME}/.dbt/profiles.yml
 
 # install deps
-RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR}/
+RUN mkdir -p ${WORKDIR}/${DBT_PROJECT_DIR_NAME}/
 
-COPY ./${DBT_PROJECT_DIR}/dbt_project.yml ./${DBT_PROJECT_DIR}/packages.yml ${WORKDIR}/${DBT_PROJECT_DIR}/
-RUN dbt deps --project-dir ${WORKDIR}/${DBT_PROJECT_DIR}/ --profiles-dir /home/${USERNAME}/.dbt
+COPY --chown=${USER_UID}:${USER_GID} ./${DBT_PROJECT_DIR_NAME}/dbt_project.yml ./${DBT_PROJECT_DIR_NAME}/packages.yml ${WORKDIR}/${DBT_PROJECT_DIR_NAME}/
+
+# cd into the project dir and install deps since re_data does not understand --project-dir
+RUN cd ${WORKDIR}/${DBT_PROJECT_DIR_NAME}/ && dbt deps --profiles-dir /home/${USERNAME}/.dbt
 
 EXPOSE 80

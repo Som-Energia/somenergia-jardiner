@@ -1,0 +1,371 @@
+---
+# references
+# - https://docs.gitlab.com/ee/user/packages/container_registry/build_and_push_images.html
+# - https://stackoverflow.com/collectives/articles/71270196/how-to-use-pre-commit-to-automatically-correct-commits-and-merge-requests-with-g
+
+image: docker:20.10.16 # has docker compose installed
+services:
+  - docker:20.10.16-dind
+
+stages: # List of stages for jobs, and their order of execution
+  - pre
+  - build
+  - test
+  - release
+  - deploy
+
+variables:
+  CI_PIPELINE_DEBUG_FLAG: $CI_PIPELINE_DEBUG_FLAG
+  GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_CONCURRENT_ID/$CI_PROJECT_PATH # https://docs.gitlab.com/ee/ci/runners/configure_runners.html#handling-concurrency
+
+  SOMENERGIA_REGISTRY: $SOM_HARBOR_DADES_URL
+  DBT_PROJECT_DIR_NAME: dbt_jardiner
+  IMAGE_NAME_PREFIX: $SOM_HARBOR_DADES_URL/$CI_PROJECT_NAME
+  IMAGE_NAME_APP: $IMAGE_NAME_PREFIX-app
+  IMAGE_NAME_APP_PRE_RELEASE: $IMAGE_NAME_APP:pre-release
+  IMAGE_NAME_APP_RELEASE: $IMAGE_NAME_APP:latest
+  IMAGE_NAME_DBT_DOCS: $IMAGE_NAME_PREFIX-dbt-docs
+  GIT_CLONE_SSH_URL: git@$CI_SERVER_SHELL_SSH_HOST:et/$CI_PROJECT_NAME.git
+  MKDOCS_COMPOSE_FILE: containers/mkdocs/docker-compose.mkdocs.yml
+  APP_COMPOSE_FILE: containers/app/docker-compose.yml
+
+# environment variables to render compose files properly
+.compose_app_env: &compose_app_env
+  SOMENERGIA_PROJECT_ENVIRONMENT: "production"
+  SOM_JARDINER_DB_USER: "$SOM_JARDINER_DB_USER"
+  SOM_JARDINER_DB_PASSWORD: "$SOM_JARDINER_DB_PASSWORD"
+  SOM_JARDINER_DB_DBNAME: "$SOM_JARDINER_DB_DBNAME"
+  SOM_JARDINER_DB_PORT: "$SOM_JARDINER_DB_PORT"
+  SOM_JARDINER_DB_HOST: "$SOM_JARDINER_DB_HOST"
+
+show-env:
+  stage: pre
+  script:
+    - env
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: manual
+      allow_failure: true
+  tags:
+    - somenergia-et
+
+# anchor with files to track when building app, builder and other images
+.builder-build-changes-paths: &builder-build-changes-paths
+  - containers/app/Dockerfile
+  - pyproject.toml
+  - poetry.lock
+  - .gitlab-ci.yml
+
+.app-build-changes-paths: &app-build-changes-paths
+  - containers/app/Dockerfile
+  - pyproject.toml
+  - poetry.lock
+  - dbt_jardiner/config/profiles.yml
+  - dbt_jardiner/dbt_project.yml
+  - dbt_jardiner/packages.yml
+  - jardiner/*
+  - .gitlab-ci.yml
+
+.docker-login-before-script:
+  &docker-login-before-script ## login to the Docker registry, needed to push and pull from private registries
+  - echo "Logging in to Docker Hub"
+  - docker login -u $SOM_HARBOR_DADES_USER -p $SOM_HARBOR_DADES_PASSWORD $SOM_HARBOR_DADES_URL
+
+build-builder-image-pre-release:
+  variables: *compose_app_env
+  stage: build
+  before_script: *docker-login-before-script
+  script:
+    - docker build --pull -t $IMAGE_NAME_APP_PRE_RELEASE --progress=plain --target=app -f containers/app/Dockerfile .
+    - docker push $IMAGE_NAME_APP_PRE_RELEASE
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+      when: always
+      changes:
+        paths: *builder-build-changes-paths
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: always
+      changes:
+        compare_to: "refs/heads/main"
+        paths: *builder-build-changes-paths
+  tags:
+    - somenergia-et
+
+build-app-image-pre-release:
+  variables: *compose_app_env
+  stage: build
+  before_script: *docker-login-before-script
+  script:
+    - docker build --pull -t $IMAGE_NAME_APP_PRE_RELEASE --progress=plain --target=app -f containers/app/Dockerfile .
+    - docker push $IMAGE_NAME_APP_PRE_RELEASE
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+      when: always
+      changes:
+        paths: *app-build-changes-paths
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: always
+      changes:
+        compare_to: "refs/heads/main"
+        paths: *app-build-changes-paths
+  tags:
+    - somenergia-et
+
+dbt-test-prod:
+  stage: test
+  variables:
+    DBT_TARGET_NAME: prod
+    DBHOST: $SOM_JARDINER_DB_HOST
+    DBPORT: $SOM_JARDINER_DB_PORT
+    DBUSER: $SOM_JARDINER_DB_USER
+    DBPASSWORD: $SOM_JARDINER_DB_PASSWORD
+    DBNAME: $SOM_JARDINER_DB_DBNAME
+  image: ${SOM_HARBOR_DADES_URL}/somenergia-jardiner-dbt-docs:latest
+  script:
+    - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
+    - dbt deps --target ${DBT_TARGET_NAME}
+    - dbt test --target ${DBT_TARGET_NAME}
+  tags:
+    - somenergia-et
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+  artifacts:
+    paths:
+      - ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/target
+
+
+release-app-image:
+  stage: release
+  before_script: *docker-login-before-script
+  script:
+    - docker pull $IMAGE_NAME_APP_PRE_RELEASE
+    - docker tag $IMAGE_NAME_APP_PRE_RELEASE $IMAGE_NAME_APP_RELEASE
+    - docker push $IMAGE_NAME_APP_RELEASE
+  rules:
+    # run only on main branch after build-app-image-pre-release is successful
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+  tags:
+    - somenergia-et
+
+# based on https://docs.gitlab.com/ee/ci/ssh_keys/ and https://gitlab.com/gitlab-examples/ssh-private-key/-/blob/master/.gitlab-ci.yml
+rsync-deploy-dags: # This job runs in the deploy stage and copies a file to a server
+  stage: deploy # It only runs when *both* jobs in the test stage complete successfully.
+  rules:
+    # run only on main branch after build-app-image-pre-release is successful
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+  variables:
+    DEPLOY_SSH_DEFAULT_GIT_BRANCH: main
+  before_script:
+    ##
+    ## Install ssh-agent if not already installed, it is required by Docker.
+    ## (change apt-get to yum if you use an RPM-based image)
+    ##
+    - echo "Installing ssh-agent"
+    - apk update && apk add openssh-client git rsync
+
+    ##
+    ## Run ssh-agent (inside the build environment)
+    ##
+    - echo "Starting ssh-agent"
+    - eval $(ssh-agent -s)
+
+    ##
+    ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    ## We're using tr to fix line endings which makes ed25519 keys work
+    ## without extra base64 encoding.
+    ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
+    ##
+    - echo "Adding SSH key to ssh-agent"
+    - chmod 600 "$SOM_SCHEAT_SSH_PRIVATE_KEY"
+    - ssh-add "$SOM_SCHEAT_SSH_PRIVATE_KEY"
+
+    ##
+    ## Create the SSH directory and give it the right permissions
+    ##
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+    ##
+    ## Use ssh-keyscan to scan the keys of your private server. Replace gitlab.com
+    ## with your own domain name. You can copy and repeat that command if you have
+    ## more than one server to connect to.
+    ##
+    - echo "Scanning server keys"
+    # - ssh-keyscan $CI_SERVER_HOST >> ~/.ssh/known_hosts
+    - ssh-keyscan -p $SOM_SCHEAT_SSH_PORT $SOM_SCHEAT_SSH_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+
+    ##
+    ## Alternatively, assuming you created the SSH_SERVER_HOSTKEYS variable
+    ## previously, uncomment the following two lines instead.
+    ##
+    #- echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts
+    #- chmod 644 ~/.ssh/known_hosts
+
+    ##
+    ## You can optionally disable host key checking. Be aware that by adding that
+    ## you are suspectible to man-in-the-middle attacks.
+    ## WARNING: Use this only with the Docker executor, if you use it with shell
+    ## you will overwrite your user's SSH config.
+    ##
+    #- '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+    ##
+    ## Optionally, if you will be using any Git commands, set the user name and
+    ## email.
+    ##
+    # - echo "Setting git user"
+    # - git config --global user.email "dades@somenergia.coop"
+    # - git config --global user.name "Equip de dades de Som Energia"
+  script:
+    - echo "Deploying application using rsync"
+    # aliasing the ssh params
+    - export SSH_DEPLOY_PARAMS="-p $SOM_SCHEAT_SSH_PORT $SOM_SCHEAT_SSH_USER@$SOM_SCHEAT_SSH_HOST" GIT_REPO_DIR="$SOM_SCHEAT_DEPLOY_DIR/$CI_PROJECT_NAME"
+
+    - echo "Setting up git repository at $GIT_REPO_DIR"
+    - ssh $SSH_DEPLOY_PARAMS "mkdir -p $GIT_REPO_DIR"
+
+    - echo "Preparing repository"
+    - git config --global --add safe.directory "$CI_PROJECT_DIR"
+
+    - echo "Checking out branch $CI_BUILD_REF"
+    - git checkout -B "$CI_BUILD_REF_NAME" "$CI_BUILD_REF"
+
+    - echo "Setting up git remote url"
+    - git -C $CI_PROJECT_DIR remote set-url origin $GIT_CLONE_SSH_URL
+
+    - echo "Setting up git upstream"
+    - git branch --set-upstream-to=origin/$DEPLOY_SSH_DEFAULT_GIT_BRANCH
+
+    - echo "Setting dir permissions"
+    - chmod -R a-x,o-w,+X "$CI_PROJECT_DIR" # ungreen the directory, see https://unix.stackexchange.com/a/333647
+
+    - echo "Copying files from repository"
+    - rsync --block-size 4096 -avz --delete --exclude-from=${CI_PROJECT_DIR}/.rsyncignore -e "ssh -p $SOM_SCHEAT_SSH_PORT" --progress $CI_PROJECT_DIR $SOM_SCHEAT_SSH_USER@$SOM_SCHEAT_SSH_HOST:$SOM_SCHEAT_DEPLOY_DIR/
+    - echo "Application successfully deployed at $GIT_REPO_DIR"
+  tags:
+    - somenergia-et
+
+# https://towardsdatascience.com/running-dbt-using-gitlab-ci-cd-8a2ef0f05af0
+release-dbt-docs-image:
+  stage: release
+  before_script:
+    - echo "Logging in to Docker Hub"
+    - docker login -u $SOM_HARBOR_DADES_USER -p $SOM_HARBOR_DADES_PASSWORD $SOM_HARBOR_DADES_URL
+  script:
+    - echo "Building dbt docs image"
+    - docker build --pull -t ${SOM_HARBOR_DADES_URL}/somenergia-jardiner-dbt-docs:latest -f containers/app/Dockerfile --target dbt-docs .
+    - echo "Pushing dbt docs image"
+    - docker push ${SOM_HARBOR_DADES_URL}/somenergia-jardiner-dbt-docs:latest
+  tags:
+    - somenergia-et
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+      changes:
+        paths: *app-build-changes-paths
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+
+release-mkdocs-image:
+  variables:
+    # https://github.com/timvink/mkdocs-git-revision-date-localized-plugin#note-when-using-build-environments
+    GIT_DEPTH: 0
+    MKDOCS_IMAGE_NAME: $SOM_HARBOR_DADES_URL/somenergia-jardiner-mkdocs:latest
+  before_script:
+    - echo "Logging in to Docker Hub"
+    - docker login -u $SOM_HARBOR_DADES_USER -p $SOM_HARBOR_DADES_PASSWORD $SOM_HARBOR_DADES_URL
+  script:
+    - echo "Building mkdocs image"
+    - docker build --pull -t $MKDOCS_IMAGE_NAME -f containers/mkdocs/Dockerfile .
+    - echo "Pushing mkdocs image"
+    - docker push $MKDOCS_IMAGE_NAME
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+      changes:
+        paths:
+          - containers/mkdocs/Dockerfile
+          - mkdocs.yml
+          - pyproject.toml
+          - poetry.lock
+          - .gitlab-ci.yml
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+  tags:
+    - somenergia-et
+  stage: release
+
+generate-dbt-docs:
+  stage: deploy
+  variables:
+    DBT_TARGET_NAME: prod
+    DBHOST: $SOM_JARDINER_DB_HOST
+    DBPORT: $SOM_JARDINER_DB_PORT
+    DBUSER: $SOM_JARDINER_DB_USER
+    DBPASSWORD: $SOM_JARDINER_DB_PASSWORD
+    DBNAME: $SOM_JARDINER_DB_DBNAME
+  before_script:
+    - whoami
+  image: ${SOM_HARBOR_DADES_URL}/somenergia-jardiner-dbt-docs:latest
+  script:
+    - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
+    - dbt deps --target ${DBT_TARGET_NAME}
+    - dbt docs generate --target ${DBT_TARGET_NAME}
+    - re_data overview generate --target ${DBT_TARGET_NAME}
+  artifacts:
+    paths:
+      - ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/target
+  tags:
+    - somenergia-et
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+
+pages:
+  image:
+    name: $SOM_HARBOR_DADES_URL/somenergia-jardiner-mkdocs:latest
+    entrypoint: [""]
+  stage: deploy
+  variables:
+    GIT_DEPTH: 0 # https://github.com/timvink/mkdocs-git-revision-date-localized-plugin#note-when-using-build-environments
+    CI_DEBUG_TRACE: "true"
+  script:
+    - echo "Preparing repository"
+    - git config --global --add safe.directory "$CI_PROJECT_DIR"
+    - mkdocs build --strict --verbose
+    - mkdir -p ${CI_PROJECT_DIR}/public/
+    - cp ${CI_PROJECT_DIR}/site/* ${CI_PROJECT_DIR}/public/ -R
+    - mkdir -p ${CI_PROJECT_DIR}/public/dbt_docs
+    - cp ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/target/* ${CI_PROJECT_DIR}/public/dbt_docs/ -R
+  artifacts:
+    paths:
+      - public
+  rules:
+    # run only on main branch after build-app-image-pre-release is successful
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+  needs:
+    - job: generate-dbt-docs
+      artifacts: true
+  tags:
+    - somenergia-et

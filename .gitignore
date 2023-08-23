@@ -146,3 +146,6 @@ tmux_jardiner
 
 # sqltools extension
 jardiner-pro.session.sql
+
+# poetry settings scoped locally
+poetry.toml
