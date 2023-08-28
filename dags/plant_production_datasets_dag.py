@@ -114,7 +114,7 @@ with DAG(
             "{{ conn.somenergia_registry.host }}", repo_name
         ),
         working_dir=f"/repos/{repo_name}/dbt_jardiner",
-        command="dbt run --profiles-dir config --target pro --select plant_production_hourly+",
+        command="dbt run --profiles-dir config --target prod --select plant_production_hourly+",
         docker_url=sampled_moll,
         mounts=[mount_nfs],
         mount_tmp_dir=False,
