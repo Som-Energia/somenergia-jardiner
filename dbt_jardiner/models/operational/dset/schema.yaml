@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: lake_dset_raw
+    description: Conté les lectures crues que venen de la ingesta
+    columns:
+      - name: signal_description
+        description: |
+          Conté el tipus de senyal al que fa referència la lectura
+          - Etotal: Sum d'energia acumulada des de l'inici dels temps
+          - Eayer: Suma d'energia acumulada el dia d'ahir només
+          - Ediaria: Suma d'energia acumulada avui fins al moment de la lectura
+
+          És a dir, trobem aquestes equivalències
+
+          - Etotal@avui - Etotal@ahir = Ediaria@ahir
+          - Eayer@avui es aproximadament Ediaria@ahir a les 23:55
+
+  - name: dset_responses_raw
+    description: Conté les lectures crues que venen de la ingesta. Consulta la doc del model dset_responses (el source) per més info.
+
+  - name: dset_signals_receiver_status
+    description: >
+      Model temporal que comprova quins senyals de dset estem rebent respecte el maping que hem enviat.
+      Agafem l'últim batch rebut i el leftjoinem a la taula signal_device_relation amb un petit processat que ens indica
+      si hem rebut aquell senyal amb la columna rebut_from_dset.
+    columns:
+      - name: rebut_from_dset
+        description: Booleà que indica si s'ha rebut o no en l'últim batch.
+
+  - name: devices
+    description: >
+      Taula amb la llista de devices, els seus uuids i si tenen un parent.
+    columns:
+      - name: device_uuid
+        tests:
+          - unique
+
+
+  - name: test_device_uuid_repeted
+    description: >
+      Taula amb els devices_uuids que es repeteixen en més d'un device, entenent per device una combinació
+      única de plant, device, device_type i device_parent.
+    config:
+      severity: error
+
+  - name: test_to_debug_device_uuid_errors
+    description: >
+      Taula que recull tots els signals que comparteixen un devide_uuid erroni. Ha de servir per identificar
+      el motiu pel qual un device_uuid no es unique per un device, entenent per device una convinació
+      única de plant, device, device_type i device_parent.
+    config:
+      severity: error
+

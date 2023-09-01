@@ -48,6 +48,9 @@ sources:
     schema: airbyte_imported
     tables:
       - name: modbus_readings
+      - name: omie_historical_price_hour
+        description: >
+          Taula importada via airbyte del projecte de KPIs antic.
   - name: lake
     schema: lake
     tables:
@@ -56,10 +59,12 @@ sources:
           Lectures crues inserides pel DAG d'ingesta que llegeix directament
           els dispositius de planta utilitzant modbus a
           través del router de la planta
-      - name: dset_readings
+      - name: dset_responses
         description: >
           Lectures crues inserides pel DAG d'ingesta que llegeix directament
-          l'API de DSET que ofereix lectures remotes de les plantes de SomEnergia
+          l'API de DSET que ofereix lectures remotes de les plantes de SomEnergia.
+          S'escriuen en base de dades en format JSONB recollint el JSON cru
+          de la API de DSET.
 
 models:
   - name: view_inverter_metrics_daily
@@ -95,17 +100,6 @@ models:
   - name: view_satellite_irradiation
     description: "satellite irradiation readings in wh_m2, hourly, by plant"
 
-  - name: lake_dset_raw
-    description: "Conté les lectures crues que venen de la ingesta"
-    columns:
-      - name: signal_description
-        description: |
-          Conté el tipus de senyal al que fa referència la lectura
-          - Etotal: Sum d'energia acumulada des de l'inici dels temps
-          - Eayer: Suma d'energia acumulada el dia d'ahir només
-          - Ediaria: Suma d'energia acumulada avui fins al moment de la lectura
 
-          És a dir, trobem aquestes equivalències
-
-          - Etotal@avui - Etotal@ahir = Ediaria@ahir
-          - Eayer@avui es aproximadament Ediaria@ahir a les 23:55
+  - name: best_forecast
+    description: best forecast hour for each forecast - which is the previous day's if available -
