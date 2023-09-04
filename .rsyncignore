@@ -1,3 +1,4 @@
 __pycache__
 dbt_jardiner/target/*
 dbt_jardiner/dbt_packages
+dbt_jardiner/logs
