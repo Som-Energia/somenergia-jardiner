@@ -120,7 +120,7 @@ FROM python:${PYTHON_VERSION}-slim AS app
 # refresh global arguments
 ARG WORKDIR
 ARG USERNAME
-ARG USER_UID=1010
+ARG USER_UID
 ARG USER_GID
 ARG DBT_PROJECT_DIR_NAME
 
@@ -139,12 +139,17 @@ ENV PATH=/opt/pipx/bin:${WORKDIR}/.venv/bin:$PATH \
 RUN groupadd --gid $USER_GID "${USERNAME}" \
 	&& useradd --uid $USER_UID --gid $USER_GID -m "${USERNAME}"
 
+RUN apt-get update \
+	&& apt-get install -y vim
+
 # ------------------------------- app specific ------------------------------- #
 
 WORKDIR ${WORKDIR}
 
+#
 RUN chown -R ${USER_UID}:${USER_GID} ${WORKDIR}
 
+# copy /app/.venv from app-pre
 COPY --from=app-pre --chown=${USER_UID}:${USER_GID} ${WORKDIR} ${WORKDIR}
 
 USER ${USERNAME}
@@ -202,7 +207,6 @@ COPY --chown=${USER_UID}:${USER_GID} ./${DBT_PROJECT_DIR_NAME}/dbt_project.yml .
 RUN cd ${WORKDIR}/${DBT_PROJECT_DIR_NAME}/ && dbt deps --profiles-dir /home/${USERNAME}/.dbt
 
 
-
 USER ${USERNAME}
 
 # ---------------------------------------------------------------------------- #
@@ -242,7 +246,7 @@ RUN groupadd --gid ${USER_GID} "${USERNAME}" \
 # --------------------------- install dependencies --------------------------- #
 
 RUN apt-get update \
-	&& apt-get install -y git sudo iputils-ping wget
+	&& apt-get install -y git vim iputils-ping wget
 
 # ------------------------------- app specific ------------------------------- #
 
