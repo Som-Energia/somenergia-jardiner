@@ -241,8 +241,8 @@ rsync-deploy-dags: # This job runs in the deploy stage and copies a file to a se
     - echo "Preparing repository"
     - git config --global --add safe.directory "$CI_PROJECT_DIR"
 
-    - echo "Checking out branch $CI_BUILD_REF"
-    - git checkout -B "$CI_BUILD_REF_NAME" "$CI_BUILD_REF"
+    - echo "Checking out branch $CI_COMMIT_SHA"
+    - git checkout -B "$CI_COMMIT_REF_NAME" "$CI_COMMIT_SHA"
 
     - echo "Setting up git remote url"
     - git -C $CI_PROJECT_DIR remote set-url origin $GIT_CLONE_SSH_URL
