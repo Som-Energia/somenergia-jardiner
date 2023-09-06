@@ -92,4 +92,5 @@ with DAG(
         auto_remove=True,
         retrieve_output=True,
         trigger_rule="none_failed",
+        force_pull=True,
     )

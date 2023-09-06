@@ -165,9 +165,6 @@ COPY ./${DBT_PROJECT_DIR_NAME}/dbt_project.yml ./${DBT_PROJECT_DIR_NAME}/package
 # cd into the project dir and install deps since re_data does not understand --project-dir
 RUN cd ${WORKDIR}/${DBT_PROJECT_DIR_NAME}/ && dbt deps --profiles-dir /home/${USERNAME}/.dbt
 
-ENTRYPOINT [ "python" ]
-CMD [ "--version" ]
-
 
 # ---------------------------------------------------------------------------- #
 #                                   dev stage                                  #

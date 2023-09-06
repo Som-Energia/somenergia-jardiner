@@ -49,6 +49,7 @@ with DAG(
     schedule_interval="3-59/5 * * * *",
     catchup=False,
     tags=["Plantmonitor", "Jardiner"],
+    max_active_runs=1,
     default_args=args,
 ) as dag:
     repo_name = "somenergia-jardiner"
@@ -72,4 +73,3 @@ with DAG(
         retrieve_output=True,
         trigger_rule="none_failed",
     )
-
