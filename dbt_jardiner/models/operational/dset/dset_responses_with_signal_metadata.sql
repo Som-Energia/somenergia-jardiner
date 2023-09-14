@@ -2,6 +2,9 @@
 
 {#select   {{ dbt_utils.star(from=ref('dset_responses_raw'), except=['signal_uuid'] }}#}
 
+{# TODO one metric could have different units, we could standardize here
+e.g. signal_value * (case when signal_unit = 'kwh' then 1000 else 1)#}
+
 SELECT
     metadata.plant,
     metadata.signal,

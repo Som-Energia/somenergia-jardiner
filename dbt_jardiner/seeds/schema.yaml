@@ -43,3 +43,11 @@ seeds:
               values: ['meter', 'inverter', 'sensor', 'plant', 'string', 'module']
       - name: device_parent
         description: device parent del device. e.g. un string té l'inversor1 com a pare
+  - name: plant_parameters
+    description:
+      some parameters of the plants, a subset of public.plantparameters and a few extra needed.
+      It should replace public.plantparameters at some point
+    config:
+      column_types:
+        is_tilted: boolean
+        connection_date: timestamptz

@@ -3,4 +3,6 @@ version: 2
 
 models:
   - name: spine_hourly
-    description: hores aware des de 2015 fins a l'hora actual. oju! Materializat incrementalment.
+    description: >
+      hores aware des de 2015 fins a l'hora actual. oju! Materializat incrementalment.
+      ! The other spina models are deprecated.

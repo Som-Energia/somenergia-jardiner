@@ -1,6 +1,6 @@
 
 {{ config(materialized = 'table') }}
 
-select date_hour as start_hour
+select *
 from {{ ref('spine_hours_localized')}}
-where date_hour <= NOW()
+where start_hour <= NOW()

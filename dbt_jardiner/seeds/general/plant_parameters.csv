@@ -1,0 +1,18 @@
+plant_id,plant_name,peak_power_kw,nominal_power_kw,technology,connection_date,target_monthly_energy_gwh,is_tilted
+1,Alcolea,2160,1890,FV,2016-05-01 01:00:00+02,0,False
+2,Riudarenes_SM,22,20,FV,2011-12-31 23:00:00+01,0,False
+3,Fontivsolar,990,800,FV,2019-01-24 00:00:00+01,0,False
+4,Riudarenes_BR,22,20,FV,2011-12-31 23:00:00+01,0,False
+5,Riudarenes_ZE,19,18,FV,2011-12-31 23:00:00+01,0,False
+6,Florida,1650,1400,FV,2019-10-30 00:00:00+01,0,False
+7,Matallana,2376,2000,FV,2018-09-01 01:00:00+02,0,False
+9,Picanya,335,290,FV,2013-03-01 00:00:00+01,0,False
+10,Torregrossa,499,499,GAS,2013-09-01 01:00:00+02,0,False
+11,Valteina,1000,1000,HIDRO,2015-08-01 01:00:00+02,0,False
+13,Terborg,841,720,FV,2020-10-14 00:00:00+02,0,False
+14,Manlleu_Piscina,95,90,FV,2013-01-01 00:00:00+01,0,False
+15,Manlleu_Pavello,109,100,FV,2013-01-01 00:00:00+01,0,False
+16,Lleida,103,99,FV,2012-01-01 00:00:00+01,0,False
+17,Torrefarrera,98,90,FV,2013-03-01 00:00:00+01,0,False
+22,Llanillos,3820,3200,FV,2021-08-19 00:00:00+02,0,False
+40,Asomada,3998,3800,FV,2022-12-01 00:00:00+01,0,False

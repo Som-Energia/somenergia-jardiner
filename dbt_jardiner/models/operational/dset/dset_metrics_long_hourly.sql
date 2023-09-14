@@ -23,7 +23,7 @@ select
     case when split_metric = 'irradiance' then 'irradiation' else split_metric end as metric,
     case
         when split_metric = 'inverter_energy' and device_type = 'inverter'
-            then (extract(hour from start_hour) > 3)::integer * (max(signal_value) - min(signal_value)) {# we have random-ish resets #}
+            then (extract(hour from start_hour) > 3)::integer * (max(signal_value) - min(signal_value)) {# we have random-ish resets before 3 #}
         when split_metric = 'irradiance' and device_type in ('sensor','module','inverter')
             then avg(signal_value)
         when split_metric = 'exported_energy' and device_type = 'meter'
