@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: lake
+    schema: lake
+    tables:
+      - name: dset_responses
+        description: >
+          Lectures crues inserides pel DAG d'ingesta que llegeix directament
+          l'API de DSET que ofereix lectures remotes de les plantes de SomEnergia.
+          S'escriuen en base de dades en format JSONB recollint el JSON cru
+          de la API de DSET.

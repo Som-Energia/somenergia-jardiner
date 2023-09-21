@@ -1,0 +1,5 @@
+models:
+  - name: int_satellite_readings__hourly
+    description: "Satellite readings from raw source, aggregated by hour"
+  - name: int_satellite_readings__denormalized
+    description: "Satellite readings from raw source, denormalized"

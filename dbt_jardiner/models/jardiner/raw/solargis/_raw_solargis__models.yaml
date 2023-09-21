@@ -1,0 +1,35 @@
+models:
+  - name: raw_solargis_satellite_readings__temp_and_pv_energy
+    description: "Raw readings from plants.public.satellite_readings with only temperature and PV energy"
+  - name: raw_solargis_satellite_readings__solargis
+    columns:
+      - name: start_hour
+        description: solargis gives mid-hour, we change it to start hour
+        tests:
+          - not_null
+      - name: plant
+        description: id de la planta, des de font original sense transformacions
+        tests:
+          - not_null
+      - name: global_horizontal_irradiation_wh_m2
+        description: irradiació global horitzontal en wh/m2, des de font original sense transformacions
+        tests:
+          - not_null
+      - name: global_tilted_irradiation_wh_m2
+        description: irradiació global inclinada en wh/m2, des de font original sense transformacions
+        tests:
+          - not_null
+      - name: module_temperature_c
+        description: temperatura del mòdul en ºC, des de font original sense transformacions
+      - name: photovoltaic_energy_output_wh
+        description: sortida d'energia fotovoltaica en wh, des de font original sense transformacions
+        tests:
+          - not_null
+      - name: source
+        description: font d'on s'ha obtingut la lectura, des de font original sense transformacions
+        tests:
+          - not_null
+      - name: request_time
+        description: timestamp de quan es va fer la sol·licitud de dades, des de font original sense transformacions
+        tests:
+          - not_null

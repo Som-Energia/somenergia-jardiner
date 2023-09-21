@@ -5,16 +5,16 @@
 
 with validation as (
   select
-    planta,
+    nom_planta,
     date_trunc('day', hora_inici, 'Europe/Madrid') as day_inici,
     sum((temperatura_modul_avg_c is null)::integer) / count(*)::numeric as not_null_proportion
   from {{ref('dm_plant_production_hourly')}} as production
   where date_trunc('day', hora_inici, 'Europe/Madrid') > (now() at time zone 'Europe/Madrid')::date - interval '5 days'
-  group by planta, date_trunc('day', hora_inici, 'Europe/Madrid')
+  group by nom_planta, date_trunc('day', hora_inici, 'Europe/Madrid')
 ),
 validation_errors as (
   select
-    planta,
+    nom_planta,
     day_inici,
     not_null_proportion
   from validation

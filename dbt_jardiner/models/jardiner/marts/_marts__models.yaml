@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: dm_plant_production_hourly
+    description: Conté les lectures crues que venen de la producció horària de les plantes
+    columns:
+      - name: hora_inici
+        tests:
+          - not_null
+      - name: hora_final
+        tests:
+          - not_null
+      - name: nom_planta
+        tests:
+          - not_null
+      - name: tecnologia
+        tests:
+          - not_null
+      - name: potencia_pic_kw
+        tests:
+          - not_null
+      - name: energia_instantania_inversor_kwh
+      - name: energia_exportada_instantania_comptador_kwh
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: ">= energia_instantania_inversor_kwh"
+              config:
+                where: "hora_inici > (now() at time zone 'Europe/Madrid')::date - interval '7 days'"
+                tags: source
+      - name: energia_perduda_inversor_a_comptador
+        tests:
+          - dbt_utils.accepted_range:
+              max_value: 1
+              min_value: 0
+              config:
+                where: "hora_inici > (now() at time zone 'Europe/Madrid')::date - interval '7 days'"
+                tags: source
+      - name: energia_exportada_comptador_kwh
+      - name: energia_importada_comptador_kwh
+      - name: energia_esperada_ga_kwh
+      - name: data_prediccio
+      - name: energia_predita_meteologica_kwh
+      - name: energia_esperada_solargis_kwh
+      - name: energia_perduda_kwh
+      - name: preu_omie_e_kwh
+      - name: irradiation_wh_m2
+      - name: irradiacio_satellit_wh_m2
+      - name: temperatura_modul_avg_c
+        tests:
+          - dbt_utils.not_null_proportion:
+              error_if: ">=7"
+              at_least: 0.4
+              field: hora_inici
+              datepart: day
+              interval: 1
+              group_by_columns:
+                - nom_planta
+              config:
+                disabled: true
+                where: "hora_inici > (now() at time zone 'Europe/Madrid')::date - interval '7 days'"
+      - name: pr_horari
+        tests:
+          - dbt_utils.accepted_range:
+              max_value: 1
+              min_value: 0
+              config:
+                where: "hora_inici > (now() at time zone 'Europe/Madrid')::date - interval '7 days'"
+      - name: hora_disponible
+      - name: hora_total
+      - name: energia_desviada_omie_mwh
+      - name: energia_perduda_mwh
+      - name: energia_desviada_percent
+
+  - name: dm_dset_responses__check_if_we_receive_data_for_signals
+    config:
+      tags: dset
+    description: >
+      Model temporal que comprova quins senyals de dset estem rebent respecte el maping que hem enviat.
+      Agafem l'últim batch rebut i el leftjoinem a la taula signal_device_relation amb un petit processat que ens indica
+      si hem rebut aquell senyal amb la columna rebut_from_dset.
+    columns:
+      - name: rebut_from_dset
+        description: Booleà que indica si s'ha rebut o no en l'últim batch.
+
+  - name: dm_dset_energy_inverter__agg_monthly_for_om
+    config:
+      tags: dset
+    description: >
+      Dades enfocades a les necessitats del personal de operaciò i manteniment. Contè dades de energia dels inversors, agregades mensualment.

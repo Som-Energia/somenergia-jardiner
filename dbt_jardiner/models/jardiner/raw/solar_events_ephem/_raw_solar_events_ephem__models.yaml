@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: raw_plantmonitordb_solarevent__generous
+    description: >
+      Taula de solarevents amb els valors de sunrise i sunset generosos
+      (afegint 1 hora a cada valor).
+    columns:
+      - name: plant_id
+      - name: day
+      - name: sunrise_real
+      - name: sunset_real
+      - name: sunrise_generous
+      - name: sunset_generous
+      - name: solar_hours_real
+      - name: solar_hours_minimum

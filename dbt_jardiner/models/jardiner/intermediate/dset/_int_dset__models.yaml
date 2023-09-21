@@ -1,0 +1,20 @@
+version: 2
+
+tests:
+
+  - name: test_device_uuid_repeated
+    description: >
+      Taula amb els devices_uuids que es repeteixen en més d'un device, entenent per device una combinació
+      única de plant, device, device_type i device_parent.
+    config:
+      severity: error
+      tags: dset
+
+  - name: test_to_debug_device_uuid_errors
+    description: >
+      Taula que recull tots els signals que comparteixen un devide_uuid erroni. Ha de servir per identificar
+      el motiu pel qual un device_uuid no es unique per un device, entenent per device una convinació
+      única de plant, device, device_type i device_parent.
+    config:
+      severity: error
+      tags: dset

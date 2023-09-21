@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: plantmonitor_jardiner
+    schema: public
+    tables:
+      - name: plantmoduleparameters
+      - name: meter
+      - name: meterregistry

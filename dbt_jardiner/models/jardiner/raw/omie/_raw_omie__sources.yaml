@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: plantlake
+    schema: airbyte_imported
+    tables:
+      - name: omie_historical_price_hour
+        description: >
+          Taula importada via airbyte del projecte de KPIs antic.

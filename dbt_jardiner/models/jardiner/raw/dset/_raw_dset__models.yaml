@@ -1,0 +1,22 @@
+version: 2
+
+models:
+
+  - name: raw_dset_responses__api_response
+    description: Conté les lectures crues que venen de la ingesta. Consulta la doc del model dset_responses (el source) per més info.
+    columns:
+      - name: group_name
+      - name: response
+      - name: signal_id
+      - name: signal_tz
+      - name: signal_code
+      - name: signal_type
+      - name: signal_unit
+      - name: zone
+      - name: signal_last_ts
+      - name: signal_frequency
+      - name: signal_is_virtual
+      - name: signal_last_value
+      - name: signal_uuid
+      - name: ts
+      - name: signal_value

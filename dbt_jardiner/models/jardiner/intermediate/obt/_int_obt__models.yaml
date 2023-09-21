@@ -1,0 +1,48 @@
+models:
+  - name: obt_hourly_incremental
+    config:
+      tags: obt
+    description: Dades de tots els senyals a nivell horari, siguin de dset, erp o omie, etc. Tenen una espina horària que afegeix nulls quan no hi ha dades per un senyal.
+    columns:
+      - name: start_hour
+        description: Hora d'inici de la espina horària, guardada en UTC
+      - name: plant_id
+        description: Id de la planta
+      - name: plant
+        description: Nom de la planta
+      - name: peak_power_kw
+        description: Potència pico de la planta
+      - name: technology
+        description: Tecnologia de la planta
+      - name: dset_irradiation_wh
+        description: Irradiació en W/h, des de sensors de DSET
+      - name: dset_inverter_energy_kwh
+        description: Energia del inversor en kWh, des de sensors de DSET
+      - name: dset_meter_instant_exported_energy_kwh
+        description: Energia instantània exportada del comptador en kWh, des de sensors de DSET
+      - name: dset_meter_exported_energy_kwh
+        description: Energia exportada del comptador en kWh, des de sensors de DSET
+      - name: dset_meter_imported_energy_kwh
+        description: Energia importada del comptador en kWh, des de sensors de DSET
+      - name: forecast_date
+        description: Data de la predicció
+      - name: forecast_energy_kwh
+        description: Energia predita en kWh
+      - name: satellite_irradiation_wh_m2
+        description: Irradiació en W/h/m2, des de Solargis
+      - name: satellite_module_temperature_dc
+        description: Temperatura del mòdul en ºC, des de Solargis
+      - name: satellite_energy_output_kwh
+        description: Energia fotovoltaica en kWh, des de Solargis
+      - name: omie_price_eur_kwh
+        description: Preu de l'energia en €/kWh, des de OMIE
+      - name: pr_hourly
+        description: ""
+      - name: is_daylight_real
+        description: ""
+      - name: is_daylight_generous
+        description: ""
+      - name: erp_meter_exported_energy_kwh
+        description: ""
+      - name: erp_meter_imported_energy_kwh
+        description: ""

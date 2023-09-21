@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: view_inverter_metrics_daily
+    description: "TO BE DEPRECATED extended metrics of inverterregistry"
+
+  - name: view_q_monthly
+    description: "energy import/export and q import/export by month, by plant"
+
+  - name: view_availability
+    description: "availability (ht hours('ht' = hour with satellite irradiation bigger than 5 wh/m2) / hd hours ('hd' = hour with production bigger than 0.7/hour)) by day, by plant"
+
+  - name: view_cos_phi_monthly
+    description: "Relation between export-import energy and capacitive-inductive power"
+
+  - name: view_expected_power
+    description: "Given a probe irradiation, what would be the expected power output"
+
+  - name: view_hd_daily
+    description: "Count hours hd ('hd' = hour with production bigger than 0.7/hour),  by plant"
+
+  - name: view_ht_daily
+    description: "Count hours ht ('ht' = hour with satellite irradiation bigger than 5 wh/m2) by day , by plant"
+
+  - name: view_ht_monthly
+    description: "Count hours ht ('ht' = hour with  satellite irradiation bigger than 5 wh/m2), by month, by plant"
+
+  - name: view_pr_hourly
+    description: "export energy, irradiation and performance ratio (pr), hourly, by plant"
+
+  - name: view_target_energy
+    description: "monthly alcolea energy production target"
+
+  - name: view_satellite_irradiation
+    description: "satellite irradiation readings in wh_m2, hourly, by plant"
+

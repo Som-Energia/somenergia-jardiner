@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: int_energy_forecasts__best_from_plantmonitordb
+    description: energy forecast of the previous day
+    config:
+      tags: meteologica
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          config:
+            severity: warn
+          combination_of_columns:
+            - start_hour
+            - plant_id

@@ -1,0 +1,39 @@
+version: 2
+
+sources:
+  - name: plantmonitor_legacy
+    schema: public
+    tables:
+      - name: plant
+      - name: alarm_status
+      - name: alarm
+      - name: alarm_historic
+      - name: meter
+      - name: meterregistry
+      - name: sensorirradiationregistry
+      - name: sensor
+      - name: view_hd_daily
+      - name: view_satellite_irradiation
+      - name: inverter
+      - name: inverterregistry
+      - name: string
+      - name: stringregistry
+      - name: irradiationregistry
+      - name: satellite_readings
+      - name: plantparameters
+      - name: plantmoduleparameters
+
+  - name: lake
+    schema: lake
+    tables:
+      - name: modbus_readings
+        description: >
+          Lectures crues inserides pel DAG d'ingesta que llegeix directament
+          els dispositius de planta utilitzant modbus a
+          través del router de la planta
+  - name: plantlake
+    schema: airbyte_imported
+    tables:
+      - name: modbus_readings
+        description: >
+          Old airbyte sync from plantlake db, which was deprecated by lake.modbus_readings
