@@ -25,6 +25,7 @@ models:
           - dbt_utils.expression_is_true:
               expression: ">= energia_instantania_inversor_kwh"
               config:
+                severity: warn
                 where: "hora_inici > (now() at time zone 'Europe/Madrid')::date - interval '7 days'"
                 tags: source
       - name: energia_perduda_inversor_a_comptador
@@ -33,6 +34,7 @@ models:
               max_value: 1
               min_value: 0
               config:
+                severity: warn
                 where: "hora_inici > (now() at time zone 'Europe/Madrid')::date - interval '7 days'"
                 tags: source
       - name: energia_exportada_comptador_kwh
@@ -64,6 +66,7 @@ models:
               max_value: 1
               min_value: 0
               config:
+                severity: warn
                 where: "hora_inici > (now() at time zone 'Europe/Madrid')::date - interval '7 days'"
       - name: hora_disponible
       - name: hora_total

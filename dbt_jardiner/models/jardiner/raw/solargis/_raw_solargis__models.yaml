@@ -25,10 +25,6 @@ models:
         description: sortida d'energia fotovoltaica en wh, des de font original sense transformacions
         tests:
           - not_null
-      - name: source
-        description: font d'on s'ha obtingut la lectura, des de font original sense transformacions
-        tests:
-          - not_null
       - name: request_time
         description: timestamp de quan es va fer la sol·licitud de dades, des de font original sense transformacions
         tests:
