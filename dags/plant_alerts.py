@@ -56,25 +56,6 @@ with DAG(
 
     sampled_moll = get_random_moll()
 
-    notify_alarms_task = DockerOperator(
-        api_version="auto",
-        task_id="alert_meter_zero_energy",
-        docker_conn_id="somenergia_harbor_dades_registry",
-        image="{}/{}-app:latest".format(
-            "{{ conn.somenergia_harbor_dades_registry.host }}", repo_name
-        ),
-        working_dir=f"/repos/{repo_name}",
-        command='python3 -m scripts.notify_alert "{{ var.value.plantmonitor_db }}"\
-                "{{ var.value.novu_base_url }}" "{{ var.value.novu_api_key }}" "{{ var.value.plantmonitor_db_prod_schema }}" alert_meter_zero_energy True',
-        docker_url=sampled_moll,
-        mounts=[mount_nfs],
-        mount_tmp_dir=False,
-        auto_remove=True,
-        retrieve_output=True,
-        trigger_rule="none_failed",
-    )
-
-
     alert_meter_no_readings_task = DockerOperator(
         api_version="auto",
         task_id="alert_meter_no_readings",
