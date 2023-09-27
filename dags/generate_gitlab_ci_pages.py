@@ -37,10 +37,10 @@ with DAG(
     PROJECT_ID = 69
 
     trigger_task_pages = BashOperator(
-        task_id="also_run_this",
+        task_id="trigger_task_pages",
         bash_command=(
             f"curl -X POST -v "
             f"-F token={TOKEN} -F ref={REF} -F variables[CI_TRIGGER_TASK_NAME]=pages "
-            "https://gitlab.somenergia.coop/api/v4/projects/{PROJECT_ID}/trigger/pipeline"
+            f"https://gitlab.somenergia.coop/api/v4/projects/{PROJECT_ID}/trigger/pipeline"
         ),
     )
