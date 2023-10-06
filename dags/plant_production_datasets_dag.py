@@ -87,8 +87,8 @@ with DAG(
         ),
         working_dir=f"/repos/{repo_name}/dbt_jardiner",
         command=(
-            "dbt run --profiles-dir config --target prod ",
-            "--select plant_production_hourly+",
+            "dbt run --profiles-dir config --target prod "
+            "--select plant_production_hourly+"
         ),
         docker_url=sampled_moll,
         mounts=[mount_nfs],

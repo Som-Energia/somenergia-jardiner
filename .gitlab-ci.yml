@@ -28,6 +28,7 @@ variables:
   GIT_CLONE_SSH_URL: git@$CI_SERVER_SHELL_SSH_HOST:et/$CI_PROJECT_NAME.git
   MKDOCS_COMPOSE_FILE: containers/mkdocs/docker-compose.mkdocs.yml
   APP_COMPOSE_FILE: containers/app/docker-compose.yml
+  CI_TRIGGER_TASK_NAME: null
 
 # environment variables to render compose files properly
 .compose_app_env: &compose_app_env
@@ -337,6 +338,8 @@ generate-dbt-docs:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
       allow_failure: true
+    - if: $CI_PIPELINE_SOURCE == "trigger" && $CI_TRIGGER_TASK_NAME == "pages"
+      when: always
 
 pages:
   image:
@@ -364,6 +367,8 @@ pages:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
       allow_failure: true
+    - if: $CI_PIPELINE_SOURCE == "trigger" && $CI_TRIGGER_TASK_NAME == "pages"
+      when: always
   needs:
     - job: generate-dbt-docs
       artifacts: true
