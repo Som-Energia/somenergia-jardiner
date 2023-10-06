@@ -22,7 +22,7 @@ SELECT
 	(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_frequency')::text as signal_frequency,
 	(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_is_virtual')::text as signal_is_virtual,
 	(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_last_value')::numeric as signal_last_value,
-	(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_description')::uuid as signal_uuid,
+	left((jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_description'), 36)::uuid as signal_uuid,
 	(jsonb_array_elements(jsonb_array_elements((response)::jsonb#>'{signals}')#>'{data}')->>'ts')::timestamp at time zone
 		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_tz')::text as ts,
 	(jsonb_array_elements(jsonb_array_elements((response)::jsonb#>'{signals}')#>'{data}')->>'value')::numeric as signal_value
