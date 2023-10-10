@@ -19,7 +19,7 @@ select
     date_trunc('day',forecast_date,'Europe/Madrid')::date as data_prediccio,
     forecast_energy_kwh as energia_predita_meteologica_kwh,
     satellite_energy_output_kwh as energia_esperada_solargis_kwh,
-    (0.977*satellite_energy_output_kwh - erp_meter_exported_energy_kwh) as energia_perduda_kwh,
+    (satellite_energy_output_kwh - erp_meter_exported_energy_kwh) as energia_perduda_kwh,
     omie_price_eur_kwh as preu_omie_e_kwh,
     dset_irradiation_wh as irradiation_wh_m2,
     satellite_irradiation_wh_m2 as irradiacio_satellit_wh_m2,

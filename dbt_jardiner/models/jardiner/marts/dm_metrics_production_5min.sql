@@ -8,7 +8,7 @@ with spina5m as (
 )
 select
     spina5m.ts,
-    plant as planta,
+    plant as nom_planta,
     device_uuid as uuid_aparell,
     device as aparell,
     device_type as tipus_aparell,

@@ -1,7 +1,7 @@
 
 with tb as (
     select distinct device_uuid, plant, device, device_type, device_parent
-    from {{ ref('signal_device_relation') }}
+    from {{ ref('seed_signals__with_devices') }}
     order by plant, device),
 tb2 as (
     select tb.device_uuid, count(*) as duplicates

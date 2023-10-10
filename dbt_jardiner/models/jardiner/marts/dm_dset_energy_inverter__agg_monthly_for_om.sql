@@ -29,19 +29,21 @@ with inverters_energy as (
             when signal_unit = 'MWh' then round(inverter_energy,3)
             when signal_unit = 'kWh' then round(inverter_energy/1000,3)
             else NULL
-        end as inverter_energy_MWh
+        end as inverter_energy_mwh
     from production_hourly
 ), production_monthly as (
     select
-        date_trunc('month', start_hour) as month_date,
+        date_trunc('month', start_hour, 'Europe/Madrid') as month_date,
         plant,
         device,
-        sum(inverter_energy_MWh) as inverter_energy_MWh
+        sum(inverter_energy_mwh) as inverter_energy_mwh
     from signal_unit_standardization
-    group by date_trunc('month', start_hour), device, plant
+    group by date_trunc('month', start_hour, 'Europe/Madrid'), device, plant
 
 )
-select * from production_monthly
-
--- dset_tecnics_metrics_monthly
--- dset_inverter_energy__agg_monthly
+select
+    month_date as mes,
+    plant as nom_planta,
+    device as aparell,
+    inverter_energy_MWh as energia_inversor_mwh
+from production_monthly
