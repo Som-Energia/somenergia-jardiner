@@ -89,7 +89,8 @@ with DAG(
         working_dir=f"/repos/{repo_name}/dbt_jardiner",
         command=(
             "dbt run --profiles-dir config --target prod "
-            "-s config.materialized:table+ config.materialized:incremental+"
+            "-s tag:jardiner,config.materialized:table+ "
+            "tag:jardiner,config.materialized:incremental+"
         ),
         docker_url=sampled_moll,
         mounts=[mount_nfs],
