@@ -1,0 +1,9 @@
+version: 2
+
+snapshots:
+  - name: snapshot_production_target
+    description: >
+      Excel del drive importat via airbyte amb la predicció que fa l'equip de gestió d'actius, per cada planta, per cada mes de l'any.
+      Aproximadament un cop a l'any en funció a diversos paràmeters actualitzen valors
+      [Producció objectiu actual](https://docs.google.com/spreadsheets/d/1VR5wQiHahicm9Q5mxVvzJUfBESYPGP5yvtLDf5NiMfc)
+    tag: source

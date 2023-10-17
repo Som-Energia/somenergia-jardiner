@@ -1,5 +1,14 @@
 # Overview for devs
 
+## quickstart
+
+To fully deploy the dbt models you can do
+
+```bash
+dbt build -s tag:jardiner --store-failures --full-refresh
+dbt build -s tag:legacy --store-failures --target prod
+```
+
 ## Current State of the project
 
 ### Pieces

@@ -42,6 +42,6 @@ left join {{ ref('raw_plantlake_omie_historical_price__with_row_number_per_date'
 left join {{ ref('raw_plantmonitordb_solarevent__generous') }} as solar_events
     on solar_events.plant_id = plant_metadata.plant_id and solar_events.day = spine.start_hour::date
 {# temporarely use plantmonitors' meterregistry until dset provides it #}
-left join {{ref('meter_registry_hourly')}} as meter_registry
+left join {{ref('int_erp_meter_registry__hourly')}} as meter_registry
     on meter_registry.plant_id = plant_metadata.plant_id and meter_registry.time_start_hour = spine.start_hour
 order by start_hour desc, plant

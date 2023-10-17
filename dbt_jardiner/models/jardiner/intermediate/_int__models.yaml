@@ -1,0 +1,11 @@
+version: 2
+
+tests:
+
+  - name: int_produccio_objectiu__long
+    description: >
+      Passem les dades de producció mensual objectiu a dades llargues, i transformem la col·lumna de 'mes' a data amb any, en funció de la data d'actualització
+    config:
+      tags: int
+
+

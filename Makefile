@@ -20,7 +20,7 @@ app.build: ## build image using docker build
 	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) build app --progress=plain
 
 app.push: ## push image using docker push
-	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) push app 
+	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) push app
 
 app_dev.build: ## build image for development using docker build
 	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) build app-dev --progress=plain
@@ -78,3 +78,12 @@ dbt_docs.build_docs: ## build the dbt-docs documentation
 
 dbt_docs.logs: ## show the logs of the dbt-docs container
 	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) logs -ft dbt-docs
+
+# ---------------------------------------------------------------------------- #
+#                             local commands                                   #
+# ---------------------------------------------------------------------------- #
+
+local.re_data_models.dev: ## Run re_data models
+	@(cd dbt_jardiner && dbt run --target dev --models package:re_data)
+
+

@@ -6,3 +6,6 @@ models:
     description: >
       hores aware des de 2015 fins a l'hora actual. oju! Materializat incrementalment.
       ! The other spina models are deprecated.
+  - name: spine_monthly
+    description: >
+      mesos des de 2015 fins al dia actual

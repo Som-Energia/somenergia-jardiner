@@ -1,0 +1,18 @@
+"plant_id","plant_name","latitude","longitude","municipality","province","peak_power_kw","nominal_power_kw","technology","connection_date","target_monthly_energy_gwh","is_tilted","owner"
+"1","Alcolea","37.628645","-5.680761","Alcolea del Río","Sevilla","2160","1890","FV","2016-04-30 23:00:00+00","0","false","energes"
+"2","Riudarenes_SM","41.817997","2.711988","Riudarenes","Girona","22","20","FV","2011-12-31 22:00:00+00","0","false",
+"3","Fontivsolar","40.932389","-4.968694","Fontiveros","Ávila","990","800","FV","2019-01-23 23:00:00+00","0","false","ercam"
+"4","Riudarenes_BR","41.809072","2.721798","Riudarenes","Girona","22","20","FV","2011-12-31 22:00:00+00","0","false",
+"5","Riudarenes_ZE","41.820077","2.723311","Riudarenes","Girona","19","18","FV","2011-12-31 22:00:00+00","0","false",
+"6","Florida","37.634456","-5.587343","Lora del Río","Sevilla","1650","1400","FV","2019-10-29 23:00:00+00","0","false","energes"
+"7","Matallana","37.653271","-5.560263","Lora del Río","Sevilla","2376","2000","FV","2018-08-31 23:00:00+00","0","false","energes"
+"9","Picanya","39.440722","-0.428722","Picanya","València","335","290","FV","2013-02-28 23:00:00+00","0","false",
+"10","Torregrossa","41.57899","0.756711","Torregrossa","Lleida","499","499","GAS","2013-08-31 23:00:00+00","0","false",
+"11","Valteina","41.55471","-4.10815","Peñafiel","Valladolid","1000","1000","HIDRO","2015-07-31 23:00:00+00","0","false","energetica"
+"13","Terborg","37.236035","-2.296076","Tahal","Almería","841","720","FV","2020-10-13 22:00:00+00","0","false",
+"14","Manlleu_Piscina","42.003036","2.293811","Manlleu","Barcelona","95","90","FV","2012-12-31 23:00:00+00","0","false",
+"15","Manlleu_Pavello","41.997718","2.27593","Manlleu","Barcelona","109","100","FV","2012-12-31 23:00:00+00","0","false",
+"16","Lleida","41.6139742","0.67029188","Lleida","Lleida","103","99","FV","2011-12-31 23:00:00+00","0","false",
+"17","Torrefarrera","41.6692891","0.61112424","Torrefarrera","Lleida","98","90","FV","2013-02-28 23:00:00+00","0","false",
+"22","Llanillos","37.50433","-3.236476","Pedro Martínez","Granada","3820","3200","FV","2021-08-18 22:00:00+00","0","false","exiom"
+"40","Asomada","37.656603","-0.940483","Cartagena","Murcia","3998","3800","FV","2022-11-30 23:00:00+00","0","false","exiom"

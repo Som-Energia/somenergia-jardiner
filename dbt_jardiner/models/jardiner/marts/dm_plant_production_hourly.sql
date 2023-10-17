@@ -15,7 +15,6 @@ select
     erp_meter_exported_energy_kwh as energia_exportada_comptador_kwh,
     --dset_meter_imported_energy_kwh as energia_importada_comptador_kwh, -- idem
     erp_meter_imported_energy_kwh as energia_importada_comptador_kwh,
-    {#energy_expected_GA_kwh#} NULL::integer as energia_esperada_GA_kwh, -- TODO on son les dades
     date_trunc('day',forecast_date,'Europe/Madrid')::date as data_prediccio,
     forecast_energy_kwh as energia_predita_meteologica_kwh,
     satellite_energy_output_kwh as energia_esperada_solargis_kwh,

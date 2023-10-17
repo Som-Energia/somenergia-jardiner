@@ -1,0 +1,8 @@
+version: 2
+
+models:
+
+  - name: raw_gestio_actius_production_target
+    description: >
+      Conté la taula incremental que es crea mitjançant el snapshot (al schema lake)
+      que llegueix la source del drive importada per airbyte (al schema airbyte_imported)

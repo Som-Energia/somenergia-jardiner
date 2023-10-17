@@ -668,4 +668,4 @@ Asomada,irradiacio_sonda_bruta,irradiance,sensor1,sensor,7ff6f43b-1349-43ad-af5a
 Asomada,irradiacio_mitja,,sensor1,sensor,7ff6f43b-1349-43ad-af5a-3952e1d7311d,,ab8a48f9-faee-4e78-9121-c4f82a546047
 Asomada,temperatura_ambient,,sensor1,sensor,7ff6f43b-1349-43ad-af5a-3952e1d7311d,,aeba40db-5646-48fb-aba1-624dcba18233
 Asomada,temperatura_panell,,sensor1,sensor,7ff6f43b-1349-43ad-af5a-3952e1d7311d,,e894d976-5377-4503-8362-a4ec4b55876a
-Asomada,comunicacio ok,,sensor1,sensor,7ff6f43b-1349-43ad-af5a-3952e1d7311d,,48bdb569-329b-4f8b-b774-be963cb717f2
+Asomada,comunicacio_ok,,sensor1,sensor,7ff6f43b-1349-43ad-af5a-3952e1d7311d,,48bdb569-329b-4f8b-b774-be963cb717f2

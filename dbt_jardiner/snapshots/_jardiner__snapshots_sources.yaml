@@ -1,0 +1,7 @@
+version: 2
+
+sources:
+  - name: plantlake
+    schema: airbyte_imported
+    tables:
+      - name: gestio_actius_objectius_de_produccio
