@@ -4,12 +4,11 @@
 with pot_instantanea_planta as (
     select
         plant,
-        ts as ultim_registre_pot_instantanea,
+        min(ts) as ultim_registre_pot_instantanea,
         round(sum(signal_value),1) as pot_instantantanea_planta_kw
     from {{ref('int_dset__last_registries')}}
     group by
         plant,
-        ts,
         device_type,
         signal
     having signal = 'potencia_activa'

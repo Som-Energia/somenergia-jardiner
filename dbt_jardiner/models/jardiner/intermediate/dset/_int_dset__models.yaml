@@ -18,3 +18,23 @@ tests:
     config:
       severity: error
       tags: dset
+
+  - name: int_dset__last_registries
+    description: >
+      selecciona el ts màxim per a cada senyal i el fa servir per seleccionar la fila per a cada planta
+      i senyal via un left join.
+      Per disseny, només tindrà una fila per senyal_uuid i planta, la més recent.
+
+
+  - name: int_plants_overview_instant
+    description: >
+      En aquest model ajuntem els registres mésrecients de potència instantania i irradiatió de planta amb
+      la producció del dia anteriorper fer una taula resum al superset.
+    columns:
+      - name: ultim_registre_pot_instantanea
+        description:
+          Es tracta del registre més antic de tots els registres d'inversor que estem sumant per calcular la
+          pot_instantantanea_planta_kw.
+      - name: pot_instantantanea_planta_kw
+        description:
+          Suma de la potència activ a de tots els inversors de cada planta.
