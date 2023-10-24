@@ -5,3 +5,4 @@ sources:
     schema: airbyte_imported
     tables:
       - name: gestio_actius_objectius_de_produccio
+      - name: gestio_actius_dades_fixes
