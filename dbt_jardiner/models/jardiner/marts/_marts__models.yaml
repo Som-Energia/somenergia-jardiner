@@ -1,6 +1,40 @@
 version: 2
 
 models:
+  - name: dm_plant_production_monthly
+    columns:
+      - name: month
+        description: Mes de la dada
+      - name: nom_planta
+        description: Nom de la planta
+      - name: tecnologia
+        description: Tecnologia de la planta
+      - name: potencia_pic_kw
+        description: Potència pic de la planta en kW
+      - name: energia_instantania_inversor_mwh
+        description: Energia instantània dels inversors en MWh
+      - name: energia_inversor_count
+        description: Nombre de lectures dels inversors. Es pot utilitzar per utilitzar per validar que no hi hagi hagut cap error en la lectura
+      - name: energia_exportada_instantania_comptador_mwh
+      - name: energia_exportada_instantania_comptador_count
+      - name: energia_exportada_comptador_mwh
+      - name: energia_importada_comptador_kwh
+      - name: data_prediccio
+      - name: energia_predita_meteologica_mwh
+      - name: energia_esperada_solargis_mwh
+      - name: preu_omie_e_kwh
+      - name: irradiation_wh_m2
+      - name: irradiacio_satellit_wh_m2
+      - name: temperatura_modul_avg_c
+      - name: pr
+      - name: hores_equivalents
+      - name: hora_disponible
+      - name: hora_total
+      - name: disponibilitat
+      - name: energia_desviada_omie_kwh
+      - name: energia_desviada_omie_kwh_absolute
+      - name: energia_perduda_mwh
+      - name: energia_desviada_percent
   - name: dm_plant_production_hourly
     description: Conté les lectures crues que venen de la producció horària de les plantes
     columns:

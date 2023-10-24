@@ -16,12 +16,12 @@ with production_target as (
 ), production_monthly as (
     select
         month,
-        sum(energia_instantania_inversor_kwh)/1000 as total_energia_instantania_inversores_mwh,
-        sum(energia_exportada_instantania_comptador_kwh)/1000 as total_energia_exportada_instantania_comptadores_mwh,
-        sum(energia_exportada_comptador_kwh)/1000 as total_energia_exportada_comptadores_mwh,
-        sum(energia_esperada_solargis_kwh)/1000 as total_energia_esperada_solargis_mwh,
-        sum(abs(energia_perduda_kwh))/1000 as total_energia_perduda_mwh,
-        max(preu_omie_e_kwh) as preu_omie_e_kwh
+        sum(energia_instantania_inversor_mwh) as total_energia_instantania_inversores_mwh,
+        sum(energia_exportada_instantania_comptador_mwh) as total_energia_exportada_instantania_comptadores_mwh,
+        sum(energia_exportada_comptador_mwh) as total_energia_exportada_comptadores_mwh,
+        sum(energia_esperada_solargis_mwh) as total_energia_esperada_solargis_mwh,
+        sum(abs(energia_perduda_mwh)) as total_energia_perduda_mwh,
+        max(preu_omie_eur_mwh) as preu_omie_eur_mwh
     from {{ ref("dm_plant_production_monthly") }}
     group by month
 )
