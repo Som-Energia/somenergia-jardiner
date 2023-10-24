@@ -8,7 +8,7 @@ with spine as (
         tecnologia,
         sum(energia_instantania_inversor_kwh) as energia_instantania_inversor_kwh,
         sum(energia_exportada_instantania_comptador_kwh) as energia_exportada_instantania_comptador_kwh,
-        max(preu_omie_e_kwh) as preu_omie_e_kwh
+        max(preu_omie_eur_mwh) as preu_omie_eur_mwh
     from {{ ref("dm_plant_production_hourly") }}
     where current_date <= hora_inici and hora_inici < current_date + interval '1 day'
     group by hora_inici, tecnologia

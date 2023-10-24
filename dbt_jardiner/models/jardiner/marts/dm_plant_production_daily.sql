@@ -16,7 +16,7 @@ select
     min(data_prediccio) as data_prediccio,
     sum(energia_predita_meteologica_kwh) as energia_predita_meteologica_kwh,
     sum(energia_esperada_solargis_kwh) as energia_esperada_solargis_kwh,
-    avg(preu_omie_e_kwh) as preu_omie_e_kwh,
+    avg(preu_omie_eur_mwh) as preu_omie_eur_mwh,
     sum(irradiation_wh_m2) as irradiation_wh_m2,
     sum(irradiacio_satellit_wh_m2) as irradiacio_satellit_wh_m2,
     avg(temperatura_modul_avg_c) as temperatura_modul_avg_c,

@@ -33,7 +33,7 @@ select
     sum(production_monthly.total_energia_exportada_comptadores_mwh) over (partition by extract (year from production_monthly.month) order by production_monthly.month) as total_cumsum_energia_exportada_comptadores_mwh,
     production_monthly.total_energia_esperada_solargis_mwh,
     production_monthly.total_energia_perduda_mwh,
-    production_monthly.preu_omie_e_kwh,
+    production_monthly.preu_omie_eur_mwh,
     production_target_w_cumsum.total_energy_production_target_mwh as total_energia_objetivo_mwh,
     sum(production_target_w_cumsum.total_energy_production_target_mwh) over (partition by extract (year from production_target_w_cumsum.month) order by production_target_w_cumsum.month) as total_cumsum_energy_production_target_mwh
 from production_target_w_cumsum

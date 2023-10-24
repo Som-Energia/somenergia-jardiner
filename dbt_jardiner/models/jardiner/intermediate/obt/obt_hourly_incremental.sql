@@ -23,7 +23,7 @@ select
     sr.tilted_irradiation_wh_m2 as satellite_irradiation_wh_m2,
     sr.module_temperature_dc as satellite_module_temperature_dc,
     sr.energy_output_kwh as satellite_energy_output_kwh,
-    omie.price as omie_price_eur_kwh,
+    omie.price as omie_price_eur_mwh,
     {# exported_energy should be in wh we pass it to kwh. Also the /1000 is GSTC[W/m2] #}
     (dset.exported_energy*1000 / plant_metadata.peak_power_kw::float) / (NULLIF(sr.tilted_irradiation_wh_m2, 0.0) / 1000.0) as pr_hourly,
     spine.start_hour between solar_events.sunrise_real and solar_events.sunset_real as is_daylight_real,
