@@ -9,21 +9,49 @@ with unnest_groups as (
 	SELECT *
 	FROM unnest_groups
 	WHERE group_name != 'SOMENERGIA'
+),
+unnested_dset_response as (
+	SELECT
+		group_name,
+		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_id')::text as signal_id,
+		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_tz')::text as signal_tz,
+		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_code')::text as signal_code,
+		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_type')::text as signal_type,
+		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_unit')::text as signal_unit,
+		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_last_ts')::timestamp at time zone
+			(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_tz')::text as signal_last_ts,
+		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_frequency')::text as signal_frequency,
+		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_is_virtual')::text as signal_is_virtual,
+		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_last_value')::numeric as signal_last_value,
+		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_description')::text as signal_description,
+		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_device_id')::text as signal_device_uuid,
+		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_device_type')::text as signal_device_type,
+		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_sensor_id')::text as signal_uuid,
+		(jsonb_array_elements(jsonb_array_elements((response)::jsonb#>'{signals}')#>'{data}')->>'ts')::timestamp at time zone
+			(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_tz')::text as ts,
+		(jsonb_array_elements(jsonb_array_elements((response)::jsonb#>'{signals}')#>'{data}')->>'value')::numeric as signal_value
+	FROM filter_dummy_group
 )
-SELECT
+select
+	ts,
 	group_name,
-	(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_id')::text as signal_id,
-	(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_tz')::text as signal_tz,
-	(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_code')::text as signal_code,
-	(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_type')::text as signal_type,
-	(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_unit')::text as signal_unit,
-	(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_last_ts')::timestamp at time zone
-		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_tz')::text as signal_last_ts,
-	(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_frequency')::text as signal_frequency,
-	(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_is_virtual')::text as signal_is_virtual,
-	(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_last_value')::numeric as signal_last_value,
-	left((jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_description'), 36)::uuid as signal_uuid,
-	(jsonb_array_elements(jsonb_array_elements((response)::jsonb#>'{signals}')#>'{data}')->>'ts')::timestamp at time zone
-		(jsonb_array_elements((response)::jsonb#>'{signals}')->>'signal_tz')::text as ts,
-	(jsonb_array_elements(jsonb_array_elements((response)::jsonb#>'{signals}')#>'{data}')->>'value')::numeric as signal_value
-FROM filter_dummy_group
+	signal_value,
+	case when signal_uuid ~ E'^[[:xdigit:]]{8}-([[:xdigit:]]{4}-){3}[[:xdigit:]]{12}$' then
+		signal_uuid::uuid
+	else NULL
+	end
+		as signal_uuid,
+	signal_id,
+	signal_tz,
+	signal_code,
+	signal_type,
+	signal_unit,
+	signal_last_ts,
+	signal_frequency,
+	signal_is_virtual,
+	signal_last_value,
+	signal_uuid as signal_uuid_debug,
+	signal_device_type,
+	signal_device_uuid
+from unnested_dset_response
+order by ts desc
