@@ -8,7 +8,7 @@ with current_data as (
             when planta = 'Tahal' then 'Terborg'
             else planta
         end as plant,
-        latitut::numeric as latitude,
+        latitud::numeric as latitude,
         longitut::numeric as longitude,
         municipi as municipality,
         provincia as province,
