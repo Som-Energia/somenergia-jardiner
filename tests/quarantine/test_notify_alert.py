@@ -3,12 +3,13 @@ from pathlib import Path
 import pandas as pd
 import pytest
 import sqlalchemy
-from dotenv import dotenv_values
 from pandas.testing import assert_frame_equal
 
-from jardiner.jardiner_utils import get_dbapi
 from jardiner.settings import settings
-from scripts.notify_alert import evaluate_and_notify_alarm, refresh_notification_table
+from scripts.notify_alert import (  # noqa
+    evaluate_and_notify_alarm,
+    refresh_notification_table,
+)
 
 ASSETS_DIR = Path(__file__).parent / "assets"
 
@@ -33,7 +34,7 @@ def initdb(transaction_connection):
     schema = "testing"  # TODO deal with the testing schema
     alert_name = "alert_inverter_zero_power_at_daylight"
 
-    connection, engine = transaction_connection  # noqa
+    connection, _ = transaction_connection  # noqa
 
     connection.execute(f"CREATE SCHEMA IF NOT EXISTS {schema};")
 
@@ -131,10 +132,15 @@ def test__notify_alert__onealert__alerted(initdb):
     alert_name = "alert_inverter_zero_power_at_daylight"
 
     alertdf = pd.read_sql_table(table_name=alert_name, con=conn, schema=schema)
-    alertdf, result = refresh_notification_table(conn, schema, alertdf, alert_name)
+    alertdf, result = refresh_notification_table(
+        conn,
+        schema,
+        alertdf,
+        alert_name,
+    )
 
     assert len(result) == 1
-    assert result.iloc[0]["is_alarmed"] == True
+    assert result.iloc[0]["is_alarmed"] is True
     assert result.iloc[0]["plant_name"] == "Alcolea"
 
 
@@ -144,7 +150,8 @@ def csv_to_sqltable(csvpath, conn, schema, table, ifexists):
 
 
 # This is an integration test. Check if you recieved the notification.
-# NOTE: notifies testing_topic which has no subscribors. Subscribe to it if you want to get the test notifications.
+# NOTE: notifies testing_topic which has no subscribors.
+# Subscribe to it if you want to get the test notifications.
 def test__evaluate_and_notify_alarm__notify_one_alert(initdb, get_secrets):
     conn, schema = initdb
     alert_name = "alert_inverter_zero_power_at_daylight"

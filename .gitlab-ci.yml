@@ -20,6 +20,7 @@ variables:
 
   SOMENERGIA_REGISTRY: $SOM_HARBOR_DADES_URL
   DBT_PROJECT_DIR_NAME: dbt_jardiner
+  SOM_PROJECT_NAME: somenergia-jardiner
   IMAGE_NAME_PREFIX: $SOM_HARBOR_DADES_URL/$CI_PROJECT_NAME
   IMAGE_NAME_APP: $IMAGE_NAME_PREFIX-app
   IMAGE_NAME_APP_PRE_RELEASE: $IMAGE_NAME_APP:pre-release
@@ -30,6 +31,9 @@ variables:
   APP_COMPOSE_FILE: containers/app/docker-compose.yml
   CI_TRIGGER_TASK_NAME: null
 
+  # just run pre-commit hooks on the files that changed, but don't fix them
+  PRE_COMMIT_AUTO_FIX: 0
+
 # environment variables to render compose files properly
 .compose_app_env: &compose_app_env
   SOMENERGIA_PROJECT_ENVIRONMENT: "production"
@@ -38,6 +42,13 @@ variables:
   SOM_JARDINER_DB_DBNAME: "$SOM_JARDINER_DB_DBNAME"
   SOM_JARDINER_DB_PORT: "$SOM_JARDINER_DB_PORT"
   SOM_JARDINER_DB_HOST: "$SOM_JARDINER_DB_HOST"
+
+include:
+  remote: "https://gitlab.com/yesolutions/gitlab-ci-templates/raw/main/templates/pre-commit-autofix.yaml"
+
+pre-commit:
+  tags:
+    - somenergia-et
 
 show-env:
   stage: pre
@@ -87,11 +98,13 @@ build-builder-image-pre-release:
       when: always
       changes:
         paths: *builder-build-changes-paths
+      allow_failure: false
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: always
       changes:
         compare_to: "refs/heads/main"
         paths: *builder-build-changes-paths
+      allow_failure: true
   tags:
     - somenergia-et
 
@@ -107,11 +120,13 @@ build-app-image-pre-release:
       when: always
       changes:
         paths: *app-build-changes-paths
+      allow_failure: false
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: always
       changes:
         compare_to: "refs/heads/main"
         paths: *app-build-changes-paths
+      allow_failure: true
   tags:
     - somenergia-et
 
@@ -124,7 +139,7 @@ dbt-test-prod:
     DBUSER: $SOM_JARDINER_DB_USER
     DBPASSWORD: $SOM_JARDINER_DB_PASSWORD
     DBNAME: $SOM_JARDINER_DB_DBNAME
-  image: ${SOM_HARBOR_DADES_URL}/somenergia-jardiner-dbt-docs:latest
+  image: ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-docs:latest
   script:
     - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
     - dbt deps --target ${DBT_TARGET_NAME}
@@ -134,13 +149,18 @@ dbt-test-prod:
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
       when: always
+      changes:
+        paths: *app-build-changes-paths
+      allow_failure: false
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: manual
-      allow_failure: true
+      when: always
+      changes:
+        compare_to: "refs/heads/main"
+        paths: *app-build-changes-paths
+      allow_failure: false
   artifacts:
     paths:
       - ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/target
-
 
 release-app-image:
   stage: release
@@ -268,9 +288,9 @@ release-dbt-docs-image:
     - docker login -u $SOM_HARBOR_DADES_USER -p $SOM_HARBOR_DADES_PASSWORD $SOM_HARBOR_DADES_URL
   script:
     - echo "Building dbt docs image"
-    - docker build --pull -t ${SOM_HARBOR_DADES_URL}/somenergia-jardiner-dbt-docs:latest -f containers/app/Dockerfile --target dbt-docs .
+    - docker build --pull -t ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-docs:latest -f containers/app/Dockerfile --target dbt-docs .
     - echo "Pushing dbt docs image"
-    - docker push ${SOM_HARBOR_DADES_URL}/somenergia-jardiner-dbt-docs:latest
+    - docker push ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-docs:latest
   tags:
     - somenergia-et
   rules:
@@ -285,7 +305,7 @@ release-mkdocs-image:
   variables:
     # https://github.com/timvink/mkdocs-git-revision-date-localized-plugin#note-when-using-build-environments
     GIT_DEPTH: 0
-    MKDOCS_IMAGE_NAME: $SOM_HARBOR_DADES_URL/somenergia-jardiner-mkdocs:latest
+    MKDOCS_IMAGE_NAME: $SOM_HARBOR_DADES_URL/${SOM_PROJECT_NAME}-mkdocs:latest
   before_script:
     - echo "Logging in to Docker Hub"
     - docker login -u $SOM_HARBOR_DADES_USER -p $SOM_HARBOR_DADES_PASSWORD $SOM_HARBOR_DADES_URL
@@ -310,6 +330,31 @@ release-mkdocs-image:
     - somenergia-et
   stage: release
 
+chown-non-root-artifacts:
+  stage: deploy
+  script:
+    - echo "Creating artifacts directory"
+    - mkdir -p ${CI_PROJECT_DIR}/.artifacts
+    - echo "Change owner of artifacts directory to 1000:1000"
+    - chown -R 1000:1000 ${CI_PROJECT_DIR}/.artifacts
+    - echo "Change ownership of dbt docs requirements"
+    - chown -R 1000:1000 ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
+    - echo "Change ownership of mkdocs requirements"
+    - chown -R 1000:1000 ${CI_PROJECT_DIR}/docs && chown 1000:1000 ${CI_PROJECT_DIR}/mkdocs.yml
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main" && $CI_PIPELINE_SOURCE == "push"
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+    - if: $CI_PIPELINE_SOURCE == "trigger" && $CI_TRIGGER_TASK_NAME == "pages"
+      when: always
+  artifacts:
+    paths:
+      - .artifacts
+  tags:
+    - somenergia-et
+
 generate-dbt-docs:
   stage: deploy
   variables:
@@ -319,19 +364,23 @@ generate-dbt-docs:
     DBUSER: $SOM_JARDINER_DB_USER
     DBPASSWORD: $SOM_JARDINER_DB_PASSWORD
     DBNAME: $SOM_JARDINER_DB_DBNAME
-  before_script:
-    - whoami
-  image: ${SOM_HARBOR_DADES_URL}/somenergia-jardiner-dbt-docs:latest
+    DBT_DOCS_ARTIFACT_DIR: ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/target
+  image: ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-docs:latest
   script:
     - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
     - dbt deps --target ${DBT_TARGET_NAME}
     - dbt docs generate --target ${DBT_TARGET_NAME}
     - re_data overview generate --target ${DBT_TARGET_NAME}
+    - mkdir -p ${CI_PROJECT_DIR}/.artifacts/target
+    - cp -R ${DBT_DOCS_ARTIFACT_DIR}/* ${CI_PROJECT_DIR}/.artifacts/target
   artifacts:
     paths:
-      - ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/target
+      - .artifacts/target
   tags:
     - somenergia-et
+  needs:
+    - job: chown-non-root-artifacts
+      artifacts: true
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
       when: always
@@ -341,28 +390,50 @@ generate-dbt-docs:
     - if: $CI_PIPELINE_SOURCE == "trigger" && $CI_TRIGGER_TASK_NAME == "pages"
       when: always
 
-pages:
+generate-mkdocs:
   image:
-    name: $SOM_HARBOR_DADES_URL/somenergia-jardiner-mkdocs:latest
+    name: ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-mkdocs:latest
     entrypoint: [""]
   stage: deploy
   variables:
     GIT_DEPTH: 0 # https://github.com/timvink/mkdocs-git-revision-date-localized-plugin#note-when-using-build-environments
     CI_DEBUG_TRACE: "true"
+    MKDOCS_ARTIFACT_DIR: ${CI_PROJECT_DIR}/site
+  script:
+    - mkdocs build --strict --verbose --clean --site-dir ${MKDOCS_ARTIFACT_DIR}
+    - mkdir -p ${CI_PROJECT_DIR}/.artifacts/site
+    - cp -R ${MKDOCS_ARTIFACT_DIR}/* ${CI_PROJECT_DIR}/.artifacts/site
+  needs:
+    - job: chown-non-root-artifacts
+      artifacts: true
+  artifacts:
+    paths:
+      - .artifacts/site
+  rules:
+    # run only on main branch after build-app-image-pre-release is successful
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+    - if: $CI_PIPELINE_SOURCE == "trigger" && $CI_TRIGGER_TASK_NAME == "pages"
+      when: always
+  tags:
+    - somenergia-et
+
+pages:
+  stage: deploy
   script:
     - echo "Preparing repository"
-    - git config --global --add safe.directory "$CI_PROJECT_DIR"
-    - mkdocs build --strict --verbose
     - mkdir -p ${CI_PROJECT_DIR}/public/
-    - cp ${CI_PROJECT_DIR}/site/* ${CI_PROJECT_DIR}/public/ -R
+    - cp -R ${CI_PROJECT_DIR}/.artifacts/site/* ${CI_PROJECT_DIR}/public/
     - mkdir -p ${CI_PROJECT_DIR}/public/dbt_docs
-    - cp ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/target/* ${CI_PROJECT_DIR}/public/dbt_docs/ -R
+    - cp -R ${CI_PROJECT_DIR}/.artifacts/target/* ${CI_PROJECT_DIR}/public/dbt_docs/
   artifacts:
     paths:
       - public
   rules:
     # run only on main branch after build-app-image-pre-release is successful
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_COMMIT_REF_NAME == "main" && $CI_PIPELINE_SOURCE == "push"
       when: always
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
@@ -371,6 +442,8 @@ pages:
       when: always
   needs:
     - job: generate-dbt-docs
+      artifacts: true
+    - job: generate-mkdocs
       artifacts: true
   tags:
     - somenergia-et

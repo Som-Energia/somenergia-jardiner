@@ -83,7 +83,9 @@ def refresh_notification_table(con, schema, alertdf, alert_name):
             alertdf_new_clean["is_alarmed"],
         )
 
-        # TODO to solve the futurewarning of bool reduction we might have to cast is_alarmed column to bool (since it can't have nulls at this point)
+        # TODO: to solve the futurewarning of bool reduction we might have to
+        # cast is_alarmed column to bool
+        # (since it can't have nulls at this point)
 
         alert_status_df_old_clean["xgroupby"] = "old"
         alertdf_new_clean["xgroupby"] = "new"
@@ -165,7 +167,9 @@ def evaluate_and_notify_alarm(
         con=conn, schema=schema, alertdf=alertdf, alert_name=alert
     )
     alertdf_diff["color"] = np.where(
-        alertdf_diff["is_alarmed"] == True, "#FD0D0D", "#2F9905"
+        alertdf_diff["is_alarmed"].astype(bool),
+        "#FD0D0D",
+        "#2F9905",
     )
 
     if not to_notify:

@@ -4,7 +4,7 @@ repos:
     rev: v4.4.0
     hooks:
       - id: check-yaml
-        args: ['--unsafe']
+        args: ["--unsafe"]
       - id: trailing-whitespace
       - id: detect-private-key
       - id: name-tests-test
@@ -26,6 +26,7 @@ repos:
       - id: ruff
 fail_fast: false
 files: ".*"
-exclude: "desktop.ini" # Windows
-default_language_version:
-  python: python3.8
+exclude: |
+  (?x)^(
+      desktop.ini
+  )$
