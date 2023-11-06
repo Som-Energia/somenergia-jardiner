@@ -1,4 +1,4 @@
-# New merge request
+# New merge request for airflow related changes
 
 ## Co-authored by
 
@@ -27,16 +27,6 @@ Provide links to the related issues or feature requests.
 - [ ] I have removed any TODO comments and added an issue for each one of them.
 - [ ] I have added tests to cover the changes.
 - [ ] I have added documentation to cover the changes.
-
-## dbt checklist
-
-- [ ] This MR includes changes to the dbt models in the project
-- [ ] All models in this MR [follow naming schemes](outline.somenergia.coop)
-- [ ] All models in this MR have a valid `_<scope>__models.yml` file
-- [ ] All models in this MR have a description and are documented, to some extent, throught the `_<scope>__models.yml` file
-- [ ] All models in this MR have valid tags
-- [ ] All models in this MR have a valid `_<scope>__sources.yml` file
-- [ ] All models are formatted using the [`henriblancke.vscode-dbt-formatter`](https://marketplace.visualstudio.com/items?itemName=henriblancke.vscode-dbt-formatter) VSCode extension
 
 ## airflow checklist
 

@@ -1,4 +1,4 @@
-# New merge request
+# New merge request for dbt related changes
 
 ## Co-authored by
 
@@ -37,13 +37,6 @@ Provide links to the related issues or feature requests.
 - [ ] All models in this MR have valid tags
 - [ ] All models in this MR have a valid `_<scope>__sources.yml` file
 - [ ] All models are formatted using the [`henriblancke.vscode-dbt-formatter`](https://marketplace.visualstudio.com/items?itemName=henriblancke.vscode-dbt-formatter) VSCode extension
-
-## airflow checklist
-
-- [ ] This MR includes changes to the DAGs in the project
-- [ ] All DAGs in this MR have a valid collection of tags
-- [ ] All DAGS in this MR contain a value for `__doc___`, passed to the `doc_md` parameter of the `DAG` constructor
-- [ ] There is maximum one DAG per file
 
 ## Security checklist
 

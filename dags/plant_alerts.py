@@ -34,6 +34,7 @@ nfs_config = {
 
 def get_random_moll():
     available_molls = Variable.get("available_molls").split()
+    # trunk-ignore(bandit/B311)
     return random.choice(available_molls)
 
 

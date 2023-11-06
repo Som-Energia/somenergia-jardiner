@@ -5,8 +5,7 @@
 To fully deploy the dbt models you can do
 
 ```bash
-dbt build -s tag:jardiner --store-failures --full-refresh
-dbt build -s tag:legacy --store-failures --target prod
+dbt build -s tag:jardiner,tag:legacy --store-failures --full-refresh --target prod
 ```
 
 ## Current State of the project
@@ -96,5 +95,3 @@ obt --> datasets
 Després de l'[ADR d'estructura de pipeline](/somenergia-jardiner/adr/2023-06-13-pipeline_dades_llargues)
 
 See [Roadmap](/somenergia-jardiner/projecte/2023-06-03-macrofase roadmap/)
-
-

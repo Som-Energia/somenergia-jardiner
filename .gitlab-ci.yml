@@ -44,23 +44,9 @@ variables:
   SOM_JARDINER_DB_HOST: "$SOM_JARDINER_DB_HOST"
 
 include:
-  remote: "https://gitlab.com/yesolutions/gitlab-ci-templates/raw/main/templates/pre-commit-autofix.yaml"
+  - local: /.gitlab-ci/.pre-commit.yml
 
 pre-commit:
-  tags:
-    - somenergia-et
-
-show-env:
-  stage: pre
-  script:
-    - env
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: manual
-      allow_failure: true
-    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      when: manual
-      allow_failure: true
   tags:
     - somenergia-et
 
@@ -104,7 +90,7 @@ build-builder-image-pre-release:
       changes:
         compare_to: "refs/heads/main"
         paths: *builder-build-changes-paths
-      allow_failure: true
+      allow_failure: false
   tags:
     - somenergia-et
 
@@ -126,7 +112,7 @@ build-app-image-pre-release:
       changes:
         compare_to: "refs/heads/main"
         paths: *app-build-changes-paths
-      allow_failure: true
+      allow_failure: false
   tags:
     - somenergia-et
 

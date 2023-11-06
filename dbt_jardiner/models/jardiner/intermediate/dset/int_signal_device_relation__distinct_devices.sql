@@ -1,15 +1,5 @@
-{{ config(
-    materialized = 'table'
-) }}
+{{ config(materialized="table") }}
 
-SELECT DISTINCT
-	plant,
-    device,
-    device_uuid,
-    device_type,
-    device_parent
-FROM
-    {{ ref('seed_signals__with_devices') }}
-ORDER BY
-    plant,
-    device
+select distinct plant, device, device_uuid, device_type, device_parent
+from {{ ref("seed_signals__with_devices") }}
+order by plant, device

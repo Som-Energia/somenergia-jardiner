@@ -11,7 +11,6 @@ seeds:
       a la taula utilitzant l'script scripts/file_to_sql.py.
       Exemple del maping enviat per [Llanillos](https://docs.google.com/spreadsheets/d/1op_WHvGZNyDdkBD7EOXK-CPU5-aGjK3r/edit#gid=629299947)
     config:
-      tags: jardiner
       column_types:
         device_uuid: UUID
         signal_uuid: UUID
@@ -36,7 +35,8 @@ seeds:
         description: tipo de aparell (meter, inverter, sensor, plant, string)
         tests:
           - accepted_values:
-              values: ['meter', 'inverter', 'sensor', 'plant', 'string', 'module']
+              values:
+                ["meter", "inverter", "sensor", "plant", "string", "module"]
       - name: device_parent
         description: device parent del device. e.g. un string té l'inversor1 com a pare
   - name: seed_plants__parameters
@@ -44,7 +44,6 @@ seeds:
       some parameters of the plants, a subset of public.plantparameters and a few extra needed.
       It should replace public.plantparameters at some point
     config:
-      tags: jardiner
       column_types:
         is_tilted: boolean
         connection_date: timestamptz

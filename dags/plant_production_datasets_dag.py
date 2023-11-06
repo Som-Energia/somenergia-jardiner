@@ -28,6 +28,7 @@ nfs_config = {
 
 def get_random_moll():
     available_molls = Variable.get("available_molls").split()
+    # trunk-ignore(bandit/B311)
     return random.choice(available_molls)
 
 
@@ -87,8 +88,10 @@ with DAG(
         ),
         working_dir=f"/repos/{repo_name}/dbt_jardiner",
         command=(
-            "dbt run --profiles-dir config --target prod "
-            "--select plant_production_hourly+"
+            "dbt run"
+            " --profiles-dir config"
+            " --target prod"
+            " --select tag:legacy,plant_production_hourly+"
         ),
         docker_url=sampled_moll,
         mounts=[mount_nfs],
