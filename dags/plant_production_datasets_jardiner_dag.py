@@ -92,7 +92,7 @@ with DAG(
             "dbt run"
             " --profiles-dir config"
             " --target prod"
-            " --selector tag:jardiner,config.materialized:table+"
+            " --models tag:jardiner,config.materialized:table+"
             " tag:jardiner,config.materialized:incremental+"
         ),
         docker_url=sampled_moll,
