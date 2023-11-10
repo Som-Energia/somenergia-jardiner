@@ -3,8 +3,8 @@
 with
     valors as (
         select true as rebut_from_dset, signal_uuid
-        from {{ ref("raw_dset_responses__api_response") }}
-        where ts = (select max(ts) from {{ ref("raw_dset_responses__api_response") }})
+        from {{ ref("int_dset_responses__deduplicated") }}
+        where ts = (select max(ts) from {{ ref("int_dset_responses__deduplicated") }})
     )
 select
     signals.plant,

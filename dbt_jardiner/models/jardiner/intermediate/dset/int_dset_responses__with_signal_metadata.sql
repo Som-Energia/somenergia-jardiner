@@ -24,7 +24,8 @@ SELECT
     valors.signal_frequency,
     valors.signal_is_virtual,
     valors.signal_last_value,
+	valors.queried_at,
     valors.ts,
     valors.signal_value as signal_value
 FROM {{ ref('seed_signals__with_devices') }} AS metadata
-LEFT JOIN {{ ref('raw_dset_responses__api_response') }} AS valors USING(signal_uuid)
+LEFT JOIN {{ ref('int_dset_responses__deduplicated') }} AS valors USING(signal_uuid)
