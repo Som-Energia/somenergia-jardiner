@@ -7,3 +7,6 @@ sources:
       - name: omie_historical_price_hour
         description: >
           Taula importada via airbyte del projecte de KPIs antic.
+          airbyte currently normalizes the data (JSONB -> table). To avoid drop cascade we switched to incremental
+          Alternativelly, we can full-refresh without normalization since _airbyte_raw_* is truncated, not replaced.
+          https://discuss.airbyte.io/t/remove-related-VIEWS-IN-full-refresh-overwrite-MODE/747
