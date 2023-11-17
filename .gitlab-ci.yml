@@ -30,6 +30,7 @@ variables:
   MKDOCS_COMPOSE_FILE: containers/mkdocs/docker-compose.mkdocs.yml
   APP_COMPOSE_FILE: containers/app/docker-compose.yml
   CI_TRIGGER_TASK_NAME: null
+  
 
   # just run pre-commit hooks on the files that changed, but don't fix them
   PRE_COMMIT_AUTO_FIX: 0
@@ -353,6 +354,7 @@ generate-dbt-docs:
     DBT_DOCS_ARTIFACT_DIR: ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/target
   image: ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-docs:latest
   script:
+    - if [ $CI_PIPELINE_DEBUG_FLAG==true ]; then sleep 1h; fi
     - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
     - dbt deps --target ${DBT_TARGET_NAME}
     - dbt docs generate --target ${DBT_TARGET_NAME}
