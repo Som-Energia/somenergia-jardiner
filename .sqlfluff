@@ -1,7 +1,9 @@
 [sqlfluff]
-exclude_rules = layout.indent, layout.cte_bracket, layout.select_targets, LT05
+exclude_rules = layout.indent, layout.cte_bracket, layout.select_targets
 # set max_line_length to whatever you set in sqlfmt
 max_line_length = 120
+# don't check for line length, let sqlfmt do that
+exclude_rules = LT05
 
 [sqlfluff:rules]
 capitalisation_policy = lower

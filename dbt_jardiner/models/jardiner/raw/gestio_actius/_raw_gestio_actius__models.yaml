@@ -1,57 +1,8 @@
 version: 2
 
 models:
+
   - name: raw_gestio_actius_production_target
     description: >
       Conté la taula incremental que es crea mitjançant el snapshot (al schema lake)
       que llegueix la source del drive importada per airbyte (al schema airbyte_imported)
-  - name: raw_gestio_actius__signals__denormalized
-    description: >
-      Taula amb la llista de devices, els seus uuids i si tenen un parent.
-
-      Conté la relació entre signal_description de l'API de DSET (un UUID
-      imputat per nosaltres en el document de maping que se'ls envia) amb un device_uuid
-      també imputat per nosaltres que es correspon amb la columna homònima de la taula
-      d'aparell que correspongui ja sigui inverter, string, sensor, plant, etc.
-      Aquesta taula equival al 'seed' data/seed_signals__with_devices.csv que es carrega
-      a la taula utilitzant l'script scripts/file_to_sql.py.
-      Exemple del maping enviat per [Llanillos](https://docs.google.com/spreadsheets/d/1op_WHvGZNyDdkBD7EOXK-CPU5-aGjK3r/edit#gid=629299947)
-    columns:
-      - name: signal_id
-        description: id intern de la db
-      - name: plant_uuid
-        description: uuid4 de la planta
-      - name: plant
-        description: nom de la planta
-      - name: signal
-        description: nom del senyal
-      - name: metric
-        description: nom de la metrica
-      - name: device
-        description: nom del device
-      - name: device_type
-        description: tipus de device
-        tests:
-          - accepted_values:
-              values:
-                ["meter", "inverter", "sensor", "plant", "string", "module"]
-      - name: device_parent
-        description: device parent del device. e.g. un string té l'inversor1 com a pare
-      - name: signal_uuid
-        description:
-          UUID del senyal present a la columns signal_UUID del maping. Es assignada manualment amb
-          cada nou mapeig de GA.
-        tests:
-          - unique
-      - name: device_uuid
-        description:
-          Imputat per nosaltres que es correspon amb la columna homònima de la
-          taula d'aparell que correspongui ja sigui inverter, string, sensor, plant, etc.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          config:
-            severity: error
-          combination_of_columns:
-            - plant_uuid
-            - device_uuid
-            - signal_uuid

@@ -13,7 +13,7 @@ select
 	signals.device_type,
 	signals.device_uuid,
 	coalesce(rebut_from_dset, False) as rebut_from_dset
-from {{ ref('raw_gestio_actius__signal_denormalized') }} as signals
+from {{ref('seed_signals__with_devices')}} as signals
 left join valors on signals.signal_uuid = valors.signal_uuid
 where rebut_from_dset is null
 order by plant
