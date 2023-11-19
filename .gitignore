@@ -1,5 +1,11 @@
 # handmade ignores
 
+# duckdb
+*.duckdb
+
+# dbt internals
+dbt_jardiner/pre/
+
 # tmux shenanigans
 tmux_jardiner
 ..lock

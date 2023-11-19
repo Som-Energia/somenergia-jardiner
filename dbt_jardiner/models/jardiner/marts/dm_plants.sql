@@ -1,7 +1,7 @@
 {{ config(materialize='view') }}
 
 select
-    plant as nom_planta,
+    plant_name as nom_planta,
     municipality as municipi,
     province as provincia,
     latitude as latitud,

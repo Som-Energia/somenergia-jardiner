@@ -1,8 +1,45 @@
 version: 2
 
 sources:
-  - name: plantlake
+  - name: airbyte
     schema: airbyte_imported
     tables:
       - name: gestio_actius_objectius_de_produccio
+        description: >
+          Objectius anuals de producció de les plantes. Cada mes quant haurien de produïr.
+          Canvia un cop a l'any com a màxim.
+          Sincronitzat amb airbyte + dbt snapshot a partir del sheet
+          [airbyte_Control de instalaciones_Gestió d'Actius - Produccio objectiu actual - Dades](https://docs.google.com/spreadsheets/d/1VR5wQiHahicm9Q5mxVvzJUfBESYPGP5yvtLDf5NiMfc/edit#gid=2056763057)
       - name: gestio_actius_dades_fixes
+        description: >
+          Conjunt de paràmetres que defineixen una planta i que no canvien pràcticament mai.
+          Sincronitzat amb airbyte + dbt snapshot a partir del sheet
+          [airbyte_Dades fixes de planta](https://docs.google.com/spreadsheets/d/1Av9l0y--J4755JRMWL5kOSQlSY-c797X13CUqzfu3rw/edit#gid=0)
+      - name: gestio_actius_signal_denormalized
+        description: >
+          Mapeig de senyals que ens arriben de dset a metadades definides per gestió d'actius.
+          Actualment sincronitzat a mà via dbeaver basant-nos en el sheet
+          [airbyte_signal_device_relation](https://docs.google.com/spreadsheets/d/1Av9l0y--J4755JRMWL5kOSQlSY-c797X13CUqzfu3rw/edit#gid=0)
+        columns:
+          - name: plant_uuid
+            description: "UUID of the plant, version 4"
+          - name: plant
+            description: "Name of the plant"
+          - name: signal
+            description: "Name of the signal. Free text"
+          - name: metric
+            description: "A general name for the signal."
+          - name: device
+            description: "Name of the device"
+          - name: device_type
+            description: "Type of the device"
+          - name: device_uuid
+            description: "UUID of the device, version 4"
+          - name: device_parent
+            description: "Parent of the device, if any. Maps to the device column"
+          - name: signal_uuid
+            description: "UUID of the signal, version 4"
+          - name: inserted_at
+            description: "Insertion timestamp in the database, in UTC"
+          - name: updated_at
+            description: "Update timestamp in the database, in UTC"

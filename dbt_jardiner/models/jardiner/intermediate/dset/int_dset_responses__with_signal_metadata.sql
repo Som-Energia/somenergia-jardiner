@@ -6,7 +6,8 @@
 e.g. signal_value * (case when signal_unit = 'kwh' then 1000 else 1)#}
 
 SELECT
-    metadata.plant,
+    metadata.plant_uuid,
+	  metadata.plant,
     metadata.signal,
     metadata.metric,
     metadata.device,
@@ -27,5 +28,5 @@ SELECT
 	valors.queried_at,
     valors.ts,
     valors.signal_value as signal_value
-FROM {{ ref('seed_signals__with_devices') }} AS metadata
+FROM {{ ref('raw_gestio_actius__signal_denormalized') }} AS metadata
 LEFT JOIN {{ ref('int_dset_responses__deduplicated') }} AS valors USING(signal_uuid)
