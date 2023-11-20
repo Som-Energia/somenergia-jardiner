@@ -9,6 +9,6 @@
     )
 }}
 
-select * from {{ source('plantlake','gestio_actius_dades_fixes') }}
+select * from {{ source('airbyte','gestio_actius_dades_fixes') }}
 
 {% endsnapshot %}

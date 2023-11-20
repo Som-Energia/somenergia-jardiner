@@ -1,3 +1,4 @@
+---
 version: 2
 
 snapshots:
@@ -7,3 +8,11 @@ snapshots:
       Aproximadament un cop a l'any en funció a diversos paràmeters actualitzen valors
       [Producció objectiu actual](https://docs.google.com/spreadsheets/d/1VR5wQiHahicm9Q5mxVvzJUfBESYPGP5yvtLDf5NiMfc)
     tag: source
+  - name: snapshot_signal_denormalized
+    description: >
+      Taula denormalitzada i individualitzada de les metadades de senyals,
+      relacionades amb els aparells i plantes d'on sorgeixen.
+  - name: snapshot_plant_parameters
+    description: >
+      some parameters of the plants, a subset of public.plantparameters and a few extra needed.
+      It should replace public.plantparameters at some point

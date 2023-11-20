@@ -9,7 +9,7 @@ with inverters_energy as (
         signal_unit,
         signal_value
     from {{ ref('int_dset_responses__values_incremental') }}
-    where device_type in ('inverter') and metric = 'inverter_energy'
+    where device_type in ('inverter') and metric = 'energia_activa_exportada'
 ), production_hourly as (
     select
         start_hour,

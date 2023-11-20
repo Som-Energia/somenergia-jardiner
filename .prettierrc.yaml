@@ -1,0 +1,10 @@
+---
+semi: false
+overrides:
+  - files: "*.js"
+    options:
+      semi: true
+  - files:
+      - "*.html"
+    options:
+      tabWidth: 2
