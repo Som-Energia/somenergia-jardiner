@@ -1,22 +1,45 @@
 version: 2
 
 models:
-
   - name: raw_dset_responses__api_response
-    description: Conté les lectures crues que venen de la ingesta. Consulta la doc del model dset_responses (el source) per més info.
+    description: >
+      Conté les lectures crues que venen de la ingesta.
+      Consulta la doc del model dset_responses (el source) per més info.
     columns:
       - name: group_name
-      - name: response
+        description: Equivalent a planta. Camp definit per partner DSET
+        tests:
+          - not_null:
+              where: "CURRENT_DATE - interval '3 days' < queried_at"
       - name: signal_id
+        description: id intern de DSET per identificar un senyal
       - name: signal_tz
+        description: Timezone. Camp definit per partner DSET.
       - name: signal_code
+        description: codi intern de senyal. Camp definit per partner DSET
       - name: signal_type
+        description: Tipus de senyal.
       - name: signal_unit
-      - name: zone
-      - name: signal_last_ts
+        description: Unitats del senyal. Camp definit per partner DSET.
       - name: signal_frequency
+        description: Freqüencia del senyal. Camp definit per partner DSET
       - name: signal_is_virtual
+        description: >
+          Indica si es un senyal derivat o calculat.
+          Camp definit per partner DSET
       - name: signal_last_value
+        description: >
+          Últim valor del senyal observat. Camp definit per partner DSET
       - name: signal_uuid
+        description: >
+          Identificador únic (uuid) del senyal a la base de dades de SomEnergia
+        tests:
+          - not_null:
+              where: "CURRENT_DATE - interval '3 days' < queried_at"
       - name: ts
+        description: Camp definit per partner DSET
+        tests:
+          - not_null:
+              where: "CURRENT_DATE - interval '3 days' < queried_at"
       - name: signal_value
+        description: Valor del senyal observat. Camp definit per partner DSET
