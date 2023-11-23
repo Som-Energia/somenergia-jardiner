@@ -67,6 +67,13 @@ pre-commit:
   - jardiner/*
   - .gitlab-ci.yml
 
+
+.dbt-build-changes-paths: &dbt-build-changes-paths
+  - dbt_jardiner/**/*.sql
+  - dbt_jardiner/**/*.yaml
+  - .gitlab-ci.yml
+
+
 .docker-login-before-script:
   &docker-login-before-script ## login to the Docker registry, needed to push and pull from private registries
   - echo "Logging in to Docker Hub"
@@ -116,10 +123,10 @@ build-app-image-pre-release:
   tags:
     - somenergia-et
 
-dbt-test-prod:
+dbt-build:
   stage: test
   variables:
-    DBT_TARGET_NAME: prod
+    DBT_TARGET_NAME: pre
     DBHOST: $SOM_JARDINER_DB_HOST
     DBPORT: $SOM_JARDINER_DB_PORT
     DBUSER: $SOM_JARDINER_DB_USER
@@ -129,20 +136,24 @@ dbt-test-prod:
   script:
     - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
     - dbt deps --target ${DBT_TARGET_NAME}
-    - dbt test --target ${DBT_TARGET_NAME}
+    - dbt build --target ${DBT_TARGET_NAME} --store-failures
   tags:
     - somenergia-et
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
       when: always
+      variables:
+        DBT_TARGET_NAME: prod
       changes:
-        paths: *app-build-changes-paths
+        paths: *dbt-build-changes-paths
       allow_failure: false
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: always
+      variables:
+        DBT_TARGET_NAME: pre
       changes:
         compare_to: "refs/heads/main"
-        paths: *app-build-changes-paths
+        paths: *dbt-build-changes-paths
       allow_failure: false
   artifacts:
     paths:
