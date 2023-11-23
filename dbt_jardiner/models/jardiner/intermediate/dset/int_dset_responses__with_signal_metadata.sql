@@ -25,8 +25,9 @@ SELECT
     valors.signal_frequency,
     valors.signal_is_virtual,
     valors.signal_last_value,
-	valors.queried_at,
+	  valors.queried_at,
     valors.ts,
-    valors.signal_value as signal_value
+    valors.signal_value AS signal_value
 FROM {{ ref('raw_gestio_actius__signal_denormalized') }} AS metadata
-LEFT JOIN {{ ref('int_dset_responses__deduplicated') }} AS valors USING(signal_uuid)
+LEFT JOIN {{ ref("int_dset_responses__union_view_and_materialized") }} AS valors
+  ON metadata.signal_uuid = valors.signal_uuid
