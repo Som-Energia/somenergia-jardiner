@@ -28,7 +28,7 @@ with
             on meter_registry.plant_id = spine.plant_id
             and meter_registry.time_start_hour = spine.start_hour
         left join
-            {{ ref("int_satellite_readings__hourly") }} as satellite_readings
+            {{ ref("satellite_readings__hourly_legacy") }} as satellite_readings
             on satellite_readings.plant_id = spine.plant_id
             and satellite_readings.start_hour = spine.start_hour
         left join

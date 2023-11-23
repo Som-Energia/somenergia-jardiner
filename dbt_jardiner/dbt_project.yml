@@ -35,16 +35,6 @@ models:
     jardiner:
       +materialized: view
       +tags: jardiner
-      raw:
-        solargis:
-          raw_solargis_satellite_readings__temp_and_pv_energy:
-            +tags: legacy
-      intermediate:
-        solargis:
-          int_satellite_readings__denormalized:
-            +tags: legacy
-          int_satellite_readings__hourly:
-            +tags: legacy
     legacy:
       +tags: legacy
       operational:
