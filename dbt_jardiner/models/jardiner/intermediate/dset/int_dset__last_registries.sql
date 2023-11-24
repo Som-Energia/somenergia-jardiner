@@ -2,9 +2,9 @@
 
 
 with ts_last_registry as (
-    SELECT signal_uuid, plant, max(ts) as ultim_registre
+    SELECT signal_uuid, plant_uuid, max(ts) as ultim_registre
     from {{ ref('int_dset_responses__last_month')}}
-    group by plant, signal_uuid
+    group by plant_uuid, signal_uuid
 )
 SELECT m.*
 from ts_last_registry tslr

@@ -3,17 +3,18 @@
 
 with pot_instantanea_planta as (
     select
-        plant,
+        plant_uuid,
         min(ts) as ultim_registre_pot_instantanea,
         round(sum(signal_value),1) as pot_instantantanea_planta_kw
     from {{ref('int_dset__last_registries')}}
     group by
-        plant,
+        plant_uuid,
         device_type,
-        signal
-    having signal = 'potencia_activa'
+        signal_name
+    having signal_name = 'potencia_activa'
 ), plant_production_daily_previous_day as(
     SELECT
+        plant_uuid,
         nom_planta,
         dia,
         energia_exportada_comptador_kwh,
@@ -22,6 +23,7 @@ with pot_instantanea_planta as (
     where dia = current_date - interval '1 day'
 )
 select
+    p.plant_uuid,
     p.plant_name as nom_planta,
     -- p.municipality as municipi,
     p.province as provincia,
@@ -36,8 +38,6 @@ select
     ppd.energia_exportada_comptador_kwh,
     ppd.energia_esperada_solargis_kwh
 from {{ ref('raw_gestio_actius_plant_parameters') }} p
-left join pot_instantanea_planta i
-    on i.plant = p.plant_name
-left join plant_production_daily_previous_day ppd on ppd.nom_planta = p.plant_name
-left join {{ref('int_dset_last_registries_irradiation')}} ir
-    on ir.plant =p.plant_name
+left join pot_instantanea_planta i using(plant_uuid)
+left join plant_production_daily_previous_day ppd using(plant_uuid)
+left join {{ref('int_dset_last_registries_irradiation')}} ir using(plant_uuid)

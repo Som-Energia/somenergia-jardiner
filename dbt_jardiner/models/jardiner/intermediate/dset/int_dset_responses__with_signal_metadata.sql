@@ -7,10 +7,10 @@ e.g. signal_value * (case when signal_unit = 'kwh' then 1000 else 1)#}
 
 SELECT
     metadata.plant_uuid,
-	  metadata.plant,
-    metadata.signal,
-    metadata.metric,
-    metadata.device,
+	  metadata.plant_name,
+    metadata.signal_name,
+    metadata.metric_name,
+    metadata.device_name,
     metadata.device_type,
     metadata.device_uuid,
     metadata.device_parent,

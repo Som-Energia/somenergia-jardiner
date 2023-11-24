@@ -7,10 +7,10 @@ WITH fresh AS (
 )
 SELECT
   plant_uuid::uuid,
-  plant::text,
-  signal::text,
-  metric::text,
-  device::text,
+  plant::text as plant_name,
+  signal::text as signal_name,
+  metric::text as metric_name,
+  device::text as device_name,
   device_type::text,
   device_uuid::uuid,
   device_parent::text,

@@ -11,4 +11,4 @@ models:
             severity: warn
           combination_of_columns:
             - start_hour
-            - plant_id
+            - plant_uuid

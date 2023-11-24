@@ -6,11 +6,12 @@
     d'irradancia. l'Order by permet fer una jerarquia quan a una planta hi ha més d'un tipus de irradància.
 #}
 select distinct
-    on (plant, ts)
-    plant,
-    signal,
-    metric,
-    device,
+    on (plant_uuid, ts)
+    plant_uuid,
+    plant_name,
+    signal_name,
+    metric_name,
+    device_name,
     device_type,
     device_uuid,
     device_parent,
@@ -29,20 +30,20 @@ select distinct
     signal_value
 from {{ ref("int_dset__last_registries") }}
 where
-    signal = 'irradiacio'
-    or signal = 'irradiacio_sonda_bruta'
-    or signal = 'irradiacio_sonda_neta'
-    or signal = 'irradiacio_sonda'
+    signal_name = 'irradiacio'
+    or signal_name = 'irradiacio_sonda_bruta'
+    or signal_name = 'irradiacio_sonda_neta'
+    or signal_name = 'irradiacio_sonda'
 order by
-    plant,
+    plant_uuid,
     ts,
     case
-        when signal = 'irradiacio'
+        when signal_name = 'irradiacio'
         then 1
-        when signal = 'irradiacio_sonda_bruta'
+        when signal_name = 'irradiacio_sonda_bruta'
         then 2
-        when signal = 'irradiacio_sonda_neta'
+        when signal_name = 'irradiacio_sonda_neta'
         then 3
-        when signal = 'irradiacio_sonda'
+        when signal_name = 'irradiacio_sonda'
         then 4
     end

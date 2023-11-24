@@ -8,16 +8,16 @@ with spina5m as (
 )
 select
     spina5m.ts,
-    plant as nom_planta,
+    plant_name as nom_planta,
     device_uuid as uuid_aparell,
-    device as aparell,
+    device_name as aparell,
     device_type as tipus_aparell,
-    signal as senyal,
+    signal_name as senyal,
     signal_unit as unitat_senyal,
     signal_value as valor
 from spina5m
 left join {{ ref("int_dset_responses__with_signal_metadata") }} as dset using(ts)
 where device_type in ('inverter','sensor', 'string') or device_type is NULL
 and ts > (now() at time zone 'Europe/Madrid')::date - interval '30 days'
-order by ts desc, plant
+order by ts desc, plant_name
 

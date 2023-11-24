@@ -1,6 +1,7 @@
 {{ config(materialize='view') }}
 
 select
+    plant_uuid,
     plant_name as nom_planta,
     municipality as municipi,
     province as provincia,

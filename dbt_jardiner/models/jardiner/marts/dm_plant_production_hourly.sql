@@ -5,6 +5,7 @@
 select
     start_hour as hora_inici,
     start_hour + interval '1 hour' as hora_final,
+    plant_uuid,
     plant_name as nom_planta,
     technology as tecnologia,
     peak_power_kw as potencia_pic_kw,

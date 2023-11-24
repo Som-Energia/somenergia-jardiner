@@ -3,6 +3,7 @@
 
 select
     date_trunc('day', hora_inici, 'Europe/Madrid')::date as dia,
+    plant_uuid,
     nom_planta,
     tecnologia,
     potencia_pic_kw,
@@ -35,4 +36,4 @@ select
 {# billed_energy as energia_liquidada,
     sum(billed_energy)/sum(dset_meter_exported_energy_kwh) as energia_liquidada_percent#}
 from {{ ref("dm_plant_production_hourly") }} -- fmt: on
-group by date_trunc('day', hora_inici, 'Europe/Madrid'), nom_planta, tecnologia, potencia_pic_kw
+group by date_trunc('day', hora_inici, 'Europe/Madrid'), plant_uuid, nom_planta, tecnologia, potencia_pic_kw

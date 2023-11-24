@@ -1,9 +1,9 @@
 -- tests pairs device_uuid, plant, device, device_type, device_parent as unique
 with
     tb as (
-        select distinct device_uuid, plant, device, device_type, device_parent
+        select distinct device_uuid, plant_uuid, plant_name, device_name, device_type, device_parent
         from {{ ref("raw_gestio_actius__signal_denormalized") }}
-        order by plant, device
+        order by plant_name, device_name
     ),
 
 tb2 as (

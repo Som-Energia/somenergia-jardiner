@@ -15,18 +15,19 @@ since this is ugly as fuck #}
 #}
 with
     dset_key_metrics as (
-        select date_trunc('hour', ts) as start_hour, plant, device_type, metric as split_metric, signal_value
+        select date_trunc('hour', ts) as start_hour, plant_name, plant_uuid, device_type, metric_name as split_metric, signal_value
         from {{ ref("int_dset_responses__values_incremental") }}
-        where metric in ('energia_activa_exportada', 'irradiancia')
+        where metric_name in ('energia_activa_exportada', 'irradiancia')
     )
 select
     start_hour,
-    plant,
+    plant_name,
+    plant_uuid,
     case
         when split_metric = 'irradiancia' then 'irradiation' {# from W/m^2 to Wh/m^2 because split_metric has hourly granularity #}
         when split_metric = 'energia_activa_exportada' then device_type || '_exported_energy'
         else split_metric
-    end as metric,
+    end as metric_name,
     case
         when split_metric = 'energia_activa_exportada' and device_type = 'inverter'
         then (extract(hour from start_hour) > 3)::integer * (max(signal_value) - min(signal_value))  {# we have random-ish resets before 3 #}
@@ -37,4 +38,4 @@ select
         else null
     end as metric_value
 from dset_key_metrics
-group by start_hour, plant, device_type, split_metric
+group by start_hour, plant_name, plant_uuid, device_type, split_metric

@@ -21,11 +21,11 @@ models:
         description: id intern de la db
       - name: plant_uuid
         description: uuid4 de la planta
-      - name: plant
+      - name: plant_name
         description: nom de la planta
-      - name: signal
+      - name: signal_name
         description: nom del senyal
-      - name: metric
+      - name: metric_name
         description: nom de la metrica
         tests:
           - accepted_values:
@@ -61,7 +61,7 @@ models:
                 - "voltatge_mt_fase_r"
                 - "voltatge_mt_fase_s"
                 - "voltatge_mt_fase_t"
-      - name: device
+      - name: device_name
         description: nom del device
       - name: device_type
         description: tipus de device

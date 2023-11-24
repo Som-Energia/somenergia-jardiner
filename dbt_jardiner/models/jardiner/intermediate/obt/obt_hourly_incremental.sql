@@ -5,12 +5,12 @@
 #}
 
 with plants as (
-    select distinct plant, plant_uuid from {{ ref('int_signal_device_relation__distinct_devices') }}
+    select distinct plant_name, plant_uuid from {{ ref('int_signal_device_relation__distinct_devices') }}
 )
 select
     spine.start_hour,
     plants.plant_uuid,
-    plants.plant as plant_name,
+    plants.plant_name,
     plant_metadata.plant_id as plantmonitor_plant_id,
     plant_metadata.peak_power_kw::float as peak_power_kw,
     plant_metadata.technology as technology,
@@ -33,16 +33,13 @@ select
     round(meter_registry.import_energy_wh/1000,2) as erp_meter_imported_energy_kwh
 from {{ ref('spine_hourly') }} as spine
 left join plants ON TRUE
-left join {{ ref('raw_gestio_actius_plant_parameters') }} plant_metadata on plants.plant_uuid = plant_metadata.plant_uuid
-left join {{ ref('int_dset_metrics_wide_hourly') }} dset using(start_hour, plant)
-left join {{ ref('int_energy_forecasts__best_from_plantmonitordb') }} forecast using(start_hour, plant_id)
-left join {{ ref('int_satellite_readings__hourly') }} sr
-    on spine.start_hour = sr.start_hour and sr.plant_name = plants.plant
-left join {{ ref('raw_plantlake_omie_historical_price__with_row_number_per_date') }} omie on omie.start_hour = spine.start_hour
-{# old plantmonitor stuff #}
-left join {{ ref('raw_plantmonitordb_solarevent__generous') }} as solar_events
-    on solar_events.plant_id = plant_metadata.plant_id and solar_events.day = spine.start_hour::date
+left join {{ ref('raw_gestio_actius_plant_parameters') }} plant_metadata using(plant_uuid)
+left join {{ ref('int_dset_metrics_wide_hourly') }} dset using(start_hour, plant_uuid)
+left join {{ ref('int_energy_forecasts__best_from_plantmonitordb') }} forecast using(start_hour, plant_uuid)
+left join {{ ref('int_satellite_readings__hourly') }} sr using(start_hour, plant_uuid)
+left join {{ ref('raw_plantlake_omie_historical_price__with_row_number_per_date') }} omie using(start_hour)
 {# temporarely use plantmonitors' meterregistry until dset provides it #}
-left join {{ref('int_erp_meter_registry__hourly')}} as meter_registry
-    on meter_registry.plant_id = plant_metadata.plant_id and meter_registry.time_start_hour = spine.start_hour
-order by start_hour desc, plant
+left join {{ref('int_erp_meter_registry__hourly')}} as meter_registry using(start_hour, plant_uuid)
+left join {{ ref('int_plantmonitordb_solarevent__generous') }} as solar_events
+    on solar_events.plant_uuid = plants.plant_uuid and solar_events.day = spine.start_hour::date
+order by spine.start_hour desc, plant_name
