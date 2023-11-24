@@ -46,6 +46,11 @@ dbt-fal = {extras = ["postgres"], version = "^1.4.4"}
 dbt-postgres = "^1.2.2"
 re-data = "^0.10.8"
 
+
+[tool.poetry.group.airflow.dependencies]
+apache-airflow = "^2.7.3"
+apache-airflow-providers-docker = "^3.8.1"
+
 [build-system]
 build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core"]
@@ -58,10 +63,6 @@ addopts = "--ignore=dbt_jardiner/dbt_packages"
 exclude = [
   'tests',
   'docs',
-]
-ignore_missing = [
-  'airflow',
-  'docker',
 ]
 
 [tool.sqlfmt]

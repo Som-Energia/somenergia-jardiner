@@ -1,0 +1,100 @@
+---
+version: 2
+
+models:
+    - name: raw_airbyte_simel__simel_mhcil_nas
+      columns:
+          - name: cil
+            description: A - Código CIL (25 characters)
+            tests:
+                - not_null
+          - name: year
+            description: B - Año
+            tests:
+                - not_null
+                - dbt_utils.accepted_range:
+                      min_value: 1990
+                      max_value: 2050
+                      inclusive: true
+          - name: month
+            description: C - Mes
+            tests:
+                - not_null
+                - dbt_utils.accepted_range:
+                      min_value: 1
+                      max_value: 12
+                      inclusive: true
+          - name: day
+            description: D - Día
+            tests:
+                - not_null
+                - dbt_utils.accepted_range:
+                      min_value: 1
+                      max_value: 31
+                      inclusive: true
+          - name: hour
+            description: E - Hora
+            tests:
+                - not_null
+                - dbt_utils.accepted_range:
+                      min_value: 0
+                      max_value: 24
+                      inclusive: true
+          - name: is_summer
+            description: F - Bandera verano/invierno (1*c)
+            tests:
+                - not_null
+                - accepted_values:
+                      values:
+                          - true
+                          - false
+          - name: energy_kwh
+            description: G - Medida activa exportada, (kWh) 10*n
+            tests:
+                - dbt_utils.accepted_range:
+                      min_value: -1
+                      inclusive: true
+                      config:
+                          where: "energy_kwh is not null"
+          - name: reactive_energy_2_kvarh
+            description: H - Medida reactiva cuadrante 2, (kVArh) 10*n
+            tests:
+                - dbt_utils.accepted_range:
+                      min_value: 0
+                      inclusive: true
+                      config:
+                          where: "reactive_energy_2_kvarh is not null"
+          - name: reactive_energy_3_kvarh
+            description: I - Medida reactiva cuadrante 3, (kVArh) 10*n
+            tests:
+                - dbt_utils.accepted_range:
+                      min_value: 0
+                      inclusive: true
+                      config:
+                          where: "reactive_energy_3_kvarh is not null"
+          - name: measurement_type
+            description: J - Tipo de medida (2) 1*c
+            tests:
+                - accepted_values:
+                      values:
+                          - "R"
+                          - "E"
+                          - "L"
+                          - "M"
+          - name: empty_col
+            description: Empty column generated from malformed CSV files from source
+            tests:
+                - accepted_values:
+                      values:
+                          - ""
+                          - null
+          - name: _ab_source_file_last_modified
+            description: last modification date of source file. Managed by airbyte.
+          - name: _ab_source_file_url
+            description: name of source file, managed by airbyte
+          - name: _airbyte_ab_id
+            description: unique identifier source file. Managed by airbyte
+          - name: _airbyte_emitted_at
+          - name: _airbyte_normalized_at
+          - name: _airbyte_simel_mhcil_nas_hashid
+            description: unique identifier, managed by airbyte

@@ -1,0 +1,9 @@
+---
+version: 2
+
+sources:
+  - name: airbyte_simel
+    schema: airbyte_imported
+    tables:
+      - name: simel_mhcil_nas
+
