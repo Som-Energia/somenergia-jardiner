@@ -1,16 +1,14 @@
 {{ config(materialized='table') }}
 
-{# falta afegir
+{# TODO falta afegir
     - l'iMHèCIL
 #}
 
-with plants as (
-    select distinct plant_name, plant_uuid from {{ ref('int_signal_device_relation__distinct_devices') }}
-)
+
 select
     spine.start_hour,
-    plants.plant_uuid,
-    plants.plant_name,
+    plant_metadata.plant_uuid,
+    plant_metadata.plant_name,
     plant_metadata.plant_id as plantmonitor_plant_id,
     plant_metadata.peak_power_kw::float as peak_power_kw,
     plant_metadata.technology as technology,
@@ -25,21 +23,21 @@ select
     sr.module_temperature_dc as satellite_module_temperature_dc,
     sr.energy_output_kwh as satellite_energy_output_kwh,
     omie.price as omie_price_eur_mwh,
-    {# exported_energy should be in wh we pass it to kwh. Also the /1000 is GSTC[W/m2] #}
+    {#- exported_energy should be in wh we pass it to kwh. Also the /1000 is GSTC[W/m2] #}
     (dset.meter_exported_energy*1000 / plant_metadata.peak_power_kw::float) / (NULLIF(sr.tilted_irradiation_wh_m2, 0.0) / 1000.0) as pr_hourly,
     spine.start_hour between solar_events.sunrise_real and solar_events.sunset_real as is_daylight_real,
     spine.start_hour between solar_events.sunrise_generous and solar_events.sunset_generous as is_daylight_generous,
     round(meter_registry.export_energy_wh/1000,2) as erp_meter_exported_energy_kwh,
     round(meter_registry.import_energy_wh/1000,2) as erp_meter_imported_energy_kwh
 from {{ ref('spine_hourly') }} as spine
-left join plants ON TRUE
-left join {{ ref('raw_gestio_actius_plant_parameters') }} plant_metadata using(plant_uuid)
+{#- plant_parameters is the single source of truth about which plants we have, unexpected plants won't join#}
+left join {{ ref('raw_gestio_actius_plant_parameters') }} plant_metadata on true
 left join {{ ref('int_dset_metrics_wide_hourly') }} dset using(start_hour, plant_uuid)
 left join {{ ref('int_energy_forecasts__best_from_plantmonitordb') }} forecast using(start_hour, plant_uuid)
 left join {{ ref('int_satellite_readings__hourly') }} sr using(start_hour, plant_uuid)
 left join {{ ref('raw_plantlake_omie_historical_price__with_row_number_per_date') }} omie using(start_hour)
-{# temporarely use plantmonitors' meterregistry until dset provides it #}
+{#- temporarely use plantmonitors' meterregistry until dset provides it #}
 left join {{ref('int_erp_meter_registry__hourly')}} as meter_registry using(start_hour, plant_uuid)
 left join {{ ref('int_plantmonitordb_solarevent__generous') }} as solar_events
-    on solar_events.plant_uuid = plants.plant_uuid and solar_events.day = spine.start_hour::date
+    on solar_events.plant_uuid = plant_metadata.plant_uuid and solar_events.day = spine.start_hour::date
 order by spine.start_hour desc, plant_name

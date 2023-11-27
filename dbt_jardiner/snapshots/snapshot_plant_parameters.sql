@@ -2,7 +2,7 @@
 
 {{
     config(
-      unique_key='plant_id',
+      unique_key='plant_uuid',
       strategy='timestamp',
       updated_at='data_actualitzacio',
       target_schema='lake'

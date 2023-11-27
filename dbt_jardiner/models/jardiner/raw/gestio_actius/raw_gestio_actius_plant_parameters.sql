@@ -5,11 +5,7 @@ with
         select
             plant_id::numeric,
             plant_uuid::uuid,
-            case
-                when planta = 'Vallehermoso' then 'Alcolea'
-                when planta = 'Tahal' then 'Terborg'
-                else planta
-            end as plant_name,
+            planta as plant_name,
             latitud::numeric as latitude,
             longitut::numeric as longitude,
             municipi as municipality,

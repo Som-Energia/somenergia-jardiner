@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: int_energy_forecasts__best_from_plantmonitordb
-    description: energy forecast of the previous day
+    description: energy forecast of the previous day. Discards SomRenovables plants.
     config:
       tags: meteologica
     tests:

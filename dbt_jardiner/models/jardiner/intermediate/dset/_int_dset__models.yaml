@@ -38,3 +38,15 @@ tests:
       - name: pot_instantantanea_planta_kw
         description:
           Suma de la potència activ a de tots els inversors de cada planta.
+
+  - name: int_signal_device_relation__distinct_devices
+    description: >
+      Tots els devices descrits en el signal_device_relation que mapeja signal_uuid <--> device_uuid.
+      Serveix per a evaluar la coherència interna dels camps desnormalitzats dels devices, és a dir,
+      que un device (per uuid) no canviï de nom o aparell d'un senyal a l'altre.
+    columns:
+      - name: plant_uuid
+        tests:
+          - relationships:
+              to: ref("raw_gestio_actius_plant_parameters")
+              field: plant_uuid

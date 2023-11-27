@@ -5,6 +5,15 @@ models:
     description: >
       Conté la taula incremental que es crea mitjançant el snapshot (al schema lake)
       que llegueix la source del drive importada per airbyte (al schema airbyte_imported)
+  - name: raw_gestio_actius_plant_parameters
+    description: >
+      Llistat de plantes monitoritzades amb llurs dades fixes. Model raw de la còpia d'airbyte i snapshot.
+    columns:
+      - name: plant_uuid
+        tests:
+          - relationships:
+              to: ref("raw_plantmonitor_plants")
+              field: plant_uuid
   - name: raw_gestio_actius__signal_denormalized
     description: >
       Taula amb la llista de devices, els seus uuids i si tenen un parent.

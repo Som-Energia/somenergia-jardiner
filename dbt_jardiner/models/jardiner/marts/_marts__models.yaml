@@ -84,6 +84,7 @@ models:
       - name: temperatura_modul_avg_c
         tests:
           - dbt_utils.not_null_proportion:
+              description: //TODO get the right proportion or whatever
               error_if: ">=7"
               at_least: 0.4
               field: hora_inici
@@ -92,7 +93,7 @@ models:
               group_by_columns:
                 - nom_planta
               config:
-                disabled: true
+                enabled: false
                 where: "hora_inici > (now() at time zone 'Europe/Madrid')::date - interval '7 days'"
       - name: pr_horari
         tests:
