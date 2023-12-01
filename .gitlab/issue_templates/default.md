@@ -39,3 +39,6 @@ If you have a possible solution, please describe it here.
 ## Related Issues and other links
 
 Provide links to the related issues or feature requests, or any other link that could be useful to understand the context of the issue.
+
+/label ~"status::needs-triage"
+/label ~"priority::not-assigned"
