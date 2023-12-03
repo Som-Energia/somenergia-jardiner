@@ -1,13 +1,15 @@
-{{ config(error_if=">1000") }}
+{{ config(error_if=">1000", store_failures=true) }}
 
 with
     valors as (
-        select true as rebut_from_dset, signal_uuid
+        select
+          signal_uuid,
+          true as received_from_dset_pre
         from {{ ref("int_dset_responses__union_view_and_materialized") }}
         where ts = (select max(ts) from {{ ref("int_dset_responses__union_view_and_materialized") }})
     ),
 
-    final as (
+    joined as (
         select
             signals.plant_uuid,
             signals.plant_name,
@@ -16,12 +18,16 @@ with
             signals.device_name,
             signals.device_type,
             signals.device_uuid,
-            coalesce(rebut_from_dset, false) as rebut_from_dset
+            coalesce(valors.received_from_dset_pre, false) as received_from_dset
         from {{ ref("raw_gestio_actius__signal_denormalized") }} as signals
         left join valors on signals.signal_uuid = valors.signal_uuid
-        order by plant_name
+        order by signals.plant_name
+    ),
+
+    filtered as (
+      select *
+      from joined
+      where received_from_dset is false
     )
 
-select *
-from final
-where rebut_from_dset is false
+select * from filtered

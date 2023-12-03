@@ -22,3 +22,34 @@ tests:
     config:
       severity: warning
       store_failures: true
+
+  - name: test_dset_signals_receiver_all_time
+    description: >
+      Taula que recull senyals des de dset que no tenen referència a
+      raw_gestio_actius__signal_denormalized, de tota la història de senyals
+      que hem rebut
+    config:
+      severity: warning
+      store_failures: true
+
+  - name: test_dset_signals_receiver_last_hour
+    description: >
+      Taula que recull senyals des de dset que no tenen referència a
+      raw_gestio_actius__signal_denormalized, només de la última hora
+    config:
+      severity: warning
+      store_failures: true
+
+  - name: test_dset_gaps_per_month_and_signal_last_hour
+    description: >
+      Taula que recull el número de forats per mes i senyal, només de la última hora
+    config:
+      severity: warning
+      store_failures: true
+
+  - name: test_dset_gaps_per_month_and_signal_all_time
+    description: >
+      Taula que recull el número de forats per mes i senyal, de tota la història de senyals que hem rebut
+    config:
+      severity: warning
+      store_failures: true
