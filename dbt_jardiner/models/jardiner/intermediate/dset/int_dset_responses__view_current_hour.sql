@@ -2,7 +2,10 @@
 
 
 with
-    latest as (select max(ts) as max_ts from {{ ref("int_dset_responses__materialized_one_hour_late") }}),
+    latest as (
+      select max(ts) as max_ts
+      from {{ ref("int_dset_responses__materialized_one_hour_late") }}
+    ),
 
     normalized_jsonb as (
         select
@@ -23,11 +26,11 @@ with
             signal_unit,
             signal_value,
             signal_uuid
-        from {{ ref("raw_dset_responses__api_response") }}
+        from {{ ref("int_dset_responses__api_response_validate_uuids") }}
         where ts >= (select max_ts from latest) and queried_at >= (select max_ts from latest)
     ),
 
-ordered as (
+    ordered as (
         select *, row_number() over (partition by ts, signal_id order by queried_at desc) as row_order
         from normalized_jsonb
     )
@@ -35,3 +38,4 @@ ordered as (
 select *
 from ordered
 where row_order = 1
+

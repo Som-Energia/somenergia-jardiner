@@ -1,5 +1,12 @@
 # handmade ignores
 
+# dbt things
+dbt_jardiner/**/manifest.json
+dbt_jardiner/**/partial_parse.msgpack
+
+# dbeaver
+dbeaver-project/.project
+
 # duckdb
 *.duckdb
 

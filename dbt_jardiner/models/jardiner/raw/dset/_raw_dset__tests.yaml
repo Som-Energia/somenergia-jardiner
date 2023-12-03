@@ -1,0 +1,8 @@
+version: 2
+
+tests:
+  - name: test_dset_raw_uuids_not_empty_or_null_3_days
+    description: >
+      Taula amb els signals_uuids que son nulls o buits
+    config:
+      severity: warn

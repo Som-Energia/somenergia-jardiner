@@ -35,6 +35,15 @@ models:
     jardiner:
       +materialized: view
       +tags: jardiner
+      raw:
+        dset:
+          +tags: dset
+      intermediate:
+        dset:
+          +tags: dset
+      marts:
+        dset:
+          +tags: dset
     legacy:
       +tags: legacy
       operational:
@@ -46,7 +55,5 @@ seeds:
   dbt_jardiner:
     jardiner:
       +tags: jardiner
-      seed_plants__parameters:
-        +tags: legacy
     legacy:
       +tags: legacy

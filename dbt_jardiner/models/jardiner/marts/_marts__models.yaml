@@ -111,7 +111,7 @@ models:
 
   - name: dm_dset_responses__check_if_we_receive_data_for_signals
     config:
-      tags: dset
+      tags: [dset]
     description: >
       Model temporal que comprova quins senyals de dset estem rebent respecte el maping que hem enviat.
       Agafem l'últim batch rebut i el leftjoinem a la taula signal_device_relation amb un petit processat que ens indica
@@ -122,6 +122,6 @@ models:
 
   - name: dm_dset_energy_inverter__agg_monthly_for_om
     config:
-      tags: dset
+      tags: [dset]
     description: >
       Dades enfocades a les necessitats del personal de operaciò i manteniment. Contè dades de energia dels inversors, agregades mensualment.

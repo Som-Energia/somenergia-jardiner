@@ -1,30 +1,11 @@
 version: 2
 
-tests:
-
-  - name: test_device_uuid_repeated
-    description: >
-      Taula amb els devices_uuids que es repeteixen en més d'un device, entenent per device una combinació
-      única de plant, device, device_type i device_parent.
-    config:
-      severity: error
-      tags: dset
-
-  - name: test_to_debug_device_uuid_errors
-    description: >
-      Taula que recull tots els signals que comparteixen un devide_uuid erroni. Ha de servir per identificar
-      el motiu pel qual un device_uuid no es unique per un device, entenent per device una convinació
-      única de plant, device, device_type i device_parent.
-    config:
-      severity: error
-      tags: dset
-
+models:
   - name: int_dset__last_registries
     description: >
       selecciona el ts màxim per a cada senyal i el fa servir per seleccionar la fila per a cada planta
       i senyal via un left join.
       Per disseny, només tindrà una fila per senyal_uuid i planta, la més recent.
-
 
   - name: int_plants_overview_instant
     description: >
@@ -36,8 +17,7 @@ tests:
           Es tracta del registre més antic de tots els registres d'inversor que estem sumant per calcular la
           pot_instantantanea_planta_kw.
       - name: pot_instantantanea_planta_kw
-        description:
-          Suma de la potència activ a de tots els inversors de cada planta.
+        description: Suma de la potència activ a de tots els inversors de cada planta.
 
   - name: int_signal_device_relation__distinct_devices
     description: >
@@ -50,3 +30,39 @@ tests:
           - relationships:
               to: ref("raw_gestio_actius_plant_parameters")
               field: plant_uuid
+
+  - name: int_dset_responses__union_view_and_materialized
+    description: >
+      Aquest model fa un union d'una taula materialitzada i una vista sobre la taula raw_dset_responses.
+      Aquesta materialització es fa per tenir una taula més rápida amb la normalització
+      de les respostes ja feta amb una hora de retard i fer només la normalització online
+      per la hora més recent
+
+    columns:
+      - name: group_name
+      - name: queried_at
+      - name: signal_code
+      - name: signal_device_type
+      - name: signal_device_uuid
+      - name: signal_frequency
+      - name: signal_id
+      - name: signal_is_virtual
+      - name: signal_last_ts
+      - name: signal_last_value
+      - name: signal_type
+      - name: signal_tz
+      - name: signal_unit
+      - name: signal_uuid
+        tests:
+          - not_null:
+              config:
+                store_failures: true
+                tags: [dset]
+      - name: signal_uuid_raw
+        tests:
+          - dbt_utils.not_empty_string:
+              config:
+                store_failures: true
+                tags: [dset]
+      - name: signal_value
+      - name: ts
