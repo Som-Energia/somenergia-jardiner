@@ -14,7 +14,7 @@ python = ">=3.8,<3.11"
 python-dotenv = "^0.21.0"
 re-data = "^0.10.8"
 requests = "^2.28.1"
-sqlalchemy = "^1.4.41"
+sqlalchemy = "^1.4.41,!=1.4.50"
 typer = "^0.6.1"
 pydantic = {version = "<2", extras = ["dotenv"]}
 loguru = "^0.7.0"
