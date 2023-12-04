@@ -8,6 +8,7 @@ with
             signal_id,
             signal_device_type,
             signal_uuid,
+            queried_at,
             ts as current_ts,
             signal_frequency::interval as signal_frequency,
             lag(ts) over (partition by signal_uuid order by ts asc) as previous_ts
@@ -36,6 +37,10 @@ with
             signal_frequency,
             "year",
             "month",
+            max(queried_at) as last_queried_at,
+            max(current_ts) as last_current_ts,
+            max(queried_at - current_ts) as max_waiting_time,
+            min(queried_at - current_ts) as min_waiting_time,
             count(signal_uuid) as n_gaps
         from gaps
         group by
