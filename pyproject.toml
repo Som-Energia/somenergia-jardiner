@@ -6,7 +6,6 @@ readme = "README.md"
 version = "0.1.1"
 
 [tool.poetry.dependencies]
-dbt-fal = {extras = ["postgres"], version = "^1.4.4"}
 dbt-postgres = "^1.2.2"
 pandas = "^1.5.0"
 pendulum = "^2.1.2"
@@ -42,7 +41,6 @@ mkdocs-material-extensions = "^1.1.1"
 
 [tool.poetry.group.dbt-docs.dependencies]
 dbt-osmosis = "^0.11.22"
-dbt-fal = {extras = ["postgres"], version = "^1.4.4"}
 dbt-postgres = "^1.2.2"
 re-data = "^0.10.8"
 
