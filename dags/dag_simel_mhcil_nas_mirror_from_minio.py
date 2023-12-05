@@ -61,22 +61,27 @@ with DAG(
 ) as dag:
     sampled_moll = get_random_moll()
 
+    MINIO_ALIAS = "minio_som"
+
     environment = {
         "MINIO_HOST": Variable.get("MINIO_SOM_HOST"),
         "MINIO_ACCESS_KEY": Variable.get("MINIO_SOM_AIRBYTE_ACCESS_KEY"),
         "MINIO_SECRET_KEY": Variable.get("MINIO_SOM_AIRBYTE_SECRET_KEY"),
+        "MINIO_ALIAS": MINIO_ALIAS,
+        "MIRROR_ORIG_PATH": "/mercat-electric/20_SIMEL/1394_pen/MHCIL",
+        "MIRROR_DEST_PATH": f"/{MINIO_ALIAS}/simel-mhcil-nas",
     }
-
-    MINIO_ALIAS = "minio_som"
-    MIRROR_ORIG_PATH = "/mercat-electric/20_SIMEL/1394_pen/MHCIL"
-    MIRROR_DEST_PATH = f"{MINIO_ALIAS}/simel-mhcil-nas"
 
     cmd = [
         "/bin/sh",
         "-c",
         (
-            f'mc alias set {MINIO_ALIAS} "$MINIO_HOST" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY"'  # noqa
-            f" && mc mirror {MIRROR_ORIG_PATH} {MIRROR_DEST_PATH}"
+            'echo "Checking connectivity with nas volume..."'
+            ' && cd "$MIRROR_ORIG_PATH"'
+            ' && TOTAL_FILES=$(ls -q1 "$MIRROR_ORIG_PATH" | wc -l)'
+            ' && echo "Total files found: $TOTAL_FILES"'  # noqa
+            ' && mc alias set "$MINIO_ALIAS" "$MINIO_HOST" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY"'  # noqa
+            ' && mc mirror "$MIRROR_ORIG_PATH" "$MIRROR_DEST_PATH"'
         ),
     ]
 
