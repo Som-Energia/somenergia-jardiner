@@ -26,7 +26,7 @@ with
             signal_unit,
             signal_value,
             signal_uuid
-        from {{ ref("int_dset_responses__api_response_validate_uuids") }}
+        from {{ ref("int_dset_responses__deduplicated") }}
         where ts >= (select max_ts from latest) and queried_at >= (select max_ts from latest)
     ),
 
