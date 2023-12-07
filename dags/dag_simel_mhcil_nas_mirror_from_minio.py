@@ -77,10 +77,15 @@ with DAG(
         "-c",
         (
             'echo "Checking connectivity with nas volume..."'
-            ' && cd "$MIRROR_ORIG_PATH"'
             ' && TOTAL_FILES=$(ls -q1 "$MIRROR_ORIG_PATH" | wc -l)'
             ' && echo "Total files found: $TOTAL_FILES"'  # noqa
+            ' && echo "Waiting 5 seconds before start mirroring..."'
+            " && sleep 5"
+            ' && echo "cd into $MIRROR_ORIG_PATH"'
+            ' && cd "$MIRROR_ORIG_PATH"'
+            ' && echo "Setting up minio client..."'
             ' && mc alias set "$MINIO_ALIAS" "$MINIO_HOST" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY"'  # noqa
+            ' && echo "Mirroring $MIRROR_ORIG_PATH to $MIRROR_DEST_PATH..."'
             ' && mc mirror "$MIRROR_ORIG_PATH" "$MIRROR_DEST_PATH"'
         ),
     ]
