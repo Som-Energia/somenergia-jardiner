@@ -36,20 +36,41 @@ models:
       +materialized: view
       +tags: jardiner
       raw:
+        +docs:
+          node_color: "#d17f4c"
         dset:
           +tags: dset
       intermediate:
+        +docs:
+          node_color: "#d05808"
         dset:
           +tags: dset
       marts:
+        +docs:
+          node_color: "gold"
         dset:
           +tags: dset
     legacy:
       +tags: legacy
       operational:
+        +docs:
+          node_color: "#f0cc97"
         +materialized: view
         +grants:
           select: "opendata"
+
+  re_data:
+    +docs:
+      show: false
+      node_color: "lightblue"
+
+snapshots:
+  +docs:
+    node_color: "#e7bca1"
+
+tests:
+  +docs:
+    node_color: "#84b4bc"
 
 seeds:
   dbt_jardiner:
@@ -57,3 +78,4 @@ seeds:
       +tags: jardiner
     legacy:
       +tags: legacy
+

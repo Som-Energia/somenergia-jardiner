@@ -1,4 +1,5 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table',
+        docs={'node_color': '#d05808'}) }}
 
 {# TODO falta afegir
     - l'iMHèCIL
