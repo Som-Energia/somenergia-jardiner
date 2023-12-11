@@ -19,32 +19,40 @@ spined_expected_signals as (
     {# dm_plants is the SSOT of the plants names #}
     left join {{ ref("dm_plants") }} as plants on true
     left join {{ ref("raw_gestio_actius__signal_denormalized") }} as metadata using (plant_uuid)
+),
+dset_last_month as(
+    select * from {{ ref("int_dset_responses__materialized_one_hour_late") }} as dset
+    where dset.ts > (now() at time zone 'Europe/Madrid')::date - interval '30 days'
+    {# if we don't limit queried_at the planner shits the bed #}
+    and queried_at > (now() at time zone 'Europe/Madrid')::date - interval '30 days'
+),
+spined_dset as (
+    select
+        ts,
+        nom_planta as plant_name,
+        plant_uuid,
+        device_uuid,
+        device_name,
+        device_type,
+        signal_uuid,
+        signal_name,
+        metric_name,
+        device_parent,
+        valors.signal_value,
+        valors.group_name,
+        valors.signal_id,
+        valors.signal_tz,
+        valors.signal_code,
+        valors.signal_type,
+        valors.signal_unit,
+        valors.signal_frequency,
+        valors.signal_is_virtual,
+        valors.signal_last_ts,
+        valors.signal_last_value,
+        valors.queried_at,
+        valors.ts is not null as from_dset
+    from spined_expected_signals
+    left join dset_last_month as valors using(ts, signal_uuid)
+    order by ts desc, nom_planta
 )
-select
-    ts,
-    nom_planta as plant_name,
-    plant_uuid,
-    device_uuid,
-    device_name,
-    device_type,
-    signal_uuid,
-    signal_name,
-    metric_name,
-    device_parent,
-    valors.signal_value,
-    valors.group_name,
-    valors.signal_id,
-    valors.signal_tz,
-    valors.signal_code,
-    valors.signal_type,
-    valors.signal_unit,
-    valors.signal_frequency,
-    valors.signal_is_virtual,
-    valors.signal_last_ts,
-    valors.signal_last_value,
-    valors.queried_at,
-    valors.ts is not null as from_dset
-from spined_expected_signals
-left join {{ ref("int_dset_responses__union_view_and_materialized") }} as valors using(ts, signal_uuid)
-order by ts desc, nom_planta
-
+select * from spined_dset

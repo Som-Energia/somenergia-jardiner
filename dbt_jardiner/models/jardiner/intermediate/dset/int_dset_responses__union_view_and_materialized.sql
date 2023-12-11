@@ -2,7 +2,6 @@
 
 with
     dset_materialized as (
-
         select
             group_name,
             queried_at,
@@ -23,8 +22,7 @@ with
             signal_value
         from {{ ref("int_dset_responses__materialized_one_hour_late") }}
     ),
-
-dset_current_day_view as (
+dset_current_hour_view as (
         select
             group_name,
             queried_at,
@@ -45,9 +43,8 @@ dset_current_day_view as (
             signal_value
         from {{ ref("int_dset_responses__view_current_hour") }}
     )
-
 select *
 from dset_materialized
 union all
 select *
-from dset_current_day_view
+from dset_current_hour_view
