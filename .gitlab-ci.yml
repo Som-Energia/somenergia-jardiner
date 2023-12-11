@@ -136,7 +136,7 @@ dbt-build:
   script:
     - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
     - dbt deps --target ${DBT_TARGET_NAME}
-    - dbt build --target ${DBT_TARGET_NAME} --store-failures
+    - dbt build --target ${DBT_TARGET_NAME} --store-failures --threads 4
   tags:
     - somenergia-et
   rules:
