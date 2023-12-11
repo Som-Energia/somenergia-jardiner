@@ -44,3 +44,7 @@ models:
                 store_failures: true
       - name: signal_value
         description: Valor del senyal observat. Camp definit per partner DSET
+  - name: raw_dset_responses__last_signal_reading
+    description: >
+      Conté l'últim batch de dades, descartant ts i value. Es fa servir per obtenir signal_last_ts
+      i signal_last_value.

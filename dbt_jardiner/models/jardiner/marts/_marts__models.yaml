@@ -125,3 +125,10 @@ models:
       tags: [dset]
     description: >
       Dades enfocades a les necessitats del personal de operaciò i manteniment. Contè dades de energia dels inversors, agregades mensualment.
+
+  - name: dm_dset_last_reading__from_signal_last_ts
+    config:
+      tags: [dset]
+    description: >
+      Valors de l'última lectura de la què disposa la api. Obtinguda a partir del signal_last_ts i signal_last_value de cada paquet,
+      enlloc de la consulta històrica habitual.

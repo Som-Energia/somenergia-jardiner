@@ -66,3 +66,13 @@ models:
                 tags: [dset]
       - name: signal_value
       - name: ts
+
+  - name: int_dset_last_signal__from_latest_batch_dset_last
+    description: >
+      View based on the signal_last_ts,signal_last_value instead of ts,value of the latest
+      readings batch. Thus it is according to dset. In this model own metadata is left joined,
+      hence it might be null if the signal_uuid is unmmapped.
+    columns:
+      - name: signal_uuid
+      - name: signal_last_ts
+      - name: signal_last_value
