@@ -12,7 +12,7 @@ with last_dset_batch as (
 select
     dset.signal_last_ts,
     dset.signal_last_value,
-    dset.group_name,
+    dset.group_name as dset_plant_name,
     metadata.plant_name,
     dset.queried_at,
     metadata.signal_name,
