@@ -17,4 +17,4 @@ select
     n_strings_inverter as "strings/inversor",
     esquema_unifilar,
     layout
-from {{ ref('raw_gestio_actius_plant_parameters') }}
+from {{ ref('int_gda_plants__plants_catalog') }}

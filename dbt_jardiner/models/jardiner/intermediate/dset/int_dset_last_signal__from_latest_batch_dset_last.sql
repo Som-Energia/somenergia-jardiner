@@ -13,7 +13,7 @@ select
     dset.signal_last_ts,
     dset.signal_last_value,
     dset.group_name as dset_plant_name,
-    metadata.plant_name,
+    plants.plant_name,
     dset.queried_at,
     metadata.signal_name,
     metadata.metric_name,
@@ -29,4 +29,8 @@ select
     dset.signal_type,
     dset.signal_unit
 from last_dset_batch as dset
-full outer join {{ ref("raw_gestio_actius__signal_denormalized") }} as metadata using(signal_uuid)
+full outer join
+  {{ ref("raw_gestio_actius__signal_denormalized") }} as metadata
+  using (signal_uuid)
+left join {{ ref("int_gda_plants__plants_catalog") }} as plants
+  using (plant_uuid)
