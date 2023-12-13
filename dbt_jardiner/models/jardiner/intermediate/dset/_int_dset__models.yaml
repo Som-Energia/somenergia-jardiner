@@ -9,7 +9,7 @@ models:
 
   - name: int_plants_overview_instant
     description: >
-      En aquest model ajuntem els registres mésrecients de potència instantania i irradiatió de planta amb
+      En aquest model ajuntem els registres més recents de potència instantania i irradiatió de planta amb
       la producció del dia anteriorper fer una taula resum al superset.
     columns:
       - name: ultim_registre_pot_instantanea
@@ -19,6 +19,79 @@ models:
       - name: pot_instantantanea_planta_kw
         description: Suma de la potència activ a de tots els inversors de cada planta.
 
+  - name: int_dset_responses__with_signal_metadata
+    description: >
+      Aquest model contè les dades dels senyals de DSET encreuades amb metadades
+      de senyals i de dispositius.
+    columns:
+      - name: plant
+      - name: signal
+      - name: metric
+      - name: device
+      - name: device_type
+      - name: device_uuid
+      - name: device_parent
+      - name: signal_uuid
+        tests:
+          - not_null:
+              severity: warn
+              config:
+                warn_if: ">10"
+      - name: group_name
+      - name: signal_id
+      - name: signal_tz
+      - name: signal_code
+      - name: signal_type
+      - name: signal_unit
+      - name: signal_last_ts
+      - name: signal_frequency
+      - name: signal_is_virtual
+      - name: signal_last_value
+      - name: ts
+      - name: signal_value
+        description: >
+          Valor del senyal en el moment de la lectura.
+          El valor del senyal per les mètriques à testejat dins d'uns rangs, triat manualment observant valors actuals
+          Enable tests when signals are more estable
+        tests:
+          - dbt_utils.accepted_range:
+              name: accepted_range_intensity_instantaneous_last_7_days
+              max_value: 500
+              min_value: -100
+              config:
+                where: "ts > (now() - interval '7 days') and signal_unit = 'A'"
+                severity: warn
+                tags: jardiner
+                enabled: False
+          - dbt_utils.accepted_range:
+              name: accepted_range_energy_instantaneous_last_7_days
+              max_value: 15000
+              min_value: 0
+              config:
+                where: "ts > (now() - interval '7 days') and signal_unit = 'V' and signal_type = 'absolute'"
+                severity: warn
+                enabled: False
+          - dbt_utils.accepted_range:
+              name: accepted_range_power_instantaneous_last_7_days
+              max_value: 15000
+              min_value: 0
+              config:
+                where: "ts > (now() - interval '7 days') and signal_unit = 'kW' and signal_type = 'absolute'"
+                severity: warn
+                enabled: False
+          - dbt_utils.accepted_range:
+              name: accepted_range_temperature_instantaneous_last_7_days
+              max_value: 700
+              min_value: -30
+              config:
+                where: "ts > (now() - interval '7 days') and signal_unit = 'ºC' and signal_type = 'absolute'"
+                severity: warn
+                enabled: False
+          - not_null:
+              config:
+                severity: warn
+                warn_if: ">10"
+                enabled: False
   - name: int_signal_device_relation__distinct_devices
     description: >
       Tots els devices descrits en el signal_device_relation que mapeja signal_uuid <--> device_uuid.
