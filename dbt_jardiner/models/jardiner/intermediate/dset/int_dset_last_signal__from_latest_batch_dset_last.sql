@@ -29,4 +29,4 @@ select
     dset.signal_type,
     dset.signal_unit
 from last_dset_batch as dset
-left join {{ ref("raw_gestio_actius__signal_denormalized") }} as metadata using(signal_uuid)
+full outer join {{ ref("raw_gestio_actius__signal_denormalized") }} as metadata using(signal_uuid)
