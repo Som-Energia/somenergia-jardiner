@@ -24,8 +24,6 @@ Anirem al directori [sincronització airbyte](https://drive.google.com/drive/fol
 6. [] Executar `dbt snapshot`
 7. [] Executar un `dbt build --target prod` o fer un push a main
 
-El pas 2 executarà dbt seed, dbt run i dbt test i extreurà els nous devices de la signal_device_relation.
-
 Com que ja no tenim ORM que verifiqui la integritat de les dades, tenim tests que compleixen aquesta funció.
 
 Si algun senyal d'un device no té una definició igual de device (per uuid), els tests no passaran.

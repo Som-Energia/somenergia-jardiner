@@ -20,7 +20,8 @@ with
             signal_unit,
             signal_uuid,
             signal_uuid_raw,
-            signal_value
+            signal_value,
+            now() as materialized_at
         from {{ ref("int_dset_responses__deduplicated") }}
     )
 

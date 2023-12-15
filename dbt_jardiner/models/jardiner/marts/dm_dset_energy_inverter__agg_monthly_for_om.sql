@@ -45,5 +45,5 @@ select
     month_date as mes,
     plant_name as nom_planta,
     device_name as aparell,
-    inverter_energy_MWh as energia_inversor_mwh
+    inverter_energy_mwh as energia_inversor_mwh
 from production_monthly
