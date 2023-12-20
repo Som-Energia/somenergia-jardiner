@@ -147,3 +147,9 @@ models:
       - name: signal_uuid
       - name: signal_last_ts
       - name: signal_last_value
+
+
+  - name: int_dset_responses__spined_metadata
+    description: >
+      Aquest model contè una espina 5-minutal per a cada senyal esperada (metadatades) i després creuada
+      amb les dades dels senyals de DSET.
