@@ -151,6 +151,7 @@ dbt-build:
       when: always
       variables:
         DBT_TARGET_NAME: pre
+        DBT_FAIL_FAST: "True"
       changes:
         compare_to: "refs/heads/main"
         paths: *dbt-build-changes-paths
