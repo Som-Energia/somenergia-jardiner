@@ -129,13 +129,11 @@ models:
         tests:
           - not_null:
               config:
-                store_failures: true
                 tags: [dset]
       - name: signal_uuid_raw
         tests:
           - dbt_utils.not_empty_string:
               config:
-                store_failures: true
                 tags: [dset]
       - name: signal_value
       - name: ts

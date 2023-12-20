@@ -14,5 +14,5 @@ insert_final_newline = true
 [*.sql]
 indent_size = 2
 
-[*.yaml, *.yml]
+[*.{yaml,yml}]
 indent_size = 2

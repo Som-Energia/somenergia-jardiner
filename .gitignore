@@ -1,5 +1,8 @@
 # handmade ignores
 
+# elementary
+edr_target
+
 # dbt things
 dbt_jardiner/**/manifest.json
 dbt_jardiner/**/partial_parse.msgpack

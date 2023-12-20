@@ -47,6 +47,8 @@ include:
   - local: /.gitlab-ci/.pre-commit.yml
 
 pre-commit:
+  before_script:
+    - git config --global --add safe.directory "$CI_PROJECT_DIR"
   tags:
     - somenergia-et
 
@@ -67,12 +69,10 @@ pre-commit:
   - jardiner/*
   - .gitlab-ci.yml
 
-
 .dbt-build-changes-paths: &dbt-build-changes-paths
   - dbt_jardiner/**/*.sql
   - dbt_jardiner/**/*.yaml
   - .gitlab-ci.yml
-
 
 .docker-login-before-script:
   &docker-login-before-script ## login to the Docker registry, needed to push and pull from private registries
@@ -352,24 +352,28 @@ chown-non-root-artifacts:
 generate-dbt-docs:
   stage: deploy
   variables:
-    DBT_TARGET_NAME: prod
+    DBT_TARGET_NAME: pre
     DBHOST: $SOM_JARDINER_DB_HOST
     DBPORT: $SOM_JARDINER_DB_PORT
     DBUSER: $SOM_JARDINER_DB_USER
     DBPASSWORD: $SOM_JARDINER_DB_PASSWORD
     DBNAME: $SOM_JARDINER_DB_DBNAME
-    DBT_DOCS_ARTIFACT_DIR: ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/target
   image: ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-docs:latest
   script:
     - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
-    - dbt deps --target ${DBT_TARGET_NAME}
-    - dbt docs generate --target ${DBT_TARGET_NAME}
-    - re_data overview generate --target ${DBT_TARGET_NAME}
-    - mkdir -p ${CI_PROJECT_DIR}/.artifacts/target
-    - cp -R ${DBT_DOCS_ARTIFACT_DIR}/* ${CI_PROJECT_DIR}/.artifacts/target
+    - echo "Creating artifacts directory"
+    - mkdir -p ${CI_PROJECT_DIR}/.artifacts/dbt_docs
+    - mkdir -p ${CI_PROJECT_DIR}/.artifacts/elementary_docs
+    - echo "Installing dbt dependencies"
+    - dbt deps
+    - echo "Generating dbt docs"
+    - dbt docs generate --target ${DBT_TARGET_NAME} --target-path ${CI_PROJECT_DIR}/.artifacts/dbt_docs
+    - echo "Generating elementary dbt report"
+    - edr report --env prod --project-profile-target ${DBT_TARGET_NAME} --profile-target ${DBT_TARGET_NAME} --file-path ${CI_PROJECT_DIR}/.artifacts/elementary_docs/index.html
   artifacts:
     paths:
-      - .artifacts/target
+      - .artifacts/dbt_docs
+      - .artifacts/elementary_docs
   tags:
     - somenergia-et
   needs:
@@ -378,11 +382,17 @@ generate-dbt-docs:
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
       when: always
+      variables:
+        DBT_TARGET_NAME: prod
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
       allow_failure: true
+      variables:
+        DBT_TARGET_NAME: pre
     - if: $CI_PIPELINE_SOURCE == "trigger" && $CI_TRIGGER_TASK_NAME == "pages"
       when: always
+      variables:
+        DBT_TARGET_NAME: prod
 
 generate-mkdocs:
   image:
@@ -392,17 +402,17 @@ generate-mkdocs:
   variables:
     GIT_DEPTH: 0 # https://github.com/timvink/mkdocs-git-revision-date-localized-plugin#note-when-using-build-environments
     CI_DEBUG_TRACE: "true"
-    MKDOCS_ARTIFACT_DIR: ${CI_PROJECT_DIR}/site
   script:
-    - mkdocs build --strict --verbose --clean --site-dir ${MKDOCS_ARTIFACT_DIR}
-    - mkdir -p ${CI_PROJECT_DIR}/.artifacts/site
-    - cp -R ${MKDOCS_ARTIFACT_DIR}/* ${CI_PROJECT_DIR}/.artifacts/site
+    - echo "Creating artifacts directory"
+    - mkdir -p ${CI_PROJECT_DIR}/.artifacts/docs
+    - echo "Generating mkdocs"
+    - mkdocs build --strict --verbose --clean --site-dir ${CI_PROJECT_DIR}/.artifacts/docs
   needs:
     - job: chown-non-root-artifacts
       artifacts: true
   artifacts:
     paths:
-      - .artifacts/site
+      - .artifacts/docs
   rules:
     # run only on main branch after build-app-image-pre-release is successful
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
@@ -419,9 +429,8 @@ pages:
   script:
     - echo "Preparing repository"
     - mkdir -p ${CI_PROJECT_DIR}/public/
-    - cp -R ${CI_PROJECT_DIR}/.artifacts/site/* ${CI_PROJECT_DIR}/public/
-    - mkdir -p ${CI_PROJECT_DIR}/public/dbt_docs
-    - cp -R ${CI_PROJECT_DIR}/.artifacts/target/* ${CI_PROJECT_DIR}/public/dbt_docs/
+    - echo "Copying files from repository"
+    - cp -R ${CI_PROJECT_DIR}/.artifacts/* ${CI_PROJECT_DIR}/public/
   artifacts:
     paths:
       - public

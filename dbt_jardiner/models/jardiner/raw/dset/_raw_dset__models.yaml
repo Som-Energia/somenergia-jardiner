@@ -11,8 +11,6 @@ models:
         tests:
           - not_null:
               where: "CURRENT_DATE - interval '3 days' < queried_at"
-              config:
-                store_failures: true
       - name: signal_id
         description: id intern de DSET per identificar un senyal
       - name: signal_tz
@@ -40,8 +38,6 @@ models:
         tests:
           - not_null:
               where: "CURRENT_DATE - interval '3 days' < queried_at"
-              config:
-                store_failures: true
       - name: signal_value
         description: Valor del senyal observat. Camp definit per partner DSET
   - name: raw_dset_responses__last_signal_reading

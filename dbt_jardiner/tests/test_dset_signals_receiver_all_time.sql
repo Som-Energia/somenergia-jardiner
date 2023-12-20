@@ -1,4 +1,4 @@
-{{ config(error_if=">1000", store_failures=true) }}
+{{ config(error_if=">1000") }}
 
 with
     valors as (

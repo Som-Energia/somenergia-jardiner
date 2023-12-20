@@ -58,6 +58,14 @@ models:
         +materialized: view
         +grants:
           select: "opendata"
+  ## see docs: https://docs.elementary-data.com/
+  elementary:
+    ## elementary models will be created in the schema '<your_schema>_elementary'
+    +schema: "elementary"
+    +docs:
+      node_color: "pink"
+    ## To disable elementary for dev, uncomment this:
+    # enabled: "{{ target.name in ['prod','analytics'] }}"
 
   re_data:
     +docs:

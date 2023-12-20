@@ -1,4 +1,4 @@
-{{ config(severity="warn", store_failures=true) }}
+{{ config(severity="warn") }}
 
 with
     dbt_subquery as (
