@@ -1,8 +1,6 @@
 packages:
 - package: dbt-labs/dbt_utils
   version: 1.0.0
-- package: re-data/re_data
-  version: 0.10.9
 - package: elementary-data/elementary
   version: 0.13.0
-sha1_hash: ceee52f96c63c4843011d6bbf40d1a2370de0f68
+sha1_hash: 7fb7c371cbea7688c0c136ec576adec1c6404b83
