@@ -243,7 +243,9 @@ RUN groupadd --gid ${USER_GID} "${USERNAME}" \
 # --------------------------- install dependencies --------------------------- #
 
 RUN apt-get update \
-	&& apt-get install -y git vim iputils-ping wget
+	&& apt-get install -y git vim iputils-ping wget curl unzip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # ------------------------------- app specific ------------------------------- #
 
