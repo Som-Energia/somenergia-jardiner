@@ -123,6 +123,7 @@ build-app-image-pre-release:
   tags:
     - somenergia-et
 
+
 dbt-build:
   stage: test
   variables:
@@ -136,7 +137,12 @@ dbt-build:
   script:
     - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
     - dbt deps --target ${DBT_TARGET_NAME}
-    - dbt build --target ${DBT_TARGET_NAME} --store-failures --threads 4
+    - echo "retrieving dbt artifacts from previous succesful job"
+    # this should be done using artifact API, see https://docs.gitlab.com/ee/api/job_artifacts.html#get-job-artifacts
+    - curl --location --output /tmp/artifacts.zip "https://$CI_SERVER_HOST/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/${CI_DEFAULT_BRANCH}/download?job=pages&job_token=$CI_JOB_TOKEN"
+    - unzip -o /tmp/artifacts.zip -d /tmp/artifacts
+    - cp /tmp/artifacts/public/dbt_docs/manifest.json ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/state/prod/manifest.json
+    - dbt build --target ${DBT_TARGET_NAME} --store-failures --threads 4 --models state:modified+ --state state/prod
   tags:
     - somenergia-et
   rules:
@@ -359,6 +365,7 @@ generate-dbt-docs:
     DBUSER: $SOM_JARDINER_DB_USER
     DBPASSWORD: $SOM_JARDINER_DB_PASSWORD
     DBNAME: $SOM_JARDINER_DB_DBNAME
+    ELEMENTARY_ENV: dev
   image: ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-docs:latest
   script:
     - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
@@ -368,9 +375,9 @@ generate-dbt-docs:
     - echo "Installing dbt dependencies"
     - dbt deps
     - echo "Generating dbt docs"
-    - dbt docs generate --target ${DBT_TARGET_NAME} --target-path ${CI_PROJECT_DIR}/.artifacts/dbt_docs
+    - dbt docs generate --target ${DBT_TARGET_NAME} --target-path ${CI_PROJECT_DIR}/.artifacts/dbt_docs --threads 4
     - echo "Generating elementary dbt report"
-    - edr report --env prod --project-profile-target ${DBT_TARGET_NAME} --profile-target ${DBT_TARGET_NAME} --file-path ${CI_PROJECT_DIR}/.artifacts/elementary_docs/index.html
+    - edr report --env ${ELEMENTARY_ENV} --project-profile-target ${DBT_TARGET_NAME} --profile-target ${DBT_TARGET_NAME} --file-path ${CI_PROJECT_DIR}/.artifacts/elementary_docs/index.html
   artifacts:
     paths:
       - .artifacts/dbt_docs
@@ -385,15 +392,18 @@ generate-dbt-docs:
       when: always
       variables:
         DBT_TARGET_NAME: prod
+        ELEMENTARY_ENV: prod
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
       allow_failure: true
       variables:
         DBT_TARGET_NAME: pre
+        ELEMENTARY_ENV: dev
     - if: $CI_PIPELINE_SOURCE == "trigger" && $CI_TRIGGER_TASK_NAME == "pages"
       when: always
       variables:
         DBT_TARGET_NAME: prod
+        ELEMENTARY_ENV: prod
 
 generate-mkdocs:
   image:
@@ -427,14 +437,25 @@ generate-mkdocs:
 
 pages:
   stage: deploy
+  variables:
+    PAGES_PREFIX: "" # no prefix by default
+  pages:
+    path_prefix: "$PAGES_PREFIX"
+  environment:
+    name: "Pages ${PAGES_PREFIX}"
+    url: "${CI_PAGES_URL}/${PAGES_PREFIX}/dbt_docs"
   script:
     - echo "Preparing repository"
     - mkdir -p ${CI_PROJECT_DIR}/public/
     - echo "Adding redirect from root to /docs"
     # https://docs.gitlab.com/ee/user/project/pages/redirects.html
-    - echo "/ /docs 301" > ${CI_PROJECT_DIR}/public/_redirects
+    - echo "/${PAGES_PREFIX} /${PAGES_PREFIX}/docs 301" > ${CI_PROJECT_DIR}/public/_redirects
     - echo "Copying files from repository"
-    - cp -R ${CI_PROJECT_DIR}/.artifacts/* ${CI_PROJECT_DIR}/public/
+    - mkdir -p ${CI_PROJECT_DIR}/public/${PAGES_PREFIX}
+    - cp -R ${CI_PROJECT_DIR}/.artifacts/* ${CI_PROJECT_DIR}/public/${PAGES_PREFIX}
+    - echo "dbt docs accessible through ${CI_PAGES_URL}/${PAGES_PREFIX}/dbt_docs"
+    - echo "elementary report accessible through ${CI_PAGES_URL}/${PAGES_PREFIX}/elementary_docs"
+    - echo "mkdocs accessible through ${CI_PAGES_URL}/${PAGES_PREFIX}/docs"
   artifacts:
     paths:
       - public
@@ -445,6 +466,8 @@ pages:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
       allow_failure: true
+      variables:
+        PAGES_PREFIX: 'mr$CI_MERGE_REQUEST_IID'
     - if: $CI_PIPELINE_SOURCE == "trigger" && $CI_TRIGGER_TASK_NAME == "pages"
       when: always
   needs:
