@@ -2,6 +2,12 @@
 
 Mending and nurturing of green energy plants. See its changelog at [CHANGELOG.md](CHANGELOG.md).
 
+## Documentation
+
+- [Mkdocs documentation](https://et.pages.somenergia.coop/somenergia-jardiner/docs/)
+- [dbt documentation](https://et.pages.somenergia.coop/somenergia-jardiner/dbt_docs/)
+- [Elementary documentation](https://et.pages.somenergia.coop/somenergia-jardiner/elementary_docs/)
+
 ## Usuàries de Gestió d'actius
 
 Gestió d'actius! Aneu [aquí](/somenergia-jardiner/projecte/2023-06-03-macrofase roadmap/)
@@ -17,7 +23,6 @@ curl -sSL https://install.python-poetry.org | python3 -
 ```
 
 Otherwise [poetry will delete itself](https://github.com/python-poetry/poetry/issues/3957) when running `poetry install --sync`
-
 
 alternativelly you can do
 

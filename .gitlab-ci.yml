@@ -430,6 +430,9 @@ pages:
   script:
     - echo "Preparing repository"
     - mkdir -p ${CI_PROJECT_DIR}/public/
+    - echo "Adding redirect from root to /docs"
+    # https://docs.gitlab.com/ee/user/project/pages/redirects.html
+    - echo "/ /docs 301" > ${CI_PROJECT_DIR}/public/_redirects
     - echo "Copying files from repository"
     - cp -R ${CI_PROJECT_DIR}/.artifacts/* ${CI_PROJECT_DIR}/public/
   artifacts:
