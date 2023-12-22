@@ -1,24 +1,21 @@
 version: 2
-
 models:
   - name: int_dset__last_registries
     description: >
-      selecciona el ts màxim per a cada senyal i el fa servir per seleccionar la fila per a cada planta
-      i senyal via un left join.
-      Per disseny, només tindrà una fila per senyal_uuid i planta, la més recent.
-
+      selecciona el ts màxim per a cada senyal i el fa servir per seleccionar la
+      fila per a cada planta i senyal via un left join. Per disseny, només
+      tindrà una fila per senyal_uuid i planta, la més recent.
   - name: int_plants_overview_instant
     description: >
-      En aquest model ajuntem els registres més recents de potència instantania i irradiatió de planta amb
-      la producció del dia anteriorper fer una taula resum al superset.
+      En aquest model ajuntem els registres més recents de potència instantania
+      i irradiatió de planta amb la producció del dia anteriorper fer una taula
+      resum al superset.
     columns:
       - name: ultim_registre_pot_instantanea
-        description:
-          Es tracta del registre més antic de tots els registres d'inversor que estem sumant per calcular la
-          pot_instantantanea_planta_kw.
+        description: Es tracta del registre més antic de tots els registres d'inversor
+          que estem sumant per calcular la pot_instantantanea_planta_kw.
       - name: pot_instantantanea_planta_kw
         description: Suma de la potència activ a de tots els inversors de cada planta.
-
   - name: int_dset_responses__with_signal_metadata
     description: >
       Aquest model contè les dades dels senyals de DSET encreuades amb metadades
@@ -50,67 +47,69 @@ models:
       - name: ts
       - name: signal_value
         description: >
-          Valor del senyal en el moment de la lectura.
-          El valor del senyal per les mètriques à testejat dins d'uns rangs, triat manualment observant valors actuals
-          Enable tests when signals are more estable
+          Valor del senyal en el moment de la lectura. El valor del senyal per
+          les mètriques à testejat dins d'uns rangs, triat manualment observant
+          valors actuals Enable tests when signals are more estable
         tests:
           - dbt_utils.accepted_range:
               name: accepted_range_intensity_instantaneous_last_7_days
               max_value: 500
               min_value: -100
               config:
-                where: "ts > (now() - interval '7 days') and signal_unit = 'A'"
+                where: ts > (now() - interval '7 days') and signal_unit = 'A'
                 severity: warn
                 tags: jardiner
-                enabled: False
+                enabled: false
           - dbt_utils.accepted_range:
               name: accepted_range_energy_instantaneous_last_7_days
               max_value: 15000
               min_value: 0
               config:
-                where: "ts > (now() - interval '7 days') and signal_unit = 'V' and signal_type = 'absolute'"
+                where: ts > (now() - interval '7 days') and signal_unit = 'V' and signal_type =
+                  'absolute'
                 severity: warn
-                enabled: False
+                enabled: false
           - dbt_utils.accepted_range:
               name: accepted_range_power_instantaneous_last_7_days
               max_value: 15000
               min_value: 0
               config:
-                where: "ts > (now() - interval '7 days') and signal_unit = 'kW' and signal_type = 'absolute'"
+                where: ts > (now() - interval '7 days') and signal_unit = 'kW' and signal_type =
+                  'absolute'
                 severity: warn
-                enabled: False
+                enabled: false
           - dbt_utils.accepted_range:
               name: accepted_range_temperature_instantaneous_last_7_days
               max_value: 700
               min_value: -30
               config:
-                where: "ts > (now() - interval '7 days') and signal_unit = 'ºC' and signal_type = 'absolute'"
+                where: ts > (now() - interval '7 days') and signal_unit = 'ºC' and signal_type =
+                  'absolute'
                 severity: warn
-                enabled: False
+                enabled: false
           - not_null:
               config:
                 severity: warn
                 warn_if: ">10"
-                enabled: False
+                enabled: false
   - name: int_signal_device_relation__distinct_devices
     description: >
-      Tots els devices descrits en el signal_device_relation que mapeja signal_uuid <--> device_uuid.
-      Serveix per a evaluar la coherència interna dels camps desnormalitzats dels devices, és a dir,
-      que un device (per uuid) no canviï de nom o aparell d'un senyal a l'altre.
+      Tots els devices descrits en el signal_device_relation que mapeja
+      signal_uuid <--> device_uuid. Serveix per a evaluar la coherència interna
+      dels camps desnormalitzats dels devices, és a dir, que un device (per
+      uuid) no canviï de nom o aparell d'un senyal a l'altre.
     columns:
       - name: plant_uuid
         tests:
           - relationships:
               to: ref("raw_gestio_actius_plant_parameters")
               field: plant_uuid
-
   - name: int_dset_responses__union_view_and_materialized
     description: >
-      Aquest model fa un union d'una taula materialitzada i una vista sobre la taula raw_dset_responses.
-      Aquesta materialització es fa per tenir una taula més rápida amb la normalització
-      de les respostes ja feta amb una hora de retard i fer només la normalització online
-      per la hora més recent
-
+      Aquest model fa un union d'una taula materialitzada i una vista sobre la
+      taula raw_dset_responses. Aquesta materialització es fa per tenir una
+      taula més rápida amb la normalització de les respostes ja feta amb una
+      hora de retard i fer només la normalització online per la hora més recent
     columns:
       - name: group_name
       - name: queried_at
@@ -129,27 +128,87 @@ models:
         tests:
           - not_null:
               config:
-                tags: [dset]
+                tags:
+                  - dset
       - name: signal_uuid_raw
         tests:
           - dbt_utils.not_empty_string:
               config:
-                tags: [dset]
+                tags:
+                  - dset
       - name: signal_value
       - name: ts
-
   - name: int_dset_last_signal__from_latest_batch_dset_last
     description: >
-      View based on the signal_last_ts,signal_last_value instead of ts,value of the latest
-      readings batch. Thus it is according to dset. In this model own metadata is left joined,
-      hence it might be null if the signal_uuid is unmmapped.
+      View based on the signal_last_ts,signal_last_value instead of ts,value of
+      the latest readings batch. Thus it is according to dset. In this model own
+      metadata is left joined, hence it might be null if the signal_uuid is
+      unmmapped.
     columns:
       - name: signal_uuid
       - name: signal_last_ts
       - name: signal_last_value
-
-
   - name: int_dset_responses__spined_metadata
     description: >
-      Aquest model contè una espina 5-minutal per a cada senyal esperada (metadatades) i després creuada
-      amb les dades dels senyals de DSET.
+      Aquest model contè una espina 5-minutal per a cada senyal esperada
+      (metadatades) i després creuada amb les dades dels senyals de DSET.
+  - name: int_dset_responses__materialized_one_hour_late
+    description: Conté les lectures de dset desnormalitzades amb les nostres
+      metadades i una espina cinc-minutal. Com que dset és una mica lent a tenir
+      les dades a la api, deixem una hora de marge durant el qual cada 5 minuts
+      [plant-reader](https://gitlab.somenergia.coop/et/somenergia-plant-reader)
+      demana les lectures amb un offset de mitja hora.
+      El [dag que materializa](plant_production_datasets_jardiner_dag)
+      s'executa diariament, però es pot executar quan calgui, també horàriament.
+    columns:
+      - name: group_name
+        description: dset plant name
+      - name: queried_at
+        description: point in time in which we queried the dset api
+      - name: ts
+        description: >
+          signal reading timestamp, part of (ts, signal_value) pair. Timezone
+          aware using `signal_tz`.
+      - name: signal_code
+        description: ""
+      - name: signal_device_type
+        description: ""
+      - name: signal_device_uuid
+        description: ""
+      - name: signal_frequency
+        description: ""
+      - name: signal_id
+        description: ""
+      - name: signal_is_virtual
+        description: ""
+      - name: signal_last_ts
+        description: ""
+      - name: signal_last_value
+        description: ""
+      - name: signal_type
+        description: ""
+      - name: signal_tz
+        description: ""
+      - name: signal_unit
+        description: ""
+      - name: signal_uuid
+        description: >
+          Our identifier of every dset signal. Syntax-checked and filtered. Will
+          be null if malformed or was null to begin with.
+      - name: signal_uuid_raw
+        description: Our identifier as given by dset, might have syntax errors or be
+          invalid.
+      - name: signal_value
+        description: ""
+      - name: materialized_at
+        description: >
+          point in time in which this row was materialized in this incremental
+          model. Typically daily by the dag
+          plant_production_datasets_jardiner_dag.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - ts
+            - signal_uuid
+          where: "ts > now() - interval '1 week' and queried_at > now() - interval '1 week'"
+
