@@ -211,4 +211,5 @@ models:
             - ts
             - signal_uuid
           where: "ts > now() - interval '1 week' and queried_at > now() - interval '1 week'"
+          severity: warn
 
