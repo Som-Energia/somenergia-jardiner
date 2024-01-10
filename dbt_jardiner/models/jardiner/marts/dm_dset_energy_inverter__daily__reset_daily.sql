@@ -13,7 +13,7 @@ with
             min(inverter_energy_kwh) as min_inverter_energy_kwh,
             max(inverter_energy_kwh) - min(inverter_energy_kwh) as diff_inverter_energy_kwh,
             max(inverter_energy_kwh) - min(nullif(inverter_energy_kwh, 0)) as diff_nozero_inverter_energy_kwh
-        from {{ ref("dm_dset_energy_inverter__5m") }}
+        from {{ ref("int_dset_energy_inverter__5m") }}
         where
             metric_name = 'energia_activa_exportada'
             {# filter to discard previous day data which gets reset early morning #}
