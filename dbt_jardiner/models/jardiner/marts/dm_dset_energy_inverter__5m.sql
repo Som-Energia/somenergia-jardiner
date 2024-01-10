@@ -20,4 +20,4 @@ with inverters_energy as (
     and extract(hour from ts at time zone 'Europe/Madrid') > 3
 )
 select * from inverters_energy
-order by ts
+order by ts desc
