@@ -137,11 +137,17 @@ models:
     config:
       tags: [dset]
     description: >
-      Mínima granularitat de l'energia dels inversors. És acumulada amb resets diaris,
-      per tant per granularitats superiors o iguals a dia feu servir `dm_dset_energy_inverter__daily`.
+      Mínima granularitat de l'energia dels inversors. Conté l'energia acumulada i la que es reseteja de matinada.
+      Per granularitats superiors o iguals a dia feu servir `dm_dset_energy_inverter__daily`.
 
-  - name: dm_dset_energy_inverter__daily
+  - name: dm_dset_energy_inverter__daily__reset_daily
     config:
       tags: [dset]
     description: >
       Agregació diaria de l'energia d'inversor, que fa un max del dia (Europe/Madrid). Recordeu que hem descartat les hores de 0 a 3 perquè és en el rang de temps que solen haver-hi resets.
+
+  - name: dm_dset_energy_inverter__daily__accumulated
+    config:
+      tags: [dset]
+    description: >
+      Agregació diaria de l'energia d'inversor, que fa un max del dia (Europe/Madrid) i li resta el mínim.

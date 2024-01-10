@@ -13,7 +13,8 @@ exposures:
       En un futur també mostrarà l'estat d'alarmes.
 
     depends_on:
-      - ref('dm_dset_energy_inverter__daily')
+      - ref('dm_dset_energy_inverter__daily__accumulated')
+      - ref('dm_dset_energy_inverter__daily__reset_daily')
       - ref('dm_dashboard_overview_monthly')
       - ref('dm_dashboard_overview_instant')
 

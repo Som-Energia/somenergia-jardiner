@@ -44,6 +44,7 @@ models:
               values:
                 - "comunicacio_ok"
                 - "energia_activa_exportada"
+                - "energia_activa_exportada_total"
                 - "energia_activa_importada"
                 - "energia_reactiva_q1"
                 - "energia_reactiva_q2"
