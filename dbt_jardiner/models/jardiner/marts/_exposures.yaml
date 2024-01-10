@@ -1,0 +1,25 @@
+version: 2
+
+exposures:
+  - name: overview
+    label: Plant Production overview
+    type: dashboard
+    maturity: low
+    url: https://indicadors.somenergia.coop/superset/dashboard/45
+    description: >
+      Vista general de totes les plantes de generació de SomEnergia.
+      Conté la vista anual de ràtio de performance i producció acumulada,
+      i també la producció actual de les plantes entre d'altres.
+      En un futur també mostrarà l'estat d'alarmes.
+
+    depends_on:
+      - ref('dm_dset_energy_inverter__daily')
+      - ref('dm_dashboard_overview_monthly')
+      - ref('dm_dashboard_overview_instant')
+
+    owner:
+      name: Gestió D'Actius
+      email: somgeneracio@somenergia.coop
+
+    tags:
+      - jardiner
