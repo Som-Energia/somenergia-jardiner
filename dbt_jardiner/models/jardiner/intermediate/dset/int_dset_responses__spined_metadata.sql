@@ -1,7 +1,7 @@
 {{ config(materialized='view') }}
 
 with spina5m as (
-      select generate_series((now() at time zone 'Europe/Madrid')::date - interval '30 days', now(), '5 minutes') as ts
+      select generate_series('2023-12-01', now(), '5 minutes') as ts
 ),
 spined_expected_signals as (
     select
@@ -20,11 +20,11 @@ spined_expected_signals as (
     left join {{ ref("dm_plants") }} as plants on true
     left join {{ ref("raw_gestio_actius__signal_denormalized") }} as metadata using (plant_uuid)
 ),
-dset_last_month as(
+dset_from_december_2023 as(
     select * from {{ ref("int_dset_responses__materialized_one_hour_late") }} as dset
-    where dset.ts > (now() at time zone 'Europe/Madrid')::date - interval '30 days'
+    where dset.ts > '2023-12-01'
     {# if we don't limit queried_at the planner shits the bed #}
-    and queried_at > (now() at time zone 'Europe/Madrid')::date - interval '30 days'
+    and queried_at > '2023-12-01'
 ),
 spined_dset as (
     select
@@ -50,9 +50,10 @@ spined_dset as (
         valors.signal_last_ts,
         valors.signal_last_value,
         valors.queried_at,
-        valors.ts is not null as from_dset
+        valors.ts is not null as from_dset,
+        valors.materialized_at
     from spined_expected_signals
-    left join dset_last_month as valors using(ts, signal_uuid)
+    left join dset_from_december_2023 as valors using(ts, signal_uuid)
     order by ts desc, nom_planta
 )
 select * from spined_dset

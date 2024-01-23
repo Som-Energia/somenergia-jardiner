@@ -160,6 +160,10 @@ models:
       demana les lectures amb un offset de mitja hora.
       El [dag que materializa](plant_production_datasets_jardiner_dag)
       s'executa diariament, però es pot executar quan calgui, també horàriament.
+      Aquest incremental, dels 2 últims dies de ts que anem a buscar a int_dset_responses__deduplicated,
+      nomes agafem les unique_keys que hagin canviat (poden ser els meters, que van de
+      null a tenir valor, o bé els duplicats generats pel DAG que torna a lleguir per
+      la nit todo el dia anterior) o bé les que no existessin.
     columns:
       - name: group_name
         description: dset plant name
