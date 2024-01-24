@@ -56,7 +56,7 @@ def dbapi_to_dict(dbapi: str):
 with DAG(
     dag_id="plant_production_datasets__jardiner__v1",
     start_date=datetime(2023, 1, 10),
-    schedule_interval="@daily",
+    schedule_interval="30 0 * * *",
     catchup=False,
     tags=["Plantmonitor", "Jardiner", "Transform", "DBT"],
     max_active_runs=1,
