@@ -133,7 +133,7 @@ dbt-build:
     DBUSER: $SOM_JARDINER_DB_USER
     DBPASSWORD: $SOM_JARDINER_DB_PASSWORD
     DBNAME: $SOM_JARDINER_DB_DBNAME
-    DBT_MANIFEST_ARTIFACT_URL: "https://$CI_SERVER_HOST/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/${CI_DEFAULT_BRANCH}/download?job=dbt-build&job_token=$CI_JOB_TOKEN"
+    DBT_MANIFEST_ARTIFACT_URL: "https://$CI_SERVER_HOST/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/${CI_DEFAULT_BRANCH}/download?job=pages&job_token=$CI_JOB_TOKEN"
   image: ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-docs:latest
   script:
     - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
@@ -142,7 +142,7 @@ dbt-build:
     # download artifacts from previous succesful job dbt-build at branch main
     - curl --location --output /tmp/artifacts.zip ${DBT_MANIFEST_ARTIFACT_URL}
     - unzip -o /tmp/artifacts.zip -d /tmp/artifacts
-    - cp /tmp/artifacts/${DBT_PROJECT_DIR_NAME}/target/manifest.json ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/state/prod/manifest.json
+    - cp /tmp/artifacts/public/dbt_docs/manifest.json ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/state/prod/manifest.json
     - dbt build --target ${DBT_TARGET_NAME} --store-failures --threads 4 --models state:modified+ --state state/prod
   tags:
     - somenergia-et
