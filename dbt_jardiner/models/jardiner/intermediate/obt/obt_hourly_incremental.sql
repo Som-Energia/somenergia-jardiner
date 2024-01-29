@@ -16,8 +16,8 @@ select
     dset.irradiation as dset_irradiation_wh,
     dset.inverter_exported_energy as dset_inverter_energy_kwh,
     dset.meter_exported_energy as dset_meter_instant_exported_energy_kwh,
-    NULL::integer as dset_meter_exported_energy_kwh,
-    NULL::integer as dset_meter_imported_energy_kwh,
+    dset.meter_exported_energy as dset_meter_exported_energy_kwh,
+    NULl::integer as dset_meter_imported_energy_kwh,
     forecast.forecastdate as forecast_date,
     forecast.energy_kwh as forecast_energy_kwh,
     sr.tilted_irradiation_wh_m2 as satellite_irradiation_wh_m2,
@@ -37,7 +37,7 @@ left join {{ ref('int_dset_metrics_wide_hourly') }} dset using(start_hour, plant
 left join {{ ref('int_energy_forecasts__best_from_plantmonitordb') }} forecast using(start_hour, plant_uuid)
 left join {{ ref('int_satellite_readings__hourly') }} sr using(start_hour, plant_uuid)
 left join {{ ref('raw_plantlake_omie_historical_price__with_row_number_per_date') }} omie using(start_hour)
-{#- temporarely use plantmonitors' meterregistry until dset provides it #}
+{#- temporarely use plantmonitors' meterregistry until dset is reliable #}
 left join {{ref('int_erp_meter_registry__hourly')}} as meter_registry using(start_hour, plant_uuid)
 left join {{ ref('int_plantmonitordb_solarevent__generous') }} as solar_events
     on solar_events.plant_uuid = plant_metadata.plant_uuid and solar_events.day = spine.start_hour::date
