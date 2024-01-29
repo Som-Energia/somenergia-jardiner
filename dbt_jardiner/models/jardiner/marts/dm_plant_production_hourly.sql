@@ -12,14 +12,14 @@ select
     dset_inverter_energy_kwh as energia_instantania_inversor_kwh,
     dset_meter_instant_exported_energy_kwh as energia_exportada_instantania_comptador_kwh,
     1 - {{dbt_utils.safe_divide('dset_inverter_energy_kwh','dset_meter_instant_exported_energy_kwh')}} as energia_perduda_inversor_a_comptador,
-    --dset_meter_exported_energy_kwh as energia_exportada_comptador_kwh, -- plantmonitor la té, però dset ens la donarà
-    erp_meter_exported_energy_kwh as energia_exportada_comptador_kwh,
-    --dset_meter_imported_energy_kwh as energia_importada_comptador_kwh, -- idem
-    erp_meter_imported_energy_kwh as energia_importada_comptador_kwh,
+    dset_meter_exported_energy_kwh as energia_exportada_comptador_kwh,
+    erp_meter_exported_energy_kwh as erp_energia_exportada_comptador_kwh,
+    dset_meter_imported_energy_kwh as energia_importada_comptador_kwh,
+    erp_meter_imported_energy_kwh as erp_energia_importada_comptador_kwh,
     date_trunc('day',forecast_date,'Europe/Madrid')::date as data_prediccio,
     forecast_energy_kwh as energia_predita_meteologica_kwh,
     satellite_energy_output_kwh as energia_esperada_solargis_kwh,
-    (satellite_energy_output_kwh - erp_meter_exported_energy_kwh) as energia_perduda_kwh,
+    (satellite_energy_output_kwh - dset_meter_exported_energy_kwh) as energia_perduda_kwh,
     omie_price_eur_mwh as preu_omie_eur_mwh,
     dset_irradiation_wh as irradiation_wh_m2,
     satellite_irradiation_wh_m2 as irradiacio_satellit_wh_m2,
@@ -29,8 +29,8 @@ select
     (satellite_irradiation_wh_m2 > 5)::integer as hora_total,
     {# hd/ht only makes sense in daily and up#}
     {#(pr_hourly > 0.7)/NULLIF(satellite_irradiation_wh_m2 > 5,0) as disponibilitat,#}
-    (erp_meter_exported_energy_kwh - forecast_energy_kwh) as energia_desviada_omie_kwh,
-    1 - forecast_energy_kwh/NULLIF(erp_meter_exported_energy_kwh,0) as energia_desviada_percent,
+    (dset_meter_exported_energy_kwh - forecast_energy_kwh) as energia_desviada_omie_kwh,
+    1 - forecast_energy_kwh/NULLIF(dset_meter_exported_energy_kwh,0) as energia_desviada_percent,
     is_daylight_generous as is_daylight
     {# HMCIL #}
     {# billed_energy as energia_liquidada,
