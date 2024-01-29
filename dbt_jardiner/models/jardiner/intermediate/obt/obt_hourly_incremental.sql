@@ -17,7 +17,7 @@ with obt_base as (
       dset.inverter_exported_energy as dset_inverter_energy_kwh,
       NULL::integer as dset_meter_instant_exported_energy_kwh,
       dset.meter_exported_energy as dset_meter_exported_energy_kwh,
-      NULL::integer as dset_meter_imported_energy_kwh,
+      dset.meter_imported_energy as dset_meter_imported_energy_kwh,
       forecast.forecastdate as forecast_date,
       forecast.energy_kwh as forecast_energy_kwh,
       sr.tilted_irradiation_wh_m2 as satellite_irradiation_wh_m2,
@@ -43,9 +43,9 @@ with obt_base as (
 ), obt_derived as (
   select
   *,
-  erp_meter_exported_energy_kwh as meter_exported_energy_kwh,
-  erp_meter_imported_energy_kwh as meter_imported_energy_kwh,
-  (erp_meter_exported_energy_kwh / peak_power_kw) / (NULLIF(satellite_irradiation_wh_m2, 0.0) / 1000.0) as pr_hourly
+  dset_meter_exported_energy_kwh as meter_exported_energy_kwh,
+  dset_meter_imported_energy_kwh as meter_imported_energy_kwh,
+  (dset_meter_exported_energy_kwh / peak_power_kw) / (NULLIF(satellite_irradiation_wh_m2, 0.0) / 1000.0) as pr_hourly
   from obt_base
   order by start_hour desc, plant_name
 )
