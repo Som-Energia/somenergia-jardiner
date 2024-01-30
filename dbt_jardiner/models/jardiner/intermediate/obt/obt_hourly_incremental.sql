@@ -24,9 +24,9 @@ with obt_base as (
       sr.module_temperature_dc as satellite_module_temperature_dc,
       sr.energy_output_kwh as satellite_energy_output_kwh,
       omie.price as omie_price_eur_mwh,
-      {#- exported_energy should be in wh we pass it to kwh. Also the /1000 is GSTC[W/m2] #}
       spine.start_hour between solar_events.sunrise_real and solar_events.sunset_real as is_daylight_real,
       spine.start_hour between solar_events.sunrise_generous and solar_events.sunset_generous as is_daylight_generous,
+      {#- exported_energy should be in wh we pass it to kwh #}
       round(meter_registry.export_energy_wh/1000,2) as erp_meter_exported_energy_kwh,
       round(meter_registry.import_energy_wh/1000,2) as erp_meter_imported_energy_kwh
   from {{ ref('spine_hourly') }} as spine
@@ -43,9 +43,10 @@ with obt_base as (
 ), obt_derived as (
   select
   *,
-  dset_meter_exported_energy_kwh as meter_exported_energy_kwh,
-  dset_meter_imported_energy_kwh as meter_imported_energy_kwh,
-  (dset_meter_exported_energy_kwh / peak_power_kw) / (NULLIF(satellite_irradiation_wh_m2, 0.0) / 1000.0) as pr_hourly
+  coalesce(dset_meter_exported_energy_kwh, erp_meter_exported_energy_kwh) as meter_exported_energy_kwh,
+  coalesce(dset_meter_imported_energy_kwh, erp_meter_imported_energy_kwh) as meter_imported_energy_kwh,
+  {# The /1000 is GSTC[W/m2] #}
+  (coalesce(dset_meter_exported_energy_kwh, erp_meter_exported_energy_kwh) / peak_power_kw) / (NULLIF(satellite_irradiation_wh_m2, 0.0) / 1000.0) as pr_hourly
   from obt_base
   order by start_hour desc, plant_name
 )
