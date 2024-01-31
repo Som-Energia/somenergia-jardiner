@@ -7,7 +7,7 @@ exposures:
     maturity: low
     url: https://indicadors.somenergia.coop/superset/dashboard/45
     description: >
-      Vista general de totes les plantes de generació de SomEnergia.
+      Vista general de totes les plantes de generació de Som Energia.
       Conté la vista anual de ràtio de performance i producció acumulada,
       i també la producció actual de les plantes entre d'altres.
       En un futur també mostrarà l'estat d'alarmes.
@@ -17,6 +17,53 @@ exposures:
       - ref('dm_dset_energy_inverter__daily__reset_daily')
       - ref('dm_dashboard_overview_monthly')
       - ref('dm_dashboard_overview_instant')
+      - ref('dm_dashboard_overview__produccio_cartera')
+
+    owner:
+      name: Gestió D'Actius
+      email: somgeneracio@somenergia.coop
+
+    tags:
+      - jardiner
+
+  - name: O&M_FV
+    label: Plant operation and maintenance
+    type: dashboard
+    maturity: low
+    url: https://indicadors.somenergia.coop/superset/dashboard/43
+    description: >
+      Vista dels valors de senyals amb una granularitat baixa, 5 min
+      o horaria, dels últims 2 últims dies.
+      També incorpora indicadors calculats com energia esperada i perduda.
+      Premet fer el monitoreig quotidià de planta.
+
+    depends_on:
+      - ref('dm_plant_production_hourly')
+      - ref('dm_metrics_production_5min')
+      - ref('dm_plants')
+      - ref('dm_dset_energy_inverter__agg_monthly_for_om')
+
+    owner:
+      name: Gestió D'Actius
+      email: somgeneracio@somenergia.coop
+
+    tags:
+      - jardiner
+
+  - name: plant
+    label: plant monthly and daily indicators
+    type: dashboard
+    maturity: low
+    url: https://indicadors.somenergia.coop/superset/dashboard/46
+    description: >
+      Vista dels indicadors de planta mensulas durant tot l'any, i alguns diaris
+      de l'última setmana
+    depends_on:
+      - ref('dm_plant_production_hourly')
+      - ref('dm_metrics_production_5min')
+      - ref('dm_plants')
+      - ref('dm_plant_production_monthly')
+      - ref('dm_dset_last_reading__from_signal_last_ts')
 
     owner:
       name: Gestió D'Actius
