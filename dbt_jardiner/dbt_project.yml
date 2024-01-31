@@ -47,7 +47,7 @@ models:
           +tags: dset
       marts:
         +docs:
-          node_color: "gold"
+          node_color: "goldenrod"
         dset:
           +tags: dset
     legacy:
