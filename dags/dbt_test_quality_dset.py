@@ -138,21 +138,25 @@ with DAG(
         force_pull=True,
     )
 
-    edr_command = (
-        "edr send-report"
-        " --profiles-dir config"
-        " --env prod"
-        " --days-back 7"
-        " --project-profile-target prod"
-        " --profile-target prod"
-        " --aws-access-key-id $S3_ACCESS_KEY"
-        " --aws-secret-access-key $S3_SECRET_KEY"
-        " --s3-endpoint-url $S3_ENDPOINT"
-        " --s3-bucket-name $S3_BUCKET_NAME"
-        " --project-name jardiner"
-        " --target-path /tmp/"
-        " --bucket-file-path index.html"
-    )
+    edr_command = [
+        "/bin/sh",
+        "-c",
+        (
+            "edr send-report"
+            " --profiles-dir config"
+            " --env prod"
+            " --days-back 7"
+            " --project-profile-target prod"
+            " --profile-target prod"
+            ' --aws-access-key-id "$S3_ACCESS_KEY"'
+            ' --aws-secret-access-key "$S3_SECRET_KEY"'
+            ' --s3-endpoint-url "$S3_ENDPOINT"'
+            ' --s3-bucket-name "$S3_BUCKET_NAME"'
+            " --project-name jardiner"
+            " --target-path /tmp/"
+            " --bucket-file-path index.html"
+        ),
+    ]
 
     edr_report_command = DockerOperator(
         api_version="auto",
@@ -161,6 +165,7 @@ with DAG(
         docker_conn_id="somenergia_harbor_dades_registry",
         image=image,
         working_dir=f"/repos/{repo_name}/dbt_jardiner",
+        entrypoint=[""],
         command=edr_command,
         docker_url=sampled_moll,
         mounts=[mount_nfs],
