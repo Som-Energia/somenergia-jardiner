@@ -83,12 +83,12 @@ with DAG(
 
     s3_bucket_name = Variable.get(
         "somenergia_jardiner_edr_s3_bucket_name",
-        default_var="jardiner_edr_reports",
+        default_var="som-jardiner-elementary-reports",
     )
 
     s3_access_key = Variable.get(
         "somenergia_jardiner_edr_s3_access_key",
-        default_var="som-jardiner-elementary-reports",
+        default_var="jardiner_edr_reports",
     )
 
     s3_secret_key = Variable.get("somenergia_jardiner_edr_s3_secret_key")
