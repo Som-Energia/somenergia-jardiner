@@ -63,9 +63,9 @@ def dbapi_to_dict(dbapi: str):
 
 
 with DAG(
-    dag_id="dset_materialize_dag",
+    dag_id="dset_materialize_dag_v1",
     start_date=datetime(2023, 1, 10),
-    schedule_interval="8/5 * * * *",
+    schedule_interval="3/10 * * * *",
     catchup=False,
     tags=["scope:Plantmonitor", "scope:Jardiner", "dbt", "source:DSET"],
     max_active_runs=1,
