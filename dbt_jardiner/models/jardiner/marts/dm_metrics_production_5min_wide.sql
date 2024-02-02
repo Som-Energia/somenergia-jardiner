@@ -12,7 +12,7 @@ with last_registries as (
         signal_name as senyal,
         signal_unit as unitat_senyal,
         signal_value as valor
-    from {{ ref("int_dset_responses__spined_metadata") }} as dset
+    from {{ ref("int_dset_responses__values_incremental") }} as dset
     where device_type in ('inverter','sensor', 'string')
     order by signal_uuid, ts desc, plant_name
 )
