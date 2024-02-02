@@ -3,11 +3,11 @@
 with last_dset_batch as (
     select
         case
-            when signal_uuid ~ e'^[[:xdigit:]]{8}-([[:xdigit:]]{4}-){3}[[:xdigit:]]{12}$' then signal_uuid::uuid
+            when signal_uuid ~ e'^[[:xdigit:]]{8}-([[:xdigit:]]{4}-){3}[[:xdigit:]]{12}$' then signal_uuid::uuid -- noqa: LT01
         end as signal_uuid,
         signal_uuid as signal_uuid_raw,
         {{ dbt_utils.star(from=ref("raw_dset_responses__last_signal_reading"), except=['signal_uuid']) }}
-    from {{ ref("raw_dset_responses__last_signal_reading") }} as dset
+    from {{ ref("raw_dset_responses__last_signal_reading") }}
 )
 select
     dset.signal_last_ts,

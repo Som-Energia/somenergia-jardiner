@@ -4,7 +4,7 @@
 with
     latest as (
       select max(ts) as max_ts
-      from {{ ref("int_dset_responses__materialized_one_hour_late") }}
+      from {{ ref("int_dset_responses__materialized") }}
     ),
 
     normalized_jsonb as (
@@ -27,7 +27,7 @@ with
             signal_value,
             signal_uuid
         from {{ ref("int_dset_responses__deduplicated") }}
-        where ts >= (select max_ts from latest) and queried_at >= (select max_ts from latest)
+        where ts > (select max_ts from latest) and queried_at > (select max_ts from latest)
     ),
 
     ordered as (
@@ -38,4 +38,3 @@ with
 select *
 from ordered
 where row_order = 1
-

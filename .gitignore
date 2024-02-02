@@ -247,3 +247,8 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
+.idea/.gitignore
+.idea/dataSources.xml
+.idea/modules.xml
+.idea/somenergia-jardiner.iml
+.idea/vcs.xml

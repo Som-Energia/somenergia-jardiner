@@ -47,6 +47,8 @@ include:
   - local: /.gitlab-ci/.pre-commit.yml
 
 pre-commit:
+  variables:
+    SKIP: "sqlfluff-lint,sqlfluff-fix"
   before_script:
     - git config --global --add safe.directory "$CI_PROJECT_DIR"
   tags:

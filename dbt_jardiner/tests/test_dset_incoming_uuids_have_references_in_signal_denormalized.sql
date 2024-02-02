@@ -3,7 +3,7 @@
 with
     child as (
         select *, signal_uuid as signal_uuid_dset
-        from {{ ref("int_dset_responses__union_view_and_materialized") }}
+        from {{ ref("int_dset_responses__materialized") }}
         where signal_uuid is not null
     ),
 

@@ -50,6 +50,11 @@ models:
           node_color: "goldenrod"
         dset:
           +tags: dset
+      observability:
+        +docs:
+          node_color: "#c3c557"
+        dset:
+          +tags: dset
     legacy:
       +tags: legacy
       operational:

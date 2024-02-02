@@ -30,7 +30,7 @@ with
             valors.signal_value as signal_value
         from {{ ref("raw_gestio_actius__signal_denormalized") }} as metadata
         left join
-            {{ ref("int_dset_responses__union_view_and_materialized") }} as valors
+            {{ ref("int_dset_responses__materialized") }} as valors
             on metadata.signal_uuid = valors.signal_uuid
     )
 

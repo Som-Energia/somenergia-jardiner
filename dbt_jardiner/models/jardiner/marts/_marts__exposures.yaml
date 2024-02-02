@@ -26,8 +26,8 @@ exposures:
     tags:
       - jardiner
 
-  - name: O&M_FV
-    label: Plant operation and maintenance
+  - name: om_operation_and_maintenance_fv
+    label: Plant operation and maintenance (FV)
     type: dashboard
     maturity: low
     url: https://indicadors.somenergia.coop/superset/dashboard/43

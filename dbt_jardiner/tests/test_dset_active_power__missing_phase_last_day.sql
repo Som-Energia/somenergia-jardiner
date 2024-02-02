@@ -9,7 +9,7 @@
 with
     last_week as (
         select ts, plant_name, metric_name, device_uuid, signal_id, signal_code, signal_uuid
-        from {{ ref("int_dset_responses__with_signal_metadata") }}
+        from {{ ref("obs_dset_responses__with_signal_metadata") }}
         where ts > now() - interval '1 day'
     ),
 
