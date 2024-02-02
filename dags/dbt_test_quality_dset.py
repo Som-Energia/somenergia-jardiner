@@ -24,8 +24,8 @@ args = {
     "email": my_email,
     "email_on_failure": True,
     "email_on_retry": True,
-    "retries": 3,
-    "retry_delay": timedelta(minutes=30),
+    "retries": 1,
+    "retry_delay": timedelta(minutes=10),
 }
 
 nfs_config = {
@@ -81,18 +81,22 @@ with DAG(
 
     dbapi_dict = dbapi_to_dict(dbapi)
 
-    # noqa: disable=E501
     s3_bucket_name = Variable.get(
-        "somenergia_jardiner_edr_s3_bucket_name", "jardiner_edr_reports"
+        "somenergia_jardiner_edr_s3_bucket_name",
+        default_var="jardiner_edr_reports",
     )
+
     s3_access_key = Variable.get(
-        "somenergia_jardiner_edr_s3_access_key", "som-jardiner-elementary-reports"
+        "somenergia_jardiner_edr_s3_access_key",
+        default_var="som-jardiner-elementary-reports",
     )
+
     s3_secret_key = Variable.get("somenergia_jardiner_edr_s3_secret_key")
+
     s3_endpoint = Variable.get(
-        "somenergia_jardiner_edr_s3_endpoint", "https://minio.somenergia.coop"
+        "somenergia_jardiner_edr_s3_endpoint",
+        default_var="https://minio.somenergia.coop",
     )
-    # noqa: enable=all
 
     environment = {
         "DBUSER": dbapi_dict["user"],
@@ -114,6 +118,7 @@ with DAG(
         " --target prod"
         " --select tag:jardiner"
         " --store-failures"
+        " --threads 4"
     )
 
     dbt_test_task = DockerOperator(
@@ -129,7 +134,7 @@ with DAG(
         mount_tmp_dir=False,
         auto_remove=True,
         retrieve_output=True,
-        trigger_rule="none_failed",
+        trigger_rule="one_failed",
         force_pull=True,
     )
 
