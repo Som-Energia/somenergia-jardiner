@@ -23,7 +23,7 @@ minio bucket to be served as a static web page.
 args = {
     "email": my_email,
     "email_on_failure": True,
-    "email_on_retry": True,
+    "email_on_retry": False,
     "retries": 1,
     "retry_delay": timedelta(minutes=10),
 }
@@ -134,7 +134,7 @@ with DAG(
         mount_tmp_dir=False,
         auto_remove=True,
         retrieve_output=True,
-        trigger_rule="one_failed",
+        trigger_rule="none_failed",
         force_pull=True,
     )
 
@@ -167,7 +167,7 @@ with DAG(
         mount_tmp_dir=False,
         auto_remove=True,
         retrieve_output=True,
-        trigger_rule="none_failed",
+        trigger_rule="always",
         force_pull=True,
     )
 
