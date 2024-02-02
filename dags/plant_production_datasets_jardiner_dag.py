@@ -56,9 +56,9 @@ def dbapi_to_dict(dbapi: str):
 with DAG(
     dag_id="plant_production_datasets__jardiner__v1",
     start_date=datetime(2023, 1, 10),
-    schedule_interval="30 0 * * *",
+    schedule_interval="30 * * * *",
     catchup=False,
-    tags=["Plantmonitor", "Jardiner", "Transform", "DBT"],
+    tags=["Plantmonitor", "Jardiner", "Transform", "dbt"],
     max_active_runs=1,
     default_args=args,
 ) as dag:
@@ -94,6 +94,7 @@ with DAG(
             " --target prod"
             " --models tag:jardiner,config.materialized:table+"
             " tag:jardiner,config.materialized:incremental+"
+            " --exclude tag:dset_responses_fresh"
         ),
         docker_url=sampled_moll,
         mounts=[mount_nfs],

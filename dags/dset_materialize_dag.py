@@ -65,9 +65,9 @@ def dbapi_to_dict(dbapi: str):
 with DAG(
     dag_id="dset_materialize_dag",
     start_date=datetime(2023, 1, 10),
-    schedule_interval="@hourly",
+    schedule_interval="8/5 * * * *",
     catchup=False,
-    tags=["scope:Plantmonitor", "scope:Jardiner", "DBT", "source:DSET"],
+    tags=["scope:Plantmonitor", "scope:Jardiner", "dbt", "source:DSET"],
     max_active_runs=1,
     default_args=args,
     doc_md=__doc__,
@@ -99,7 +99,7 @@ with DAG(
             "dbt run"
             " --profiles-dir config"
             " --target prod"
-            " --models int_dset_responses__materialized_one_hour_late"
+            " --select tag:dset_responses_fresh"
         ),
         docker_url=sampled_moll,
         mounts=[mount_nfs],

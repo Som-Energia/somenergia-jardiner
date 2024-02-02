@@ -5,8 +5,8 @@ with
         select
           signal_uuid,
           true as received_from_dset_pre
-        from {{ ref("int_dset_responses__union_view_and_materialized") }}
-        where ts = (select max(ts) from {{ ref("int_dset_responses__union_view_and_materialized") }})
+        from {{ ref("int_dset_responses__materialized") }}
+        where ts = (select max(ts) from {{ ref("int_dset_responses__materialized") }})
     ),
 
     joined as (

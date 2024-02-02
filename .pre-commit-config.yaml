@@ -24,6 +24,14 @@ repos:
     rev: "v0.0.283"
     hooks:
       - id: ruff
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 2.3.5
+    hooks:
+      # enable sqlfluff-fix will modify sql files.
+      # - id: sqlfluff-fix
+      #  additional_dependencies: ["dbt-postgres", "sqlfluff-templater-dbt"]
+      - id: sqlfluff-lint
+        additional_dependencies: ["dbt-postgres", "sqlfluff-templater-dbt"]
 fail_fast: false
 files: ".*"
 exclude: |

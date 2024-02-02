@@ -4,7 +4,7 @@
         on_schema_change="sync_all_columns",
         incremental_strategy = 'delete+insert',
         unique_key = ['ts', 'signal_uuid'],
-        incremental_predicates = ["int_dset_responses__materialized_one_hour_late.ts > now() - interval '2 days'"]
+        incremental_predicates = ["int_dset_responses__materialized.ts > now() - interval '2 days'"]
     )
 }}
 
@@ -36,14 +36,10 @@ with
 
 select *
 from normalized_jsonb
-where
-    ts < now() - interval '1 hour'  {#- select only freshly ingested rows #}
-
-    {% if is_incremental() -%}
-        and queried_at > coalesce((select max(queried_at) from {{ this }}), '1900-01-01')
-        and ts > now() - interval '2 days'
-        -- dedupliquem 2 dies enrera (ho diu el predicate) i per això no podem garantir que tot l'anterior sigui unic
-        -- i per tant ho descartem aqui, en la selecció del incremental
-        -- Si per algun motiu deixem de materialitzar durant 48 hores, caldrà fer un full-refresh!
-
-    {%- endif %}
+{% if is_incremental() -%}
+where queried_at > coalesce((select max(queried_at) from {{ this }}), '1900-01-01')
+  and ts > now() - interval '2 days'
+  -- dedupliquem 2 dies enrera (ho diu el predicate) i per això no podem garantir que tot l'anterior sigui unic
+  -- i per tant ho descartem aqui, en la selecció del incremental
+  -- Si per algun motiu deixem de materialitzar durant 48 hores, caldrà fer un full-refresh!
+{%- endif %}

@@ -12,7 +12,7 @@ with
             ts as current_ts,
             signal_frequency::interval as signal_frequency,
             lag(ts) over (partition by signal_uuid order by ts asc) as previous_ts
-        from {{ ref("int_dset_responses__union_view_and_materialized") }}
+        from {{ ref("int_dset_responses__materialized") }}
     ),
 
     gaps as (
