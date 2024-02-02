@@ -172,7 +172,7 @@ with DAG(
         mount_tmp_dir=False,
         auto_remove=True,
         retrieve_output=True,
-        trigger_rule="always",
+        trigger_rule="all_done",
         force_pull=True,
     )
 
