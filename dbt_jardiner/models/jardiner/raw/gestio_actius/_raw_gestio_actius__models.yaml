@@ -71,6 +71,7 @@ models:
                 - "voltatge_mt_fase_r"
                 - "voltatge_mt_fase_s"
                 - "voltatge_mt_fase_t"
+                - "energia_activa_exportada_instantania"
       - name: device_name
         description: nom del device
       - name: device_type
@@ -78,7 +79,7 @@ models:
         tests:
           - accepted_values:
               values:
-                ["meter", "inverter", "sensor", "plant", "string", "module"]
+                ["meter", "inverter", "sensor", "plant", "string", "module", "inverter_module"]
       - name: device_parent
         description: device parent del device. e.g. un string té l'inversor1 com a pare
       - name: signal_uuid
