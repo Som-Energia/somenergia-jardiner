@@ -27,7 +27,7 @@ with
             dbt_updated_at::date as dbt_updated_at,
             dbt_valid_from::date as dbt_valid_from,
             coalesce(dbt_valid_to::date, '2050-01-01'::date)::date as dbt_valid_to
-        from {{ ref("snapshot_plant_parameters") }} as pl
+        from {{ ref("snapshot_plant_parameters") }}
     )
 select *
 from current_data
