@@ -43,9 +43,9 @@ tests:
     config:
       severity: warning
 
-  - name: test_dset_gaps_per_month_and_signal_all_time
+  - name: test_dset_gaps_per_day_and_signal_last_month
     description: >
-      Taula que recull el número de forats per mes i senyal, de tota la història de senyals que hem rebut
+      Taula que recull el número de forats per dia i senyal, del últim mes de dades en curs
     config:
       severity: warning
 

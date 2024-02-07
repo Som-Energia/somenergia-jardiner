@@ -29,6 +29,7 @@ dset_from_december_2023 as (
         {# if we don't limit queried_at the planner shits the bed #}
         and queried_at > '2023-12-01'
 ),
+
 spined_dset as (
     select
         spined.ts,
