@@ -15,7 +15,7 @@ with obt_base as (
       plant_metadata.technology as technology,
       dset.irradiation as dset_irradiation_wh,
       dset.inverter_exported_energy as dset_inverter_energy_kwh,
-      NULL::integer as dset_meter_instant_exported_energy_kwh,
+      dset.meter_instant_exported_energy as dset_meter_instant_exported_energy_kwh,
       dset.meter_exported_energy as dset_meter_exported_energy_kwh,
       dset.meter_imported_energy as dset_meter_imported_energy_kwh,
       forecast.forecastdate as forecast_date,
