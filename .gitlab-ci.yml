@@ -135,6 +135,7 @@ dbt-build:
     DBUSER: $SOM_JARDINER_DB_USER
     DBPASSWORD: $SOM_JARDINER_DB_PASSWORD
     DBNAME: $SOM_JARDINER_DB_DBNAME
+    DBT_MODELS_SELECTOR: "--models state:modified+"
     DBT_MANIFEST_ARTIFACT_URL: "https://$CI_SERVER_HOST/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/${CI_DEFAULT_BRANCH}/download?job=pages&job_token=$CI_JOB_TOKEN"
   image: ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-docs:latest
   script:
@@ -145,7 +146,7 @@ dbt-build:
     - curl --location --output /tmp/artifacts.zip ${DBT_MANIFEST_ARTIFACT_URL}
     - unzip -o /tmp/artifacts.zip -d /tmp/artifacts
     - cp /tmp/artifacts/public/dbt_docs/manifest.json ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/state/prod/manifest.json
-    - dbt build --target ${DBT_TARGET_NAME} --store-failures --threads 4 --models state:modified+ --state state/prod
+    - dbt build --target ${DBT_TARGET_NAME} --store-failures --threads 4 ${DBT_MODELS_SELECTOR} --state state/prod
   tags:
     - somenergia-et
   rules:
@@ -153,12 +154,14 @@ dbt-build:
       when: always
       variables:
         DBT_TARGET_NAME: prod
+        DBT_MODELS_SELECTOR: "--models state:modified+"
       changes:
         paths: *dbt-build-changes-paths
       allow_failure: false
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: always
       variables:
+        DBT_MODELS_SELECTOR: "--models state:modified+ tag:dset_responses_fresh"
         DBT_TARGET_NAME: pre
         DBT_FAIL_FAST: "True"
       changes:
