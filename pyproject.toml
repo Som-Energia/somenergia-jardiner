@@ -31,7 +31,7 @@ git-changelog = "^2.1.0"
 pre-commit = "^3.3.3"
 sqlfluff = "^2.3.5"
 sqlfluff-templater-dbt = "^2.3.5"
-shandy-sqlfmt = {extras = ["jinjafmt"], version = "^0.21.0"}
+black = "^24.1.1"
 
 [tool.poetry.group.mkdocs.dependencies]
 
@@ -62,11 +62,6 @@ exclude = [
   'tests',
   'docs',
 ]
-
-[tool.sqlfmt]
-exclude=["target/**/*", "dbt_packages/**/*"]
-line_length = 120
-check = true
 
 [[tool.poetry_bumpversion.replacements]]
 files = ["jardiner/__init__.py"]

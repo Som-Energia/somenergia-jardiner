@@ -75,7 +75,7 @@ pre-commit:
                 git status
             fi
         fi
-        pre-commit run --all-files  # check the status passes now with autofix otherwise, it'll bail here
+        "$PRE_COMMIT_ENV_ARGS" pre-commit run --all-files  # check the status passes now with autofix otherwise, it'll bail here
     else
         exit 0  # we're all good, pipeline can proceed
     fi
