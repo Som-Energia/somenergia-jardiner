@@ -18,6 +18,7 @@ with
             metric_name = 'energia_activa_exportada'
             {# filter to discard previous day data which gets reset early morning #}
             and extract(hour from ts at time zone 'Europe/Madrid') > 3
+            or metric_name = 'energia_activa_exportada_total'
         group by
             date_trunc('day', ts, 'Europe/Madrid'),
             plant_uuid,
@@ -27,9 +28,34 @@ with
             metric_name
     ),
     inverter_energy_daily as (
-        select *, diff_inverter_energy_kwh as inverter_energy_kwh
+        select
+            day,
+            plant_name,
+            device_name,
+            case
+                when metric_name = 'energia_activa_exportada'
+                then diff_inverter_energy_kwh
+                else null
+            end as inverter_export_energy_kwh,
+            case
+                when metric_name = 'energia_activa_exportada_total'
+                then diff_inverter_energy_kwh
+                else null
+            end as inverter_total_energy_kwh
         from inverter_energy_daily_metrics
         order by day desc, plant_name, device_name
+    ),
+    all_inverter_energy_metrics_in_one_tb as (
+        select
+            day,
+            plant_name,
+            device_name,
+            max(inverter_export_energy_kwh) as inverter_export_energy_kwh,
+            max(inverter_total_energy_kwh) as inverter_total_energy_kwh
+        from inverter_energy_daily
+        group by day, plant_name, device_name
     )
 select *
-from inverter_energy_daily
+from all_inverter_energy_metrics_in_one_tb
+where day > '2023-12-15' --data aprox en que dset transforma correctament aquestes mètriques
+order by day desc, plant_name, device_name
