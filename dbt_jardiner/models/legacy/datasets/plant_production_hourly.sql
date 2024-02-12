@@ -32,7 +32,7 @@ with
             on satellite_readings.plant_id = spine.plant_id
             and satellite_readings.start_hour = spine.start_hour
         left join
-            {{ ref("raw_plantmonitordb_solarevent__generous") }} as solar_events
+            {{ ref("plantmonitordb_solarevent__generous") }} as solar_events
             on solar_events.plant_id = spine.plant_id
             and solar_events.day = spine.start_hour::date
         left join

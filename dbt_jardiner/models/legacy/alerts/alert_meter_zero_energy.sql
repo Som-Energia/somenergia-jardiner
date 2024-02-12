@@ -36,7 +36,7 @@ meterregistry_daylight as (
         solar.sunset_generous as daylight_end
     from meterregistry_last_readings as mr
     left join {{ ref('meters_with_thresholds') }} as m on m.meter_id = mr.meter_id
-    left join {{ ref('raw_plantmonitordb_solarevent__generous') }} as solar on mr.time::date = solar.day and m.plant_id = solar.plant_id
+    left join {{ ref('plantmonitordb_solarevent__generous') }} as solar on mr.time::date = solar.day and m.plant_id = solar.plant_id
 ),
 
 meter_registry_hourly_raw as (

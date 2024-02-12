@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: meteologica_legacy
+    schema: public
+    tables:
+      - name: forecast
+      - name: forecastmetadata
