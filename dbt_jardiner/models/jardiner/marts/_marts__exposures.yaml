@@ -13,8 +13,6 @@ exposures:
       En un futur també mostrarà l'estat d'alarmes.
 
     depends_on:
-      - ref('dm_dset_energy_inverter__daily__accumulated')
-      - ref('dm_dset_energy_inverter__daily__reset_daily')
       - ref('dm_dashboard_overview_monthly')
       - ref('dm_dashboard_overview_instant')
       - ref('dm_dashboard_overview__produccio_cartera')
@@ -41,7 +39,7 @@ exposures:
       - ref('dm_plant_production_hourly')
       - ref('dm_metrics_production_5min')
       - ref('dm_plants')
-      - ref('dm_dset_energy_inverter__agg_monthly_for_om')
+      - ref('dm_dset_energy_inverter__monthly__reset_daily')
 
     owner:
       name: Gestió D'Actius
