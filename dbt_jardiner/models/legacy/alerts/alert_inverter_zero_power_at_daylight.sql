@@ -14,7 +14,7 @@ with sub_ir as (
         solar.sunrise_generous as daylight_start,
         solar.sunset_generous as daylight_end
     FROM {{ref('alert_inverterregistry_clean_last_hour')}} as ir
-    left join {{ref('raw_plantmonitordb_solarevent__generous')}} as solar on ir.time::date = solar.day and ir.plant_id = solar.plant_id
+    left join {{ref('plantmonitordb_solarevent__generous')}} as solar on ir.time::date = solar.day and ir.plant_id = solar.plant_id
     window w as (PARTITION BY ir.inverter_id ORDER By time ROWS BETWEEN 11 PRECEDING AND current row)
 ), sub_alarm as (
     select

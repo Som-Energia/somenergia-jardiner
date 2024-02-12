@@ -16,7 +16,7 @@ FROM
         ORDER BY
             forecastdate DESC) AS ranking
         FROM
-            {{ ref('raw_energy_forecasts__denormalized_from_plantmonitordb') }}
+            {{ ref('energy_forecasts__denormalized_from_plantmonitordb') }}
     ) forecast
 WHERE
     ranking = 1

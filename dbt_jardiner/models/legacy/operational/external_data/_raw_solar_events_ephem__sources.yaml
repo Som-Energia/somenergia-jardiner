@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: plantmonitor_legacy
+    schema: public
+    tables:
+      - name: solarevent
+        columns:
+          - name: id
+          - name: plant
+          - name: sunrise
+          - name: sunset
