@@ -1,0 +1,66 @@
+html:
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th> Nom planta</th>
+        <th> Provincia</th>
+        <th> Tecnologia</th>
+        <th> Potència nominal [kW] </th>
+        <th> Potència pic [kWp]</th>
+        <th> Irradiància ts</th>
+        <th> Irradiància [W/m2] </th>
+        <th> Potència instantània ts</th>
+        <th> Potència instantània [kW]</th>
+        <th>Potència instantània vs pic [%]</th>
+        <th> Dia </th>
+        <th> Energia Perduda [MWh] </th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each data}}
+      <tr>
+        <td>{{ nom_planta }}</td>
+        <td>{{ provincia }}</td>
+        <td>{{ tecnologia }}</td>
+        <td>{{ potencia_pic_kw }}</td>
+        <td>{{ potencia_nominal_kw }}</td>
+        <td>{{ irradiancia_w_m2_ts }}</td>
+        <td>{{ irradiancia_w_m2 }}</td>
+        <td>{{ potencia_inst_kw_ts }}</td>
+        <td>{{ potencia_inst_kw }}</td>
+        <td>{{#if  potencia_instant_vs_pic}}<span> {{ potencia_instant_vs_pic }}% </span><progress value="{{ potencia_instant_vs_pic}}" max="100"> </progress>{{/if}}</td>
+        <td>{{ dateFormat dia }}</td>
+        <td>{{ energia_perduda_mwh }}</td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+
+css: >
+  .styled-table {
+      border-collapse: collapse;
+      margin: 25px 0;
+      font-size: 0.9em;
+      /*font-family: sans-serif;*/
+      min-width: 400px;
+      width: 100%;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  }
+  .styled-table thead tr {
+      background-color: #009879;
+      color: #ffffff;
+      text-align: left;
+  }
+  .styled-table th,
+  .styled-table td {
+      padding: 10px 15px;
+  }
+  .styled-table tbody tr {
+      border-bottom: 1px solid #dddddd;
+  }
+  .styled-table tbody tr:nth-of-type(even) {
+      background-color: #f3f3f3;
+  }
+  .styled-table tbody tr:last-of-type {
+      border-bottom: 2px solid #009879;
+  }
