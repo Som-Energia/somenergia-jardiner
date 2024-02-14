@@ -5,12 +5,15 @@ max_line_length = 120
 fix_even_unparsable = False
 ignore_templated_areas = True
 dialect = postgres
-exclude_rules = layout.cte_bracket, layout.select_targets, LT05, ST07, LT08, LT02
+exclude_rules = layout.cte_bracket, layout.select_targets, layout.long_lines,
+    structure.using, layout.cte_newline, structure.column_order, structure.else_null
 
 [sqlfluff:indentation]
-indented_joins = false
+indented_joins = true
 indented_using_on = true
-template_blocks_indent = false
+indent_unit = space
+tab_space_size = 2
+template_blocks_indent = true
 
 [sqlfluff:templater]
 unwrap_wrapped_queries = true
