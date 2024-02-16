@@ -23,9 +23,9 @@ dbt-osmosis = "^0.11.22"
 deptry = "^0.6.3"
 ipdb = "^0.13.9"
 ipykernel = "^6.21.3"
-mkdocs = "^1.4.0"
-mkdocs-material = "^8.3.0"
-pymdown-extensions = "^9.6"
+mkdocs = "^1.5.3"
+mkdocs-material = "^9.5.9"
+pymdown-extensions = "^10.7"
 pytest = "^7.1.3"
 git-changelog = "^2.1.0"
 pre-commit = "^3.3.3"
@@ -35,9 +35,10 @@ black = "^24.1.1"
 
 [tool.poetry.group.mkdocs.dependencies]
 
-mkdocs = "^1.4.3"
-mkdocs-material = "*"
+mkdocs = "^1.5.3"
+mkdocs-material = "^9.5.9"
 mkdocs-material-extensions = "^1.1.1"
+pymdown-extensions = "^10.7"
 
 [tool.poetry.group.dbt-docs.dependencies]
 dbt-osmosis = "^0.11.22"
