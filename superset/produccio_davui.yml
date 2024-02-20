@@ -51,7 +51,10 @@ css: >
       color: #ffffff;
       text-align: left;
   }
-  .styled-table th,
+  .styled-table th {
+      padding: 10px 15px;
+      text-align: center;
+  }
   .styled-table td {
       padding: 10px 15px;
   }
@@ -64,3 +67,4 @@ css: >
   .styled-table tbody tr:last-of-type {
       border-bottom: 2px solid #009879;
   }
+
