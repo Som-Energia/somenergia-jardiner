@@ -3,8 +3,7 @@ version: 2
 sources:
   - name: plantmonitor_legacy
     schema: prod
-    config:
-        tags: alerts_historic
+    tags: [historicalerts]
     tables:
         - name: alert_inverter_zero_power_at_daylight_historic
         - name: alert_inverter_interinverter_relative_temperature_historic
@@ -22,7 +21,7 @@ models:
   - name: alerts_historic
     description: union of all notified alerts tables
     config:
-      tags: alerts_historic
+      tags: historicalerts
 
   - name: alert_inverter_zero_power_at_daylight
     description: "Inverter 1h without power during daylight"
