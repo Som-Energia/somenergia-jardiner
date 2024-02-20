@@ -140,3 +140,18 @@ models:
       tags: [dset]
     description: >
       Agregació diaria de l'energia d'inversor, que fa un max del dia (Europe/Madrid) i li resta el mínim.
+
+
+  - name: dm_dashboard_overview_monthly
+    description: >
+      Creuament entre l'agregació mensual d'energia de cada tecnologia amb els objectius de producció mensuals.
+
+
+  - name: dm_dashboard_overview_instant
+    description: >
+      Darrera lectura d'irradiació i potència de cada planta i la producció del dia anterior segons comptadors
+
+  - name: dm_dashboard_overview__produccio_carter
+    description: >
+      Producció de totes les plantes per tecnologia del dia actual espinat per les 24h d'avui per a que
+      el superset dibuixi el dia sencer
