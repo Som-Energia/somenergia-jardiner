@@ -1,19 +1,19 @@
-html:
+html: >
   <table class="styled-table">
     <thead>
       <tr>
         <th> Nom planta</th>
         <th> Provincia</th>
         <th> Tecnologia</th>
-        <th> Potència nominal [kW] </th>
         <th> Potència pic [kWp]</th>
-        <th> Irradiància ts</th>
+        <th> Potència nominal [kW] </th>
+        <th> Irradiància temps de lectura</th>
         <th> Irradiància [W/m2] </th>
-        <th> Potència instantània ts</th>
+        <th> Potència instantània temps de lectura</th>
         <th> Potència instantània [kW]</th>
-        <th>Potència instantània vs pic [%]</th>
+        <th> Potència instantània vs nominal [%]</th>
         <th> Dia </th>
-        <th> Energia Perduda [MWh] </th>
+        <th> Energia Perduda [MWh] <br> dia anterior </th>
       </tr>
     </thead>
     <tbody>
@@ -24,11 +24,11 @@ html:
         <td>{{ tecnologia }}</td>
         <td>{{ potencia_pic_kw }}</td>
         <td>{{ potencia_nominal_kw }}</td>
-        <td>{{ irradiancia_w_m2_ts }}</td>
+        <td>{{ irradiancia_ts }}</td>
         <td>{{ irradiancia_w_m2 }}</td>
-        <td>{{ potencia_inst_kw_ts }}</td>
+        <td>{{ potencia_inst_ts }}</td>
         <td>{{ potencia_inst_kw }}</td>
-        <td>{{#if  potencia_instant_vs_pic}}<span> {{ potencia_instant_vs_pic }}% </span><progress value="{{ potencia_instant_vs_pic}}" max="100"> </progress>{{/if}}</td>
+        <td>{{#if  potencia_inst_vs_nominal}}<span> {{ potencia_inst_vs_nominal }}% </span><progress value="{{ potencia_inst_vs_nominal}}" max="100"> </progress>{{/if}}</td>
         <td>{{ dateFormat dia }}</td>
         <td>{{ energia_perduda_mwh }}</td>
       </tr>
