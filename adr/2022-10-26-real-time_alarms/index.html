@@ -1,0 +1,1471 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../2022-10-14-spines/">
+      
+      
+        <link rel="next" href="../2023-06-13-obt_plantes/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
+    
+    
+      
+        <title>Real time alarms - Jardiner</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#real-time-alarms" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Jardiner" class="md-header__button md-logo" aria-label="Jardiner" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jardiner
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Real time alarms
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jardiner" class="md-nav__button md-logo" aria-label="Jardiner" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Jardiner
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sobre Som Energia Jardiner
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Sources
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Sources
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Sources/drive_airbyte/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Drive airbyte
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Adr
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Adr
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-10-11-dbt_workflow_meter_alarms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Com processem les alarmes en DBT?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-10-14-meter_alarm_logic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Meter alarm logic
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2022-10-14-spines/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Spines
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Real time alarms
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Real time alarms
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context-and-problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Context and Problem Statement
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decision Drivers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#considered-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Considered Options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision-outcome" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decision Outcome
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Decision Outcome">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#positive-consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Positive Consequences 
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#negative-consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Negative Consequences 
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pros-and-cons-of-the-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pros and Cons of the Options 
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pros and Cons of the Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hi-calcular-la-taula-historica" class="md-nav__link">
+    <span class="md-ellipsis">
+      HI - Calcular la taula històrica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rt-calcular-una-taula-real-time-i-una-historica-mes-lenta" class="md-nav__link">
+    <span class="md-ellipsis">
+      RT - Calcular una taula real-time i una històrica més lenta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#st-trobar-la-manera-de-fer-stream-enlloc-de-batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      ST- Trobar la manera de fer stream enlloc de batch
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    <span class="md-ellipsis">
+      Links 
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-13-obt_plantes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pipeline de dades revisited
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-06-13-pipeline_dades_llargues/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pipeline de dades revisited
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-09-12-redash_vs_superset/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pipeline de dades revisited
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Template
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Desenvolupadors
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Desenvolupadors
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../desenvolupadors/2023-06-10-overview-devs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview for devs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../desenvolupadors/2023-08-28-afegir-planta/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Com afegir una planta (dset)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../desenvolupadors/2024-01-11-incremental-dedup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024 01 11 incremental dedup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../desenvolupadors/2024-02-16-row-level-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024 02 16 row level security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Deprecated
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Deprecated
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../desenvolupadors/deprecated/TODOs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Views de plantmonitor a migrar a dbt
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tutorials
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Tutorials
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../desenvolupadors/tutorials/alta_planta/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Procediment a seguir a l’incorporar una nova planta fotovoltaica
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../desenvolupadors/tutorials/codi_reciclable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reusuable sqls
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../desenvolupadors/tutorials/dbt_cmds_utils/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    dbt commands
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../desenvolupadors/tutorials/novu_notifications/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Novu helpers and quickstart
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Projecte
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Projecte
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projecte/2023-06-03-macrofase%20roadmap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Macrofase Jardiner 2023
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projecte/2023-06-03-overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview del projecte per a usuaris
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context-and-problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Context and Problem Statement
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decision Drivers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#considered-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Considered Options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision-outcome" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decision Outcome
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Decision Outcome">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#positive-consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Positive Consequences 
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#negative-consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Negative Consequences 
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pros-and-cons-of-the-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pros and Cons of the Options 
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pros and Cons of the Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hi-calcular-la-taula-historica" class="md-nav__link">
+    <span class="md-ellipsis">
+      HI - Calcular la taula històrica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rt-calcular-una-taula-real-time-i-una-historica-mes-lenta" class="md-nav__link">
+    <span class="md-ellipsis">
+      RT - Calcular una taula real-time i una històrica més lenta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#st-trobar-la-manera-de-fer-stream-enlloc-de-batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      ST- Trobar la manera de fer stream enlloc de batch
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    <span class="md-ellipsis">
+      Links 
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="real-time-alarms">Real time alarms</h1>
+<ul>
+<li>Status: Unknown</li>
+<li>Deciders: [list everyone involved in the decision] <!-- optional --></li>
+<li>Date: [YYYY-MM-DD when the decision was last updated] <!-- optional --></li>
+</ul>
+<p>Technical Story: [description | ticket/issue URL] <!-- optional --></p>
+<h2 id="context-and-problem-statement">Context and Problem Statement</h2>
+<p>Necessitem alertes d'incidències dels diferents dispositius de les plantes.
+Cada dispositiu té especificitats: granularitat temporal de les lectures, lag natural en al càrrega de lectures i casuístiques concretes que es consideren errors.</p>
+<p>Dispositius:
+- Meter ip
+Granularitat lectura: 1 hora
+Cada quan arriben les lectures: 20 min (però ERP sincronitza cada 2 hores)
+Valors historics updatable: No actualment (a l'erp sí)
+Poden aparèixer lectures antigues: No actualment (a l'erp sí)</p>
+<ul>
+<li>
+<p>Meter moxa
+Granularitat lectura: 1 hora
+Cada quan arriben les lectures: 20 min (però ERP sincronitza cada 24 hores)
+Batch: 24h
+Valors historics updatable: No actualment (a l'erp sí)
+Poden aparèixer lectures antigues: No actualment (a l'erp sí)</p>
+</li>
+<li>
+<p>Inverter
+Granularitat lectura: 5 minuts
+Cada quan arriben les lectures: 5 minuts
+Valors historics updatable: No
+Poden aparèixer lectures antigues: Rarament</p>
+</li>
+<li>
+<p>String
+Granularitat lectura: 5 minuts
+Cada quan arriben les lectures: 5 minuts
+Valors historics updatable: No
+Poden aparèixer lectures antigues: Rarament</p>
+</li>
+<li>
+<p>Plant</p>
+</li>
+</ul>
+<p>Casuística: Meter és variable enla cadència d'enviar lectures (sovint tarda a reconnectar)</p>
+<ul>
+<li>Meter que no conecta
+Granularitat lectura: 1 hora
+Cada quan arriben les lectures:
+Valors historics updatable: No
+Poden aparèixer lectures antigues: No</li>
+</ul>
+<h2 id="decision-drivers">Decision Drivers</h2>
+<ul>
+<li>Velocitat d'execució si cal exeutar-ho sovint</li>
+<li>Poder recalcular les alarmes històriques en el futur</li>
+<li>Necessitat de notificar a diversos agents diverses alarmes</li>
+<li>Real-time és necessari en algunes alarmes per evitar pèrdues económiques</li>
+<li>Necessitem un històric</li>
+<li>Hauriem de tenir un from to de duració de les alarmes (tot i que confón una mica a projectes)</li>
+</ul>
+<h2 id="considered-options">Considered Options</h2>
+<ul>
+<li>HI - Calcular realtime a partir de l'històric individual de cada alarma</li>
+<li>RT - Calcular una taula real-time i una històrica més lenta</li>
+<li>~~RH - Calcular la real-time i guardar-ho com a històric~~</li>
+<li>~~ST - Trobar la manera de fer stream enlloc de batch~~</li>
+</ul>
+<h2 id="decision-outcome">Decision Outcome</h2>
+<p>Hem decidit atacar la opció HI i veure si podem reduir a 5 minuts d'execució amb incremental.
+Probablement no serà possible i necessitarem un fast-track (opció RL) per les alertes real-time.24h</p>
+<p>Aquest fast track s'executarà cincminutalment o podem veure si es podria fer en streaming EL -&gt; T -&gt; N(otificació)
+Serà exclusiu per alertes i amb poca consolidació a base de dades i no revisitarà el passat. Només NOW()-ish.</p>
+<h3 id="positive-consequences">Positive Consequences <!-- optional --></h3>
+<ul>
+<li>[e.g., improvement of quality attribute satisfaction, follow-up decisions required, …]</li>
+<li>…</li>
+</ul>
+<h3 id="negative-consequences">Negative Consequences <!-- optional --></h3>
+<ul>
+<li>[e.g., compromising quality attribute, follow-up decisions required, …]</li>
+<li>…</li>
+</ul>
+<h2 id="pros-and-cons-of-the-options">Pros and Cons of the Options <!-- optional --></h2>
+<h3 id="hi-calcular-la-taula-historica">HI - Calcular la taula històrica</h3>
+<p>[example | description | pointer to more information | …] <!-- optional --></p>
+<ul>
+<li>
+<ul>
+<li>Una única lògica si no tenim incremental</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>No hem fet incremental amb DBT mai encara</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>l'incremental pot reescriure dels dos darrers dies</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>pots regenerar la taula sempre</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>fa més complexe les alarmes individuals (over partitions)</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">DAG</span><span class="p">:</span>
+<span class="p">(</span><span class="n">production_inverter</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">alarm</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">alrm2</span><span class="p">)</span>
+
+<span class="k">with</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">Taula</span><span class="w"> </span><span class="n">production_inverter</span><span class="w"> </span><span class="p">(</span><span class="n">registry</span><span class="w"> </span><span class="n">gapfilled</span><span class="p">,</span><span class="w"> </span><span class="n">clean</span><span class="p">,</span><span class="w"> </span><span class="n">alarms</span><span class="w"> </span><span class="p">))</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">foo</span>
+
+<span class="k">time</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="n">inverter_id</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">energy</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">n_readings</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">alarm_no_reading</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">alarm_zero_daylight</span>
+<span class="mi">10</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="w">      </span><span class="mi">16</span><span class="w">           </span><span class="mi">34</span><span class="w">          </span><span class="mi">1</span><span class="w">            </span><span class="k">FALSE</span><span class="w">               </span><span class="k">FALSE</span>
+<span class="mi">09</span><span class="p">:</span><span class="mi">55</span><span class="p">:</span><span class="mi">00</span><span class="w">      </span><span class="mi">16</span><span class="w">         </span><span class="mi">0</span><span class="o">/</span><span class="k">NULL</span><span class="w">        </span><span class="mi">0</span><span class="w">            </span><span class="k">TRUE</span><span class="w">                </span><span class="k">NULL</span>
+<span class="mi">09</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">00</span><span class="w">      </span><span class="mi">16</span><span class="w">            </span><span class="mi">0</span><span class="w">          </span><span class="mi">1</span><span class="w">            </span><span class="k">FALSE</span><span class="w">               </span><span class="k">TRUE</span>
+
+<span class="k">select</span><span class="w"> </span><span class="k">last</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">alarm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">TRUE</span>
+</code></pre></div>
+<h3 id="rt-calcular-una-taula-real-time-i-una-historica-mes-lenta">RT - Calcular una taula real-time i una històrica més lenta</h3>
+<p>[example | description | pointer to more information | …] <!-- optional --></p>
+<ul>
+<li>
+<ul>
+<li>Logica més senzilla i ràpida que podem executar més sovint a airflow</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>Permet amb un date_trunc() sobre les lectures fer l'agregació i no cal rolling</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>Igualment s'ha d'escriure la lògica HI per tenir l'històric correcte</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>Podries tenir la taula d'estat actual més fàcilment</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>La unificada s'hauria de fer unint la taula històrica amb la real-time</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>requereix molt lag en escriure la històrica, o posar-hi la lògica que necessites igualment a la opció HI</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>Pot generar incongruències entre el Real-Time (alarmed) que no surtin a l'històric</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>A projectes no li agrada tenir una taula estat actual i històric separat</li>
+</ul>
+</li>
+</ul>
+<p>RT:</p>
+<p>real-time, per les alarmes que necessiten notificació immediata, i per cada tipus d'alarma
+<div class="highlight"><pre><span></span><code><span class="k">with</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="k">select</span>
+<span class="w">    </span><span class="k">count</span><span class="p">(</span><span class="n">energy</span><span class="p">),</span>
+<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="n">energy</span><span class="p">)</span>
+<span class="k">from</span><span class="w"> </span><span class="n">registry</span>
+<span class="k">where</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">device</span><span class="p">.</span><span class="n">alarm_offset</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="k">time</span>
+<span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">device</span>
+<span class="p">)</span>
+<span class="k">select</span>
+<span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">time</span><span class="p">,</span>
+<span class="w"> </span><span class="k">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">no_reading_alarm</span><span class="p">,</span>
+<span class="w"> </span><span class="k">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">no_energy_alarm</span>
+<span class="k">from</span><span class="w"> </span><span class="n">foo</span>
+</code></pre></div>
+notify OK/KO en aquella execució fent un diff de la taula anterior com ara</p>
+<p>històric:
+com tenim ara, al final del dia o d'una setmana, re-calcular les alarmes històricament</p>
+<h3 id="st-trobar-la-manera-de-fer-stream-enlloc-de-batch">ST- Trobar la manera de fer stream enlloc de batch</h3>
+<ul>
+<li>Dolent perquè no podem regenerar-ho a posteriori</li>
+</ul>
+<h2 id="links">Links <!-- optional --></h2>
+<ul>
+<li>[Link type] [Link to ADR] <!-- example: Refined by <a href="0005-example.md">ADR-0005</a> --></li>
+<li>… <!-- numbers of links can vary --></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      
+    
+  </body>
+</html>
