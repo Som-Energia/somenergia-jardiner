@@ -23,7 +23,7 @@ Un cop aquest formulari estigui completat, cal seguir els següents passos:
 4. Verificar que les dades apareixen a la visualització de superset.
 5. Actualitzar els filtres i els rols de seguretat de la nova planta a superset. Veure [Row Level Security](2024-02-16-row-level-security.md) per més informació.
 
-!!! info Per què no un ORM?
+!!! info "Per què no un ORM?"
 
     Tenim al roadmap fer-ho amb un model normalitzat, però està al roadmap del ERP i no tenim una data concreta.
 
