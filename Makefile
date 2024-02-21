@@ -45,19 +45,19 @@ mkdocs.requirements.txt: ## update requirements.txt file from pyproject.toml
 	@echo "poetry-mkdocs-requirements.txt file updated"
 
 mkdocs.serve: ## serve the mkdocs documentation
-	@docker compose --env-file $(mkdocs_compose_env_file) up
+	@docker compose -f $(mkdocs_compose_file) up
 
 mkdocs.build_image: ## build the mkdocs image
-	@docker compose --env-file $(mkdocs_compose_env_file) build mkdocs
+	@docker compose -f $(mkdocs_compose_file) build mkdocs
 
 mkdocs.push_image: ## push the mkdocs image with tag: latest
-	@docker compose --env-file $(mkdocs_compose_env_file) push mkdocs
+	@docker compose -f $(mkdocs_compose_file) push mkdocs
 
 mkdocs.build_docs: ## build the mkdocs documentation
-	@docker compose --env-file $(mkdocs_compose_env_file) run --rm mkdocs build
+	@docker compose -f $(mkdocs_compose_file) run --rm mkdocs build
 
 mkdocs.logs: ## show the logs of the mkdocs container
-	@docker compose --env-file $(mkdocs_compose_env_file) logs -ft mkdocs
+	@docker compose -f $(mkdocs_compose_file) logs -ft mkdocs
 
 # ---------------------------------------------------------------------------- #
 #                               dbt-docs commands                              #
