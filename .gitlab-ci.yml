@@ -412,6 +412,7 @@ generate-mkdocs:
     GIT_DEPTH: 0 # https://github.com/timvink/mkdocs-git-revision-date-localized-plugin#note-when-using-build-environments
     CI_DEBUG_TRACE: "true"
   script:
+    - git config --global --add safe.directory "${CI_PROJECT_DIR}"
     - echo "Creating artifacts directory"
     - mkdir -p ${CI_PROJECT_DIR}/.artifacts/docs
     - echo "Generating mkdocs"
