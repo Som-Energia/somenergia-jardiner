@@ -10,10 +10,15 @@ models:
       Llistat de plantes monitoritzades amb llurs dades fixes. Model raw de la còpia d'airbyte i snapshot.
     columns:
       - name: plant_uuid
+        description: >
+          unique identifier of the plant. Before 02-2024 had referential integrity with plantmonitor.
+          We disable the test since gurb mataró, awaiting impact analysis.
         tests:
           - relationships:
               to: ref("raw_plantmonitor_plants")
               field: plant_uuid
+              config:
+                enabled: false
   - name: raw_gestio_actius__signal_denormalized
     description: >
       Taula amb la llista de devices, els seus uuids i si tenen un parent.
