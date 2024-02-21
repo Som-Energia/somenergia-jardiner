@@ -1,3 +1,7 @@
+title: SQL reutilitzable
+description: SQLs que es poden reutilitzar en diferents contexts
+date: 2023-07-10
+
 # Reusuable sqls
 
 ## dbt sql for rolling window

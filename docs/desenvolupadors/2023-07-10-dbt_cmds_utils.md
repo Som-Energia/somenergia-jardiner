@@ -1,11 +1,15 @@
+title: Comandes de dbt comunes
+description: Comandes de dbt que es fan servir sovint
+date: 2023-07-10
+
 # dbt commands
 
 1. Generar i servir la documentació per a poder veure el directed graph.
 
 ```bash
-dbt docs generate --project-dir dbt_jardiner --target pre
+$ dbt docs generate --project-dir dbt_jardiner --target pre
 
-dbt docs serve --project-dir dbt_jardiner --target pre --port 8010
+$ dbt docs serve --project-dir dbt_jardiner --target pre --port 8010
 ```
 
 2. Pujar tots els CSVs de seeds

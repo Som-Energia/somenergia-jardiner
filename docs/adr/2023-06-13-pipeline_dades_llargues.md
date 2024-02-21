@@ -10,7 +10,7 @@ https://trello.com/c/rmCTOJrH/205-decidir-com-farem-lobt-i-el-cincminutal-r%C3%A
 
 Passem a una macrotaula de dades llargues clau-valor per a les dades cincminutals?
 
-Com serà la obt? horaria calculada un cop cada hora? I quan passem a comptadors 15-minutals, segurem amb dbt run 15-minutal? Quina frescor de les dades cal? --> posem la discussió de la obt a [un adr diferent](/somenergia-jardiner/adr/2023-06-13-obt_plantes)
+Com serà la obt? horaria calculada un cop cada hora? I quan passem a comptadors 15-minutals, segurem amb dbt run 15-minutal? Quina frescor de les dades cal? --> posem la discussió de la obt a [un adr diferent](../adr/2023-06-13-obt_plantes.md)
 
 ## Context and Problem Statement
 
@@ -31,7 +31,7 @@ Ara que sabem molt més dbt i que incorporarem un proveïdor de dades cincminuta
 ## Decision Outcome
 
 Chosen option: opció 3
-
+<!--
 ### Positive Consequences <!-- optional -->
 
 * [e.g., improvement of quality attribute satisfaction, follow-up decisions required, …]
@@ -74,4 +74,4 @@ Chosen option: opció 3
 ## Links <!-- optional -->
 
 * [Link type] [Link to ADR] <!-- example: Refined by [ADR-0005](0005-example.md) -->
-* … <!-- numbers of links can vary -->
+* … numbers of links can vary -->

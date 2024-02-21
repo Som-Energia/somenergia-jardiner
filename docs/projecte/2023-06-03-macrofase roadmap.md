@@ -1,11 +1,8 @@
 # Macrofase Jardiner 2023
 
-[Roadmap](https://docs.google.com/spreadsheets/d/11dNYUeBwkIjPpcYOHmcOoNDpLoUxH9qfcm6h2YXRtoI/edit#gid=1971023159)
+[Document de Roadmap](https://docs.google.com/spreadsheets/d/11dNYUeBwkIjPpcYOHmcOoNDpLoUxH9qfcm6h2YXRtoI/edit#gid=1971023159)
 
-### Roadmap overview
-
-
-
+## Roadmap overview
 
 ### Flux de dades
 
@@ -39,17 +36,18 @@ Pulir el dashboard de tècnics per a Asomada i Llanillos.
 
 DoD: TODO
 
-###	Obtenció de dades de tots els equips i totes les plantes
+### Obtenció de dades de tots els equips i totes les plantes
 
 - [x] Definir estratègia d'obtenció de dades (remot/hardware/api's a plataformes...) (1)
 - [x] Coordinació amb altres equips de la cooperativa per veure altres alternatives (6)
 - [x] Proves pilot amb algún proveïdor (8)
-- [-] Analisi de proveïdors/alternatives i selecció de partner per externalitzar l'obtenció de dades dels  inversors i sondes (2)
+- [-] Analisi de proveïdors/alternatives i selecció de partner per externalitzar l'obtenció de dades dels inversors i sondes (2)
 - [-] Obtenció de dades tots els comptadors per IP.
-    - [ ] Adaptació a frequència quarthoraria. (3)
+
+  - [ ] Adaptació a frequència quarthoraria. (3)
 
 - [-] Suport a la integració de prova pilot (6)
-    - Falta saber com es diferencien les plantes
+  - Falta saber com es diferencien les plantes
 
 DoD:
 
@@ -71,21 +69,20 @@ En funcionament normal són delays de màxim un dia. Amb incidència poden ser 1
 ### Aterració de tot plegat
 
 - [ ] Intro per devs
-    - Més doc?
+  - Més doc?
 - [ ] Afegit la proveïdora de dades al pipe
-    - Decidir com (multisource/sol)
+  - Decidir com (multisource/sol)
 - [ ] Refer el pipe (fast+slow)
-    - Que no tardi 30s
-    - DBT standards
+  - Que no tardi 30s
+  - DBT standards
 - [ ] Definir el dashboard de tècnics
-    - Volem fer servir redash?
-    - ~Parlar amb GA per si volen el Dashboard diferent [al actual]()~ El volen tal com són
-    - [ ] Dashboard tecnics Exiom amb Asomada
-    - [ ] Dashboard tecnics Exiom amb Llanillos (source original és dset)
+  - Volem fer servir redash?
+  - ~Parlar amb GA per si volen el Dashboard diferent [al actual]()~ El volen tal com són
+  - [ ] Dashboard tecnics Exiom amb Asomada
+  - [ ] Dashboard tecnics Exiom amb Llanillos (source original és dset)
 - [ ] Deute tècnic Dev
-    - CDD
-    - Private doc github project
-
+  - CDD
+  - Private doc github project
 
 ## Fita 2: Dashboard Overview plantes
 
