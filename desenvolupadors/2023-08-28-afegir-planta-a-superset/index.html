@@ -6,28 +6,30 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="Com afegir una planta (dset)">
       
       
       
-        <link rel="prev" href="../codi_reciclable/">
+      
+        <link rel="prev" href="../2023-07-13-codi_reciclable/">
       
       
-        <link rel="next" href="../novu_notifications/">
+        <link rel="next" href="../2023-08-28-alta_planta/">
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
     
     
       
-        <title>dbt commands - Jardiner</title>
+        <title>Afegir dades de planta des de DSET a dashboards - Jardiner de Som Energia</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,7 +48,7 @@
       
     
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -72,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#dbt-commands" class="md-skip">
+        <a href="#com-afegir-dades-duna-planta-nova-a-instancia-de-superset" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +90,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Jardiner" class="md-header__button md-logo" aria-label="Jardiner" data-md-component="logo">
+    <a href="https://gitlab.somenergia.coop/et/somenergia-jardiner" title="Jardiner de Som Energia" class="md-header__button md-logo" aria-label="Jardiner de Som Energia" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -102,13 +104,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Jardiner
+            Jardiner de Som Energia
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              dbt commands
+              Afegir dades de planta des de DSET a dashboards
             
           </span>
         </div>
@@ -184,6 +186,18 @@
 </div>
     
     
+      <div class="md-header__source">
+        <a href="https://gitlab.somenergia.coop/et/somenergia-jardiner" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Gitlab
+  </div>
+</a>
+      </div>
+    
   </nav>
   
 </header>
@@ -209,14 +223,26 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Jardiner" class="md-nav__button md-logo" aria-label="Jardiner" data-md-component="logo">
+    <a href="https://gitlab.somenergia.coop/et/somenergia-jardiner" title="Jardiner de Som Energia" class="md-nav__button md-logo" aria-label="Jardiner de Som Energia" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
-    Jardiner
+    Jardiner de Som Energia
   </label>
+  
+    <div class="md-nav__source">
+      <a href="https://gitlab.somenergia.coop/et/somenergia-jardiner" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Gitlab
+  </div>
+</a>
+    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -227,7 +253,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -247,6 +273,10 @@
   
   
     
+    
+      
+        
+      
     
     
     
@@ -282,7 +312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../Sources/drive_airbyte/" class="md-nav__link">
+      <a href="../../Sources/drive_airbyte/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -310,6 +340,24 @@
   
   
     
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -345,7 +393,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../adr/2022-10-11-dbt_workflow_meter_alarms/" class="md-nav__link">
+      <a href="../../adr/2022-10-11-dbt_workflow_meter_alarms/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -366,7 +414,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../adr/2022-10-14-meter_alarm_logic/" class="md-nav__link">
+      <a href="../../adr/2022-10-14-meter_alarm_logic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -387,7 +435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../adr/2022-10-14-spines/" class="md-nav__link">
+      <a href="../../adr/2022-10-14-spines/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -408,7 +456,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../adr/2022-10-26-real-time_alarms/" class="md-nav__link">
+      <a href="../../adr/2022-10-26-real-time_alarms/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -429,7 +477,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../adr/2023-06-13-obt_plantes/" class="md-nav__link">
+      <a href="../../adr/2023-06-13-obt_plantes/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -450,7 +498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../adr/2023-06-13-pipeline_dades_llargues/" class="md-nav__link">
+      <a href="../../adr/2023-06-13-pipeline_dades_llargues/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -471,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../adr/2023-09-12-redash_vs_superset/" class="md-nav__link">
+      <a href="../../adr/2023-09-12-redash_vs_superset/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -492,7 +540,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../adr/template/" class="md-nav__link">
+      <a href="../../adr/template/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -517,130 +565,13 @@
       
   
   
-    
   
   
-  
     
     
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Desenvolupadors
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            Desenvolupadors
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2023-06-10-overview-devs/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Overview for devs
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2023-08-28-afegir-planta/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Com afegir una planta (dset)
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2024-01-11-incremental-dedup/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    2024 01 11 incremental dedup
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2024-02-16-row-level-security/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    2024 02 16 row level security
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
+      
     
     
     
@@ -648,10 +579,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -662,8 +593,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Deprecated
           </label>
@@ -696,10 +627,9 @@
     </li>
   
 
-              
-            
-              
-                
+    
+      
+      
   
   
     
@@ -707,6 +637,24 @@
   
   
     
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -714,24 +662,24 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
   <span class="md-ellipsis">
-    Tutorials
+    Desenvolupadors
   </span>
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
-            Tutorials
+            Desenvolupadors
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -742,11 +690,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../alta_planta/" class="md-nav__link">
+      <a href="../2023-02-08-novu_notifications/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Procediment a seguir a l’incorporar una nova planta fotovoltaica
+    Gestionar notificacions a Novu
   </span>
   
 
@@ -763,11 +711,53 @@
   
   
     <li class="md-nav__item">
-      <a href="../codi_reciclable/" class="md-nav__link">
+      <a href="../2023-06-10-overview-devs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Reusuable sqls
+    Overview for devs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-10-dbt_cmds_utils/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Comandes de dbt comunes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-07-13-codi_reciclable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SQL reutilitzable
   </span>
   
 
@@ -797,7 +787,7 @@
         
   
   <span class="md-ellipsis">
-    dbt commands
+    Afegir dades de planta des de DSET a dashboards
   </span>
   
 
@@ -815,11 +805,53 @@
   
   
     <li class="md-nav__item">
-      <a href="../novu_notifications/" class="md-nav__link">
+      <a href="../2023-08-28-alta_planta/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Novu helpers and quickstart
+    Alta d'una planta fotovoltaica a
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-01-11-incremental-dedup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Incremental Dedup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2024-02-16-row-level-security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Row Level Security
   </span>
   
 
@@ -835,14 +867,6 @@
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
     
       
       
@@ -851,6 +875,12 @@
   
   
     
+    
+      
+        
+      
+        
+      
     
     
     
@@ -858,10 +888,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -872,8 +902,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Projecte
           </label>
@@ -886,7 +916,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../projecte/2023-06-03-macrofase%20roadmap/" class="md-nav__link">
+      <a href="../../projecte/2023-06-03-macrofase%20roadmap/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -907,7 +937,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../projecte/2023-06-03-overview/" class="md-nav__link">
+      <a href="../../projecte/2023-06-03-overview/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -960,28 +990,50 @@
                 
                   
 
+  
+    <a href="https://gitlab.somenergia.coop/et/somenergia-jardiner/edit/main/docs/desenvolupadors/2023-08-28-afegir-planta-a-superset.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://gitlab.somenergia.coop/et/somenergia-jardiner/raw/main/docs/desenvolupadors/2023-08-28-afegir-planta-a-superset.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
+    </a>
+  
 
-<h1 id="dbt-commands">dbt commands</h1>
+
+<h1 id="com-afegir-dades-duna-planta-nova-a-instancia-de-superset">Com afegir dades d'una planta nova a instància de superset</h1>
+<p>Tenim una instància de <a href="https://indicadors.somenergia.coop">superset</a> que mostra dades de plantes des de el pipe de transformació de dades arribant del nostre proveïdor de dades.</p>
+<p>Per afegir una nova planta a la visualització, cal seguir un protocol documentat al <a href="https://docs.google.com/document/d/172qofxlvavQhdQhyJ9HE73CX6YLVYA2u6Mq3w_NOzyA/edit#heading=h.mcehna5jn0kc">Formulari d’inscripció de noves plantes a Superset</a></p>
+<p>Un cop aquest formulari estigui completat, cal seguir els següents passos:</p>
+<div class="admonition warning">
+<p class="admonition-title">Necessites permisos d'administrador</p>
+<p>Aquesta tasca és per a desenvolupadors que treballen amb el pipe de transformació de dades. Si no ets un desenvolupador, no cal que facis aquesta tasca.</p>
+</div>
 <ol>
-<li>Generar i servir la documentació per a poder veure el directed graph.</li>
+<li>Verificar que estem rebent dades dels senyals de la planta nova des de l'API del proveïdor. Si no, avisar a l'equip de gestió d'actius per que facin incidència al proveïdor.</li>
+<li>Executar la tasca de sync de l'airbyte d'uuids</li>
+<li><a href="https://airbyte.moll.somenergia.coop/workspaces/12f265b4-e398-44b4-9c95-1b5b165d6883/connections/e3301299-f721-4efb-b864-0e5b0233b145">Dades fixes de plantes noves</a></li>
+<li><a href="https://airbyte.moll.somenergia.coop/workspaces/12f265b4-e398-44b4-9c95-1b5b165d6883/connections/e5a12532-7c8b-4e12-a7ee-9b71f47c655a/status">Objectius de producció</a></li>
+<li><a href="https://airbyte.moll.somenergia.coop/workspaces/12f265b4-e398-44b4-9c95-1b5b165d6883/connections/6ee76168-27ab-4ac4-9f50-b619664191db/status">Relacions entre UUIDs de senyals, aparells i plantes</a></li>
+<li>Executar <code>dbt snapshot</code> per tractar canvis a les plantes segons SCD2, si ni ha hagut. Tenir cura que al actualitzar les dades de la planta, s'ha de modificar les columnes del tipus <code>updated_at</code> dins dels documents a omplir.</li>
+<li>Verificar que les dades apareixen a la visualització de superset.</li>
+<li>Actualitzar els filtres i els rols de seguretat de la nova planta a superset. Veure <a href="../2024-02-16-row-level-security/">Row Level Security</a> per més informació.</li>
 </ol>
-<div class="highlight"><pre><span></span><code>dbt<span class="w"> </span>docs<span class="w"> </span>generate<span class="w"> </span>--project-dir<span class="w"> </span>dbt_jardiner<span class="w"> </span>--target<span class="w"> </span>pre
-
-dbt<span class="w"> </span>docs<span class="w"> </span>serve<span class="w"> </span>--project-dir<span class="w"> </span>dbt_jardiner<span class="w"> </span>--target<span class="w"> </span>pre<span class="w"> </span>--port<span class="w"> </span><span class="m">8010</span>
-</code></pre></div>
-<ol>
-<li>Pujar tots els CSVs de seeds</li>
-</ol>
-<div class="highlight"><pre><span></span><code>dbt<span class="w"> </span>seed<span class="w"> </span>--project-dir<span class="w"> </span>dbt_jardiner
-</code></pre></div>
-<ol>
-<li>Podem passar variables per command line (en comptes de definir-les a dbt_project.yml i fer-les accesibles per diferents resources):</li>
-</ol>
-<p><div class="highlight"><pre><span></span><code>dbt<span class="w"> </span>run<span class="w"> </span>--vars<span class="w"> </span><span class="s1">&#39;{&quot;variable&quot;:&quot;value&quot;}&#39;</span>
-</code></pre></div>
-Per fer testing amb un csv determinat:</p>
-<div class="highlight"><pre><span></span><code>dbt<span class="w"> </span>run<span class="w"> </span>--project-dir<span class="w"> </span>project_x<span class="w"> </span>--target<span class="w"> </span>testing<span class="w"> </span>--vars<span class="w"> </span><span class="s1">&#39;{&quot;test_sample&quot;:&quot;nom_del_csv&quot;}&#39;</span><span class="w"> </span>-m<span class="w"> </span>model_x
-</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Per què no un ORM?</p>
+<p>Tenim al roadmap fer-ho amb un model normalitzat, però està al roadmap del ERP i no tenim una data concreta.</p>
+<p>Com que ja no tenim ORM que verifiqui la integritat de les dades, tenim tests que compleixen aquesta funció.</p>
+<p>Si algun senyal d'un device no té una definició igual de device (per uuid), els tests no passaran.
+Per a veure quin senyal és el transgressor, executeu amb el flag <code>--store-failures</code>
+i així guardarà el resultat de la query del test en una taula sota l'schema <code>&lt;schema&gt;_dbt_test__audit</code></p>
+<p>En particular, podeu veure <code>test_to_debug_device_uuid_errors</code> per veure les senyals que no quadren.</p>
+</div>
 
 
 
@@ -989,6 +1041,27 @@ Per fer testing amb un csv determinat:</p>
 
 
 
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 21, 2024</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
 
 
 
@@ -1001,6 +1074,12 @@ Per fer testing amb un csv determinat:</p>
           
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
         
       </main>
       
@@ -1028,10 +1107,10 @@ Per fer testing amb un csv determinat:</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
       
     
   </body>
