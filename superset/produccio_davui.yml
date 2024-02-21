@@ -12,8 +12,7 @@ html: >
         <th> Potència instantània temps de lectura</th>
         <th> Potència instantània [kW]</th>
         <th> Potència instantània vs nominal [%]</th>
-        <th> Dia </th>
-        <th> Energia Perduda [MWh] <br> dia anterior </th>
+        <th> Energia Perduda Ahir [MWh]</th>
       </tr>
     </thead>
     <tbody>
@@ -29,8 +28,7 @@ html: >
         <td>{{ potencia_inst_ts }}</td>
         <td>{{ potencia_inst_kw }}</td>
         <td>{{#if  potencia_inst_vs_nominal}}<span> {{ potencia_inst_vs_nominal }}% </span><progress value="{{ potencia_inst_vs_nominal}}" max="100"> </progress>{{/if}}</td>
-        <td>{{ dateFormat dia }}</td>
-        <td>{{ energia_perduda_mwh }}</td>
+        <td>{{ energia_perduda_ahir_mwh }}</td>
       </tr>
     {{/each}}
     </tbody>
