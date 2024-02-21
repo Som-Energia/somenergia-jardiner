@@ -1,0 +1,13 @@
+bump = "auto"
+convention = "basic"
+in-place = false
+# filter-commits = "0.5.0.."
+# marker-line = "<!-- insertion marker -->"
+parse-refs = true
+parse-trailers = true
+repository = "."
+sections = ["add","remove","fix","doc"]
+template = "keepachangelog"
+version-regex = "^## \\\\[(?P<version>v?[^\\\\]]+)"
+provider = "gitlab"
+zerover = true

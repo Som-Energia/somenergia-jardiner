@@ -1,12 +1,19 @@
+title: Overview for devs
+description: Overview of the project for developers
+date: 2023-06-10
+tags: dbt, airflow, plantmonitor, plantreader, jardiner
+
 # Overview for devs
 
 ## quickstart
 
-To fully deploy the dbt models you can do
+To fully deploy the dbt models to the production schema you can do
 
 ```bash
 dbt build -s tag:jardiner,tag:legacy --store-failures --full-refresh --target prod
 ```
+
+You will need to have the `prod` profile in your `~/.dbt/profiles.yml` file.
 
 ## Current State of the project
 
@@ -18,7 +25,9 @@ dbt build -s tag:jardiner,tag:legacy --store-failures --full-refresh --target pr
 
 Fa d'ORM de les plantes, conté la api i és codi de les raspberrypis. A més a més també té el codi d'ingesta d'apis de tercers.
 
-La meitat del plantmonitor acabarà deprecated pel proveïdor de dades.
+!!! warning
+
+    La meitat del plantmonitor acabarà deprecated pel proveïdor de dades
 
 [Plant Reader](https://github.com/Som-Energia/somenergia-plant-reader)
 
@@ -92,6 +101,6 @@ union -- notify.py --> alerts
 obt --> datasets
 ```
 
-Després de l'[ADR d'estructura de pipeline](/somenergia-jardiner/adr/2023-06-13-pipeline_dades_llargues)
+Després de l'[ADR d'estructura de pipeline](../adr/2023-06-13-pipeline_dades_llargues.md)
 
-See [Roadmap](/somenergia-jardiner/projecte/2023-06-03-macrofase roadmap/)
+See [Roadmap](""../projecte/2023-06-03-macrofase roadmap.md")

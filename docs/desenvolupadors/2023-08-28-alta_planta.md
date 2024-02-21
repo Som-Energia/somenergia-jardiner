@@ -1,29 +1,29 @@
+title: Alta d'una planta fotovoltaica a
+description: Procediment a seguir a l’incorporar una nova planta fotovoltaica
+date: 2023-08-28
+
 # Procediment a seguir a l’incorporar una nova planta fotovoltaica
 
-
-Dades
------
+## Dades
 
 Les dades necessàries per a donar d'alta una planta són
 
 [Unificació Noms Projectes Generació](https://docs.google.com/spreadsheets/d/1JwHmZ_FuIs7em8nLrdSNg052O_0IA9Fm1qGp_hz8QlU/edit#gid=0)
 
-Càlcul Rendiment de Planta_<nom planta> (buscar-ho al cercador de drive)
+Càlcul Rendiment de Planta\_<nom planta> (buscar-ho al cercador de drive)
 
 [Modelos contadores_inversores_SCADAS](https://docs.google.com/spreadsheets/d/1Z7_QpzestHBzVf9o78IC3hdGWMDH6dlyUr8f9LewO1o/edit#gid=904950265)
 
-Xarxa
------
+## Xarxa
 
-1. Conectar-se a la ip  del router de la planta i afegir el port forwarding que calgui (raspberrypi o aparells)
+1. Conectar-se a la ip del router de la planta i afegir el port forwarding que calgui (raspberrypi o aparells)
 2. Demanar a sistemes que afegeixi la planta al dns e.g. planta-<nom_planta>.somenergia.coop
 
 Tot això ha de quedar escrit en el document Mapeig de Planta
 
-Aparells
---------
+## Aparells
 
-**Comptador**
+### Comptador
 
 Agafar les dades de [Modelos contadores_inversores_SCADAS](https://docs.google.com/spreadsheets/d/1Z7_QpzestHBzVf9o78IC3hdGWMDH6dlyUr8f9LewO1o/edit#gid=904950265)
 
@@ -31,16 +31,15 @@ ip lan, port, porta d’enllaç i contrasenya
 
 telèfon si s'escau
 
-**Inversor**
+### Inversor
 
 ip
 
-**Raspberrypi**
+### Raspberrypi
 
 ip lan, usuari, password
 
-Prèvia
-------
+## Prèvia
 
 Tots els scripts fan referència al repositori de github `plantmonitor`.
 
@@ -50,7 +49,6 @@ afegir la plantlocation, plantparameters i moduleparameters. Un exemple [a plant
 ```bash
 PLANTMONITOR_MODULE_SETTINGS='conf.settings.prod' python addPlant.py data/plant-asomada.yaml
 ```
-
 
 De moment manualment cal afegir els registres de plantestimatedmonthlyenergy. L'any és irrellevant.
 Si tenim històrics d'energia objectiu, els podeu afegir.
@@ -85,30 +83,27 @@ whitelistejar la ip pública al plantmonitor per a què pugui pujar lectures
 
 Afegir les dades al diccionari de solargis (quan deixi de ser hard-coded ja no caldrà aquest pas)
 
+## Serveis de SomEnergia addicionals
 
-Serveis de SomEnergia addicionals
----------------------------------
+### nagios
 
-**nagios**
 afegir-la al nagios o modificar-la en cas de canvi d’ip pública
 
-**opendata**
+### opendata
 
 Cal afegir la info de la nova planta a taula literal que es fa servir a somenergia-opendata/som_opendata/queries/plantpower.sql
 
 (Un cop aquesta info estigui a plantmonitor, l’opendata podrà agafar-la directament per sql i no caldrà fer aquest pas)
 
-**generationkwh**
+### generationkwh
 
 Si la planta està inclosa al generation, és important afegir-la a l’erp abans de la mitja nit del dia de posada a producció.
 Si no, cal descartar càlculs de drets del generation per a que incloguin els resultats. Si, a més, els drets s’han començat a gastar (15 dies de marge de facturació), cal reperfilar els nous drets amb la producció afegida perquè no superi els drets ja atorgats.
 
 La nova planta es crea fent servir l’script: somenergia-generationkwh/scripts/genkwh_plants.sh
 
-Un exemple complert de com afegir una planta amb aquest script: https://github.com/Som-Energia/somenergia-generationkwh/blob/master/scripts/genkwh_migrate_plantmeter_1_7_0_newplant.sh
+Un exemple complert de com afegir una planta amb aquest script: <https://github.com/Som-Energia/somenergia-generationkwh/blob/master/scripts/genkwh_migrate_plantmeter_1_7_0_newplant.sh>
 
 Es recomana provar primer a un ERP de testing o local, i, després aplicar-ho a producció.
 
-Un exemple d’script de migració en la que vam haver de reperfilar: https://github.com/Som-Energia/somenergia-generationkwh/blob/master/scripts/genkwh_migrate_plantmeter_1_7_2_fontivsolarfix.sh
-
-
+Un exemple d’script de migració en la que vam haver de reperfilar: <https://github.com/Som-Energia/somenergia-generationkwh/blob/master/scripts/genkwh_migrate_plantmeter_1_7_2_fontivsolarfix.sh>

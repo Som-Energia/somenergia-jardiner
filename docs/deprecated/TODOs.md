@@ -37,7 +37,6 @@ sum(a/x) + sum(b/y) ... mensual wrong
 
 sum((a+b+c)/(x+y+z)) -- mensual correct
 
-
 # views per limitar l'accés a la info dels tècnics
 
 No cal fer-ho, limitarem l'accés a la wide table o farem servir els permisos del superset o ja veurem

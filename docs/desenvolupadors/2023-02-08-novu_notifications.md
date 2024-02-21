@@ -1,3 +1,7 @@
+title: Gestionar notificacions a Novu
+description: Com interactuar amb el sistema de notificacions Novu
+date: 2023-07-10
+
 # Novu helpers and quickstart
 
 ## Swagger API
