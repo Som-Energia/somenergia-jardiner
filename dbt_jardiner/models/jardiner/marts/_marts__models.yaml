@@ -151,7 +151,7 @@ models:
     description: >
       Darrera lectura d'irradiació i potència de cada planta i la producció del dia anterior segons comptadors
 
-  - name: dm_dashboard_overview__produccio_carter
+  - name: dm_dashboard_overview__produccio_cartera
     description: >
       Producció de totes les plantes per tecnologia del dia actual espinat per les 24h d'avui per a que
       el superset dibuixi el dia sencer
