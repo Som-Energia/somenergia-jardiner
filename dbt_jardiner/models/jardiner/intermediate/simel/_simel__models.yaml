@@ -16,6 +16,8 @@ models:
                       min_value: 1990
                       max_value: 2050
                       inclusive: true
+                      config:
+                        where: "_airbyte_emitted_at > current_date - interval '7 days'"
           - name: month
             description: C - Mes
             tests:
@@ -24,6 +26,8 @@ models:
                       min_value: 1
                       max_value: 12
                       inclusive: true
+                      config:
+                        where: "_airbyte_emitted_at > current_date - interval '7 days'"
           - name: day
             description: D - Día
             tests:
@@ -32,6 +36,8 @@ models:
                       min_value: 1
                       max_value: 31
                       inclusive: true
+                      config:
+                        where: "_airbyte_emitted_at > current_date - interval '7 days'"
           - name: hour
             description: E - Hora
             tests:
@@ -40,6 +46,8 @@ models:
                       min_value: 0
                       max_value: 24
                       inclusive: true
+                      config:
+                        where: "_airbyte_emitted_at > current_date - interval '7 days'"
           - name: is_summer
             description: F - Bandera verano/invierno (1*c)
             tests:
@@ -48,6 +56,8 @@ models:
                       values:
                           - true
                           - false
+                      config:
+                        where: "_airbyte_emitted_at > current_date - interval '7 days'"
           - name: energy_kwh
             description: G - Medida activa exportada, (kWh) 10*n
             tests:
@@ -55,7 +65,7 @@ models:
                       min_value: -1
                       inclusive: true
                       config:
-                          where: "energy_kwh is not null"
+                          where: "energy_kwh is not null and _airbyte_emitted_at > current_date - interval '7 days'"
           - name: reactive_energy_2_kvarh
             description: H - Medida reactiva cuadrante 2, (kVArh) 10*n
             tests:
@@ -63,7 +73,7 @@ models:
                       min_value: 0
                       inclusive: true
                       config:
-                          where: "reactive_energy_2_kvarh is not null"
+                          where: "reactive_energy_2_kvarh is not null and _airbyte_emitted_at > current_date - interval '7 days'"
           - name: reactive_energy_3_kvarh
             description: I - Medida reactiva cuadrante 3, (kVArh) 10*n
             tests:
@@ -71,7 +81,7 @@ models:
                       min_value: 0
                       inclusive: true
                       config:
-                          where: "reactive_energy_3_kvarh is not null"
+                          where: "reactive_energy_3_kvarh is not null and _airbyte_emitted_at > current_date - interval '7 days'"
           - name: measurement_type
             description: J - Tipo de medida (2) 1*c
             tests:
@@ -81,6 +91,8 @@ models:
                           - "E"
                           - "L"
                           - "M"
+                      config:
+                        where: "_airbyte_emitted_at > current_date - interval '7 days'"
           - name: empty_col
             description: Empty column generated from malformed CSV files from source
             tests:
@@ -88,6 +100,8 @@ models:
                       values:
                           - ""
                           - null
+                      config:
+                        where: "_airbyte_emitted_at > current_date - interval '7 days'"
           - name: _ab_source_file_last_modified
             description: last modification date of source file. Managed by airbyte.
           - name: _ab_source_file_url
