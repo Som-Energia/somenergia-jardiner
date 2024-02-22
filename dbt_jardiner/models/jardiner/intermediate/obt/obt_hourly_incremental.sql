@@ -7,6 +7,7 @@ with obt_base as (
     plant_metadata.plant_uuid,
     plant_metadata.plant_name,
     plant_metadata.plant_id as plantmonitor_plant_id,
+    plant_metadata.has_plantmonitor,
     plant_metadata.peak_power_kw::float as peak_power_kw,
     plant_metadata.technology as technology,
     dset.irradiation as dset_irradiation_wh,

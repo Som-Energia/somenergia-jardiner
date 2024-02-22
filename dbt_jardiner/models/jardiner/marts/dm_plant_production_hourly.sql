@@ -9,6 +9,7 @@ select
   plant_name as nom_planta,
   technology as tecnologia,
   peak_power_kw as potencia_pic_kw,
+  has_plantmonitor as te_plantmonitor,
   dset_inverter_energy_kwh as energia_instantania_inversor_kwh,
   dset_meter_instant_exported_energy_kwh as energia_exportada_instantania_comptador_kwh,
   1 - {{ dbt_utils.safe_divide('dset_inverter_energy_kwh','dset_meter_instant_exported_energy_kwh' ) }} as energia_perduda_inversor_a_comptador,
