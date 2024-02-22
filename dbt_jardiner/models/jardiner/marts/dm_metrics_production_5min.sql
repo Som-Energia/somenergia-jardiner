@@ -10,7 +10,8 @@ select
   signal_unit as unitat_senyal,
   metric_name as nom_metrica,
   signal_name as senyal,
-  device_parent as nom_aparell_pare
+  device_parent as nom_aparell_pare,
+  device_parent_uuid as uuid_aparell_pare
 from {{ ref("int_dset_responses__values_incremental") }}
 where
   (

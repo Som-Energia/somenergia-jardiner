@@ -28,8 +28,8 @@ repos:
     rev: 2.3.5
     hooks:
       # enable sqlfluff-fix will modify sql files.
-      # - id: sqlfluff-fix
-      #  additional_dependencies: ["dbt-postgres", "sqlfluff-templater-dbt"]
+      - id: sqlfluff-fix
+        additional_dependencies: ["dbt-postgres", "sqlfluff-templater-dbt"]
       - id: sqlfluff-lint
         additional_dependencies: ["dbt-postgres", "sqlfluff-templater-dbt"]
 fail_fast: false

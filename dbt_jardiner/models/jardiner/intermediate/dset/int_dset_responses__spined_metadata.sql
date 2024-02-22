@@ -15,7 +15,8 @@ spined_expected_signals as (
     metadata.signal_name,
     metadata.signal_uuid,
     metadata.metric_name,
-    metadata.device_parent
+    metadata.device_parent,
+    metadata.device_parent_uuid
   from
     spina5m
     {# dm_plants is the SSOT of the plants names #}
@@ -42,6 +43,7 @@ spined_dset as (
     spined.signal_name,
     spined.metric_name,
     spined.device_parent,
+    spined.device_parent_uuid,
     valors.signal_value,
     valors.group_name,
     valors.signal_id,
