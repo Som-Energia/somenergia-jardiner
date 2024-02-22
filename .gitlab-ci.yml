@@ -167,7 +167,7 @@ dbt-build:
       changes:
         compare_to: "refs/heads/main"
         paths: *dbt-build-changes-paths
-      allow_failure: true
+      allow_failure: false
   artifacts:
     paths:
       - ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/target
