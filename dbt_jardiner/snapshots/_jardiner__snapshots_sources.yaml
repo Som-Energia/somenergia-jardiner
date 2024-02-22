@@ -43,3 +43,7 @@ sources:
             description: "Insertion timestamp in the database, in UTC"
           - name: updated_at
             description: "Update timestamp in the database, in UTC"
+          - name: is_enabled
+            description: "Boolean. If the signal is enabled or not"
+          - name: device_parent_uuid
+            description: "UUID of the parent device, version 4"

@@ -85,5 +85,8 @@ dbt_docs.logs: ## show the logs of the dbt-docs container
 local.re_data_models.dev: ## Run re_data models
 	@(cd dbt_jardiner && dbt run --target dev --models package:re_data)
 
-changelog: ## generate changelog
+changelog.docker: ## generate changelog usind docker image
 	@docker compose -f $(app_compose_file) --env-file $(app_compose_env_file) run --rm -it --entrypoint git-changelog app-dev
+
+changelog: ## generate changelog
+	@git-changelog

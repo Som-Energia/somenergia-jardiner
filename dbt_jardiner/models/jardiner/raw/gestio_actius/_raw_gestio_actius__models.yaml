@@ -97,7 +97,22 @@ models:
         description:
           Imputat per nosaltres que es correspon amb la columna homònima de la
           taula d'aparell que correspongui ja sigui inverter, string, sensor, plant, etc.
+      - name: is_enabled
+        description: >
+          Boolean que indica si el senyal està habilitat o no. Si no ho està no es
+          processarà.
+        tests:
+          - accepted_values:
+              values:
+                [true, false]
+      - name: device_parent_uuid
+        description: UUID del parent device, si n'hi ha
     tests:
+      - dbt_utils.expression_is_true:
+            # XOR, one of the two can't be null
+            expression: "device_parent_uuid is not null"
+            config:
+              where: "device_parent is not null"
       - dbt_utils.unique_combination_of_columns:
           config:
             severity: error

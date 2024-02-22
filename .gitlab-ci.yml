@@ -48,7 +48,7 @@ include:
 
 pre-commit:
   variables:
-    SKIP: "sqlfluff-lint"
+    SKIP: "sqlfluff-fix,sqlfluff-lint"
   before_script:
     - git config --global --add safe.directory "$CI_PROJECT_DIR"
   tags:

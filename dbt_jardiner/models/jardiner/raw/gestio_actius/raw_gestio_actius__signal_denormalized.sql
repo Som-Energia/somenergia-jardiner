@@ -17,10 +17,13 @@ base as (
     device_type::text,
     device_uuid::uuid,
     trim(device_parent::text) as device_parent,
+    device_parent_uuid::uuid,
     signal_uuid::uuid,
+    coalesce(is_enabled = 'VERDADERO', false) as is_enabled,
     inserted_at::timestamptz,
     updated_at::timestamptz
   from fresh
 )
 
 select * from base
+where is_enabled
