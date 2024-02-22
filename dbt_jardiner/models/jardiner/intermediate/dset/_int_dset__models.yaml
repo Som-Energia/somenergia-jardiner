@@ -29,40 +29,6 @@ models:
           - relationships:
               to: ref("raw_gestio_actius_plant_parameters")
               field: plant_uuid
-  - name: int_dset_responses__union_view_and_materialized
-    description: >
-      Aquest model fa un union d'una taula materialitzada i una vista sobre la
-      taula raw_dset_responses. Aquesta materialització es fa per tenir una
-      taula més rápida amb la normalització de les respostes ja feta amb una
-      hora de retard i fer només la normalització online per la hora més recent
-    columns:
-      - name: group_name
-      - name: queried_at
-      - name: signal_code
-      - name: signal_device_type
-      - name: signal_device_uuid
-      - name: signal_frequency
-      - name: signal_id
-      - name: signal_is_virtual
-      - name: signal_last_ts
-      - name: signal_last_value
-      - name: signal_type
-      - name: signal_tz
-      - name: signal_unit
-      - name: signal_uuid
-        tests:
-          - not_null:
-              config:
-                tags:
-                  - dset
-      - name: signal_uuid_raw
-        tests:
-          - dbt_utils.not_empty_string:
-              config:
-                tags:
-                  - dset
-      - name: signal_value
-      - name: ts
   - name: int_dset_last_signal__from_latest_batch_dset_last
     description: >
       View based on the signal_last_ts,signal_last_value instead of ts,value of
