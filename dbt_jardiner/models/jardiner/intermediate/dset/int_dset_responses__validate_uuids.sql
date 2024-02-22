@@ -6,7 +6,6 @@ filtered_signal_uuid_nulls as (
   from {{ ref("raw_dset_responses__api_response") }}
   where
     signal_uuid is not null and signal_uuid != ''
-    and not signal_is_virtual
 ),
 
 transformed as (
