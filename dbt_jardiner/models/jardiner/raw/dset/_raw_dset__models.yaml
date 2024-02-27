@@ -44,3 +44,6 @@ models:
     description: >
       Conté l'últim batch de dades, descartant ts i value. Es fa servir per obtenir signal_last_ts
       i signal_last_value.
+  - name: raw_dset_meter__readings
+    description: >
+      Lectures de tots els comptadors llegits individualment via dset
