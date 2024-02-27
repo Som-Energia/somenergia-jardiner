@@ -11,3 +11,9 @@ sources:
           S'escriuen en base de dades en format JSONB recollint el JSON cru
           de la API de DSET.
           [documentació](https://documenter.getpostman.com/view/6601984/2s946cga7J)
+      - name: dset_meters_readings
+        description: >
+          Lectures dels comptadors llegides amb el DAG
+          [dset_reader_meteres_dag_v2](https://airflow.somenergia.coop/dags/dset_reader_meters_dag_v2)
+          amb el codi a [somenergia-plant-reader](https://gitlab.somenergia.coop/et/somenergia-plant-reader/-/blob/main/dags/dset_get_recent_meters_dag.py).
+          Dset refresca els comptadors cada 24h i el dag pregunta horariament si hi ha canvis.
