@@ -10,6 +10,6 @@ Mending and nurturing of green energy plants. See its changelog at [CHANGELOG.md
 
 ## Usuàries de Gestió d'actius
 
-- Gestió d'actius! Aneu [aquí](/somenergia-jardiner/projecte/2023-06-03-macrofase roadmap/)
-- SomEnergia Devs! Aneu [aquí](/somenergia-jardiner/desenvolupadors/2023-06-10-overview-devs/)
+- Gestió d'actius! Aneu [aquí](https://et.pages.somenergia.coop/somenergia-jardiner/docs/projecte/2023-06-03-macrofase%20roadmap/)
+- SomEnergia Devs! Aneu [aquí](https://et.pages.somenergia.coop/somenergia-jardiner/docs/desenvolupadors/2023-06-10-overview-devs/)
 
