@@ -50,9 +50,6 @@ models:
       - name: tecnologia
         tests:
           - not_null
-      - name: potencia_pic_kw
-        tests:
-          - not_null
       - name: energia_instantania_inversor_kwh
       - name: energia_exportada_instantania_comptador_kwh
         tests:
