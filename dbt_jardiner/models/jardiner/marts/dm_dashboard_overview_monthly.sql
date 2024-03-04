@@ -16,14 +16,14 @@ with production_monthly_w_target as (
     (
       sum(production_monthly.preu_omie_eur_mwh)
         over plant_year_window
-    ) / extract(month from production_target.month)
+    ) / extract(month from production_monthly.month)
     as moving_avg_preu_omie_eur_mwh,
     production_target.energy_production_target_mwh as energia_objectiu_mwh,
     sum(production_monthly.energia_exportada_comptador_mwh)
       over plant_year_window
     as cumsum_energia_exportada_comptador_mwh,
     sum(production_target.energy_production_target_mwh)
-      over plant_year_window
+      over (partition by plant_uuid, extract(year from production_target.month) order by production_target.month)
     as cumsum_energia_objectiu_mwh
   from {{ ref("int_gda_plants__plants_catalog") }} as plant_catalog
     left join {{ ref("int_production_target__monthly") }} as production_target using (plant_uuid)
