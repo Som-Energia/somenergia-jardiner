@@ -39,5 +39,8 @@ extended_capitalisation_policy = lower
 [sqlfluff:rules:convention.terminator]
 multiline_newline = true
 
+[sqlfluff:rules:references.keywords]
+ignore_words = hour, day, month, year
+
 [sqlfluff:templater:dbt]
 project_dir = ./dbt_jardiner
