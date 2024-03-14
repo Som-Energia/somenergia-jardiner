@@ -30,6 +30,18 @@ instant_power_comparison as (
       inverter_power
       using (plant_uuid, ts)
 )
-select *
+select
+  plant_uuid as uuid_planta,
+  plant_name as nom_planta,
+  ts,
+  inverter_power_kw as potencia_inversor_kw,
+  inferred_meter_power_kw as potencia_deduida_kw,
+  delta_power_instant_vs_inferred as diff_deduida_vs_inversor,
+  num_inverters as num_inversors,
+  meter_energy_kwh as energia_comptador_kwh,
+  previous_energy as energia_anterior,
+  delta_meter_energy_kwh as delta_energia_comptador_kwh,
+  previous_ts as ts_anterior,
+  delta_ts as delta_ts
 from instant_power_comparison
 order by plant_uuid asc, ts desc

@@ -17,5 +17,5 @@ select
       round(((overview.meter_exported_energy_kwh - overview.solargis_meter_expected_energy_kwh) / 1000)::numeric, 2)
   end as energia_perduda_ahir_mwh,
   round(((overview.meter_exported_energy_kwh - overview.solargis_meter_expected_energy_kwh) / 1000)::numeric, 2) as energia_perduda_mwh,
-  overview.instant_power_source
+  overview.instant_power_source as font_potencia_instantania
 from {{ ref("int_plants_overview_instant") }} as overview
