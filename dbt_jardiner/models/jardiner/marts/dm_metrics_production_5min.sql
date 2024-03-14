@@ -14,9 +14,6 @@ select
   device_parent_uuid as uuid_aparell_pare
 from {{ ref("int_dset_responses__values_incremental") }}
 where
-  (
-    device_type in ('inverter', 'sensor', 'string')
-    or (metric_name ilike '%voltatge%')
-  )
+  device_type in ('inverter', 'sensor', 'string', 'meter')
   and ts > (now() at time zone 'Europe/Madrid')::date - interval '30 days'
 order by ts desc, plant_name asc
