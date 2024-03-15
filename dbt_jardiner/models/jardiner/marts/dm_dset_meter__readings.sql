@@ -1,7 +1,7 @@
 {{ config(materialized='table') }}
 
 select
-  ts,
+  start_ts,
   plant_uuid as uuid_planta,
   plant_name as nom_planta,
   meter_exported_energy as energia_activa_exportada,
