@@ -2,7 +2,7 @@
 
 with meter_readings_hourly as (
   select
-    date_trunc('hour', ts) as start_hour,
+    date_trunc('hour', start_ts) as start_hour,
     plant_uuid,
     plant_name,
     sum(meter_exported_energy) as meter_exported_energy,
@@ -13,7 +13,7 @@ with meter_readings_hourly as (
     sum(meter_reactive_energy_q4) as meter_reactive_energy_q4,
     sum(meter_instant_exported_energy) as meter_instant_exported_energy
   from {{ ref("int_dset_meter__readings_wide") }}
-  group by date_trunc('hour', ts), plant_uuid, plant_name
-  order by date_trunc('hour', ts) desc
+  group by date_trunc('hour', start_ts), plant_uuid, plant_name
+  order by date_trunc('hour', start_ts) desc
 )
 select * from meter_readings_hourly

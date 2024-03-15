@@ -2,7 +2,7 @@
 
 with meter_readings_wide as (
   select
-    mr.ts,
+    mr.start_ts,
     mr.plant_uuid,
     mr.plant_name,
     {{
@@ -14,11 +14,11 @@ with meter_readings_wide as (
         )
     }}
   from {{ ref("int_dset_meter__readings") }} as mr
-  group by mr.plant_uuid, mr.plant_name, mr.ts
-  order by mr.ts desc
+  group by mr.plant_uuid, mr.plant_name, mr.start_ts
+  order by mr.start_ts desc
 )
 select
-  ts,
+  start_ts,
   plant_uuid,
   plant_name,
   energia_activa_exportada as meter_exported_energy,
