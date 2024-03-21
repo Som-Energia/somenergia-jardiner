@@ -28,7 +28,7 @@ select
   (sum(energia_desviada_omie_kwh) / 1000.0)::numeric as energia_desviada_omie_mwh,
   (sum(abs(energia_desviada_omie_kwh_absolute)) / 1000.0)::numeric as energia_desviada_omie_mwh_absolute, {# should it be abs or we let compensate itself? #}
   (sum(energia_perduda_kwh) / 1000.0)::numeric as energia_perduda_mwh,
-  (1 - sum(energia_predita_meteologica_kwh) / nullif(sum(energia_exportada_comptador_kwh), 0))::numeric as energia_desviada_percent
+  ((sum(energia_desviada_omie_kwh_absolute) / 1000.0)::numeric / nullif((sum(energia_exportada_comptador_kwh) / 1000.0)::numeric, 0))::numeric as energia_desviada_percent
 from {{ ref("dm_plant_production_daily") }}
 group by date_trunc('month', dia), plant_uuid, nom_planta, tecnologia, potencia_pic_kw
 order by month desc
