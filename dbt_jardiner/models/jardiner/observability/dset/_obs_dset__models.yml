@@ -87,3 +87,29 @@ models:
     columns:
       - name: rebut_from_dset
         description: Booleà que indica si s'ha rebut o no en l'últim batch.
+
+  - name: obs_dset_responses__expected_signals
+    description: >
+      Model temporal que compatbilitza el nombre de senyals definides als mapajos de planta.
+    columns:
+      - name:     nom_planta
+      - name: senyals_esperades
+        description: totes les que estan en els mapejos
+      - name: no_rebudes_mai
+        description: mai s'ha rebut ningun valor per aquella senyal
+      - name: rebudes_alguna_vegada
+        description: alguna vegada s'ha rebut un valor per aquella senyal
+      - name: rebudes_avui
+        description: s'ha rebut alguna vegada, i tambñe avui
+      - name: no_rebudes_avui
+        description: s'ha rebut alguna vegada, pero no avui
+      - name: no_rebudes_total
+        description: suma de mai_rebudes i no_rebudes_avui
+  - name: obs_dset_responses__unexpected_signals
+    description: >
+      Model temporal que identifica senyals que rebem de dset però que no estan a cap maping. Per tant, no tenen nom de planta,
+      ni cap dada perqu eno fa match amb cap info de GA.
+    columns:
+      - name: nom_planta_dset
+      - name: senyals_inesperades
+
