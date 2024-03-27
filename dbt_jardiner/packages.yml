@@ -2,5 +2,5 @@ packages:
   - package: dbt-labs/dbt_utils
     version: [">=1.0.0", "<1.1.0"]
   - package: elementary-data/elementary
-    version: 0.13.0
+    version: 0.14.1
     ## Docs: https://docs.elementary-data.com

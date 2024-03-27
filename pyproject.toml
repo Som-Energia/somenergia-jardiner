@@ -7,16 +7,16 @@ version = "0.2.0"
 
 [tool.poetry.dependencies]
 dbt-postgres = "^1.2.2"
-pandas = "^1.5.0"
+pandas = "^2.0.0"
 pendulum = "^2.1.2"
 python = ">=3.8,<3.12"
 python-dotenv = "^0.21.0"
 requests = "^2.28.1"
-sqlalchemy = "^1.4.41,!=1.4.50,!=1.4.51"
+sqlalchemy = "^1.4.41,<1.4.50" # https://github.com/python-poetry/poetry/issues/8529
 typer = "^0.6.1"
 pydantic = {version = "<2", extras = ["dotenv"]}
 loguru = "^0.7.0"
-elementary-data = "^0.13.2"
+elementary-data = "^0.14.1"
 
 [tool.poetry.group.dev.dependencies]
 dbt-osmosis = "^0.11.22"
@@ -44,7 +44,7 @@ mkdocs-git-revision-date-localized-plugin = "^1.2.4"
 [tool.poetry.group.dbt-docs.dependencies]
 dbt-osmosis = "^0.11.22"
 dbt-postgres = "^1.2.2"
-elementary-data = "^0.13.2"
+elementary-data = "^0.14.1"
 
 
 [tool.poetry.group.airflow.dependencies]
