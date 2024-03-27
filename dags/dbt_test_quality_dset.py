@@ -116,7 +116,7 @@ with DAG(
         "dbt test"
         " --profiles-dir config"
         " --target prod"
-        " --select tag:jardiner"
+        " --select tag:jardiner elementary"
         " --store-failures"
         " --threads 4"
     )
