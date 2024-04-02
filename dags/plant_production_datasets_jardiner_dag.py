@@ -44,9 +44,11 @@ def dbapi_to_dict(dbapi: str):
     return {
         "provider": parsed_string.scheme,
         "user": parsed_string.username,
-        "password": urllib.parse.unquote(parsed_string.password)
-        if parsed_string.password
-        else None,
+        "password": (
+            urllib.parse.unquote(parsed_string.password)
+            if parsed_string.password
+            else None
+        ),
         "host": parsed_string.hostname,
         "port": parsed_string.port,
         "database": parsed_string.path[1:],
@@ -58,7 +60,7 @@ with DAG(
     start_date=datetime(2023, 1, 10),
     schedule_interval="30 * * * *",
     catchup=False,
-    tags=["Plantmonitor", "Jardiner", "Transform", "dbt"],
+    tags=["project:plantmonitor", "project:jardiner", "dbt", "dbt-run"],
     max_active_runs=1,
     default_args=args,
 ) as dag:
@@ -94,6 +96,7 @@ with DAG(
             " --target prod"
             " --models tag:jardiner,config.materialized:table+"
             " tag:jardiner,config.materialized:incremental+"
+            " elementary"
             " --exclude tag:dset_responses_fresh"
         ),
         docker_url=sampled_moll,

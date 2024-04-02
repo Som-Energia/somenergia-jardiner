@@ -58,7 +58,7 @@ with DAG(
     start_date=datetime(2023, 1, 10),
     schedule_interval="@daily",
     catchup=False,
-    tags=["Plantmonitor", "Jardiner", "Transform", "DBT"],
+    tags=["project:plantmonitor", "project:jardiner", "dbt", "dbt-run"],
     default_args=args,
 ) as dag:
     repo_name = "somenergia-jardiner"
@@ -91,7 +91,7 @@ with DAG(
             "dbt run"
             " --profiles-dir config"
             " --target prod"
-            " --select tag:legacy,plant_production_hourly+"
+            " --select tag:legacy,plant_production_hourly+ elementary"
         ),
         docker_url=sampled_moll,
         mounts=[mount_nfs],

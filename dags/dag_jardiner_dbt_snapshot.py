@@ -71,7 +71,7 @@ with DAG(
     start_date=datetime(2024, 1, 28),
     schedule_interval="30 22 * * *",
     catchup=False,
-    tags=["jardiner", "dbt", "snapshot"],
+    tags=["project:jardiner", "dbt", "dbt-snapshot"],
     max_active_runs=1,
     default_args=args,
     doc_md=__doc__,

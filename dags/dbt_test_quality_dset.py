@@ -69,7 +69,13 @@ with DAG(
     start_date=datetime(2023, 12, 1, 0, 0, 0),
     schedule_interval="0 3 * * *",
     catchup=False,
-    tags=["Plantmonitor", "Jardiner", "test", "dbt", "data_quality"],
+    tags=[
+        "project:plantmonitor",
+        "project:jardiner",
+        "dbt-test",
+        "dbt",
+        "data-quality",
+    ],
     default_args=args,
     doc_md=__doc__,
 ) as dag:
