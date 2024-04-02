@@ -1,13 +1,14 @@
-{{config(materialized='view')}}
+{{ config(materialized='view') }}
 
-SELECT
-    date_trunc('month', view_ht_daily."time") AS "time",
-    view_ht_daily.plant,
-    sum(hd) as hd,
-    sum(ht) as ht,
-    sum(hd)::float/sum(ht) AS "availability"
-FROM {{ref('view_ht_daily')}} as view_ht_daily
-JOIN {{ref('view_hd_daily')}} as view_hd_daily
-    ON view_hd_daily.time = view_ht_daily.time
-    and view_hd_daily.plant = view_ht_daily.plant
+select
+  view_ht_daily.plant,
+  date_trunc('month', view_ht_daily."time") as "time",
+  sum(view_hd_daily.hd) as hd,
+  sum(view_ht_daily.ht) as ht,
+  sum(view_hd_daily.hd)::float / sum(view_ht_daily.ht) as "availability"
+from {{ ref('view_ht_daily') }} as view_ht_daily
+  inner join {{ ref('view_hd_daily') }} as view_hd_daily
+    on
+      view_ht_daily.time = view_hd_daily.time
+      and view_ht_daily.plant = view_hd_daily.plant
 group by date_trunc('month', view_ht_daily."time"), view_ht_daily.plant

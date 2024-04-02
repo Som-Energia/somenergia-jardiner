@@ -1,15 +1,29 @@
-SELECT yearly.plant_id,
-yearly.plant,
-avg(yearly.export_energy_mwh) AS historic_avg,
-yearly.time_year AS "time"
-FROM (SELECT plant.id as plant_id,
-    plant.name AS plant,
-    avg(meterregistry.export_energy_wh) / 1000000.0 * 24::numeric * 365::numeric AS export_energy_mwh,
-    date_trunc('year'::text, meterregistry."time") AS time_year,
-    date_part('year'::text, meterregistry."time") AS year
-    FROM meterregistry
-        LEFT JOIN meter ON meterregistry.meter = meter.id
-        LEFT JOIN plant ON meter.plant = plant.id
-    WHERE meterregistry."time" IS NOT NULL AND date_part('year'::text, meterregistry."time") < date_part('year'::text, now())
-    GROUP BY plant.id, plant.name, (date_trunc('year'::text, meterregistry."time")), (date_part('year'::text, meterregistry."time"))) yearly
-GROUP BY yearly.plant_id, yearly.plant, yearly.time_year
+select
+  yearly.plant_id,
+  yearly.plant,
+  yearly.time_year as "time",
+  avg(yearly.export_energy_mwh) as historic_avg
+from (
+  select
+    plant.id as plant_id,
+    plant.name as plant,
+    avg(meterregistry.export_energy_wh)
+    / 1000000.0
+    * 24::numeric
+    * 365::numeric as export_energy_mwh,
+    date_trunc('year'::text, meterregistry."time") as time_year,
+    date_part('year'::text, meterregistry."time") as year
+  from meterregistry
+    left join meter on meterregistry.meter = meter.id
+    left join plant on meter.plant = plant.id
+  where
+    meterregistry."time" is not null
+    and date_part('year'::text, meterregistry."time")
+    < date_part('year'::text, now())
+  group by
+    plant.id,
+    plant.name,
+    (date_trunc('year'::text, meterregistry."time")),
+    (date_part('year'::text, meterregistry."time"))
+) as yearly
+group by yearly.plant_id, yearly.plant, yearly.time_year

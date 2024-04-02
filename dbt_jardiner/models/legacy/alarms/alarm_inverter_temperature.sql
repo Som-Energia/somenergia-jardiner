@@ -2,16 +2,21 @@
 
 
 with inverterregistry_sct as (
-    SELECT
-        time,
-        plant_id,
-        plant_name,
-        inverter_id,
-        inverter_name,
-        temperature_c as temp,
-        min(temperature_c) OVER (PARTITION BY inverter_id ORDER By time ROWS BETWEEN 12 PRECEDING AND current row) AS temperature_c_min
-    FROM
-        {{ref('inverterregistry_clean')}}
+  select
+    time,
+    plant_id,
+    plant_name,
+    inverter_id,
+    inverter_name,
+    temperature_c as temp, --noqa: RF04
+    min(temperature_c)
+      over (
+        partition by inverter_id
+        order by time rows between 12 preceding and current row
+      )
+    as temperature_c_min
+  from
+    {{ ref('inverterregistry_clean') }}
 
 )
 

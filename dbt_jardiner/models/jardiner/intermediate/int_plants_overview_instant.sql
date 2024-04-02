@@ -80,13 +80,17 @@ select
   p.technology,
   p.peak_power_kw,
   p.nominal_power_kw,
-  coalesce(i.instant_power_plant_kw_registered_at, ip.ts) as instant_power_plant_kw_registered_at,
-  coalesce(i.instant_power_plant_kw, ip.inferred_meter_power_kw) as instant_power_plant_kw,
   ir.ts as irradiance_w_m2_last_registered_at,
   ir.signal_value as irradiance_w_m2,
   ppd.day,
   ppd.meter_exported_energy_kwh,
   ppd.solargis_meter_expected_energy_kwh,
+  coalesce(
+    i.instant_power_plant_kw_registered_at, ip.ts
+  ) as instant_power_plant_kw_registered_at,
+  coalesce(
+    i.instant_power_plant_kw, ip.inferred_meter_power_kw
+  ) as instant_power_plant_kw,
   case
     when i.instant_power_plant_kw is not null then 'directa'
     else 'inferida'

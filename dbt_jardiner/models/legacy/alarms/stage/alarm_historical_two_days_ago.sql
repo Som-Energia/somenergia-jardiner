@@ -8,5 +8,5 @@ select
   device_name,
   alarm_name,
   is_alarmed
-from {{ref('alarm_historical')}}
-where (CURRENT_DATE - 2) = day
+from {{ ref('alarm_historical') }}
+where (current_date - 2) = day

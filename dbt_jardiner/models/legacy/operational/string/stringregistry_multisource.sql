@@ -2,19 +2,19 @@
 
 with stringregistry as (
 
-    SELECT
-        time,
-        string_id,
-        intensity_ma
-    FROM {{ ref('stringregistry_raw') }}
+  select
+    time,
+    string_id,
+    intensity_ma
+  from {{ ref('stringregistry_raw') }}
 
-UNION ALL
+  union all
 
-    SELECT
-        time,
-        string_id,
-        intensity_ma
-    FROM {{ ref('lake_modbusreadings_stringboxes_standard') }}
+  select
+    time,
+    string_id,
+    intensity_ma
+  from {{ ref('lake_modbusreadings_stringboxes_standard') }}
 
 )
 

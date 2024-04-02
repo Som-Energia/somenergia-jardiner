@@ -5,7 +5,6 @@ current_data as (
   select
     plant_uuid::uuid,
     plant_id::numeric,
-    plant_id is not null as has_plantmonitor,
     planta as plant_name,
     latitud::numeric as latitude,
     longitut::numeric as longitude,
@@ -27,9 +26,11 @@ current_data as (
     data_actualitzacio::date as gestio_actius_updated_at,
     dbt_updated_at::date as dbt_updated_at,
     dbt_valid_from::date as dbt_valid_from,
-    coalesce(dbt_valid_to::date, '2050-01-01'::date)::date as dbt_valid_to
+    coalesce(dbt_valid_to::date, '2050-01-01'::date)::date as dbt_valid_to,
+    plant_id is not null as has_plantmonitor
   from {{ ref("snapshot_plant_parameters") }}
 )
+
 select *
 from current_data
 where dbt_valid_from::date <= current_date and current_date < dbt_valid_to::date

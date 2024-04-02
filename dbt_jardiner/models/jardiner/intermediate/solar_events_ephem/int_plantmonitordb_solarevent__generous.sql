@@ -11,4 +11,6 @@ select
   solarevent.solar_hours_real,
   solarevent.solar_hours_minimum
 from {{ ref("raw_plantmonitordb_solarevent__generous") }} as solarevent
-left join {{ ref("raw_plantmonitor_plants") }} as plantmonitor_plant using(plant_id)
+  left join
+    {{ ref("raw_plantmonitor_plants") }} as plantmonitor_plant
+    on solarevent.plant_id = plantmonitor_plant.plant_id

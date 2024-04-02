@@ -1,9 +1,9 @@
 {{ config(materialized="view") }}
 
 select
-    start_hour,
-    plant_name,
-    plant_uuid,
+  start_hour,
+  plant_name,
+  plant_uuid,
     {{
         pivot(
             column="metric_name",

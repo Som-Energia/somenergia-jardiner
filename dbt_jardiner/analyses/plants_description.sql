@@ -1,40 +1,41 @@
 -- to generate the seed for plants_descriptions.csv
-SELECT
-    p.id AS plant_id,
-    p.name AS plant_name,
-    p2.latitude AS latitude,
-    p2.longitude AS longitude,
-    p3.connection_date AS connection_date,
-    FALSE AS is_tilted,
-    p3.peak_power_w / 1000 AS peak_power_kw,
-    p3.nominal_power_w / 1000 AS nominal_power_kw,
-    CASE
-        WHEN p.name = 'Torregrossa' THEN 'GAS'
-        WHEN p.name = 'Valteina' THEN 'HIDRO'
-        ELSE 'FV'
-    END AS technology,
-    p3.target_monthly_energy_wh / 100 AS target_monthly_energy_gwh,
-    CASE
-        WHEN
-            p.name IN ('Florida', 'Alcolea', 'Matallana') THEN 'energes'
-        WHEN
-            p.name IN ('Valteina') THEN 'energetica'
-        WHEN
-            p.name IN ('Fontivsolar') THEN 'ercam'
-        WHEN
-            p.name IN ('Llanillos', 'Asomada') THEN 'exiom'
-    END AS propietari
-FROM
-    public.plant AS p
-LEFT JOIN
-    public.plantparameters AS p3
-    ON
-        p.id = p3.plant
-LEFT JOIN
-    public.plantlocation AS p2
-    ON
-        p.id = p2.plant
-WHERE
-    "description" != 'SomRenovables'
-ORDER BY
-    p.id;
+select
+  p.id as plant_id,
+  p.name as plant_name,
+  p2.latitude as latitude,
+  p2.longitude as longitude,
+  p3.connection_date as connection_date,
+  false as is_tilted,
+  p3.peak_power_w / 1000 as peak_power_kw,
+  p3.nominal_power_w / 1000 as nominal_power_kw,
+  case
+    when p.name = 'Torregrossa' then 'GAS'
+    when p.name = 'Valteina' then 'HIDRO'
+    else 'FV'
+  end as technology,
+  p3.target_monthly_energy_wh / 100 as target_monthly_energy_gwh,
+  case
+    when
+      p.name in ('Florida', 'Alcolea', 'Matallana') then 'energes'
+    when
+      p.name in ('Valteina') then 'energetica'
+    when
+      p.name in ('Fontivsolar') then 'ercam'
+    when
+      p.name in ('Llanillos', 'Asomada') then 'exiom'
+  end as propietari
+from
+  public.plant as p
+  left join
+    public.plantparameters as p3
+    on
+      p.id = p3.plant
+  left join
+    public.plantlocation as p2
+    on
+      p.id = p2.plant
+where
+  plant.description != 'SomRenovables'
+order by
+  p.id
+;

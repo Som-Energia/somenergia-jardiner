@@ -2,23 +2,23 @@
     materialized = 'view'
 ) }}
 
-WITH satellite AS (
+with satellite as (
 
-    SELECT
-        *,
-        ROW_NUMBER() OVER (
-            PARTITION BY plant_id,
-            start_hour
-            ORDER BY
-                request_time DESC
-        ) AS ranking
-    FROM
-        {{ ref('int_satellite_readings__denormalized') }}
+  select
+    *,
+    row_number() over (
+      partition by
+        plant_id,
+        start_hour
+      order by
+        request_time desc
+    ) as ranking
+  from
+    {{ ref('int_satellite_readings__denormalized') }}
 )
 
-SELECT
-    *
-FROM
-    satellite
-WHERE
-    ranking = 1
+select *
+from
+  satellite
+where
+  ranking = 1
