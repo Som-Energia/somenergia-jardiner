@@ -29,7 +29,12 @@ with DAG(
     start_date=dt.datetime(2023, 9, 27),
     catchup=False,
     dagrun_timeout=dt.timedelta(minutes=10),
-    tags=["jardiner", "gitlab-ci", "pages"],
+    tags=[
+        "project:jardiner",
+        "gitlab-ci",
+        "gitlab-pages",
+        "experimental",
+    ],
     max_active_runs=1,
 ) as dag:
     TOKEN = Variable.get("GITLAB_CI_TOKEN_JARDINER_PAGES")
