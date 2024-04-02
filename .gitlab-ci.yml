@@ -3,6 +3,7 @@
 # - https://docs.gitlab.com/ee/user/packages/container_registry/build_and_push_images.html
 # - https://stackoverflow.com/collectives/articles/71270196/how-to-use-pre-commit-to-automatically-correct-commits-and-merge-requests-with-g
 
+
 image: docker:20.10.16 # has docker compose installed
 services:
   - docker:20.10.16-dind
@@ -23,10 +24,10 @@ variables:
   SOM_PROJECT_NAME: somenergia-jardiner
   DBT_SKIP_STATE: "false"
   IMAGE_NAME_PREFIX: $SOM_HARBOR_DADES_URL/$CI_PROJECT_NAME
-  IMAGE_NAME_APP: $IMAGE_NAME_PREFIX-app
-  IMAGE_NAME_APP_PRE_RELEASE: $IMAGE_NAME_APP:pre-release
-  IMAGE_NAME_APP_RELEASE: $IMAGE_NAME_APP:latest
-  IMAGE_NAME_DBT_DOCS: $IMAGE_NAME_PREFIX-dbt-docs
+  IMAGE_NAME_APP_PRE_RELEASE: $IMAGE_NAME_PREFIX-app:pre-release
+  IMAGE_NAME_APP_RELEASE: $IMAGE_NAME_PREFIX-app:latest
+  IMAGE_NAME_DBT_DOCS_PRE_RELEASE: $IMAGE_NAME_PREFIX-dbt-docs:pre-release
+  IMAGE_NAME_DBT_DOCS_RELEASE: $IMAGE_NAME_PREFIX-dbt-docs:latest
   GIT_CLONE_SSH_URL: git@$CI_SERVER_SHELL_SSH_HOST:et/$CI_PROJECT_NAME.git
   MKDOCS_COMPOSE_FILE: containers/mkdocs/docker-compose.mkdocs.yml
   APP_COMPOSE_FILE: containers/app/docker-compose.yml
@@ -126,11 +127,32 @@ build-app-image-pre-release:
   tags:
     - somenergia-et
 
+build-dbt-docs-image-pre-release:
+  variables: *compose_app_env
+  stage: build
+  before_script: *docker-login-before-script
+  script:
+    - docker build --pull -t $IMAGE_NAME_DBT_DOCS_PRE_RELEASE --progress=plain --target=dbt-docs -f containers/app/Dockerfile .
+    - docker push $IMAGE_NAME_DBT_DOCS_PRE_RELEASE
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+      when: always
+      changes:
+        paths: *app-build-changes-paths
+      allow_failure: false
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: always
+      changes:
+        compare_to: "refs/heads/main"
+        paths: *app-build-changes-paths
+      allow_failure: false
+  tags:
+    - somenergia-et
 
 dbt-build:
   stage: test
   variables:
-    DBT_TARGET_NAME: pre
+    DBT_TARGET_NAME: test
     DBHOST: $SOM_JARDINER_DB_HOST
     DBPORT: $SOM_JARDINER_DB_PORT
     DBUSER: $SOM_JARDINER_DB_USER
@@ -139,7 +161,7 @@ dbt-build:
     DBT_MODELS_SELECTOR: "--models state:modified+ --defer"
     DBT_STATE: "--state state/prod"
     DBT_MANIFEST_ARTIFACT_URL: "https://$CI_SERVER_HOST/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/${CI_DEFAULT_BRANCH}/download?job=pages&job_token=$CI_JOB_TOKEN"
-  image: ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-docs:latest
+  image: ${IMAGE_NAME_DBT_DOCS_PRE_RELEASE}
   script:
     - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
     - dbt deps --target ${DBT_TARGET_NAME}
@@ -163,7 +185,7 @@ dbt-build:
       when: always
       variables:
         DBT_MODELS_SELECTOR: "--select tag:dset_responses_fresh state:modified+ +state:modified+,config.materialized:incremental +state:modified+,config.materialized:table --defer"
-        DBT_TARGET_NAME: pre
+        DBT_TARGET_NAME: test
         DBT_FAIL_FAST: "True"
       changes:
         compare_to: "refs/heads/main"
@@ -295,10 +317,9 @@ release-dbt-docs-image:
     - echo "Logging in to Docker Hub"
     - docker login -u $SOM_HARBOR_DADES_USER -p $SOM_HARBOR_DADES_PASSWORD $SOM_HARBOR_DADES_URL
   script:
-    - echo "Building dbt docs image"
-    - docker build --pull -t ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-docs:latest -f containers/app/Dockerfile --target dbt-docs .
-    - echo "Pushing dbt docs image"
-    - docker push ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-docs:latest
+    - docker pull $IMAGE_NAME_DBT_DOCS_PRE_RELEASE
+    - docker tag $IMAGE_NAME_DBT_DOCS_PRE_RELEASE $IMAGE_NAME_DBT_DOCS_RELEASE
+    - docker push $IMAGE_NAME_DBT_DOCS_RELEASE
   tags:
     - somenergia-et
   rules:
@@ -363,7 +384,7 @@ chown-non-root-artifacts:
 generate-dbt-docs:
   stage: deploy
   variables:
-    DBT_TARGET_NAME: pre
+    DBT_TARGET_NAME: test
     DBHOST: $SOM_JARDINER_DB_HOST
     DBPORT: $SOM_JARDINER_DB_PORT
     DBUSER: $SOM_JARDINER_DB_USER
@@ -395,7 +416,7 @@ generate-dbt-docs:
       when: manual
       allow_failure: true
       variables:
-        DBT_TARGET_NAME: pre
+        DBT_TARGET_NAME: test
     - if: $CI_PIPELINE_SOURCE == "trigger" && $CI_TRIGGER_TASK_NAME == "pages"
       when: always
       variables:
