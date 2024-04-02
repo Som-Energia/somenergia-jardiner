@@ -1,9 +1,10 @@
-{{config(materialized='view')}}
+{{ config(materialized='view') }}
 
-SELECT sir.plant,
-    time_bucket('1 hour', sir."time") as time,
-    sir.global_tilted_irradiation_wh_m2 AS irradiation_wh_m2
-FROM {{source('plantmonitor_legacy', 'satellite_readings')}} as sir
+select
+  sir.plant,
+  sir.global_tilted_irradiation_wh_m2 as irradiation_wh_m2,
+  time_bucket('1 hour', sir."time") as time --noqa: RF04
+from {{ source('plantmonitor_legacy', 'satellite_readings') }} as sir
 
 
 -- https://solargis.atlassian.net/wiki/spaces/public/pages/7602367/Solargis+API+User+Guide#SolargisAPIUserGuide-XMLresponse

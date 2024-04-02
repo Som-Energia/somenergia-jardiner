@@ -1,7 +1,7 @@
 {{ config(post_hook="grant select on {{ this }} to group energetica") }}
 
 select
-  time_start_hour as time,
+  time_start_hour as time, --noqa: RF04
   export_energy_wh,
   import_energy_wh,
   meter_id,

@@ -1,7 +1,6 @@
 {{ config(materialized='view') }}
 
 
-SELECT
-    *
-FROM {{ ref('lake_modbusreadings_raw')}}
+select *
+from {{ ref('lake_modbusreadings_raw') }}
 where is_valid is true

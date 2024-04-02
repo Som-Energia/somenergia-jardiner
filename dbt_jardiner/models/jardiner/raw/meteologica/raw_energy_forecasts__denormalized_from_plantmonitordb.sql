@@ -2,28 +2,21 @@
     materialized = 'view'
 ) }}
 
-WITH forecast_denormalized AS (
+with forecast_denormalized as (
 
-    SELECT
-        forecast.time AS "time",
-        forecastmetadata.plant AS plant_id,
-        forecastmetadata.forecastdate AS forecastdate,
-        ROUND(
-            forecast.percentil50 / 1000.0,
-            2
-        ) AS energy_kwh
-    FROM
-        {{ source(
-            'meteologica',
-            'forecast'
-        ) }}
-        LEFT JOIN {{ source(
-            'meteologica',
-            'forecastmetadata'
-        ) }}
-        ON forecastmetadata.id = forecast.forecastmetadata
+  select
+    forecast.time as "time",
+    forecastmetadata.plant as plant_id,
+    forecastmetadata.forecastdate as forecastdate,
+    round(
+      forecast.percentil50 / 1000.0,
+      2
+    ) as energy_kwh
+  from {{ source('meteologica', 'forecast') }} as forecast
+    left join {{ source('meteologica', 'forecastmetadata') }} as forecastmetadata
+      on forecastmetadata.id = forecast.forecastmetadata
 )
-SELECT
-    *
-FROM
-    forecast_denormalized
+
+select *
+from
+  forecast_denormalized

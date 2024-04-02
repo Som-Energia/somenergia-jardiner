@@ -26,6 +26,8 @@
 {# example vars{“inverter_test_sample”:“inverter_test_name”} #}
 {% else %}
 
-    select * from {{ ref("inverterregistry_clean") }} as ir where time between (now() - interval '2 hour') and now()
+  select *
+  from {{ ref("inverterregistry_clean") }}
+  where time between (now() - interval '2 hour') and now()
 
 {% endif %}

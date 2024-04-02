@@ -9,6 +9,6 @@
     )
 }}
 
-select * from {{ source('airbyte','gestio_actius_objectius_de_produccio') }}
+  select * from {{ source('airbyte','gestio_actius_objectius_de_produccio') }}
 
 {% endsnapshot %}

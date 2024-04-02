@@ -7,7 +7,7 @@ select
   device_name,
   alarm_name,
   is_alarmed
-from {{ref('alarm_historical_one_day_ago')}}
+from {{ ref('alarm_historical_one_day_ago') }}
 except
 select
   plant_id,
@@ -16,4 +16,4 @@ select
   device_name,
   alarm_name,
   is_alarmed
-from {{ref('alarm_historical_two_days_ago')}}
+from {{ ref('alarm_historical_two_days_ago') }}

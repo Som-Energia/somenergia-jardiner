@@ -14,32 +14,67 @@ since this is ugly as fuck #}
 
 #}
 with
-    dset_key_metrics as (
-        select date_trunc('hour', ts) as start_hour, plant_name, plant_uuid, device_type, metric_name as split_metric, signal_value
-        from {{ ref("int_dset_responses__values_incremental") }}
-        where metric_name in ('energia_activa_exportada', 'energia_activa_exportada_instantania', 'energia_activa_importada', 'irradiancia')
-    )
-select
-    start_hour,
+dset_key_metrics as (
+  select
     plant_name,
     plant_uuid,
-    case
-        when split_metric = 'irradiancia' then 'irradiation' {# from W/m^2 to Wh/m^2 because split_metric has hourly granularity #}
-        when split_metric = 'energia_activa_exportada' then device_type || '_exported_energy'
-        when split_metric = 'energia_activa_importada' then device_type || '_imported_energy'
-        when split_metric = 'energia_activa_exportada_instantania' then device_type || '_instant_exported_energy'
-        else split_metric
-    end as metric_name,
-    case
-        when device_type = 'inverter' and split_metric = 'energia_activa_exportada'
-            then (extract(hour from start_hour) > 3)::integer * (max(signal_value) - min(signal_value))  {# we have random-ish resets before 3 #}
-        when device_type in ('sensor', 'module', 'inverter') and split_metric = 'irradiancia'
-            then avg(signal_value)
-        when device_type = 'meter' and (split_metric = 'energia_activa_exportada' or split_metric = 'energia_activa_importada')
-            then sum(signal_value)
-        when device_type = 'meter' and (split_metric = 'energia_activa_exportada_instantania')
-            then max(signal_value)-min(signal_value)
-        else null
-    end as metric_value
+    device_type,
+    metric_name as split_metric,
+    signal_value,
+    date_trunc('hour', ts) as start_hour
+  from {{ ref("int_dset_responses__values_incremental") }}
+  where
+    metric_name in (
+      'energia_activa_exportada',
+      'energia_activa_exportada_instantania',
+      'energia_activa_importada',
+      'irradiancia'
+    )
+)
+
+select
+  start_hour,
+  plant_name,
+  plant_uuid,
+  case
+    when
+      split_metric = 'irradiancia'
+      then 'irradiation'
+    {# from W/m^2 to Wh/m^2 because split_metric has hourly granularity #}
+    when
+      split_metric = 'energia_activa_exportada'
+      then device_type || '_exported_energy'
+    when
+      split_metric = 'energia_activa_importada'
+      then device_type || '_imported_energy'
+    when
+      split_metric = 'energia_activa_exportada_instantania'
+      then device_type || '_instant_exported_energy'
+    else split_metric
+  end as metric_name,
+  case
+    when
+      device_type = 'inverter'
+      and split_metric = 'energia_activa_exportada'
+      then
+        (extract(hour from start_hour) > 3)::integer
+        * (max(signal_value) - min(signal_value))
+    {# we have random-ish resets before 3 #}
+    when
+      device_type in ('sensor', 'module', 'inverter')
+      and split_metric = 'irradiancia'
+      then avg(signal_value)
+    when
+      device_type = 'meter'
+      and (
+        split_metric = 'energia_activa_exportada'
+        or split_metric = 'energia_activa_importada'
+      )
+      then sum(signal_value)
+    when
+      device_type = 'meter'
+      and (split_metric = 'energia_activa_exportada_instantania')
+      then max(signal_value) - min(signal_value)
+  end as metric_value
 from dset_key_metrics
 group by start_hour, plant_name, plant_uuid, device_type, split_metric

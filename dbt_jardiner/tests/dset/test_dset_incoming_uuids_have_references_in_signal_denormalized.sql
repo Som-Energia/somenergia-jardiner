@@ -2,7 +2,9 @@
 
 with
 child as (
-  select *, signal_uuid as signal_uuid_dset
+  select
+    *,
+    signal_uuid as signal_uuid_dset
   from {{ ref("int_dset_responses__materialized") }}
   where
     signal_uuid is not null
@@ -16,7 +18,9 @@ parent as (
 ),
 
 joined as (
-  select child.*, parent.*
+  select
+    child.*,
+    parent.*
   from child
     left join parent on child.signal_uuid_dset = parent.signal_uuid_som
 ),

@@ -3,6 +3,7 @@
 with quarterhourly_spine as (
   select generate_series('2023-12-01', now(), '15 minutes') as start_ts
 ),
+
 meter_metadata as (
   select
     metadata.plant_uuid::uuid,
@@ -22,6 +23,7 @@ meter_metadata as (
     and metadata.is_enabled
     and metadata.metric_name ilike 'energia_%'
 ),
+
 raw_meter_readings as (
   select
     meter_readings.start_ts,
@@ -33,11 +35,12 @@ raw_meter_readings as (
   from {{ ref("raw_dset_meter__readings") }} as meter_readings
   where meter_readings.signal_uuid is not null
 ),
+
 meter_readings_with_metadata as (
   select
+    meter_metadata.*,
     quarterhourly_spine.start_ts,
     raw_meter_readings.end_ts,
-    meter_metadata.*,
     raw_meter_readings.signal_value,
     raw_meter_readings.signal_unit,
     raw_meter_readings.queried_at,
@@ -46,4 +49,5 @@ meter_readings_with_metadata as (
     left join meter_metadata on true
     left join raw_meter_readings using (signal_uuid, start_ts)
 )
+
 select * from meter_readings_with_metadata

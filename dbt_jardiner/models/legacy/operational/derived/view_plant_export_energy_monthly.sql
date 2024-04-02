@@ -1,23 +1,37 @@
 {{ config(materialized='view') }}
 
-SELECT
-	date_trunc('month', (meterregistry."time" - interval '1 hour'), 'Europe/Madrid') as "time",
-	plant.id AS plant_id,
-	plant.name AS plant_name,
-	meter.id AS meter_id,
-	meter.name AS meter_name,
-	sum(meterregistry.export_energy_wh) AS export_energy_wh
-FROM
-	{{ source('plantmonitor_legacy','meter') }} as meter
-LEFT JOIN
-	{{ source('plantmonitor_legacy','plant') }} as plant
-ON
-	plant.id = meter.plant
-LEFT JOIN
-	{{ source('plantmonitor_legacy','meterregistry') }} as meterregistry
-ON
-	meter.id = meterregistry.meter
-GROUP BY
-	date_trunc('month', (meterregistry."time" - interval '1 hour'), 'Europe/Madrid'), plant_id, plant_name, meter_id, meter_name
-ORDER BY
-	date_trunc('month', (meterregistry."time" - interval '1 hour'), 'Europe/Madrid'), plant_id, plant_name, meter_id, meter_name
+select
+  plant.id as plant_id,
+  plant.name as plant_name,
+  meter.id as meter_id,
+  meter.name as meter_name,
+  date_trunc(
+    'month', (meterregistry."time" - interval '1 hour'), 'Europe/Madrid'
+  ) as "time",
+  sum(meterregistry.export_energy_wh) as export_energy_wh
+from
+  {{ source('plantmonitor_legacy','meter') }} as meter
+  left join
+    {{ source('plantmonitor_legacy','plant') }} as plant
+    on
+      meter.plant = plant.id
+  left join
+    {{ source('plantmonitor_legacy','meterregistry') }} as meterregistry
+    on
+      meter.id = meterregistry.meter
+group by
+  date_trunc(
+    'month', (meterregistry."time" - interval '1 hour'), 'Europe/Madrid'
+  ),
+  plant_id,
+  plant_name,
+  meter_id,
+  meter_name
+order by
+  date_trunc(
+    'month', (meterregistry."time" - interval '1 hour'), 'Europe/Madrid'
+  ),
+  plant_id,
+  plant_name,
+  meter_id,
+  meter_name

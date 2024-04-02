@@ -5,7 +5,6 @@ with meter_readings as (
     group_name as dset_plant_name,
     signal_device_external_description as signal_device_type,
     signal_description,
-    (ts::timestamp at time zone signal_tz) - signal_frequency::interval as start_ts,
     ts::timestamp at time zone signal_tz as end_ts,
     signal_value,
     group_id as dset_plant_id,
@@ -19,11 +18,14 @@ with meter_readings as (
     signal_last_ts::timestamp at time zone signal_tz as signal_last_ts,
     signal_last_value,
     signal_unit,
+    signal_external_id as signal_uuid_raw,
+    signal_device_external_id as signal_device_uuid,
+    (ts::timestamp at time zone signal_tz)
+    - signal_frequency::interval as start_ts,
     case
       when signal_external_id ~ e'^[[:xdigit:]]{8}-([[:xdigit:]]{4}-){3}[[:xdigit:]]{12}$' then signal_external_id::uuid -- noqa: LT01
-    end as signal_uuid,
-    signal_external_id as signal_uuid_raw,
-    signal_device_external_id as signal_device_uuid
+    end as signal_uuid
   from {{ source("lake", "dset_meters_readings") }}
 )
+
 select * from meter_readings

@@ -2,35 +2,35 @@
 
 with inverterregistry as (
 
-    SELECT
-        time,
-        inverter_id,
-        power_kw,
-        energy_kwh,
-        intensity_cc_a,
-        intensity_ca_a,
-        voltage_cc_v,
-        voltage_ca_v,
-        uptime_h,
-        temperature_c,
-        readings
-    FROM {{ ref('inverterregistry_raw') }}
+  select
+    time,
+    inverter_id,
+    power_kw,
+    energy_kwh,
+    intensity_cc_a,
+    intensity_ca_a,
+    voltage_cc_v,
+    voltage_ca_v,
+    uptime_h,
+    temperature_c,
+    readings
+  from {{ ref('inverterregistry_raw') }}
 
-UNION ALL
+  union all
 
-    SELECT
-        time,
-        inverter_id,
-        power_kw,
-        energy_kwh,
-        intensity_cc_a,
-        intensity_ca_a,
-        voltage_cc_v,
-        voltage_ca_v,
-        uptime_h,
-        temperature_c,
-        readings
-    FROM {{ ref('lake_modbusreadings_inverter_standard') }}
+  select
+    time,
+    inverter_id,
+    power_kw,
+    energy_kwh,
+    intensity_cc_a,
+    intensity_ca_a,
+    voltage_cc_v,
+    voltage_ca_v,
+    uptime_h,
+    temperature_c,
+    readings
+  from {{ ref('lake_modbusreadings_inverter_standard') }}
 
 )
 

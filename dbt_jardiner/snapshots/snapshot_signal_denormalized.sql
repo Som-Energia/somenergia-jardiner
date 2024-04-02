@@ -9,6 +9,6 @@
     )
 }}
 
-select * from {{ source('airbyte','gestio_actius_signal_denormalized') }}
+  select * from {{ source('airbyte','gestio_actius_signal_denormalized') }}
 
 {% endsnapshot %}

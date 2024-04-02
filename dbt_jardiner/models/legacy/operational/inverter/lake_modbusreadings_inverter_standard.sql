@@ -8,21 +8,20 @@ Assumes signed registries. We've seen that only uptime is unsigned, meaning that
 #}
 
 with inverter_modbus as (
-    select
-        five_minute as time,
-        inverter_id,
-        power_kw::numeric as power_kw,
-        (energy_10kwh_daily*10)::numeric as energy_kwh,
-        NULL::numeric as intensity_cc_a,
-        NULL::numeric as intensity_ca_a,
-        NULL::numeric as voltage_cc_v,
-        NULL::numeric as voltage_ca_v,
-        (uptime_s/3600.0)::numeric as uptime_h,
-        (0.1*temperature_dc)::numeric as temperature_c,
-        1 as readings
-    from {{ ref("lake_modbusreadings_inverter_concat")}}
+  select
+    five_minute as time, --noqa: RF04
+    inverter_id,
+    power_kw::numeric as power_kw,
+    (energy_10kwh_daily * 10)::numeric as energy_kwh,
+    null::numeric as intensity_cc_a,
+    null::numeric as intensity_ca_a,
+    null::numeric as voltage_cc_v,
+    null::numeric as voltage_ca_v,
+    (uptime_s / 3600.0)::numeric as uptime_h,
+    (0.1 * temperature_dc)::numeric as temperature_c,
+    1 as readings
+  from {{ ref("lake_modbusreadings_inverter_concat") }}
 )
 
-select
-    *
+select *
 from inverter_modbus

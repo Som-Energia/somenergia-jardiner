@@ -7,13 +7,18 @@ with validation as (
   select
     production.nom_planta,
     date_trunc('day', production.hora_inici, 'Europe/Madrid') as day_inici,
-    sum((production.temperatura_modul_avg_c is null)::integer) / count(*)::numeric as not_null_proportion
+    sum((production.temperatura_modul_avg_c is null)::integer)
+    / count(*)::numeric as not_null_proportion
   from {{ ref('dm_plant_production_hourly') }} as production
   where
-    date_trunc('day', production.hora_inici, 'Europe/Madrid') > (now() at time zone 'Europe/Madrid')::date - interval '5 days'
+    date_trunc('day', production.hora_inici, 'Europe/Madrid')
+    > (now() at time zone 'Europe/Madrid')::date - interval '5 days'
     and production.te_plantmonitor
-  group by production.nom_planta, date_trunc('day', production.hora_inici, 'Europe/Madrid')
+  group by
+    production.nom_planta,
+    date_trunc('day', production.hora_inici, 'Europe/Madrid')
 ),
+
 validation_errors as (
   select
     nom_planta,
@@ -22,6 +27,6 @@ validation_errors as (
   from validation
   where not_null_proportion < 0.4 or not_null_proportion > 1
 )
-select
-  *
+
+select *
 from validation_errors

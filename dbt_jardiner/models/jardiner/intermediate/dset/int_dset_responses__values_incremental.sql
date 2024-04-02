@@ -17,7 +17,9 @@ from {{ ref("int_dset_responses__spined_metadata") }}
 #}
 -- noqa: disable=LT02
 {% if is_incremental() -%}
-where materialized_at > coalesce((select max(materialized_at) from {{ this }}), '1900-01-01')
+where
+    materialized_at
+    > coalesce((select max(materialized_at) from {{ this }}), '1900-01-01')
   and ts > now() - interval '2 days'
         {#
             dedupliquem 2 dies enrera (ho diu el predicate) i per això no podem garantir que tot l'anterior sigui unic

@@ -1,17 +1,28 @@
- {# TODO: change inverterregistry for inverterregistry_clean which includes asomada#}
+{# TODO: change inverterregistry for inverterregistry_clean which includes asomada#}
 
- SELECT date_trunc('day'::text, inverterregistry."time") AS "time",
-    plant.id AS plant,
-    plant.name AS plant_name,
-    inverter.id AS inverter,
-    inverter.name AS inverter_name,
-    max(inverterregistry.energy_wh) AS energy_wh,
-    max(inverterregistry.temperature_dc) AS max_temperature_dc,
-    min(inverterregistry.temperature_dc) AS min_temperature_dc,
-    avg(inverterregistry.temperature_dc) AS avg_temperature_dc,
-    max(inverterregistry.power_w) AS power_w
-   FROM {{ source('plantmonitor_legacy', 'inverterregistry') }}
-     LEFT JOIN inverter ON inverter.id = inverterregistry.inverter
-     LEFT JOIN plant ON plant.id = inverter.plant
-  GROUP BY (date_trunc('day'::text, inverterregistry."time")), plant.id, plant.name, inverter.id, inverter.name
-  ORDER BY (date_trunc('day'::text, inverterregistry."time")), plant.id, plant.name, inverter.id, inverter.name
+select
+  plant.id as plant,
+  plant.name as plant_name,
+  inverter.id as inverter,
+  inverter.name as inverter_name,
+  date_trunc('day'::text, inverterregistry."time") as "time",
+  max(inverterregistry.energy_wh) as energy_wh,
+  max(inverterregistry.temperature_dc) as max_temperature_dc,
+  min(inverterregistry.temperature_dc) as min_temperature_dc,
+  avg(inverterregistry.temperature_dc) as avg_temperature_dc,
+  max(inverterregistry.power_w) as power_w
+from {{ source('plantmonitor_legacy', 'inverterregistry') }} as inverterregistry
+  left join inverter on inverter.id = inverterregistry.inverter
+  left join plant on inverter.plant = plant.id
+group by
+  (date_trunc('day'::text, inverterregistry."time")),
+  plant.id,
+  plant.name,
+  inverter.id,
+  inverter.name
+order by
+  (date_trunc('day'::text, inverterregistry."time")),
+  plant.id,
+  plant.name,
+  inverter.id,
+  inverter.name

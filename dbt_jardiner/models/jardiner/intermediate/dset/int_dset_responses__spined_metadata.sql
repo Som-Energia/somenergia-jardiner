@@ -21,8 +21,11 @@ spined_expected_signals as (
     spina5m
     {# dm_plants is the SSOT of the plants names #}
     left join {{ ref("int_gda_plants__plants_catalog") }} as plants on true
-    left join {{ ref("raw_gestio_actius__signal_denormalized") }} as metadata using (plant_uuid)
+    left join
+      {{ ref("raw_gestio_actius__signal_denormalized") }} as metadata
+      using (plant_uuid)
 ),
+
 dset_from_december_2023 as (
   select * from {{ ref("int_dset_responses__materialized") }}
   where
@@ -60,7 +63,7 @@ spined_dset as (
     valors.ts is not null as from_dset
   from spined_expected_signals as spined
     left join dset_from_december_2023 as valors
-      using (ts, signal_uuid)
+      on spined.ts = valors.ts and spined.signal_uuid = valors.signal_uuid
   order by spined.ts desc, spined.plant_name asc
 )
 

@@ -1,24 +1,15 @@
-{{ config(
-    materialized = 'view'
-) }}
+{{ config(materialized = 'view') }}
 
-WITH satellite AS (
-
-    SELECT
-        *,
-        ROW_NUMBER() OVER (
-            PARTITION BY plant_id,
-            start_hour
-            ORDER BY
-                request_time DESC
-        ) AS ranking
-    FROM
-        {{ ref('satellite_readings__denormalized_legacy') }}
+with satellite as (
+  select
+    *,
+    row_number() over (
+      partition by plant_id, start_hour
+      order by request_time desc
+    ) as ranking
+  from
+    {{ ref('satellite_readings__denormalized_legacy') }}
 )
 
-SELECT
-    *
-FROM
-    satellite
-WHERE
-    ranking = 1
+select * from satellite
+where ranking = 1
