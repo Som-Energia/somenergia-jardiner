@@ -1,6 +1,17 @@
 ---
 dbt_jardiner:
     outputs:
+        # needed for airbyte to pick up the correct profile during dbt transformations, see https://github.com/airbytehq/airbyte/issues/12465
+        normalize:
+            type: postgres
+            threads: 1
+            host: "{{ env_var('DBHOST') }}"
+            port: "{{ env_var('DBPORT') | as_number }}"
+            user: "{{ env_var('DBUSER') }}"
+            password: "{{ env_var('DBPASSWORD') }}"
+            dbname: "{{ env_var('DBNAME') }}"
+            schema: dbt_prod
+
         prod:
             type: postgres
             threads: 1
