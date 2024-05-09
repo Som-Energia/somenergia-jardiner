@@ -1,0 +1,5 @@
+id,name,rank,description
+1,R,4,Real con reparto por potencia
+2,L,3,Estimación con reparto por potencia
+3,E,2,Real con reparto por energía individualizada de CIL
+4,M,1,Estimación con reparto por energía individualizada de CI

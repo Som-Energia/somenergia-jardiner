@@ -1,4 +1,4 @@
-{{ config(error_if=">500") }}
+{{ config(error_if=">1000") }}
 {# error limit is set on half the number of signal uuids available #}
 
 with

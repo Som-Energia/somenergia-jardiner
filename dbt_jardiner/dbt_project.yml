@@ -40,16 +40,25 @@ models:
           node_color: "#d17f4c"
         dset:
           +tags: dset
+        simel:
+          +grants:
+            select: ['mercat_electric']
       intermediate:
         +docs:
           node_color: "#d05808"
         dset:
           +tags: dset
+        simel:
+          +grants:
+            select: ['mercat_electric']
       marts:
         +docs:
           node_color: "goldenrod"
         dset:
           +tags: dset
+        simel:
+          +grants:
+            select: ['mercat_electric']
       observability:
         +docs:
           node_color: "#c3c557"

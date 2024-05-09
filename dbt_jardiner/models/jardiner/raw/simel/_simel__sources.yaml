@@ -1,0 +1,10 @@
+---
+version: 2
+
+sources:
+  - name: airbyte_simel
+    schema: airbyte_imported
+    tables:
+      - name: simel_mhcil_nas
+        description: Dades des de SIMEL sincronitzades des de minio.somenergia.coop. Només conté dades de sistema peninsular (PEN)
+

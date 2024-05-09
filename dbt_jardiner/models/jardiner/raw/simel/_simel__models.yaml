@@ -2,7 +2,7 @@
 version: 2
 
 models:
-    - name: raw_airbyte_simel__simel_mhcil_nas
+    - name: raw_airbyte_simel__mhcil_pen
       columns:
           - name: cil
             description: A - Código CIL (25 characters)
