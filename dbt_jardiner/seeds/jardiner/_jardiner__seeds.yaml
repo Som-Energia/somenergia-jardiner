@@ -1,0 +1,9 @@
+version: 2
+
+seeds:
+  - name: seed_simel_file_rankings__firmeza
+    description: |
+      Seed que genera un ranking dels fitxers segons la seva firmeza i el document SIMEL_Ficheros_Intercambio_Informacion_v40_Oct2022.pdf
+  - name: seed_simel_file_rankings__maturity
+    description: |
+      Seed que genera un ranking dels fitxers segons la seva maduresa i el document SIMEL_Ficheros_Intercambio_Informacion_v40_Oct2022.pdf
