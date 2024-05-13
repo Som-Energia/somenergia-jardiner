@@ -38,8 +38,19 @@ models:
         tests:
           - not_null:
               where: "CURRENT_DATE - interval '3 days' < queried_at"
+          - elementary.column_anomalies:
+              where_expression: "CURRENT_DATE - interval '3 days' < queried_at"
+              column_anomalies:
+                - null_count
+                - null_percent
       - name: signal_value
         description: Valor del senyal observat. Camp definit per partner DSET
+        tests:
+          - elementary.column_anomalies:
+              where_expression: "CURRENT_DATE - interval '3 days' < queried_at"
+              column_anomalies:
+                - null_count
+                - null_percent
   - name: raw_dset_responses__last_signal_reading
     description: >
       Conté l'últim batch de dades, descartant ts i value. Es fa servir per obtenir signal_last_ts
