@@ -31,7 +31,7 @@ ARG USER_UID=1000
 ARG USER_GID=1000
 
 # tag used in all images
-ARG PYTHON_VERSION=3.8.9
+ARG PYTHON_VERSION=3.10.9
 
 # general variables
 # don't use DBT_PROJECT_DIR as it is catched by dbt but not by re_data
@@ -51,10 +51,10 @@ ARG USER_GID
 ARG DBT_PROJECT_DIR_NAME
 
 # Poetry version
-ARG POETRY_VERSION=1.5.1
+ARG POETRY_VERSION=1.8.2
 
 # Pipx version
-ARG PIPX_VERSION=1.2.0
+ARG PIPX_VERSION=1.5.0
 
 # prepare the $PATH
 ENV PATH=/opt/pipx/bin:${WORKDIR}/.venv/bin:$PATH \
