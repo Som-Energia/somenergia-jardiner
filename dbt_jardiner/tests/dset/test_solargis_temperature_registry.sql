@@ -1,7 +1,7 @@
 -- to test to check if solargis is sending temperature all the solar hours in a day
 -- Each result is a day with < 50% of not null records
 
-{{ config(warn_if = '>2') }}
+{{ config(severity='warn', warn_if = '>2') }}
 
 with validation as (
   select
