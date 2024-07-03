@@ -15,5 +15,5 @@ select
 from {{ ref("int_dset_responses__values_incremental") }}
 where
   device_type in ('inverter', 'sensor', 'string', 'meter')
-  and ts > (now() at time zone 'Europe/Madrid')::date - interval '30 days'
+  and ts > (now() at time zone 'Europe/Madrid')::date - interval '3 months'
 order by ts desc, plant_name asc
