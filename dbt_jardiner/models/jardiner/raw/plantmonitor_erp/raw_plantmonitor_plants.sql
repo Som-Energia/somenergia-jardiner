@@ -7,4 +7,3 @@ select
   plant.description as plant_description,
   plant.device_uuid as plant_uuid
 from {{ source('plantmonitor_jardiner','plant') }} as plant
-where plant.description != 'SomRenovables'
