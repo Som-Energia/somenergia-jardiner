@@ -3,7 +3,7 @@ name: somenergia-jardiner
 
 x-repo-common:
   volumes: &repo-common-volumes
-    "./:/repo" # mount current directory at /app
+    "./:/repo" # mount current directory at /repo
 
 x-dbt-common:
   # reusable bits, see https://docs.docker.com/compose/compose-file/10-fragments/
