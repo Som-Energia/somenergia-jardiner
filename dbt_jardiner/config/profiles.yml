@@ -12,7 +12,7 @@ dbt_jardiner:
             dbname: "{{ env_var('DBNAME') }}"
             schema: dbt_prod
 
-        prod:
+        prod: # used in production
             type: postgres
             threads: 1
             host: "{{ env_var('DBHOST') }}"
@@ -22,7 +22,7 @@ dbt_jardiner:
             dbname: "{{ env_var('DBNAME') }}"
             schema: dbt_prod
 
-        pre:
+        pre: # pre-production, not used at the moment
             type: postgres
             threads: 1
             host: "{{ env_var('DBHOST') }}"
@@ -32,7 +32,7 @@ dbt_jardiner:
             dbname: "{{ env_var('DBNAME') }}"
             schema: dbt_pre
 
-        test:
+        test: # used during CI
             type: postgres
             threads: 1
             host: "{{ env_var('DBHOST') }}"
@@ -42,7 +42,17 @@ dbt_jardiner:
             dbname: "{{ env_var('DBNAME') }}"
             schema: dbt_test
 
-    target: test
+        dev: # used during local development
+            type: postgres
+            threads: 1
+            host: "{{ env_var('DBHOST') }}"
+            port: "{{ env_var('DBPORT') | as_number }}"
+            user: "{{ env_var('DBUSER') }}"
+            password: "{{ env_var('DBPASSWORD') }}"
+            dbname: "{{ env_var('DBNAME') }}"
+            schema: dbt_dev
+
+    target: dev
 
 elementary:
     outputs:
@@ -76,6 +86,17 @@ elementary:
             password: "{{ env_var('DBPASSWORD') }}"
             dbname: "{{ env_var('DBNAME') }}"
             schema: "dbt_test_elementary"
+            threads: 4
+            keepalives_idle: 0  # default 0 seconds
+            connect_timeout: 10  # default 10 seconds
+        dev:
+            type: "postgres"
+            host: "{{ env_var('DBHOST') }}"
+            port: "{{ env_var('DBPORT') | as_number }}"
+            user: "{{ env_var('DBUSER') }}"
+            password: "{{ env_var('DBPASSWORD') }}"
+            dbname: "{{ env_var('DBNAME') }}"
+            schema: "dbt_dev_elementary"
             threads: 4
             keepalives_idle: 0  # default 0 seconds
             connect_timeout: 10  # default 10 seconds

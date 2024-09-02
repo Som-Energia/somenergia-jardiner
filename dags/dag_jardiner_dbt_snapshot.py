@@ -57,9 +57,11 @@ def dbapi_to_dict(dbapi: str) -> dict:
     return {
         "provider": parsed_string.scheme,
         "user": parsed_string.username,
-        "password": urllib.parse.unquote(parsed_string.password)
-        if parsed_string.password
-        else None,
+        "password": (
+            urllib.parse.unquote(parsed_string.password)
+            if parsed_string.password
+            else None
+        ),
         "host": parsed_string.hostname,
         "port": parsed_string.port,
         "database": parsed_string.path[1:],
@@ -90,6 +92,7 @@ with DAG(
         "DBHOST": dbapi_dict["host"],
         "DBPORT": dbapi_dict["port"],
         "DBNAME": dbapi_dict["database"],
+        "DBT_PACKAGES_INSTALL_PATH": "/home/somenergia/.dbt/dbt_packages",
     }
 
     dbt_transformation_task = DockerOperator(
@@ -97,9 +100,9 @@ with DAG(
         task_id="dbt_snapshot_task__gestio_actius_data_sync",
         environment=environment,
         docker_conn_id="somenergia_harbor_dades_registry",
-        image=f"harbor.somenergia.coop/dades/{repo_name}-dbt-docs:latest",
+        image=f"harbor.somenergia.coop/dades/{repo_name}-dbt-deps:latest",
         working_dir=f"/repos/{repo_name}/dbt_jardiner",
-        command=("dbt snapshot --profiles-dir config --target prod"),
+        command="dbt snapshot --profiles-dir config --target prod",
         docker_url=sampled_moll,
         mounts=[mount_nfs],
         mount_tmp_dir=False,
