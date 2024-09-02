@@ -21,23 +21,30 @@ variables:
 
   SOMENERGIA_REGISTRY: $SOM_HARBOR_DADES_URL
   DBT_PROJECT_DIR_NAME: dbt_jardiner
+  DBT_PACKAGES_INSTALL_PATH: /home/somenergia/.dbt/dbt_packages
   SOM_PROJECT_NAME: somenergia-jardiner
   DBT_SKIP_STATE: "false"
+
   IMAGE_NAME_PREFIX: $SOM_HARBOR_DADES_URL/$CI_PROJECT_NAME
-  IMAGE_NAME_APP_PRE_RELEASE: $IMAGE_NAME_PREFIX-app:pre-release
-  IMAGE_NAME_APP_RELEASE: $IMAGE_NAME_PREFIX-app:latest
-  IMAGE_NAME_DBT_DOCS_PRE_RELEASE: $IMAGE_NAME_PREFIX-dbt-docs:pre-release
-  IMAGE_NAME_DBT_DOCS_RELEASE: $IMAGE_NAME_PREFIX-dbt-docs:latest
+
+  IMAGE_NAME_MAIN_PRE_RELEASE: $IMAGE_NAME_PREFIX-main:pre-release
+  IMAGE_NAME_MAIN_RELEASE: $IMAGE_NAME_PREFIX-main:latest
+  IMAGE_NAME_MAIN_SHA_RELEASE: $IMAGE_NAME_PREFIX-main:$CI_COMMIT_SHA
+
+  IMAGE_NAME_DBT_DEPS_PRE_RELEASE: $IMAGE_NAME_PREFIX-dbt-deps:pre-release
+  IMAGE_NAME_DBT_DEPS_RELEASE: $IMAGE_NAME_PREFIX-dbt-deps:latest
+  IMAGE_NAME_DBT_DEPS_SHA_RELEASE: $IMAGE_NAME_PREFIX-dbt-deps:$CI_COMMIT_SHA
+
   GIT_CLONE_SSH_URL: git@$CI_SERVER_SHELL_SSH_HOST:et/$CI_PROJECT_NAME.git
-  MKDOCS_COMPOSE_FILE: containers/mkdocs/docker-compose.mkdocs.yml
-  APP_COMPOSE_FILE: containers/app/docker-compose.yml
+  MKDOCS_COMPOSE_FILE: docker-compose.mkdocs.yml
+  MAIN_COMPOSE_FILE: docker-compose.main.yml
   CI_TRIGGER_TASK_NAME: null
 
   # just run pre-commit hooks on the files that changed, but don't fix them
   PRE_COMMIT_AUTO_FIX: 0
 
 # environment variables to render compose files properly
-.compose_app_env: &compose_app_env
+.compose_dbt_env: &compose_dbt_env
   SOMENERGIA_PROJECT_ENVIRONMENT: "production"
   SOM_JARDINER_DB_USER: "$SOM_JARDINER_DB_USER"
   SOM_JARDINER_DB_PASSWORD: "$SOM_JARDINER_DB_PASSWORD"
@@ -56,15 +63,15 @@ pre-commit:
   tags:
     - somenergia-et
 
-# anchor with files to track when building app, builder and other images
+# anchor with files to track when building main, builder and other images
 .builder-build-changes-paths: &builder-build-changes-paths
-  - containers/app/Dockerfile
+  - docker/main/Dockerfile
   - pyproject.toml
   - poetry.lock
   - .gitlab-ci.yml
 
-.app-build-changes-paths: &app-build-changes-paths
-  - containers/app/Dockerfile
+.main-build-changes-paths: &main-build-changes-paths
+  - docker/main/Dockerfile
   - pyproject.toml
   - poetry.lock
   - dbt_jardiner/config/profiles.yml
@@ -73,7 +80,7 @@ pre-commit:
   - jardiner/*
   - .gitlab-ci.yml
 
-.dbt-build-changes-paths: &dbt-build-changes-paths
+.dbt-models-changes-paths: &dbt-models-changes-paths
   - dbt_jardiner/**/*.sql
   - dbt_jardiner/**/*.yaml
   - .gitlab-ci.yml
@@ -84,12 +91,12 @@ pre-commit:
   - docker login -u $SOM_HARBOR_DADES_USER -p $SOM_HARBOR_DADES_PASSWORD $SOM_HARBOR_DADES_URL
 
 build-builder-image-pre-release:
-  variables: *compose_app_env
+  variables: *compose_dbt_env
   stage: build
   before_script: *docker-login-before-script
   script:
-    - docker build --pull -t $IMAGE_NAME_APP_PRE_RELEASE --progress=plain --target=app -f containers/app/Dockerfile .
-    - docker push $IMAGE_NAME_APP_PRE_RELEASE
+    - docker build --pull -t $IMAGE_NAME_MAIN_PRE_RELEASE --progress=plain --target=main -f docker/main/Dockerfile .
+    - docker push $IMAGE_NAME_MAIN_PRE_RELEASE
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
       when: always
@@ -105,72 +112,83 @@ build-builder-image-pre-release:
   tags:
     - somenergia-et
 
-build-app-image-pre-release:
-  variables: *compose_app_env
+build-main-image-pre-release:
+  variables: *compose_dbt_env
   stage: build
   before_script: *docker-login-before-script
   script:
-    - docker build --pull -t $IMAGE_NAME_APP_PRE_RELEASE --progress=plain --target=app -f containers/app/Dockerfile .
-    - docker push $IMAGE_NAME_APP_PRE_RELEASE
+    - docker build --pull -t $IMAGE_NAME_MAIN_PRE_RELEASE --progress=plain --target=main -f docker/main/Dockerfile .
+    - docker push $IMAGE_NAME_MAIN_PRE_RELEASE
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
       when: always
       changes:
-        paths: *app-build-changes-paths
+        paths: *main-build-changes-paths
       allow_failure: false
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: always
       changes:
         compare_to: "refs/heads/main"
-        paths: *app-build-changes-paths
+        paths: *main-build-changes-paths
       allow_failure: false
   tags:
     - somenergia-et
 
-build-dbt-docs-image-pre-release:
-  variables: *compose_app_env
+build-dbt-deps-image-pre-release:
+  variables: *compose_dbt_env
   stage: build
   before_script: *docker-login-before-script
   script:
-    - docker build --pull -t $IMAGE_NAME_DBT_DOCS_PRE_RELEASE --progress=plain --target=dbt-docs -f containers/app/Dockerfile .
-    - docker push $IMAGE_NAME_DBT_DOCS_PRE_RELEASE
+    - docker build --pull -t $IMAGE_NAME_DBT_DEPS_PRE_RELEASE --progress=plain --target=dbt-deps -f docker/main/Dockerfile .
+    - docker push $IMAGE_NAME_DBT_DEPS_PRE_RELEASE
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
       when: always
       changes:
-        paths: *app-build-changes-paths
+        paths: *main-build-changes-paths
       allow_failure: false
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: always
       changes:
         compare_to: "refs/heads/main"
-        paths: *app-build-changes-paths
+        paths: *main-build-changes-paths
       allow_failure: false
   tags:
     - somenergia-et
 
 dbt-build:
   stage: test
+  resource_group: $DBT_BUILD_RESOURCE_GROUP
   variables:
-    DBT_TARGET_NAME: test
     DBHOST: $SOM_JARDINER_DB_HOST
     DBPORT: $SOM_JARDINER_DB_PORT
     DBUSER: $SOM_JARDINER_DB_USER
     DBPASSWORD: $SOM_JARDINER_DB_PASSWORD
     DBNAME: $SOM_JARDINER_DB_DBNAME
+    DBT_TARGET_NAME: test
+    DBT_BUILD_RESOURCE_GROUP: test
+    # https://docs.getdbt.com/best-practices/best-practice-workflows#run-only-modified-models-to-test-changes-slim-ci
     DBT_MODELS_SELECTOR: "--models state:modified+ --defer"
     DBT_STATE: "--state state/prod"
     DBT_MANIFEST_ARTIFACT_URL: "https://$CI_SERVER_HOST/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/${CI_DEFAULT_BRANCH}/download?job=pages&job_token=$CI_JOB_TOKEN"
-  image: ${IMAGE_NAME_DBT_DOCS_PRE_RELEASE}
+  image: ${IMAGE_NAME_DBT_DEPS_PRE_RELEASE}
   script:
-    - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
-    - dbt deps --target ${DBT_TARGET_NAME}
-    - echo "retrieving dbt artifacts from previous succesful job"
     # download artifacts from previous succesful job dbt-build at branch main
-    - curl --location --output /tmp/artifacts.zip ${DBT_MANIFEST_ARTIFACT_URL}
-    - unzip -o /tmp/artifacts.zip -d /tmp/artifacts
-    - cp /tmp/artifacts/public/dbt_docs/manifest.json ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}/state/prod/manifest.json
-    - dbt build --target ${DBT_TARGET_NAME} --store-failures --threads 4 ${DBT_MODELS_SELECTOR} ${DBT_STATE}
+    - echo "retrieving dbt artifacts from previous succesful job"
+    # gitlab sometimes fails silently when artifact is invalid or not found, https://gitlab.com/gitlab-org/gitlab/-/issues/29118
+    - export RESULT=$(curl --output /dev/null --silent --write-out "%{content_type}" "$DBT_MANIFEST_ARTIFACT_URL")
+    - |
+      echo "Artifact content type: ${RESULT}"
+      if [ "$RESULT" = "application/zip" ]; then
+          echo "Unzipping and copying manifest.json from artifacts"
+          curl --location --output /tmp/artifacts.zip ${DBT_MANIFEST_ARTIFACT_URL}
+          unzip -o /tmp/artifacts.zip -d /tmp/artifacts
+          cp /tmp/artifacts/public/dbt_docs/manifest.json ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR}/state/prod/manifest.json
+          dbt build --target ${DBT_TARGET_NAME} --store-failures --threads 4 ${DBT_MODELS_SELECTOR} --state state/prod
+      else
+          echo "Artifact not found. Assuming this is the first run of the pipeline. Not using dbt states this time."
+          dbt build --target "${DBT_TARGET_NAME}" --store-failures --threads 4
+      fi
   tags:
     - somenergia-et
   rules:
@@ -178,29 +196,34 @@ dbt-build:
       when: always
       variables:
         DBT_TARGET_NAME: prod
+        DBT_BUILD_RESOURCE_GROUP: prod
       changes:
-        paths: *dbt-build-changes-paths
+        paths: *dbt-models-changes-paths
       allow_failure: false
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: always
       variables:
         DBT_MODELS_SELECTOR: "--select tag:dset_responses_fresh state:modified+ +state:modified+,config.materialized:incremental +state:modified+,config.materialized:table --defer"
         DBT_TARGET_NAME: test
+        DBT_BUILD_RESOURCE_GROUP: test
         DBT_FAIL_FAST: "True"
       changes:
         compare_to: "refs/heads/main"
-        paths: *dbt-build-changes-paths
+        paths: *dbt-models-changes-paths
       allow_failure: false
 
-release-app-image:
+release-main-image:
   stage: release
   before_script: *docker-login-before-script
   script:
-    - docker pull $IMAGE_NAME_APP_PRE_RELEASE
-    - docker tag $IMAGE_NAME_APP_PRE_RELEASE $IMAGE_NAME_APP_RELEASE
-    - docker push $IMAGE_NAME_APP_RELEASE
+    - docker pull $IMAGE_NAME_MAIN_PRE_RELEASE
+    - docker tag $IMAGE_NAME_MAIN_PRE_RELEASE $IMAGE_NAME_MAIN_RELEASE
+    # https://blog.container-solutions.com/tagging-docker-images-the-right-way
+    - docker tag $IMAGE_NAME_MAIN_RELEASE $IMAGE_NAME_MAIN_SHA_RELEASE
+    - docker push $IMAGE_NAME_MAIN_SHA_RELEASE
+    - docker push $IMAGE_NAME_MAIN_RELEASE
   rules:
-    # run only on main branch after build-app-image-pre-release is successful
+    # run only on main branch after build-main-image-pre-release is successful
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
@@ -212,7 +235,7 @@ release-app-image:
 rsync-deploy-dags: # This job runs in the deploy stage and copies a file to a server
   stage: deploy # It only runs when *both* jobs in the test stage complete successfully.
   rules:
-    # run only on main branch after build-app-image-pre-release is successful
+    # run only on main branch after build-main-image-pre-release is successful
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
@@ -311,21 +334,23 @@ rsync-deploy-dags: # This job runs in the deploy stage and copies a file to a se
     - somenergia-et
 
 # https://towardsdatascience.com/running-dbt-using-gitlab-ci-cd-8a2ef0f05af0
-release-dbt-docs-image:
+release-dbt-deps-image:
   stage: release
   before_script:
     - echo "Logging in to Docker Hub"
     - docker login -u $SOM_HARBOR_DADES_USER -p $SOM_HARBOR_DADES_PASSWORD $SOM_HARBOR_DADES_URL
   script:
-    - docker pull $IMAGE_NAME_DBT_DOCS_PRE_RELEASE
-    - docker tag $IMAGE_NAME_DBT_DOCS_PRE_RELEASE $IMAGE_NAME_DBT_DOCS_RELEASE
-    - docker push $IMAGE_NAME_DBT_DOCS_RELEASE
+    - docker pull $IMAGE_NAME_DBT_DEPS_PRE_RELEASE
+    - docker tag $IMAGE_NAME_DBT_DEPS_PRE_RELEASE $IMAGE_NAME_DBT_DEPS_RELEASE
+    - docker tag $IMAGE_NAME_DBT_DEPS_PRE_RELEASE $IMAGE_NAME_DBT_DEPS_SHA_RELEASE
+    - docker push $IMAGE_NAME_DBT_DEPS_SHA_RELEASE
+    - docker push $IMAGE_NAME_DBT_DEPS_RELEASE
   tags:
     - somenergia-et
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
       changes:
-        paths: *app-build-changes-paths
+        paths: *main-build-changes-paths
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
       allow_failure: true
@@ -340,14 +365,14 @@ release-mkdocs-image:
     - docker login -u $SOM_HARBOR_DADES_USER -p $SOM_HARBOR_DADES_PASSWORD $SOM_HARBOR_DADES_URL
   script:
     - echo "Building mkdocs image"
-    - docker build --pull -t $MKDOCS_IMAGE_NAME -f containers/mkdocs/Dockerfile .
+    - docker build --pull -t $MKDOCS_IMAGE_NAME -f docker/mkdocs/Dockerfile .
     - echo "Pushing mkdocs image"
     - docker push $MKDOCS_IMAGE_NAME
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
       changes:
         paths:
-          - containers/mkdocs/Dockerfile
+          - docker/mkdocs/Dockerfile
           - mkdocs.yml
           - pyproject.toml
           - poetry.lock
@@ -390,13 +415,11 @@ generate-dbt-docs:
     DBUSER: $SOM_JARDINER_DB_USER
     DBPASSWORD: $SOM_JARDINER_DB_PASSWORD
     DBNAME: $SOM_JARDINER_DB_DBNAME
-  image: ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-docs:latest
+  image: ${SOM_HARBOR_DADES_URL}/${SOM_PROJECT_NAME}-dbt-deps:latest
   script:
     - cd ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
     - echo "Creating artifacts directory"
     - mkdir -p ${CI_PROJECT_DIR}/.artifacts/dbt_docs
-    - echo "Installing dbt dependencies"
-    - dbt deps
     - echo "Generating dbt docs"
     - dbt docs generate --target ${DBT_TARGET_NAME} --target-path ${CI_PROJECT_DIR}/.artifacts/dbt_docs --threads 4
   artifacts:
@@ -443,7 +466,7 @@ generate-mkdocs:
     paths:
       - .artifacts/docs
   rules:
-    # run only on main branch after build-app-image-pre-release is successful
+    # run only on main branch after build-main-image-pre-release is successful
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
       when: always
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -479,7 +502,7 @@ pages:
     paths:
       - public
   rules:
-    # run only on main branch after build-app-image-pre-release is successful
+    # run only on main branch after build-main-image-pre-release is successful
     - if: $CI_COMMIT_REF_NAME == "main" && $CI_PIPELINE_SOURCE == "push"
       when: always
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"

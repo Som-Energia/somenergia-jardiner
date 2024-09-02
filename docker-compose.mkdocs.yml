@@ -4,13 +4,13 @@ services:
   mkdocs:
     image: harbor.somenergia.coop/dades/somenergia-jardiner-mkdocs:${SOMENERGIA_DOCKER_TAG-latest}
     build:
-      context: ../../
-      dockerfile: containers/mkdocs/Dockerfile
+      context: ./
+      dockerfile: docker/mkdocs/Dockerfile
     container_name: mkdocs
     ports:
       - "8000:8000"
     volumes:
-      - ../../mkdocs.yml:/docs/mkdocs.yml
-      - ../../docs:/docs/docs
+      - ./mkdocs.yml:/docs/mkdocs.yml
+      - ./docs:/docs/docs
       - ./README.md:/docs/README.md
-      - ../../.git:/docs/.git:ro # needed for plugins
+      - ./.git:/docs/.git:ro # needed for plugins

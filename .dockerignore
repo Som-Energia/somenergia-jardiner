@@ -43,5 +43,5 @@ docker-compose.*
 # other
 *.log
 logs
-containers
+docker
 dags

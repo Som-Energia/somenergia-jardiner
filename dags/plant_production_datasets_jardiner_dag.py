@@ -78,6 +78,7 @@ with DAG(
         "DBHOST": dbapi_dict["host"],
         "DBPORT": dbapi_dict["port"],
         "DBNAME": dbapi_dict["database"],
+        "DBT_PACKAGES_INSTALL_PATH": "/home/somenergia/.dbt/dbt_packages",
     }
 
     dbt_transformation_task = DockerOperator(
