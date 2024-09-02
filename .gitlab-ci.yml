@@ -21,6 +21,7 @@ variables:
 
   SOMENERGIA_REGISTRY: $SOM_HARBOR_DADES_URL
   DBT_PROJECT_DIR_NAME: dbt_jardiner
+  DBT_PROJECT_DIR: ${CI_PROJECT_DIR}/${DBT_PROJECT_DIR_NAME}
   DBT_PACKAGES_INSTALL_PATH: /home/somenergia/.dbt/dbt_packages
   SOM_PROJECT_NAME: somenergia-jardiner
   DBT_SKIP_STATE: "false"

@@ -115,6 +115,8 @@ with DAG(
         "S3_SECRET_KEY": s3_secret_key,
         "S3_ENDPOINT": s3_endpoint,
         "DBT_PACKAGES_INSTALL_PATH": "/home/somenergia/.dbt/dbt_packages",
+        "DBT_PROFILES_DIR": "/opt/airflow/repos/somenergia-jardiner/dbt_jardiner/config",  # noqa
+        "DBT_PROJECT_DIR": "/opt/airflow/repos/somenergia-jardiner/dbt_jardiner",
     }
 
     image = "harbor.somenergia.coop/dades/somenergia-jardiner-dbt-deps:latest"
