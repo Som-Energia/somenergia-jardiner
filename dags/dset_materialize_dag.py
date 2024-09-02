@@ -93,8 +93,8 @@ with DAG(
         "DBPORT": dbapi_dict["port"],
         "DBNAME": dbapi_dict["database"],
         "DBT_PACKAGES_INSTALL_PATH": "/home/somenergia/.dbt/dbt_packages",
-        "DBT_PROFILES_DIR": "/opt/airflow/repos/somenergia-jardiner/dbt_jardiner/config",  # noqa
-        "DBT_PROJECT_DIR": "/opt/airflow/repos/somenergia-jardiner/dbt_jardiner",
+        "DBT_PROFILES_DIR": "/repos/somenergia-jardiner/dbt_jardiner/config",
+        "DBT_PROJECT_DIR": "/repos/somenergia-jardiner/dbt_jardiner",
     }
 
     dbt_transformation_task = DockerOperator(
