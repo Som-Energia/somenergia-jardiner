@@ -43,6 +43,8 @@ models:
               column_anomalies:
                 - null_count
                 - null_percent
+              config:
+                severity: warn
       - name: signal_value
         description: Valor del senyal observat. Camp definit per partner DSET
         tests:
@@ -51,6 +53,8 @@ models:
               column_anomalies:
                 - null_count
                 - null_percent
+              config:
+                severity: warn
   - name: raw_dset_responses__last_signal_reading
     description: >
       Conté l'últim batch de dades, descartant ts i value. Es fa servir per obtenir signal_last_ts

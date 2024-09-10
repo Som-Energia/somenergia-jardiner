@@ -16,7 +16,7 @@ stages: # List of stages for jobs, and their order of execution
   - deploy
 
 variables:
-  CI_PIPELINE_DEBUG_FLAG: $CI_PIPELINE_DEBUG_FLAG
+  CI_PIPELINE_DEBUG_FLAG: ${CI_PIPELINE_DEBUG_FLAG-false}
   GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_CONCURRENT_ID/$CI_PROJECT_PATH # https://docs.gitlab.com/ee/ci/runners/configure_runners.html#handling-concurrency
 
   SOMENERGIA_REGISTRY: $SOM_HARBOR_DADES_URL
@@ -96,7 +96,7 @@ build-builder-image-pre-release:
   stage: build
   before_script: *docker-login-before-script
   script:
-    - docker build --pull -t $IMAGE_NAME_MAIN_PRE_RELEASE --progress=plain --target=main -f docker/main/Dockerfile .
+    - docker build --pull -t $IMAGE_NAME_MAIN_PRE_RELEASE --progress=plain --target=builder --no-cache -f docker/main/Dockerfile .
     - docker push $IMAGE_NAME_MAIN_PRE_RELEASE
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
@@ -118,7 +118,7 @@ build-main-image-pre-release:
   stage: build
   before_script: *docker-login-before-script
   script:
-    - docker build --pull -t $IMAGE_NAME_MAIN_PRE_RELEASE --progress=plain --target=main -f docker/main/Dockerfile .
+    - docker build --pull -t $IMAGE_NAME_MAIN_PRE_RELEASE --progress=plain --target=main --no-cache -f docker/main/Dockerfile .
     - docker push $IMAGE_NAME_MAIN_PRE_RELEASE
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
@@ -140,7 +140,7 @@ build-dbt-deps-image-pre-release:
   stage: build
   before_script: *docker-login-before-script
   script:
-    - docker build --pull -t $IMAGE_NAME_DBT_DEPS_PRE_RELEASE --progress=plain --target=dbt-deps -f docker/main/Dockerfile .
+    - docker build --pull -t $IMAGE_NAME_DBT_DEPS_PRE_RELEASE --progress=plain --target=dbt-deps --no-cache -f docker/main/Dockerfile .
     - docker push $IMAGE_NAME_DBT_DEPS_PRE_RELEASE
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
@@ -178,6 +178,11 @@ dbt-build:
     - echo "retrieving dbt artifacts from previous succesful job"
     # gitlab sometimes fails silently when artifact is invalid or not found, https://gitlab.com/gitlab-org/gitlab/-/issues/29118
     - export RESULT=$(curl --output /dev/null --silent --write-out "%{content_type}" "$DBT_MANIFEST_ARTIFACT_URL")
+    - |
+      if [ "$CI_PIPELINE_DEBUG_FLAG" = "true" ]; then
+          echo "Sleeping for 1 hour to allow debugging"
+          sleep 3600
+      fi
     - |
       echo "Artifact content type: ${RESULT}"
       if [ "$RESULT" = "application/zip" ]; then
@@ -219,13 +224,12 @@ release-main-image:
   script:
     - docker pull $IMAGE_NAME_MAIN_PRE_RELEASE
     - docker tag $IMAGE_NAME_MAIN_PRE_RELEASE $IMAGE_NAME_MAIN_RELEASE
-    # https://blog.container-solutions.com/tagging-docker-images-the-right-way
-    - docker tag $IMAGE_NAME_MAIN_RELEASE $IMAGE_NAME_MAIN_SHA_RELEASE
-    - docker push $IMAGE_NAME_MAIN_SHA_RELEASE
     - docker push $IMAGE_NAME_MAIN_RELEASE
   rules:
     # run only on main branch after build-main-image-pre-release is successful
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
+      changes:
+        paths: *main-build-changes-paths
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
       allow_failure: true
@@ -343,8 +347,6 @@ release-dbt-deps-image:
   script:
     - docker pull $IMAGE_NAME_DBT_DEPS_PRE_RELEASE
     - docker tag $IMAGE_NAME_DBT_DEPS_PRE_RELEASE $IMAGE_NAME_DBT_DEPS_RELEASE
-    - docker tag $IMAGE_NAME_DBT_DEPS_PRE_RELEASE $IMAGE_NAME_DBT_DEPS_SHA_RELEASE
-    - docker push $IMAGE_NAME_DBT_DEPS_SHA_RELEASE
     - docker push $IMAGE_NAME_DBT_DEPS_RELEASE
   tags:
     - somenergia-et

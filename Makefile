@@ -9,14 +9,22 @@ mkdocs_compose_file		:= docker-compose.mkdocs.yml
 help: ## Print this help
 	@grep -E '^[0-9a-zA-Z_\-\.]+:.*?## .*$$' Makefile | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-sh: ## run a shell in the container
-	@docker compose run --rm -it --entrypoint sh main
+
+# ---------------------------------------------------------------------------- #
+#                         docker image with target main                        #
+# ---------------------------------------------------------------------------- #
+
+main.bash: ## run a bash shell in the container main
+	@docker compose run --rm -it --entrypoint bash main
 
 main.build: ## build docker image
 	@docker compose -f $(main_compose_file)  build main --progress=plain
 
 main.push: ## push docker image to registry
 	@docker compose -f $(main_compose_file)  push main
+
+main_dev.bash: ## run a bash shell in the container main_dev
+	@docker compose run --rm -it --entrypoint bash dev
 
 main_dev.build: ## build docker image for development
 	@docker compose -f $(main_compose_file)  build dev --progress=plain

@@ -44,9 +44,11 @@ def dbapi_to_dict(dbapi: str):
     return {
         "provider": parsed_string.scheme,
         "user": parsed_string.username,
-        "password": urllib.parse.unquote(parsed_string.password)
-        if parsed_string.password
-        else None,
+        "password": (
+            urllib.parse.unquote(parsed_string.password)
+            if parsed_string.password
+            else None
+        ),
         "host": parsed_string.hostname,
         "port": parsed_string.port,
         "database": parsed_string.path[1:],
