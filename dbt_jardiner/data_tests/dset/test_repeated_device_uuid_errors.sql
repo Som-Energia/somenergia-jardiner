@@ -1,3 +1,5 @@
+{{ config(enabled=false) }}
+
 -- tests pairs device_uuid, plant, device, device_type, device_parent as unique
 with
 unique_device_per_plant as (

@@ -39,20 +39,20 @@ models:
     description: Conté les lectures crues que venen de la producció horària de les plantes
     columns:
       - name: hora_inici
-        tests:
+        data_tests:
           - not_null
       - name: hora_final
-        tests:
+        data_tests:
           - not_null
       - name: nom_planta
-        tests:
+        data_tests:
           - not_null
       - name: tecnologia
-        tests:
+        data_tests:
           - not_null
       - name: energia_instantania_inversor_kwh
       - name: energia_exportada_instantania_comptador_kwh
-        tests:
+        data_tests:
           - dbt_utils.expression_is_true:
               expression: ">= energia_instantania_inversor_kwh"
               config:
@@ -60,7 +60,7 @@ models:
                 where: "hora_inici > (now() at time zone 'Europe/Madrid')::date - interval '7 days'"
                 tags: source
       - name: energia_perduda_inversor_a_comptador
-        tests:
+        data_tests:
           - dbt_utils.accepted_range:
               max_value: 1
               min_value: 0
@@ -79,7 +79,7 @@ models:
       - name: irradiation_wh_m2
       - name: irradiacio_satellit_wh_m2
       - name: temperatura_modul_avg_c
-        tests:
+        data_tests:
           - dbt_utils.not_null_proportion:
               description: //TODO get the right proportion or whatever
               error_if: ">=7"
@@ -93,7 +93,7 @@ models:
                 enabled: false
                 where: "hora_inici > (now() at time zone 'Europe/Madrid')::date - interval '7 days'"
       - name: pr_horari
-        tests:
+        data_tests:
           - dbt_utils.accepted_range:
               max_value: 1
               min_value: 0

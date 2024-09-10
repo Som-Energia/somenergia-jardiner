@@ -26,6 +26,10 @@ clean-targets: # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+flags:
+  send_anonymous_usage_stats: false
+  require_explicit_package_overrides_for_builtin_materializations: false
+
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
@@ -45,7 +49,7 @@ models:
           +tags: dset
         simel:
           +grants:
-            select: ['mercat_electric']
+            select: ["mercat_electric"]
       intermediate:
         +docs:
           node_color: "#d05808"
@@ -53,15 +57,10 @@ models:
           +tags: dset
         simel:
           +grants:
-            select: ['mercat_electric']
+            select: ["mercat_electric"]
       marts:
         +docs:
           node_color: "goldenrod"
-        dset:
-          +tags: dset
-        simel:
-          +grants:
-            select: ['mercat_electric']
       observability:
         +docs:
           node_color: "#c3c557"
@@ -84,16 +83,11 @@ models:
     ## To disable elementary for dev, uncomment this:
     # enabled: "{{ target.name in ['prod','analytics'] }}"
 
-  re_data:
-    +docs:
-      show: false
-      node_color: "lightblue"
-
 snapshots:
   +docs:
     node_color: "#e7bca1"
 
-tests:
+data_tests:
   +docs:
     node_color: "#84b4bc"
 
@@ -103,4 +97,3 @@ seeds:
       +tags: jardiner
     legacy:
       +tags: legacy
-

@@ -13,7 +13,7 @@ models:
       - name: device_uuid
       - name: device_parent
       - name: signal_uuid
-        tests:
+        data_tests:
           - not_null:
               severity: warn
               config:
@@ -34,7 +34,7 @@ models:
           Valor del senyal en el moment de la lectura. El valor del senyal per
           les mètriques à testejat dins d'uns rangs, triat manualment observant
           valors actuals Enable tests when signals are more estable
-        tests:
+        data_tests:
           - dbt_utils.accepted_range:
               name: accepted_range_intensity_instantaneous_last_7_days
               max_value: 500
