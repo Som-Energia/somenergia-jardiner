@@ -96,7 +96,7 @@ build-builder-image-pre-release:
   stage: build
   before_script: *docker-login-before-script
   script:
-    - docker build --pull -t $IMAGE_NAME_MAIN_PRE_RELEASE --progress=plain --target=builder --no-cache -f docker/main/Dockerfile .
+    - docker build --pull -t $IMAGE_NAME_MAIN_PRE_RELEASE --progress=plain --target=builder -f docker/main/Dockerfile .
     - docker push $IMAGE_NAME_MAIN_PRE_RELEASE
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
@@ -118,7 +118,7 @@ build-main-image-pre-release:
   stage: build
   before_script: *docker-login-before-script
   script:
-    - docker build --pull -t $IMAGE_NAME_MAIN_PRE_RELEASE --progress=plain --target=main --no-cache -f docker/main/Dockerfile .
+    - docker build --pull -t $IMAGE_NAME_MAIN_PRE_RELEASE --progress=plain --target=main -f docker/main/Dockerfile .
     - docker push $IMAGE_NAME_MAIN_PRE_RELEASE
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
@@ -140,7 +140,7 @@ build-dbt-deps-image-pre-release:
   stage: build
   before_script: *docker-login-before-script
   script:
-    - docker build --pull -t $IMAGE_NAME_DBT_DEPS_PRE_RELEASE --progress=plain --target=dbt-deps --no-cache -f docker/main/Dockerfile .
+    - docker build --pull -t $IMAGE_NAME_DBT_DEPS_PRE_RELEASE --progress=plain --target=dbt-deps -f docker/main/Dockerfile .
     - docker push $IMAGE_NAME_DBT_DEPS_PRE_RELEASE
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
