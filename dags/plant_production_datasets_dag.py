@@ -84,7 +84,7 @@ with DAG(
         task_id="dbt_transformation_task",
         environment=environment,
         docker_conn_id="somenergia_harbor_dades_registry",
-        image="{}/{}-app:latest".format(
+        image="{}/{}-main:latest".format(
             "{{ conn.somenergia_harbor_dades_registry.host }}",
             repo_name,
         ),
