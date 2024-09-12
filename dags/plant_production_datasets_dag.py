@@ -77,6 +77,9 @@ with DAG(
         "DBHOST": dbapi_dict["host"],
         "DBPORT": dbapi_dict["port"],
         "DBNAME": dbapi_dict["database"],
+        "DBT_PACKAGES_INSTALL_PATH": "/home/somenergia/.dbt/dbt_packages",
+        "DBT_PROFILES_DIR": "/repos/somenergia-jardiner/dbt_jardiner/config",
+        "DBT_PROJECT_DIR": "/repos/somenergia-jardiner/dbt_jardiner",
     }
 
     dbt_transformation_task = DockerOperator(
@@ -84,7 +87,7 @@ with DAG(
         task_id="dbt_transformation_task",
         environment=environment,
         docker_conn_id="somenergia_harbor_dades_registry",
-        image="{}/{}-main:latest".format(
+        image="{}/{}-dbt-deps:latest".format(
             "{{ conn.somenergia_harbor_dades_registry.host }}",
             repo_name,
         ),
