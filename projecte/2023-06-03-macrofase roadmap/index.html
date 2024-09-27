@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.38">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.35f28582.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -649,8 +649,6 @@
       
         
       
-        
-      
     
     
     
@@ -770,32 +768,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../desenvolupadors/2023-08-28-afegir-planta-a-superset/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Afegir dades de planta des de DSET a dashboards
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../desenvolupadors/2023-08-28-alta_planta/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Alta d'una planta fotovoltaica a
+    Alta d'una planta fotovoltaica al pipe de Jardiner
   </span>
   
 
@@ -1319,10 +1296,10 @@
   
 
 
-<h1 id="macrofase-jardiner-2023">Macrofase Jardiner 2023</h1>
+<h1 id="macrofase-jardiner-2023">Macrofase Jardiner 2023<a class="headerlink" href="#macrofase-jardiner-2023" title="Permalink">&para;</a></h1>
 <p><a href="https://docs.google.com/spreadsheets/d/11dNYUeBwkIjPpcYOHmcOoNDpLoUxH9qfcm6h2YXRtoI/edit#gid=1971023159">Document de Roadmap</a></p>
-<h2 id="roadmap-overview">Roadmap overview</h2>
-<h3 id="flux-de-dades">Flux de dades</h3>
+<h2 id="roadmap-overview">Roadmap overview<a class="headerlink" href="#roadmap-overview" title="Permalink">&para;</a></h2>
+<h3 id="flux-de-dades">Flux de dades<a class="headerlink" href="#flux-de-dades" title="Permalink">&para;</a></h3>
 <pre class="mermaid"><code>flowchart LR
 
 rPIs -- push 5'  --&gt; dw[db/plants]
@@ -1334,15 +1311,15 @@ PLANT -- pull 15'\n devices data --&gt; dw
 dw -- dbt views --&gt; prod --&gt; alarms
 prod --&gt; alerts
 prod --&gt; datasets</code></pre>
-<h2 id="fita-1">Fita 1</h2>
+<h2 id="fita-1">Fita 1<a class="headerlink" href="#fita-1" title="Permalink">&para;</a></h2>
 <p>Prioritat 1</p>
 <p>Aprox 1-2 fases</p>
 <p>Definition of Done (DoD): veure per tema</p>
 <p>Cost en mitjos dies de l'equip sencer entre parèntesis (N)</p>
-<h3 id="dashboard-tecnics-de-plantes-critiques">Dashboard tècnics de plantes crítiques</h3>
+<h3 id="dashboard-tecnics-de-plantes-critiques">Dashboard tècnics de plantes crítiques<a class="headerlink" href="#dashboard-tecnics-de-plantes-critiques" title="Permalink">&para;</a></h3>
 <p>Pulir el dashboard de tècnics per a Asomada i Llanillos.</p>
 <p>DoD: TODO</p>
-<h3 id="obtencio-de-dades-de-tots-els-equips-i-totes-les-plantes">Obtenció de dades de tots els equips i totes les plantes</h3>
+<h3 id="obtencio-de-dades-de-tots-els-equips-i-totes-les-plantes">Obtenció de dades de tots els equips i totes les plantes<a class="headerlink" href="#obtencio-de-dades-de-tots-els-equips-i-totes-les-plantes" title="Permalink">&para;</a></h3>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Definir estratègia d'obtenció de dades (remot/hardware/api's a plataformes...) (1)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Coordinació amb altres equips de la cooperativa per veure altres alternatives (6)</li>
@@ -1364,13 +1341,13 @@ prod --&gt; datasets</code></pre>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Els equips mencionats en el pipe</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Dset integrat al pipe</li>
 </ul>
-<h3 id="introduccio-al-jardiner">Introducció al jardiner</h3>
+<h3 id="introduccio-al-jardiner">Introducció al jardiner<a class="headerlink" href="#introduccio-al-jardiner" title="Permalink">&para;</a></h3>
 <p>Estat del codi i repàs de l'estructura. Documentació per devs.</p>
-<h3 id="dt-obt-i-fast-lane">[DT] OBT i fast-lane</h3>
+<h3 id="dt-obt-i-fast-lane">[DT] OBT i fast-lane<a class="headerlink" href="#dt-obt-i-fast-lane" title="Permalink">&para;</a></h3>
 <p>Crear la obt cincminutal incremental i/o el fast-lane cincminutal i la obt diària.</p>
 <p>Crear el live per <em>late arriving facts</em> de comptadors i apis.</p>
 <p>En funcionament normal són delays de màxim un dia. Amb incidència poden ser 1-2 mesos màxim. I en casos excepcionals, molt més (candidat a full-refresh manual o alguna altra cosa)</p>
-<h3 id="aterracio-de-tot-plegat">Aterració de tot plegat</h3>
+<h3 id="aterracio-de-tot-plegat">Aterració de tot plegat<a class="headerlink" href="#aterracio-de-tot-plegat" title="Permalink">&para;</a></h3>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Intro per devs</li>
 <li>Més doc?</li>
@@ -1388,34 +1365,34 @@ prod --&gt; datasets</code></pre>
 <li>CDD</li>
 <li>Private doc github project</li>
 </ul>
-<h2 id="fita-2-dashboard-overview-plantes">Fita 2: Dashboard Overview plantes</h2>
+<h2 id="fita-2-dashboard-overview-plantes">Fita 2: Dashboard Overview plantes<a class="headerlink" href="#fita-2-dashboard-overview-plantes" title="Permalink">&para;</a></h2>
 <p>Prioritat 4</p>
 <p>Disseny d'un Dashboard amb un llistat de totes les plantes amb els principals indicadors (mesures en temps real i acumulades i resum alarmes). Pendent fer una proposta per part de GA. Des d'aquest dashboard s'ha de poder accedir al Dashboard de cada planta per obtenir informació detallada.
 Esborrany inicial falta versió actualitzada. (6)</p>
 <p>Implementació (9)</p>
-<h2 id="fita-3-dashboard-planta">Fita 3: Dashboard planta</h2>
+<h2 id="fita-3-dashboard-planta">Fita 3: Dashboard planta<a class="headerlink" href="#fita-3-dashboard-planta" title="Permalink">&para;</a></h2>
 <p>Prioritat 5</p>
 <p>Definir versió revisada del Dashboard de planta per a totes les plantes: Unifilar dinàmic, dades fixes i reemplaçar alarmes, millorar la velociatat i treure el dataset de sota, afegir solargis + coses que puguin sortir després (3)</p>
 <p>Implementar versió revisada del Dashboard de planta per a totes les plantes: Unifilar dinàmic, dades fixes i reemplaçar alarmes, millorar la velocitat i treure el dataset de sota, afegir solargis + coses que puguin sortir després (3)</p>
 <p>Dashboard Ringsted per plantes -- particularitats (4)</p>
 <p>Dashboard Gasdtrup -- particularitats (4)</p>
 <p>Dashboard de planta típica (Alcolea, etc) (0)</p>
-<h2 id="fita-4-dashboard-tecnics">Fita 4: Dashboard tècnics</h2>
+<h2 id="fita-4-dashboard-tecnics">Fita 4: Dashboard tècnics<a class="headerlink" href="#fita-4-dashboard-tecnics" title="Permalink">&para;</a></h2>
 <p>Prioritat 6</p>
 <p>Definir la versió final amb grafiques de Solar Gis, Alarmes i pot ser alarmes. Pendent fer una revisió de les funcionalitats per part de GA. Incloure un dashboard per cadascuna de les empreses de manteniment. Al dashboard unificat d'alarmes estat actual afegir des de quan està activada l'alarma</p>
 <p>Implementar la versió final amb grafiques de Solar Gis, Alarmes i pot ser alarmes. Pendent fer una revisió de les funcionalitats per part de GA. Incloure un dashboard per cadascuna de les empreses de manteniment</p>
 <p>Fer el Dashboard per a 8 empreses instal·ladores. Hauríem de passar a Superset que té una millor gestió d'usuaris?</p>
-<h2 id="fita-5-dashboard-ineco">Fita 5: Dashboard INECO</h2>
+<h2 id="fita-5-dashboard-ineco">Fita 5: Dashboard INECO<a class="headerlink" href="#fita-5-dashboard-ineco" title="Permalink">&para;</a></h2>
 <p>Prioritat 7</p>
 <p>Per definir</p>
-<h2 id="fita-6-noves-queries">Fita 6: Noves queries</h2>
+<h2 id="fita-6-noves-queries">Fita 6: Noves queries<a class="headerlink" href="#fita-6-noves-queries" title="Permalink">&para;</a></h2>
 <p>Prioritat 8</p>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Query: Curves HMCIL + lectures comptador (reclamacions)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Query: Curves HMCIL + previsió (seguiment)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Alarma strings per comparació en plantes grans &gt;1MW</li>
 </ul>
-<h2 id="fita-7-dashboard-gurb">Fita 7: Dashboard GURB</h2>
+<h2 id="fita-7-dashboard-gurb">Fita 7: Dashboard GURB<a class="headerlink" href="#fita-7-dashboard-gurb" title="Permalink">&para;</a></h2>
 <p>Prioritat 9</p>
 
 
@@ -1490,10 +1467,10 @@ Esborrany inicial falta versió actualitzada. (6)</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "navigation.tracking", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d6f25eb3.min.js"></script>
       
     
   </body>

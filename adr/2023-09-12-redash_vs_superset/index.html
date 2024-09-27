@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.38">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.35f28582.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -784,8 +784,6 @@
       
         
       
-        
-      
     
     
     
@@ -905,32 +903,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../desenvolupadors/2023-08-28-afegir-planta-a-superset/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Afegir dades de planta des de DSET a dashboards
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../desenvolupadors/2023-08-28-alta_planta/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Alta d'una planta fotovoltaica a
+    Alta d'una planta fotovoltaica al pipe de Jardiner
   </span>
   
 
@@ -1229,50 +1206,50 @@
   
 
 
-<h1 id="pipeline-de-dades-revisited">Pipeline de dades revisited</h1>
+<h1 id="pipeline-de-dades-revisited">Pipeline de dades revisited<a class="headerlink" href="#pipeline-de-dades-revisited" title="Permalink">&para;</a></h1>
 <ul>
 <li>Status: proposed</li>
 <li>Deciders: Dades</li>
 <li>Date: 2023-09-12</li>
 </ul>
-<h2 id="context-and-problem-statement">Context and Problem Statement</h2>
+<h2 id="context-and-problem-statement">Context and Problem Statement<a class="headerlink" href="#context-and-problem-statement" title="Permalink">&para;</a></h2>
 <p>En el seu moment vam triar redash perquè podia tenir apis com a sources i el dev és molt més còmode perquè no està tant layeritzat (dataset/query - chart - dashboard).</p>
 <p>A la pràctica no hem fet servir mai la lectura directa de les apis perquè les autèntificacions no estaven suportades, ens agradava tenir una còpia, t'obligava a treballar en queries de l'sqlite de redash.</p>
 <p>A més a més, redash delega la gestió d'usuaris a la db, cosa que implica que no pots limitar que un usuari pugui veure uns valors d'una query i no uns altres, per exemple filtrar per plantes la producció, els permisos es fan a nivell de db.</p>
 <p>La macrofase de plantmonitor i l'evolució de l'equip de dades cap a superset amb els altres equips ens porta a replantejar-nos-ho.</p>
 <p>Iniciem un spike de superset per a fer els nous dashboards.</p>
-<h2 id="decision-drivers">Decision Drivers <!-- optional --></h2>
+<h2 id="decision-drivers">Decision Drivers <!-- optional --><a class="headerlink" href="#decision-drivers" title="Permalink">&para;</a></h2>
 <ul>
 <li>Ús real del cinc-minutal</li>
 <li>Frescor necessària</li>
 <li>… <!-- numbers of drivers can vary --></li>
 </ul>
-<h2 id="considered-options">Considered Options</h2>
+<h2 id="considered-options">Considered Options<a class="headerlink" href="#considered-options" title="Permalink">&para;</a></h2>
 <ol>
 <li>superset</li>
 <li>redash</li>
 <li>metabase -- en Diego comenta que en la versió free no tens la capa semàntica</li>
 </ol>
-<h2 id="decision-outcome">Decision Outcome</h2>
+<h2 id="decision-outcome">Decision Outcome<a class="headerlink" href="#decision-outcome" title="Permalink">&para;</a></h2>
 <p>Chosen option: ?</p>
-<h3 id="positive-consequences">Positive Consequences</h3>
+<h3 id="positive-consequences">Positive Consequences<a class="headerlink" href="#positive-consequences" title="Permalink">&para;</a></h3>
 <ul>
 <li>[e.g., improvement of quality attribute satisfaction, follow-up decisions required, …]</li>
 <li>…</li>
 </ul>
-<h3 id="negative-consequences">Negative Consequences</h3>
+<h3 id="negative-consequences">Negative Consequences<a class="headerlink" href="#negative-consequences" title="Permalink">&para;</a></h3>
 <ul>
 <li>[e.g., compromising quality attribute, follow-up decisions required, …]</li>
 <li>…</li>
 </ul>
-<h2 id="pros-and-cons-of-the-options">Pros and Cons of the Options</h2>
-<h3 id="redash">redash</h3>
+<h2 id="pros-and-cons-of-the-options">Pros and Cons of the Options<a class="headerlink" href="#pros-and-cons-of-the-options" title="Permalink">&para;</a></h2>
+<h3 id="redash">redash<a class="headerlink" href="#redash" title="Permalink">&para;</a></h3>
 <p>👍</p>
 <p>mustache</p>
 <p>definir parametres a nivell de default de charts, de chart especific o dashboard</p>
 <p>👎</p>
 <p>no apte per heavy duty (cache regular)</p>
-<h3 id="superset">superset</h3>
+<h3 id="superset">superset<a class="headerlink" href="#superset" title="Permalink">&para;</a></h3>
 <p>👍</p>
 <p>cohesió cooperativa -- tota la cooperativa fa servir superset</p>
 <p>👎</p>
@@ -1353,10 +1330,10 @@ Les queries dinàmiques són molt menys directes de fer que al redash.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "navigation.tracking", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d6f25eb3.min.js"></script>
       
     
   </body>

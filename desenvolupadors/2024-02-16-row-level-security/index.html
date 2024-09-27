@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.38">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.35f28582.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -653,8 +653,6 @@
       
         
       
-        
-      
     
     
     
@@ -774,32 +772,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-08-28-afegir-planta-a-superset/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Afegir dades de planta des de DSET a dashboards
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../2023-08-28-alta_planta/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Alta d'una planta fotovoltaica a
+    Alta d'una planta fotovoltaica al pipe de Jardiner
   </span>
   
 
@@ -1095,7 +1072,7 @@
 
   <h1>Row Level Security</h1>
 
-<h2 id="context">Context</h2>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permalink">&para;</a></h2>
 <p>Tenim usuaris externs que necessiten mirar dades de plantes, però només de les plantes que gestionen. Això ho podem fer amb <a href="https://superset.apache.org/docs/security/#row-level-security">Row Level Security a Superset</a>.</p>
 <p>El procés és el següent:</p>
 <ol>
@@ -1108,13 +1085,13 @@
 <li><a href="https://indicadors.somenergia.coop/users/list/">Afegir la o les usuàries</a> i assignar-los els rols [Gamma] i <code>[Manteniment_&lt;nom empresa&gt;]</code></li>
 </ol>
 <p>I ja ho tens. Ho he fet amb energes amb la clause <code>nom_planta in (noms plantes)</code></p>
-<h2 id="decisions">Decisions</h2>
+<h2 id="decisions">Decisions<a class="headerlink" href="#decisions" title="Permalink">&para;</a></h2>
 <p>Hem decidit a 02/2024 que no val la pena propagar l'empresa de manteniment en el pipe per a cobrir aquest use case, ja que no cal afegir 5m aquestes metadadades per a un tema de visualització i permisos. <em>Ho gestionem en la capa de visualització.</em></p>
 <div class="admonition warning">
 <p class="admonition-title">Canvis d'empresa de manteniment</p>
 <p>Canvis d'empresa de manteniment s'hauran de fer al Superset (i a les metadades de la planta, per coherència).</p>
 </div>
-<h2 id="referencies">Referències</h2>
+<h2 id="referencies">Referències<a class="headerlink" href="#referencies" title="Permalink">&para;</a></h2>
 <ul>
 <li><a href="https://gitlab.somenergia.coop/et/somenergia-jardiner/-/issues/101">Issue #101 a gitlab</a></li>
 <li><a href="https://trello.com/c/mPOAsMe8/211-spike-superset">Targeta Trello</a></li>
@@ -1192,10 +1169,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "navigation.tracking", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d6f25eb3.min.js"></script>
       
     
   </body>

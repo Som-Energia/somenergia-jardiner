@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.38">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.35f28582.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -751,8 +751,6 @@
       
         
       
-        
-      
     
     
     
@@ -872,32 +870,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../desenvolupadors/2023-08-28-afegir-planta-a-superset/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Afegir dades de planta des de DSET a dashboards
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../desenvolupadors/2023-08-28-alta_planta/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Alta d'una planta fotovoltaica a
+    Alta d'una planta fotovoltaica al pipe de Jardiner
   </span>
   
 
@@ -1163,10 +1140,10 @@
   
 
 
-<h1 id="com-processem-les-alarmes-en-dbt">Com processem les alarmes en DBT?</h1>
-<h2 id="context-and-problem-statement">Context and Problem Statement</h2>
+<h1 id="com-processem-les-alarmes-en-dbt">Com processem les alarmes en DBT?<a class="headerlink" href="#com-processem-les-alarmes-en-dbt" title="Permalink">&para;</a></h1>
+<h2 id="context-and-problem-statement">Context and Problem Statement<a class="headerlink" href="#context-and-problem-statement" title="Permalink">&para;</a></h2>
 <p>Alarmes decomptadors venen en batches que poden venir molt tard.</p>
-<h2 id="decision-drivers">Decision Drivers</h2>
+<h2 id="decision-drivers">Decision Drivers<a class="headerlink" href="#decision-drivers" title="Permalink">&para;</a></h2>
 <ul>
 <li>Necessitem un històric d'alarmes</li>
 <li>Cal suportar un batch arbitrari (rebre les lectures de les útlimes 24h o dels últims 3 mesos)</li>
@@ -1176,7 +1153,7 @@
 <ul>
 <li>No suportarem out of the box updates de les lectures (el plantmonitor ni ho considera, ara per ara)</li>
 </ul>
-<h2 id="considered-options">Considered Options</h2>
+<h2 id="considered-options">Considered Options<a class="headerlink" href="#considered-options" title="Permalink">&para;</a></h2>
 <ol>
 <li>Calcular l'alarma de les últimes N hores (rang definit per l'alarma)</li>
 <li>Calcular per cada row si en aquell moment hi havia alarma o no</li>
@@ -1214,14 +1191,14 @@ select max(date) from calculated_alarms group by device</p>
 <li>without lag: left join with itself on row_number()-24 &lt; row_number() &lt; row_number()</li>
 </ul>
 <p><a href="https://learn.microsoft.com/en-us/answers/questions/874769/sql-server-how-to-get-previous-row39s-value-withou.html">source</a></p>
-<h2 id="decision-outcome">Decision Outcome</h2>
+<h2 id="decision-outcome">Decision Outcome<a class="headerlink" href="#decision-outcome" title="Permalink">&para;</a></h2>
 <p>Chosen option: triem l'opció 2. per suportar calcular alarmes en el passat</p>
-<h3 id="positive-consequences">Positive Consequences</h3>
+<h3 id="positive-consequences">Positive Consequences<a class="headerlink" href="#positive-consequences" title="Permalink">&para;</a></h3>
 <ul>
 <li>Suporta la càrrega de batches arbitraris</li>
 <li>Manté un històric d'alarma</li>
 </ul>
-<h3 id="negative-consequences">Negative Consequences</h3>
+<h3 id="negative-consequences">Negative Consequences<a class="headerlink" href="#negative-consequences" title="Permalink">&para;</a></h3>
 <ul>
 <li>Requereix materialitzar una taula amb la última lectura processada (o tenir un staging on s'inserten les noves)</li>
 <li>Incrementa la complexitat de la query SQL</li>
@@ -1299,10 +1276,10 @@ select max(date) from calculated_alarms group by device</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "navigation.tracking", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d6f25eb3.min.js"></script>
       
     
   </body>

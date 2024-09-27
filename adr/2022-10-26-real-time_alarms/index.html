@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.38">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.35f28582.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -802,8 +802,6 @@
       
         
       
-        
-      
     
     
     
@@ -923,32 +921,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../desenvolupadors/2023-08-28-afegir-planta-a-superset/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Afegir dades de planta des de DSET a dashboards
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../desenvolupadors/2023-08-28-alta_planta/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Alta d'una planta fotovoltaica a
+    Alta d'una planta fotovoltaica al pipe de Jardiner
   </span>
   
 
@@ -1265,14 +1242,14 @@
   
 
 
-<h1 id="real-time-alarms">Real time alarms</h1>
+<h1 id="real-time-alarms">Real time alarms<a class="headerlink" href="#real-time-alarms" title="Permalink">&para;</a></h1>
 <ul>
 <li>Status: Unknown</li>
 <li>Deciders: [list everyone involved in the decision] <!-- optional --></li>
 <li>Date: [YYYY-MM-DD when the decision was last updated] <!-- optional --></li>
 </ul>
 <p>Technical Story: [description | ticket/issue URL] <!-- optional --></p>
-<h2 id="context-and-problem-statement">Context and Problem Statement</h2>
+<h2 id="context-and-problem-statement">Context and Problem Statement<a class="headerlink" href="#context-and-problem-statement" title="Permalink">&para;</a></h2>
 <p>Necessitem alertes d'incidències dels diferents dispositius de les plantes.
 Cada dispositiu té especificitats: granularitat temporal de les lectures, lag natural en al càrrega de lectures i casuístiques concretes que es consideren errors.</p>
 <p>Dispositius:
@@ -1316,7 +1293,7 @@ Cada quan arriben les lectures:
 Valors historics updatable: No
 Poden aparèixer lectures antigues: No</li>
 </ul>
-<h2 id="decision-drivers">Decision Drivers</h2>
+<h2 id="decision-drivers">Decision Drivers<a class="headerlink" href="#decision-drivers" title="Permalink">&para;</a></h2>
 <ul>
 <li>Velocitat d'execució si cal exeutar-ho sovint</li>
 <li>Poder recalcular les alarmes històriques en el futur</li>
@@ -1325,30 +1302,30 @@ Poden aparèixer lectures antigues: No</li>
 <li>Necessitem un històric</li>
 <li>Hauriem de tenir un from to de duració de les alarmes (tot i que confón una mica a projectes)</li>
 </ul>
-<h2 id="considered-options">Considered Options</h2>
+<h2 id="considered-options">Considered Options<a class="headerlink" href="#considered-options" title="Permalink">&para;</a></h2>
 <ul>
 <li>HI - Calcular realtime a partir de l'històric individual de cada alarma</li>
 <li>RT - Calcular una taula real-time i una històrica més lenta</li>
 <li>~~RH - Calcular la real-time i guardar-ho com a històric~~</li>
 <li>~~ST - Trobar la manera de fer stream enlloc de batch~~</li>
 </ul>
-<h2 id="decision-outcome">Decision Outcome</h2>
+<h2 id="decision-outcome">Decision Outcome<a class="headerlink" href="#decision-outcome" title="Permalink">&para;</a></h2>
 <p>Hem decidit atacar la opció HI i veure si podem reduir a 5 minuts d'execució amb incremental.
 Probablement no serà possible i necessitarem un fast-track (opció RL) per les alertes real-time.24h</p>
 <p>Aquest fast track s'executarà cincminutalment o podem veure si es podria fer en streaming EL -&gt; T -&gt; N(otificació)
 Serà exclusiu per alertes i amb poca consolidació a base de dades i no revisitarà el passat. Només NOW()-ish.</p>
-<h3 id="positive-consequences">Positive Consequences <!-- optional --></h3>
+<h3 id="positive-consequences">Positive Consequences <!-- optional --><a class="headerlink" href="#positive-consequences" title="Permalink">&para;</a></h3>
 <ul>
 <li>[e.g., improvement of quality attribute satisfaction, follow-up decisions required, …]</li>
 <li>…</li>
 </ul>
-<h3 id="negative-consequences">Negative Consequences <!-- optional --></h3>
+<h3 id="negative-consequences">Negative Consequences <!-- optional --><a class="headerlink" href="#negative-consequences" title="Permalink">&para;</a></h3>
 <ul>
 <li>[e.g., compromising quality attribute, follow-up decisions required, …]</li>
 <li>…</li>
 </ul>
-<h2 id="pros-and-cons-of-the-options">Pros and Cons of the Options <!-- optional --></h2>
-<h3 id="hi-calcular-la-taula-historica">HI - Calcular la taula històrica</h3>
+<h2 id="pros-and-cons-of-the-options">Pros and Cons of the Options <!-- optional --><a class="headerlink" href="#pros-and-cons-of-the-options" title="Permalink">&para;</a></h2>
+<h3 id="hi-calcular-la-taula-historica">HI - Calcular la taula històrica<a class="headerlink" href="#hi-calcular-la-taula-historica" title="Permalink">&para;</a></h3>
 <p>[example | description | pointer to more information | …] <!-- optional --></p>
 <ul>
 <li>
@@ -1389,7 +1366,7 @@ Serà exclusiu per alertes i amb poca consolidació a base de dades i no revisit
 
 <span class="k">select</span><span class="w"> </span><span class="k">last</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">alarm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">TRUE</span>
 </code></pre></div>
-<h3 id="rt-calcular-una-taula-real-time-i-una-historica-mes-lenta">RT - Calcular una taula real-time i una històrica més lenta</h3>
+<h3 id="rt-calcular-una-taula-real-time-i-una-historica-mes-lenta">RT - Calcular una taula real-time i una històrica més lenta<a class="headerlink" href="#rt-calcular-una-taula-real-time-i-una-historica-mes-lenta" title="Permalink">&para;</a></h3>
 <p>[example | description | pointer to more information | …] <!-- optional --></p>
 <ul>
 <li>
@@ -1452,11 +1429,11 @@ Serà exclusiu per alertes i amb poca consolidació a base de dades i no revisit
 notify OK/KO en aquella execució fent un diff de la taula anterior com ara</p>
 <p>històric:
 com tenim ara, al final del dia o d'una setmana, re-calcular les alarmes històricament</p>
-<h3 id="st-trobar-la-manera-de-fer-stream-enlloc-de-batch">ST- Trobar la manera de fer stream enlloc de batch</h3>
+<h3 id="st-trobar-la-manera-de-fer-stream-enlloc-de-batch">ST- Trobar la manera de fer stream enlloc de batch<a class="headerlink" href="#st-trobar-la-manera-de-fer-stream-enlloc-de-batch" title="Permalink">&para;</a></h3>
 <ul>
 <li>Dolent perquè no podem regenerar-ho a posteriori</li>
 </ul>
-<h2 id="links">Links <!-- optional --></h2>
+<h2 id="links">Links <!-- optional --><a class="headerlink" href="#links" title="Permalink">&para;</a></h2>
 <ul>
 <li>[Link type] [Link to ADR] <!-- example: Refined by <a href="0005-example.md">ADR-0005</a> --></li>
 <li>… <!-- numbers of links can vary --></li>
@@ -1534,10 +1511,10 @@ com tenim ara, al final del dia o d'una setmana, re-calcular les alarmes històr
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "navigation.tracking", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d6f25eb3.min.js"></script>
       
     
   </body>

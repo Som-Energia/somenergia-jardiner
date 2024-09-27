@@ -11,22 +11,22 @@
       
       
       
-        <link rel="prev" href="../2023-08-28-afegir-planta-a-superset/">
+        <link rel="prev" href="../2023-07-13-codi_reciclable/">
       
       
         <link rel="next" href="../2024-01-11-incremental-dedup/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.38">
     
     
       
-        <title>Alta d'una planta fotovoltaica a - Jardiner de Som Energia</title>
+        <title>Alta d'una planta fotovoltaica al pipe de Jardiner - Jardiner de Som Energia</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.35f28582.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#procediment-a-seguir-a-lincorporar-una-nova-planta-fotovoltaica" class="md-skip">
+        <a href="#context" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Alta d'una planta fotovoltaica a
+              Alta d'una planta fotovoltaica al pipe de Jardiner
             
           </span>
         </div>
@@ -653,8 +653,6 @@
       
         
       
-        
-      
     
     
     
@@ -771,27 +769,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../2023-08-28-afegir-planta-a-superset/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Afegir dades de planta des de DSET a dashboards
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -808,7 +785,7 @@
           
   
   <span class="md-ellipsis">
-    Alta d'una planta fotovoltaica a
+    Alta d'una planta fotovoltaica al pipe de Jardiner
   </span>
   
 
@@ -819,7 +796,7 @@
         
   
   <span class="md-ellipsis">
-    Alta d'una planta fotovoltaica a
+    Alta d'una planta fotovoltaica al pipe de Jardiner
   </span>
   
 
@@ -841,11 +818,140 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dades" class="md-nav__link">
+  <a href="#protocol-dalta-duna-planta-fotovoltaica" class="md-nav__link">
     <span class="md-ellipsis">
-      Dades
+      Protocol d'alta d'una planta fotovoltaica
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checklist-general-per-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      Checklist general per IT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#descripcio-de-dades" class="md-nav__link">
+    <span class="md-ellipsis">
+      Descripció de Dades
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Descripció de Dades">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-mapeig-de-senyals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mapeig de senyals de Planta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-dades-fixes-de-planta" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dades fixes de planta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-info-api-solargis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Info API SolarGIS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-rendiment-de-planta" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rendiment de planta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-produccio-actual-de-planta" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectius de producció de planta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-unificacio-noms-projectes-generacio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unificació Noms Projectes Generació
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-modelos-contadores-inversores-scadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelos contadores_inversores_SCADAS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#descripcio-de-tasques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Descripció de tasques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Descripció de tasques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#afegir-mapeig-airbyte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Afegir dades al mapeig d'airbyte
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#afegir-meteologica-plantmonitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Afegir planta per meteologica amb plantmonitor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#afegir-solargis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Afegir planta al script de SolarGIS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -859,13 +965,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#aparells" class="md-nav__link">
+  <a href="#dades-requerides-per-aparells" class="md-nav__link">
     <span class="md-ellipsis">
-      Aparells
+      Dades requerides per aparells
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Aparells">
+    <nav class="md-nav" aria-label="Dades requerides per aparells">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -897,15 +1003,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#previa" class="md-nav__link">
-    <span class="md-ellipsis">
-      Prèvia
-    </span>
-  </a>
   
 </li>
       
@@ -943,6 +1040,21 @@
       generationkwh
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="generationkwh">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reperfilacio-de-dades" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reperfilació de dades
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1126,11 +1238,140 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dades" class="md-nav__link">
+  <a href="#protocol-dalta-duna-planta-fotovoltaica" class="md-nav__link">
     <span class="md-ellipsis">
-      Dades
+      Protocol d'alta d'una planta fotovoltaica
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checklist-general-per-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      Checklist general per IT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#descripcio-de-dades" class="md-nav__link">
+    <span class="md-ellipsis">
+      Descripció de Dades
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Descripció de Dades">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-mapeig-de-senyals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mapeig de senyals de Planta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-dades-fixes-de-planta" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dades fixes de planta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-info-api-solargis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Info API SolarGIS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-rendiment-de-planta" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rendiment de planta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-produccio-actual-de-planta" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectius de producció de planta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-unificacio-noms-projectes-generacio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unificació Noms Projectes Generació
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fitxer-modelos-contadores-inversores-scadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelos contadores_inversores_SCADAS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#descripcio-de-tasques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Descripció de tasques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Descripció de tasques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#afegir-mapeig-airbyte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Afegir dades al mapeig d'airbyte
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#afegir-meteologica-plantmonitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Afegir planta per meteologica amb plantmonitor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#afegir-solargis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Afegir planta al script de SolarGIS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1144,13 +1385,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#aparells" class="md-nav__link">
+  <a href="#dades-requerides-per-aparells" class="md-nav__link">
     <span class="md-ellipsis">
-      Aparells
+      Dades requerides per aparells
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Aparells">
+    <nav class="md-nav" aria-label="Dades requerides per aparells">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1182,15 +1423,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#previa" class="md-nav__link">
-    <span class="md-ellipsis">
-      Prèvia
-    </span>
-  </a>
   
 </li>
       
@@ -1228,6 +1460,21 @@
       generationkwh
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="generationkwh">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reperfilacio-de-dades" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reperfilació de dades
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1267,68 +1514,172 @@
   
 
 
-<h1 id="procediment-a-seguir-a-lincorporar-una-nova-planta-fotovoltaica">Procediment a seguir a l’incorporar una nova planta fotovoltaica</h1>
-<h2 id="dades">Dades</h2>
-<p>Les dades necessàries per a donar d'alta una planta són</p>
-<p><a href="https://docs.google.com/spreadsheets/d/1JwHmZ_FuIs7em8nLrdSNg052O_0IA9Fm1qGp_hz8QlU/edit#gid=0">Unificació Noms Projectes Generació</a></p>
-<p>Càlcul Rendiment de Planta_<nom planta> (buscar-ho al cercador de drive)</p>
+<h1 id="context">Context<a class="headerlink" href="#context" title="Permalink">&para;</a></h1>
+<p>Tenim un pipe de transformació de dades que acaba en una serie de dashboards de <a href="https://indicadors.somenergia.coop">superset</a> que mostra dades de plantes des de el pipe de transformació de dades arribant del nostre proveïdor de dades.</p>
+<h2 id="protocol-dalta-duna-planta-fotovoltaica">Protocol d'alta d'una planta fotovoltaica<a class="headerlink" href="#protocol-dalta-duna-planta-fotovoltaica" title="Permalink">&para;</a></h2>
+<p>Per afegir una nova planta a la visualització, cal seguir un protocol documentat al <a href="https://docs.google.com/document/d/172qofxlvavQhdQhyJ9HE73CX6YLVYA2u6Mq3w_NOzyA/edit#heading=h.mcehna5jn0kc">Formulari d’inscripció de noves plantes a Superset</a></p>
+<p>El equip de gestio d'actius ha d'omplir aquest formulari amb les dades de la planta i ens ho han de comunicar per a que puguem seguir amb el procés nosaltres.</p>
+<div class="admonition info">
+<p class="admonition-title">Obres en curs amb jardiner-admin</p>
+<p>Aquesta tasca està en procés de ser portada al <a href="https://jardiner-admin.moll.somenergia.coop/">jardiner-admin</a>. Per tant, aquest protocol pot canviar en el futur.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Necessites permisos d'administrador</p>
+<p>Aquesta tasca és per a desenvolupadors que treballen amb el pipe de transformació de dades. Si no ets un desenvolupador, no cal que facis aquesta tasca.</p>
+</div>
+<p>Aqui sota ens dediquem a documentar técnicament els passos a seguir des de la perspectiva de desenvolupament.</p>
+<h2 id="checklist-general-per-it">Checklist general per IT<a class="headerlink" href="#checklist-general-per-it" title="Permalink">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Tenir accés als següents documents<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="#fitxer-mapeig-de-senyals">Mapeig de senyals</a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="#fitxer-dades-fixes-de-planta">Dades fixes de planta</a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="#fitxer-info-api-solargis">Info api solargis</a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="#fitxer-rendiment-de-planta">Rendiment de planta</a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="#fitxer-produccio-actual-de-planta">Producció actual de planta</a></li>
+</ul>
+</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="#afegir-mapeig-airbyte">Omplir dades al excel de mapeigs d’airbyte</a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="#afegir-meteologica-plantmonitor">Afegir planta segons l’estructura de plantmonitor</a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="#afegir-solargis">Dades de Solargis de planta nova són al script a plantmonitor</a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Dades apareixen al superset correctament</li>
+</ul>
+<h2 id="descripcio-de-dades">Descripció de Dades<a class="headerlink" href="#descripcio-de-dades" title="Permalink">&para;</a></h2>
+<h3 id="fitxer-mapeig-de-senyals">Mapeig de senyals de Planta<a class="headerlink" href="#fitxer-mapeig-de-senyals" title="Permalink">&para;</a></h3>
+<p>Per cada planta, GdA genera fitxers amb informació de la planta per la seva gestió. Aquests fitxers contenen informació de senyals, aparells, plantes, etc. però sense el context del pipe de Jardiner. Com IT, portem aquesta informació al <a href="#afegir-mapeig-airbyte">fitxer de mapeig de senyals</a> per a que el pipe de Jardiner pugui fer integrar les dades de la planta.</p>
+<p><a href="https://docs.google.com/spreadsheets/d/1Fo1y_d2hks8Az9Bx4hzOrqVVNCwMf5t2/edit?gid=455448997#gid=455448997">Un exemple d'aquest fitxer pot ser aquest</a>.</p>
+<h3 id="fitxer-dades-fixes-de-planta">Dades fixes de planta<a class="headerlink" href="#fitxer-dades-fixes-de-planta" title="Permalink">&para;</a></h3>
+<p>Aquest fitxer conté dades fixes de la planta, com ara la potència de la planta, la seva ubicació, etc. <a href="https://docs.google.com/spreadsheets/d/1Av9l0y--J4755JRMWL5kOSQlSY-c797X13CUqzfu3rw/edit?usp=sharing">Es trova a google drive</a> i <a href="https://airbyte.moll.somenergia.coop/workspaces/12f265b4-e398-44b4-9c95-1b5b165d6883/connections/e3301299-f721-4efb-b864-0e5b0233b145">es transforma amb airbyte aqui</a></p>
+<h3 id="fitxer-info-api-solargis">Info API SolarGIS<a class="headerlink" href="#fitxer-info-api-solargis" title="Permalink">&para;</a></h3>
+<p>GdA ha de crear una entrada per la planta nova al <a href="https://docs.google.com/spreadsheets/d/1J2G6IuqIxIXT4ETG3vxVpryszs9Or_ss8NtMnGCJ6yw/edit#gid=0">fitxer excel per això</a></p>
+<h3 id="fitxer-rendiment-de-planta">Rendiment de planta<a class="headerlink" href="#fitxer-rendiment-de-planta" title="Permalink">&para;</a></h3>
+<p>Té un nom tipus <code>"Càlcul Rendiment de Planta &lt;nom planta&gt;"</code>. El podeu buscar al cercador de drive.</p>
+<h3 id="fitxer-produccio-actual-de-planta">Objectius de producció de planta<a class="headerlink" href="#fitxer-produccio-actual-de-planta" title="Permalink">&para;</a></h3>
+<p>Es trova al fitxer de <a href="https://docs.google.com/spreadsheets/d/1VR5wQiHahicm9Q5mxVvzJUfBESYPGP5yvtLDf5NiMfc/edit#gid=2056763057">google sheets aqui</a> i es <a href="https://airbyte.moll.somenergia.coop/workspaces/12f265b4-e398-44b4-9c95-1b5b165d6883/connections/e5a12532-7c8b-4e12-a7ee-9b71f47c655a/status">transforma amb airbyte aqui</a>.</p>
+<h3 id="fitxer-unificacio-noms-projectes-generacio">Unificació Noms Projectes Generació<a class="headerlink" href="#fitxer-unificacio-noms-projectes-generacio" title="Permalink">&para;</a></h3>
+<p>Conté els llistat de noms unificats en un sol fitxer. Ves a <a href="https://docs.google.com/spreadsheets/d/1JwHmZ_FuIs7em8nLrdSNg052O_0IA9Fm1qGp_hz8QlU/edit#gid=0">Unificació Noms Projectes Generació</a>.</p>
+<h3 id="fitxer-modelos-contadores-inversores-scadas">Modelos contadores_inversores_SCADAS<a class="headerlink" href="#fitxer-modelos-contadores-inversores-scadas" title="Permalink">&para;</a></h3>
 <p><a href="https://docs.google.com/spreadsheets/d/1Z7_QpzestHBzVf9o78IC3hdGWMDH6dlyUr8f9LewO1o/edit#gid=904950265">Modelos contadores_inversores_SCADAS</a></p>
-<h2 id="xarxa">Xarxa</h2>
-<ol>
-<li>Conectar-se a la ip del router de la planta i afegir el port forwarding que calgui (raspberrypi o aparells)</li>
-<li>Demanar a sistemes que afegeixi la planta al dns e.g. planta-<nom_planta>.somenergia.coop</li>
-</ol>
-<p>Tot això ha de quedar escrit en el document Mapeig de Planta</p>
-<h2 id="aparells">Aparells</h2>
-<h3 id="comptador">Comptador</h3>
-<p>Agafar les dades de <a href="https://docs.google.com/spreadsheets/d/1Z7_QpzestHBzVf9o78IC3hdGWMDH6dlyUr8f9LewO1o/edit#gid=904950265">Modelos contadores_inversores_SCADAS</a></p>
-<p>ip lan, port, porta d’enllaç i contrasenya</p>
-<p>telèfon si s'escau</p>
-<h3 id="inversor">Inversor</h3>
-<p>ip</p>
-<h3 id="raspberrypi">Raspberrypi</h3>
-<p>ip lan, usuari, password</p>
-<h2 id="previa">Prèvia</h2>
-<p>Tots els scripts fan referència al repositori de github <code>plantmonitor</code>.</p>
-<p>crear la planta a la base de dades tant a la raspberrypi com a plantmonitor (no calen els dispositius, que els crea automàticament),
-afegir la plantlocation, plantparameters i moduleparameters. Un exemple <a href="https://github.com/Som-Energia/plantmonitor/blob/master/docs/2023-01-09-add_plantparameters_of_a_plant.md">a plantmonitor</a></p>
+<h2 id="descripcio-de-tasques">Descripció de tasques<a class="headerlink" href="#descripcio-de-tasques" title="Permalink">&para;</a></h2>
+<h3 id="afegir-mapeig-airbyte">Afegir dades al mapeig d'airbyte<a class="headerlink" href="#afegir-mapeig-airbyte" title="Permalink">&para;</a></h3>
+<p>Tenim un <a href="https://docs.google.com/spreadsheets/d/1ybUXREO8cMaLMlV4Kt2iYyoNg2msirnbTTiYL2PBY2M/edit?gid=310640207#gid=310640207">document</a> on consolidem relacions entre UUIDs de senyals, aparells i plantes que inserim amb <a href="https://airbyte.moll.somenergia.coop/workspaces/12f265b4-e398-44b4-9c95-1b5b165d6883/connections/6ee76168-27ab-4ac4-9f50-b619664191db/status">airbyte</a></p>
+<p>Aquest mapeig es una traducció del <a href="#fitxer-mapeig-de-senyals">fitxer de mapeigs</a>.</p>
+<p>Un cop heu acabat de fer el mapeig, cal engegar la tasca de sync de l'airbyte d'uuids per que les dades arribin a la base de dades. Heu de tenir especial cura d'omplir les columnes <code>updated_at</code> i aquelles que posen UUIDs, ja que amb elles se creuen les dades dins del pipe.</p>
+<div class="admonition info">
+<p class="admonition-title"><code>update_at</code> s'actualitza automagicament</p>
+<p>Al fitxer de google sheets hi ha un script que actualitza la columna <code>updated_at</code> quan hi ha hagut un canvi a nivell de fila. Es molt limitat i heu de supervisar que s'ha actualitzat correctament, ja que de vegades google sheets no ho fa. Podeu mirar a <code>Extensions &gt; Apps Script</code> per veure el codi.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">UUID són versió 4</p>
+<p>Els senyals porten UUID4 (han de ser versio 4) únics al mapeig de la planta indicada. Es poden generar UUID4 amb <a href="https://www.uuidgenerator.net/">https://www.uuidgenerator.net/</a> O ben vé amb un script de python que podeu afegir a <code>~/.bash_aliases</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#·function·to·genenerate·random·uuid4·using·python$</span>
+<span class="k">function</span><span class="w"> </span>pyuuid4<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import uuid</span>$
+<span class="s2">for _ in range(</span><span class="si">${</span><span class="nv">N</span><span class="k">:-</span><span class="nv">1</span><span class="si">}</span><span class="s2">):</span>
+<span class="s2">    print(uuid.uuid4())&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
+</code></pre></div>
+<p>i el podeu executar amb <code>N=&lt;n&gt; pyuuid4</code> per a generar <code>n</code> UUID4.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nv">N</span><span class="o">=</span><span class="m">10</span><span class="w"> </span>pyuuid4
+bf98707e-688c-471c-8700-9ffeaf436531
+8f6bfcc0-48bf-4b7c-895f-0b2efa37dd63
+ee5dcfd1-80ba-48fb-800d-5bc8c04d217f
+d32b0a23-c479-4ae9-bb54-43390fedf8e4
+eced945e-7a91-4451-bbd5-974a82c9c0d4
+fbacbf3d-23f6-4361-b5ec-b48b390d9c09
+b9c4ea66-672e-4dca-ad08-fddacdfb3627
+ae3e242e-9a57-4359-a72b-313a72b48348
+9e11a595-c32c-42e1-8549-a5161c0ea624
+172061ed-96b4-4aa3-b5bd-0c66e850383b
+</code></pre></div>
+</div>
+<h3 id="afegir-meteologica-plantmonitor">Afegir planta per <code>meteologica</code> amb <code>plantmonitor</code><a class="headerlink" href="#afegir-meteologica-plantmonitor" title="Permalink">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Què és <code>meteologica</code>?</p>
+<p><code>meteologica</code> és un servei que ens permet tenir dades meteorològiques de les plantes fotovoltaiques. Aquest servei es comunica amb <code>plantmonitor</code> per a obtenir dades de les plantes.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Què és <code>plantmonitor</code>?</p>
+<p>Tots els scripts en aquest apartat fan referència al repositori de github <a href="https://github.com/Som-Energia/plantmonitor/"><code>plantmonitor</code></a>. És un projecte previ a <code>jardiner</code> que ens permet monitoritzar plantes fotovoltaiques quan l'obtenció de dades la gestionem nosaltres.</p>
+</div>
+<p>A <code>plantmonitor</code> tenim un script que ens permet afegir plantes noves. Aquest script s'ha de cridar amb un fitxer yaml que contingui les dades de la planta.</p>
+<p>S'ha de crear la planta a la base de dades tant a la raspberrypi com a plantmonitor (no calen els dispositius, que els crea automàticament). Haureu d'afegir <code>plantlocation</code>, <code>plantparameters</code> i <code>moduleparameters</code>. Trobareu un exemple <a href="https://github.com/Som-Energia/plantmonitor/blob/master/docs/2023-01-09-add_plantparameters_of_a_plant.md">a plantmonitor</a></p>
+<p>Un cop teniu el fitxer yaml, per exemple <code>data/plant-nova.yaml</code>, podeu cridar l'script <code>addPlant.py</code> amb el següent comandament:</p>
 <div class="highlight"><pre><span></span><code><span class="nv">PLANTMONITOR_MODULE_SETTINGS</span><span class="o">=</span><span class="s1">&#39;conf.settings.prod&#39;</span><span class="w"> </span>python<span class="w"> </span>addPlant.py<span class="w"> </span>data/plant-asomada.yaml
 </code></pre></div>
-<p>De moment manualment cal afegir els registres de plantestimatedmonthlyenergy. L'any és irrellevant.
+<p>Haureu de tenir un fitxer <code>.env.prod</code> amb les variables d'entorn necessàries per a que l'script funcioni correctament. Mireu a la documentació de plantmonitor per a més informació.</p>
+<p>De moment manualment cal afegir els registres de <code>plantestimatedmonthlyenergy</code>. L'any és irrellevant.
 Si tenim històrics d'energia objectiu, els podeu afegir.</p>
-<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="k">public</span><span class="p">.</span><span class="n">plantestimatedmonthlyenergy</span><span class="p">(</span><span class="n">plantparameters</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;time&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">monthly_target_energy_kwh</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span>
-<span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-01-01 00:00:00+01&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">473630</span><span class="p">),</span>
-<span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-02-01 00:00:00+01&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">453370</span><span class="p">),</span>
-<span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-03-01 00:00:00+01&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">592040</span><span class="p">),</span>
-<span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-04-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">617000</span><span class="p">),</span>
-<span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-05-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">667210</span><span class="p">),</span>
-<span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-06-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">648940</span><span class="p">),</span>
-<span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-07-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">703030</span><span class="p">),</span>
-<span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-08-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">644500</span><span class="p">),</span>
-<span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-09-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">574580</span><span class="p">),</span>
-<span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-10-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">524110</span><span class="p">),</span>
-<span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-11-01 00:00:00+01&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">446490</span><span class="p">),</span>
-<span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-12-01 00:00:00+01&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">442060</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span>
+<span class="w"> </span><span class="k">public</span><span class="p">.</span><span class="n">plantestimatedmonthlyenergy</span><span class="p">(</span><span class="n">plantparameters</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;time&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">monthly_target_energy_kwh</span><span class="p">)</span>
+<span class="k">VALUES</span>
+<span class="w"> </span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-01-01 00:00:00+01&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">473630</span><span class="p">),</span>
+<span class="w"> </span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-02-01 00:00:00+01&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">453370</span><span class="p">),</span>
+<span class="w"> </span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-03-01 00:00:00+01&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">592040</span><span class="p">),</span>
+<span class="w"> </span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-04-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">617000</span><span class="p">),</span>
+<span class="w"> </span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-05-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">667210</span><span class="p">),</span>
+<span class="w"> </span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-06-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">648940</span><span class="p">),</span>
+<span class="w"> </span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-07-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">703030</span><span class="p">),</span>
+<span class="w"> </span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-08-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">644500</span><span class="p">),</span>
+<span class="w"> </span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-09-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">574580</span><span class="p">),</span>
+<span class="w"> </span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-10-01 00:00:00+02&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">524110</span><span class="p">),</span>
+<span class="w"> </span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-11-01 00:00:00+01&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">446490</span><span class="p">),</span>
+<span class="w"> </span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2022-12-01 00:00:00+01&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">442060</span><span class="p">);</span>
 </code></pre></div>
 <p>si té raspberrypi:</p>
-<p>escriure el modmap.yaml (TODO: unificar tots els modmaps a un de sol?)</p>
+<ul>
+<li>escriure el fitxer <code>.yaml</code> de la planta <!-- (TODO: unificar tots els modmaps a un de sol?) --></li>
+<li>
 <p>Executar l’script d’alba i posta per a generar totes les albes i postes dels propers 10 anys</p>
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/sun_events.py<span class="w"> </span>-p<span class="w"> </span>Alcolea<span class="w"> </span>-s<span class="w"> </span><span class="m">2021</span>-12-13<span class="w"> </span>-e<span class="w"> </span><span class="m">2021</span>-12-14
 </code></pre></div>
+</li>
+<li>
 <p>whitelistejar la ip pública al plantmonitor per a què pugui pujar lectures</p>
-<p>Afegir les dades al diccionari de solargis (quan deixi de ser hard-coded ja no caldrà aquest pas)</p>
-<h2 id="serveis-de-somenergia-addicionals">Serveis de SomEnergia addicionals</h2>
-<h3 id="nagios">nagios</h3>
+</li>
+<li>Afegir les dades al diccionari de solargis (<a href="#afegir-solargis">Veure com aqui</a>). Quan deixi de ser hard-coded ja no caldrà aquest pas.</li>
+</ul>
+<h3 id="afegir-solargis">Afegir planta al script de SolarGIS<a class="headerlink" href="#afegir-solargis" title="Permalink">&para;</a></h3>
+<p>S'ha de modificar el codi de plantmonitor per incloure la nova planta. Podeu trobar un exemple de modificacions <a href="https://github.com/Som-Energia/plantmonitor/pull/40/commits/77aa3914905cce6d39062271085a633d8c6a1506">github</a></p>
+<p>Amb la MR aprovada i fusionada, s'ha de fer <code>git pull</code> des de el servidor de producció i reiniciar el servei de plantmonitor.</p>
+<p>La API de SolarGIS requereix un token d'accés i es crida remotament amb <code>supervisord</code>, amb codi al repositori de <a href="https://github.com/Som-Energia/plantmonitor">plantmonitor</a>.</p>
+<div class="admonition info">
+<p class="admonition-title">L'API de SolarGIS és SOAP</p>
+<p><a href="https://www.redhat.com/es/topics/integration/whats-the-difference-between-soap-rest">L'API es del tipus SOAP i no REST</a>. És a dir, demana un XML amb les dades de la planta.</p>
+</div>
+<h2 id="xarxa">Xarxa<a class="headerlink" href="#xarxa" title="Permalink">&para;</a></h2>
+<ol>
+<li>Conectar-se a la ip del router de la planta i afegir el port forwarding que calgui (raspberrypi o aparells)</li>
+<li>Demanar a sistemes que afegeixi la planta al dns e.g. <code>planta-&lt;nom_planta&gt;.somenergia.coop</code></li>
+</ol>
+<p>Tot això ha de quedar escrit en el document <code>Mapeig de Planta</code></p>
+<h2 id="dades-requerides-per-aparells">Dades requerides per aparells<a class="headerlink" href="#dades-requerides-per-aparells" title="Permalink">&para;</a></h2>
+<h3 id="comptador">Comptador<a class="headerlink" href="#comptador" title="Permalink">&para;</a></h3>
+<p>Agafar les dades de <a href="https://docs.google.com/spreadsheets/d/1Z7_QpzestHBzVf9o78IC3hdGWMDH6dlyUr8f9LewO1o/edit#gid=904950265">Modelos contadores_inversores_SCADAS</a></p>
+<ul>
+<li>ip lan, port, porta d’enllaç i contrasenya</li>
+<li>telèfon, si s'escau</li>
+</ul>
+<h3 id="inversor">Inversor<a class="headerlink" href="#inversor" title="Permalink">&para;</a></h3>
+<ul>
+<li>ip</li>
+</ul>
+<h3 id="raspberrypi">Raspberrypi<a class="headerlink" href="#raspberrypi" title="Permalink">&para;</a></h3>
+<ul>
+<li>ip lan</li>
+<li>usuari</li>
+<li>password</li>
+</ul>
+<h2 id="serveis-de-somenergia-addicionals">Serveis de SomEnergia addicionals<a class="headerlink" href="#serveis-de-somenergia-addicionals" title="Permalink">&para;</a></h2>
+<h3 id="nagios">nagios<a class="headerlink" href="#nagios" title="Permalink">&para;</a></h3>
 <p>afegir-la al nagios o modificar-la en cas de canvi d’ip pública</p>
-<h3 id="opendata">opendata</h3>
-<p>Cal afegir la info de la nova planta a taula literal que es fa servir a somenergia-opendata/som_opendata/queries/plantpower.sql</p>
-<p>(Un cop aquesta info estigui a plantmonitor, l’opendata podrà agafar-la directament per sql i no caldrà fer aquest pas)</p>
-<h3 id="generationkwh">generationkwh</h3>
+<h3 id="opendata">opendata<a class="headerlink" href="#opendata" title="Permalink">&para;</a></h3>
+<p>Cal afegir la info de la nova planta a taula literal que es fa servir a <code>somenergia-opendata/som_opendata/queries/plantpower.sql</code>. Un cop aquesta info estigui a plantmonitor, l’opendata podrà agafar-la directament per sql i no caldrà fer aquest pas.</p>
+<h3 id="generationkwh">generationkwh<a class="headerlink" href="#generationkwh" title="Permalink">&para;</a></h3>
 <p>Si la planta està inclosa al generation, és important afegir-la a l’erp abans de la mitja nit del dia de posada a producció.
 Si no, cal descartar càlculs de drets del generation per a que incloguin els resultats. Si, a més, els drets s’han començat a gastar (15 dies de marge de facturació), cal reperfilar els nous drets amb la producció afegida perquè no superi els drets ja atorgats.</p>
-<p>La nova planta es crea fent servir l’script: somenergia-generationkwh/scripts/genkwh_plants.sh</p>
-<p>Un exemple complert de com afegir una planta amb aquest script: <a href="https://github.com/Som-Energia/somenergia-generationkwh/blob/master/scripts/genkwh_migrate_plantmeter_1_7_0_newplant.sh">https://github.com/Som-Energia/somenergia-generationkwh/blob/master/scripts/genkwh_migrate_plantmeter_1_7_0_newplant.sh</a></p>
+<p>La nova planta es crea fent servir l’script a <a href="https://github.com/Som-Energia/somenergia-generationkwh/blob/master/scripts/genkwh_plants.py"><code>somenergia-generationkwh/scripts/genkwh_plants.py</code></a></p>
+<p>Un exemple complert de com afegir una planta amb aquest script el podeu trobar a <a href="https://github.com/Som-Energia/somenergia-generationkwh/blob/master/scripts/genkwh_migrate_plantmeter_1_7_0_newplant.sh">https://github.com/Som-Energia/somenergia-generationkwh/blob/master/scripts/genkwh_migrate_plantmeter_1_7_0_newplant.sh</a></p>
 <p>Es recomana provar primer a un ERP de testing o local, i, després aplicar-ho a producció.</p>
+<h4 id="reperfilacio-de-dades">Reperfilació de dades<a class="headerlink" href="#reperfilacio-de-dades" title="Permalink">&para;</a></h4>
 <p>Un exemple d’script de migració en la que vam haver de reperfilar: <a href="https://github.com/Som-Energia/somenergia-generationkwh/blob/master/scripts/genkwh_migrate_plantmeter_1_7_2_fontivsolarfix.sh">https://github.com/Som-Energia/somenergia-generationkwh/blob/master/scripts/genkwh_migrate_plantmeter_1_7_2_fontivsolarfix.sh</a></p>
 
 
@@ -1350,7 +1701,7 @@ Si no, cal descartar càlculs de drets del generation per a que incloguin els re
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 21, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">September 27, 2024</span>
   </span>
 
     
@@ -1403,10 +1754,10 @@ Si no, cal descartar càlculs de drets del generation per a que incloguin els re
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "navigation.tracking", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d6f25eb3.min.js"></script>
       
     
   </body>

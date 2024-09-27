@@ -14,11 +14,11 @@
         <link rel="prev" href="../2023-07-10-dbt_cmds_utils/">
       
       
-        <link rel="next" href="../2023-08-28-afegir-planta-a-superset/">
+        <link rel="next" href="../2023-08-28-alta_planta/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.38">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.35f28582.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -653,8 +653,6 @@
       
         
       
-        
-      
     
     
     
@@ -823,32 +821,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../2023-08-28-afegir-planta-a-superset/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Afegir dades de planta des de DSET a dashboards
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../2023-08-28-alta_planta/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Alta d'una planta fotovoltaica a
+    Alta d'una planta fotovoltaica al pipe de Jardiner
   </span>
   
 
@@ -1063,8 +1040,8 @@
   
 
 
-<h1 id="reusuable-sqls">Reusuable sqls</h1>
-<h2 id="dbt-sql-for-rolling-window">dbt sql for rolling window</h2>
+<h1 id="reusuable-sqls">Reusuable sqls<a class="headerlink" href="#reusuable-sqls" title="Permalink">&para;</a></h1>
+<h2 id="dbt-sql-for-rolling-window">dbt sql for rolling window<a class="headerlink" href="#dbt-sql-for-rolling-window" title="Permalink">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="err">{</span><span class="o">%-</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="n">plant_alarm_ranges</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbt_utils</span><span class="p">.</span><span class="n">get_query_results_as_dict</span><span class="p">(</span><span class="k">ref</span><span class="p">(</span><span class="s1">&#39;plant_alarm_ranges&#39;</span><span class="p">))</span><span class="w"> </span><span class="o">-%</span><span class="err">}</span>
 
 <span class="err">{</span><span class="o">%</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">plant</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">plant_alarm_ranges</span><span class="w"> </span><span class="o">%</span><span class="err">}</span>
@@ -1164,10 +1141,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "navigation.tracking", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d6f25eb3.min.js"></script>
       
     
   </body>

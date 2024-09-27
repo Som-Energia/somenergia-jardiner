@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.38">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.35f28582.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -784,8 +784,6 @@
       
         
       
-        
-      
     
     
     
@@ -905,32 +903,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../desenvolupadors/2023-08-28-afegir-planta-a-superset/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Afegir dades de planta des de DSET a dashboards
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../desenvolupadors/2023-08-28-alta_planta/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Alta d'una planta fotovoltaica a
+    Alta d'una planta fotovoltaica al pipe de Jardiner
   </span>
   
 
@@ -1229,16 +1206,16 @@
   
 
 
-<h1 id="meter-alarm-logic">Meter alarm logic</h1>
+<h1 id="meter-alarm-logic">Meter alarm logic<a class="headerlink" href="#meter-alarm-logic" title="Permalink">&para;</a></h1>
 <ul>
 <li>Status: Unknown</li>
 <li>Deciders: [list everyone involved in the decision] <!-- optional --></li>
 <li>Date: [YYYY-MM-DD when the decision was last updated] <!-- optional --></li>
 </ul>
 <p>Technical Story: [description | ticket/issue URL] <!-- optional --></p>
-<h2 id="context-and-problem-statement">Context and Problem Statement</h2>
+<h2 id="context-and-problem-statement">Context and Problem Statement<a class="headerlink" href="#context-and-problem-statement" title="Permalink">&para;</a></h2>
 <p>Les alarmes de comptadors s'han de notificar.</p>
-<h2 id="decision-drivers">Decision Drivers <!-- optional --></h2>
+<h2 id="decision-drivers">Decision Drivers <!-- optional --><a class="headerlink" href="#decision-drivers" title="Permalink">&para;</a></h2>
 <p>coberts:
 * moxa ens arriben les lectures cada 24h
 * hi ha comptadors sense lectures durant temps
@@ -1246,28 +1223,28 @@
 <ul>
 <li>també volem notificacions de quant s'ha arreglat una planta que estava en alarma</li>
 </ul>
-<h2 id="considered-options">Considered Options</h2>
+<h2 id="considered-options">Considered Options<a class="headerlink" href="#considered-options" title="Permalink">&para;</a></h2>
 <ul>
 <li>fer un post per cada planta un cop cada 24h amb el resum de l'estat de les alarmes [OK|NOK]</li>
 <li>tenir una taula de canvis d'estat i notificar-la</li>
 <li>guardar la taula i fer un diff al dia seguent</li>
 </ul>
-<h2 id="decision-outcome">Decision Outcome</h2>
-<h3 id="positive-consequences">Positive Consequences</h3>
-<h3 id="negative-consequences">Negative Consequences</h3>
+<h2 id="decision-outcome">Decision Outcome<a class="headerlink" href="#decision-outcome" title="Permalink">&para;</a></h2>
+<h3 id="positive-consequences">Positive Consequences<a class="headerlink" href="#positive-consequences" title="Permalink">&para;</a></h3>
+<h3 id="negative-consequences">Negative Consequences<a class="headerlink" href="#negative-consequences" title="Permalink">&para;</a></h3>
 <ul>
 <li>rebran un e-mail cada dia si hi ha un comptador que no va o reporta 0
 --&gt; poden desubstriure's de l'alarma</li>
 </ul>
 <p>podem</p>
-<h2 id="pros-and-cons-of-the-options">Pros and Cons of the Options <!-- optional --></h2>
-<h3 id="guardar-taula-i-fer-diff">guardar taula i fer diff</h3>
+<h2 id="pros-and-cons-of-the-options">Pros and Cons of the Options <!-- optional --><a class="headerlink" href="#pros-and-cons-of-the-options" title="Permalink">&para;</a></h2>
+<h3 id="guardar-taula-i-fer-diff">guardar taula i fer diff<a class="headerlink" href="#guardar-taula-i-fer-diff" title="Permalink">&para;</a></h3>
 <ul>
 <li>guardar la taula i fer un diff al dia seguent</li>
 </ul>
 <p>ho farem amb un pandas/sql fàcil per no posar dbt a producció encara</p>
 <p>--&gt; ho acabarà fent dbt a mig termini</p>
-<h2 id="links">Links <!-- optional --></h2>
+<h2 id="links">Links <!-- optional --><a class="headerlink" href="#links" title="Permalink">&para;</a></h2>
 <ul>
 <li>[Link type] [Link to ADR] <!-- example: Refined by <a href="0005-example.md">ADR-0005</a> --></li>
 <li>… <!-- numbers of links can vary --></li>
@@ -1345,10 +1322,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "navigation.tracking", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d6f25eb3.min.js"></script>
       
     
   </body>

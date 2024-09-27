@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.38">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.35f28582.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -661,8 +661,6 @@
       
         
       
-        
-      
     
     
     
@@ -782,32 +780,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../desenvolupadors/2023-08-28-afegir-planta-a-superset/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Afegir dades de planta des de DSET a dashboards
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../desenvolupadors/2023-08-28-alta_planta/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Alta d'una planta fotovoltaica a
+    Alta d'una planta fotovoltaica al pipe de Jardiner
   </span>
   
 
@@ -1005,7 +982,7 @@
   
 
 
-<h1 id="views-de-plantmonitor-a-migrar-a-dbt">Views de plantmonitor a migrar a dbt</h1>
+<h1 id="views-de-plantmonitor-a-migrar-a-dbt">Views de plantmonitor a migrar a dbt<a class="headerlink" href="#views-de-plantmonitor-a-migrar-a-dbt" title="Permalink">&para;</a></h1>
 <p>~ marca les que segurament no cal fer, al gust</p>
 <div class="highlight"><pre><span></span><code>view_availability.sql
 ~view_q_hourly_debug.sql~
@@ -1019,7 +996,7 @@ view_ht_monthly.sql
 view_pr_hourly.sql
 view_target_energy.sql
 </code></pre></div>
-<h1 id="agregacions">Agregacions</h1>
+<h1 id="agregacions">Agregacions<a class="headerlink" href="#agregacions" title="Permalink">&para;</a></h1>
 <p>No cal fer-les perquè son agraupacions que segurament farem servir mètriques de dbt tipus:</p>
 <div class="highlight"><pre><span></span><code>view_inverter_energy_daily.sql
 view_inverter_energy_monthly.sql
@@ -1032,7 +1009,7 @@ view_satellite_irradiation.sql
 <p>sum(a/x) -- horaria</p>
 <p>sum(a/x) + sum(b/y) ... mensual wrong</p>
 <p>sum((a+b+c)/(x+y+z)) -- mensual correct</p>
-<h1 id="views-per-limitar-lacces-a-la-info-dels-tecnics">views per limitar l'accés a la info dels tècnics</h1>
+<h1 id="views-per-limitar-lacces-a-la-info-dels-tecnics">views per limitar l'accés a la info dels tècnics<a class="headerlink" href="#views-per-limitar-lacces-a-la-info-dels-tecnics" title="Permalink">&para;</a></h1>
 <p>No cal fer-ho, limitarem l'accés a la wide table o farem servir els permisos del superset o ja veurem</p>
 <div class="highlight"><pre><span></span><code>view_plants_energes.sql
 view_plants_energetica.sql
@@ -1053,7 +1030,7 @@ view_inverter_temperature_exiom.sql
 view_sensorirradiationregistry_energes.sql
 view_sensorirradiationregistry_ercam.sql
 </code></pre></div>
-<h1 id="no-shan-de-fer-obsoletes">no s'han de fer (obsoletes)</h1>
+<h1 id="no-shan-de-fer-obsoletes">no s'han de fer (obsoletes)<a class="headerlink" href="#no-shan-de-fer-obsoletes" title="Permalink">&para;</a></h1>
 <div class="highlight"><pre><span></span><code>zero_inverter_power_at_daylight.sql
 zero_sonda_irradiation_at_daylight.sql
 </code></pre></div>
@@ -1130,10 +1107,10 @@ zero_sonda_irradiation_at_daylight.sql
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.path", "navigation.indexes", "navigation.top", "navigation.tracking", "content.action.edit", "content.action.view", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d6f25eb3.min.js"></script>
       
     
   </body>
