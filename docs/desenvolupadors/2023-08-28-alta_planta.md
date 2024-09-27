@@ -163,7 +163,7 @@ si té raspberrypi:
 - Executar l’script d’alba i posta per a generar totes les albes i postes dels propers 10 anys
 
     ```bash
-    python scripts/sun_events.py -p Alcolea -s 2021-12-13 -e 2021-12-14
+    python -m scripts.sun_events -p Alcolea -s 2021-12-13 -e 2021-12-14
     ```
 
 - whitelistejar la ip pública al plantmonitor per a què pugui pujar lectures
