@@ -12,10 +12,12 @@ theme:
     - navigation.path
     - navigation.indexes
     - navigation.top
+    - navigation.tracking
     - content.action.edit
     - content.action.view
     - content.code.copy
     - content.code.annotate
+    - toc.follow
   icon:
     edit: material/pencil
     view: material/eye
@@ -40,6 +42,10 @@ markdown_extensions:
   - attr_list
   - admonition
   - pymdownx.details
+  - toc:
+      permalink: true
+      permalink_class: headerlink
+      permalink_title: Permalink
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
