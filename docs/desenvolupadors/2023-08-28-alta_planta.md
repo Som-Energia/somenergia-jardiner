@@ -61,7 +61,7 @@ Té un nom tipus `"Càlcul Rendiment de Planta <nom planta>"`. El podeu buscar a
 
 ### Objectius de producció de planta {#fitxer-produccio-actual-de-planta}
 
-Es trova al fitxer de [google sheets aqui](https://docs.google.com/spreadsheets/d/1VR5wQiHahicm9Q5mxVvzJUfBESYPGP5yvtLDf5NiMfc/edit#gid=2056763057) i es [transforma amb airbyte aqui](https://airbyte.moll.somenergia.coop/workspaces/12f265b4-e398-44b4-9c95-1b5b165d6883/connections/e5a12532-7c8b-4e12-a7ee-9b71f47c655a/status).
+Es troba al fitxer de [google sheets aqui](https://docs.google.com/spreadsheets/d/1VR5wQiHahicm9Q5mxVvzJUfBESYPGP5yvtLDf5NiMfc/edit#gid=2056763057) i es [transforma amb airbyte aqui](https://airbyte.moll.somenergia.coop/workspaces/12f265b4-e398-44b4-9c95-1b5b165d6883/connections/e5a12532-7c8b-4e12-a7ee-9b71f47c655a/status).
 
 ### Unificació Noms Projectes Generació {#fitxer-unificacio-noms-projectes-generacio}
 
@@ -157,16 +157,12 @@ VALUES
  (33, '2022-12-01 00:00:00+01', 442060);
 ```
 
-si té raspberrypi:
-
-- escriure el fitxer `.yaml` de la planta <!-- (TODO: unificar tots els modmaps a un de sol?) -->
 - Executar l’script d’alba i posta per a generar totes les albes i postes dels propers 10 anys
 
     ```bash
     python -m scripts.sun_events -p Alcolea -s 2021-12-13 -e 2021-12-14
     ```
 
-- whitelistejar la ip pública al plantmonitor per a què pugui pujar lectures
 - Afegir les dades al diccionari de solargis ([Veure com aqui](#afegir-solargis)). Quan deixi de ser hard-coded ja no caldrà aquest pas.
 
 ### Afegir planta al script de SolarGIS {#afegir-solargis}
@@ -181,43 +177,28 @@ La API de SolarGIS requereix un token d'accés i es crida remotament amb `superv
 
     [L'API es del tipus SOAP i no REST](https://www.redhat.com/es/topics/integration/whats-the-difference-between-soap-rest). És a dir, demana un XML amb les dades de la planta.
 
-## Xarxa
-
-1. Conectar-se a la ip del router de la planta i afegir el port forwarding que calgui (raspberrypi o aparells)
-2. Demanar a sistemes que afegeixi la planta al dns e.g. `planta-<nom_planta>.somenergia.coop`
-
-Tot això ha de quedar escrit en el document `Mapeig de Planta`
 
 ## Dades requerides per aparells
 
-### Comptador
+### Afegir Comptadors a l'ERP
 
-Agafar les dades de [Modelos contadores_inversores_SCADAS](https://docs.google.com/spreadsheets/d/1Z7_QpzestHBzVf9o78IC3hdGWMDH6dlyUr8f9LewO1o/edit#gid=904950265)
+Les lectures a l'ERP són necessaries mentre metelogica faci servir les lectures de comptadors que plantmonitor copia de l'ERP. També són necessàries per al [generationkwh](#generationkwh). Per això cal agafar les dades de [Modelos contadores_inversores_SCADAS](https://docs.google.com/spreadsheets/d/1Z7_QpzestHBzVf9o78IC3hdGWMDH6dlyUr8f9LewO1o/edit#gid=904950265) i afegir-les a l'erp Infrastructura -> Registradors -> tots els registradors.
 
 - ip lan, port, porta d’enllaç i contrasenya
 - telèfon, si s'escau
-
-### Inversor
-
-- ip
-
-### Raspberrypi
-
-- ip lan
-- usuari
-- password
 
 ## Serveis de SomEnergia addicionals
 
 ### nagios
 
-afegir-la al nagios o modificar-la en cas de canvi d’ip pública
+Preguntar a Gestió d'Actius si encara fan servir el nagios.
+Si si, afegir-la al nagios o modificar-la en cas de canvi d’ip pública
 
 ### opendata
 
 Cal afegir la info de la nova planta a taula literal que es fa servir a `somenergia-opendata/som_opendata/queries/plantpower.sql`. Un cop aquesta info estigui a plantmonitor, l’opendata podrà agafar-la directament per sql i no caldrà fer aquest pas.
 
-### generationkwh
+### generationkwh {#generationkwh}
 
 Si la planta està inclosa al generation, és important afegir-la a l’erp abans de la mitja nit del dia de posada a producció.
 Si no, cal descartar càlculs de drets del generation per a que incloguin els resultats. Si, a més, els drets s’han començat a gastar (15 dies de marge de facturació), cal reperfilar els nous drets amb la producció afegida perquè no superi els drets ja atorgats.
