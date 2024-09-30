@@ -171,11 +171,23 @@ S'ha de modificar el codi de plantmonitor per incloure la nova planta. Podeu tro
 
 Amb la MR aprovada i fusionada, s'ha de fer `git pull` des de el servidor de producció i reiniciar el servei de plantmonitor.
 
+```bash
+ssh someone@somewhere.lan
+source /home/<someone>/Envs/plantmonitor/bin/activate
+cd /home/<someone>/somenergia/plantmonitor
+git pull
+python -m scripts.solargis --help
+python -m scripts.solargis [OPTIONS] DBAPI SOLARGIS_API_KEY FROM_DATE TO_DATE [PLANT_IDS]
+sudo supervisorctl restart plantmonitor
+```
+
+Aqui, `someone` és el nom de l'usuari que té accés a `somewhere.lan`, i `PLANT_IDS` són els ids de les plantes que vau afegir a l'API de SolarGIS amb la PR anterior. Demaneu accés a `somewhere.lan` a l'equip de dades.
+
 La API de SolarGIS requereix un token d'accés i es crida remotament amb `supervisord`, amb codi al repositori de [plantmonitor](https://github.com/Som-Energia/plantmonitor).
 
 !!! info "L'API de SolarGIS és SOAP"
 
-    [L'API es del tipus SOAP i no REST](https://www.redhat.com/es/topics/integration/whats-the-difference-between-soap-rest). És a dir, demana un XML amb les dades de la planta.
+    [L'API es del tipus SOAP i no REST](https://www.redhat.com/es/topics/integration/whats-the-difference-between-soap-rest). És a dir, demana un XML amb les dades de la planta. Podeu trobar informació sobre com cridar-la a la seva [documentació d'usuari](https://solargis.atlassian.net/wiki/spaces/public/pages/7602367/Solargis+API+User+Gui).
 
 
 ## Dades requerides per aparells
