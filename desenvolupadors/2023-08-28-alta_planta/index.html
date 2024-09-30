@@ -1606,10 +1606,19 @@ Si tenim històrics d'energia objectiu, els podeu afegir.</p>
 <h3 id="afegir-solargis">Afegir planta al script de SolarGIS<a class="headerlink" href="#afegir-solargis" title="Permalink">&para;</a></h3>
 <p>S'ha de modificar el codi de plantmonitor per incloure la nova planta. Podeu trobar un exemple de modificacions <a href="https://github.com/Som-Energia/plantmonitor/pull/40/commits/77aa3914905cce6d39062271085a633d8c6a1506">github</a></p>
 <p>Amb la MR aprovada i fusionada, s'ha de fer <code>git pull</code> des de el servidor de producció i reiniciar el servei de plantmonitor.</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>someone@somewhere.lan
+<span class="nb">source</span><span class="w"> </span>/home/&lt;someone&gt;/Envs/plantmonitor/bin/activate
+<span class="nb">cd</span><span class="w"> </span>/home/&lt;someone&gt;/somenergia/plantmonitor
+git<span class="w"> </span>pull
+python<span class="w"> </span>-m<span class="w"> </span>scripts.solargis<span class="w"> </span>--help
+python<span class="w"> </span>-m<span class="w"> </span>scripts.solargis<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>DBAPI<span class="w"> </span>SOLARGIS_API_KEY<span class="w"> </span>FROM_DATE<span class="w"> </span>TO_DATE<span class="w"> </span><span class="o">[</span>PLANT_IDS<span class="o">]</span>
+sudo<span class="w"> </span>supervisorctl<span class="w"> </span>restart<span class="w"> </span>plantmonitor
+</code></pre></div>
+<p>Aqui, <code>someone</code> és el nom de l'usuari que té accés a <code>somewhere.lan</code>, i <code>PLANT_IDS</code> són els ids de les plantes que vau afegir a l'API de SolarGIS amb la PR anterior. Demaneu accés a <code>somewhere.lan</code> a l'equip de dades.</p>
 <p>La API de SolarGIS requereix un token d'accés i es crida remotament amb <code>supervisord</code>, amb codi al repositori de <a href="https://github.com/Som-Energia/plantmonitor">plantmonitor</a>.</p>
 <div class="admonition info">
 <p class="admonition-title">L'API de SolarGIS és SOAP</p>
-<p><a href="https://www.redhat.com/es/topics/integration/whats-the-difference-between-soap-rest">L'API es del tipus SOAP i no REST</a>. És a dir, demana un XML amb les dades de la planta.</p>
+<p><a href="https://www.redhat.com/es/topics/integration/whats-the-difference-between-soap-rest">L'API es del tipus SOAP i no REST</a>. És a dir, demana un XML amb les dades de la planta. Podeu trobar informació sobre com cridar-la a la seva <a href="https://solargis.atlassian.net/wiki/spaces/public/pages/7602367/Solargis+API+User+Gui">documentació d'usuari</a>.</p>
 </div>
 <h2 id="dades-requerides-per-aparells">Dades requerides per aparells<a class="headerlink" href="#dades-requerides-per-aparells" title="Permalink">&para;</a></h2>
 <h3 id="afegir-comptadors-a-lerp">Afegir Comptadors a l'ERP<a class="headerlink" href="#afegir-comptadors-a-lerp" title="Permalink">&para;</a></h3>
