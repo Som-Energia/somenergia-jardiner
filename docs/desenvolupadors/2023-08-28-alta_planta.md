@@ -118,7 +118,7 @@ Un cop heu acabat de fer el mapeig, cal engegar la tasca de sync de l'airbyte d'
 
 !!! info "Què és `meteologica`?"
 
-    `meteologica` és un servei que ens permet tenir dades meteorològiques de les plantes fotovoltaiques. Aquest servei es comunica amb `plantmonitor` per a obtenir dades de les plantes.
+    `meteologica` és un servei que ens permet tenir dades meteorològiques de les plantes fotovoltaiques. Aquest servei es comunica amb `plantmonitor` per a obtenir dades de les plantes. Es una API tipus SOAP i [teniu la documentació disponible aqui](https://drive.google.com/file/d/1nKAJoIDCSU9F3JSvxo-DAwuiOxjKxkth/view?usp=drive_link).
 
 !!! info "Què és `plantmonitor`?"
 
