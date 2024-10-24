@@ -4,7 +4,18 @@
         on_schema_change="sync_all_columns",
         incremental_strategy = 'delete+insert',
         unique_key = ['ts', 'signal_uuid'],
-        incremental_predicates = ["int_dset_responses__values_incremental.ts > now() - interval '2 days'"]
+        incremental_predicates = ["int_dset_responses__values_incremental.ts > now() - interval '2 days'"],
+		post_hook=[
+			"SELECT create_hypertable(
+				relation => '{{ this }}',
+				migrate_data => true,
+				time_column_name => 'ts',
+				chunk_time_interval => interval '30 days',
+				if_not_exists => true
+			)",
+			"CREATE INDEX IF NOT EXISTS idx_int_dset_responses__values_incremental_device_type__ts ON {{ this }} (ts DESC, device_type)",
+			"CREATE INDEX IF NOT EXISTS idx_int_dset_responses__values_incremental_metric_name__ts ON {{ this }} (ts DESC, metric_name)",
+			]
     )
 }}
 
