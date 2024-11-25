@@ -916,6 +916,24 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#script-ingesta" class="md-nav__link">
+    <span class="md-ellipsis">
+      Descripció del script d'ingesta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#esborrar-i-tornar-a-llegir-les-dades" class="md-nav__link">
     <span class="md-ellipsis">
       Esborrar i tornar a llegir les dades
@@ -925,9 +943,27 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#aturar-dags-materialitzacio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aturar DAGs que materialitzen dades amb dbt
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#executar-dbt-full-refresh" class="md-nav__link">
     <span class="md-ellipsis">
       Executar dbt --full-refresh
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activar-dags-materialitzacio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Activat DAGs que materialitzen dades amb dbt
     </span>
   </a>
   
@@ -1081,6 +1117,24 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#script-ingesta" class="md-nav__link">
+    <span class="md-ellipsis">
+      Descripció del script d'ingesta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#esborrar-i-tornar-a-llegir-les-dades" class="md-nav__link">
     <span class="md-ellipsis">
       Esborrar i tornar a llegir les dades
@@ -1090,9 +1144,27 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#aturar-dags-materialitzacio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aturar DAGs que materialitzen dades amb dbt
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#executar-dbt-full-refresh" class="md-nav__link">
     <span class="md-ellipsis">
       Executar dbt --full-refresh
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activar-dags-materialitzacio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Activat DAGs que materialitzen dades amb dbt
     </span>
   </a>
   
@@ -1134,7 +1206,6 @@
   
 
 
-<hr />
 <h1 id="omplir-forats-de-dades-de-senyals">Omplir forats de dades de senyals<a class="headerlink" href="#omplir-forats-de-dades-de-senyals" title="Permalink">&para;</a></h1>
 <p>Actualment, el sistema de monitoratge de senyals de les plantes pot tenir forats de dades. Aquests forats poden ser deguts a problemes de comunicació, errors en la recollida de dades, etc.</p>
 <p>Per com funciona el pipe de dades, les dades se descarreguen nomès un cop si ha hagut una mesura incorrecte, o si no arriba a temps, s'ha de fer feina manual per tornar a descarregar les dades.</p>
@@ -1149,6 +1220,7 @@
 <p>Les dades de senyals no són a temps real, i es disponibilitzen a l'api fins a 15 minuts desprès de que han set generades. Per això que no parlem de servir dades en temps real, perqué les dades disponibles arriben amb un retard.</p>
 </div>
 <h2 id="dades-de-comptadors">Dades de comptadors<a class="headerlink" href="#dades-de-comptadors" title="Permalink">&para;</a></h2>
+<h3 id="script-ingesta">Descripció del script d'ingesta<a class="headerlink" href="#script-ingesta" title="Permalink">&para;</a></h3>
 <p>Actualment les dades de comptadors es llegeixen diàriament amb un DAG d'Airflow (<a href="https://airflow.somenergia.coop/dags/dset_reader_meters_dag_v2/">aqui</a>). Aquest DAG llegeix executa un script que es pot trobar a <a href="https://gitlab.somenergia.coop/et/somenergia-plant-reader/-/blob/main/scripts/read_dset_meters.py">aquí</a>.</p>
 <p>De manera resumida, el script fa el següent:</p>
 <ol>
@@ -1160,6 +1232,15 @@
 <li>Si les dates no hi son a la nostra base de dades, les descarreguem i les guardem a la base de dades de SomEnergia.</li>
 <li>Aixó té un <em>caveat</em> que afecta a forats: si hi ha un forat però tenim dades més recents, no les podrem detectar per que ja tenim una mesura més recent.</li>
 <li>Per això, si hi ha un forat, s'ha de fer manualment.</li>
+</ol>
+<h3 id="resum">Resum<a class="headerlink" href="#resum" title="Permalink">&para;</a></h3>
+<p>Tot el procediment es pot resumir de la manera següent</p>
+<ol>
+<li>Buscar i eliminar dades en el rang que es vol reomplir les dades</li>
+<li>Tornar a descarregar les dades amb el <a href="#script-ingesta">script d'ingesta</a></li>
+<li>Aturar DAGs d'Airflow que materialitzen dades en temps real amb `dbt</li>
+<li>Tirar <code>dbt</code> amb <code>--full-refresh</code></li>
+<li>Tornar a activar DAGs desactivats</li>
 </ol>
 <h3 id="esborrar-i-tornar-a-llegir-les-dades">Esborrar i tornar a llegir les dades<a class="headerlink" href="#esborrar-i-tornar-a-llegir-les-dades" title="Permalink">&para;</a></h3>
 <p>Per omplir forats de dades de comptadors, s'ha de seguir el següent procediment:</p>
@@ -1225,12 +1306,16 @@
 <p>Si les dades s'han omplert correctament, ja hauràs acabat. Si no, revisa els logs del script per veure si hi ha hagut algun error.</p>
 </li>
 </ol>
+<h3 id="aturar-dags-materialitzacio">Aturar DAGs que materialitzen dades amb dbt<a class="headerlink" href="#aturar-dags-materialitzacio" title="Permalink">&para;</a></h3>
+<p>Actualment hi ha un <a href="https://airflow.somenergia.coop/dags/dset_materialize_dag_v1/">DAG d'Airflow</a> que está constantment materalitztant les últimes capes del pipe per que els models finals vagin més rápid. Abans de tocar les dades amb <code>dbt</code> al següent pas, caldrà aturar aquest DAG per que en altre cas la db bloquejarà un dels dos processos.</p>
 <h3 id="executar-dbt-full-refresh">Executar <code>dbt --full-refresh</code><a class="headerlink" href="#executar-dbt-full-refresh" title="Permalink">&para;</a></h3>
 <p>Amb els forats omplerts, s'han de refer i propagar calculs fets amb dbt al passat amb les dades noves. Com no fem aquest calcul cada vegada al ser molt intensiu, només el fem per els últims dos dies de dades. Aquesta lógica es troba <a href="https://gitlab.somenergia.coop/et/somenergia-jardiner/-/blob/0364c13c43983bdc0bd931f8cd33100ebfb3eee3/dbt_jardiner/models/jardiner/intermediate/dset/int_dset_responses__values_incremental.sql#L34">aquí</a></p>
 <p>Per això, s'ha de fer un <code>dbt --full-refresh</code> per que dbt torni a calcular les dades amb les dades noves del passat.</p>
 <div class="highlight"><pre><span></span><code>dbt<span class="w"> </span>build<span class="w"> </span>-s<span class="w"> </span>tag:jardiner<span class="w"> </span>--store-failures<span class="w"> </span>--full-refresh<span class="w"> </span>--target<span class="w"> </span>prod
 </code></pre></div>
 <p>Aquesta tasca és molt intensiva i pot trigar molta estona. Per això, s'ha de fer amb cura i en un moment de baixa càrrega.</p>
+<h3 id="activar-dags-materialitzacio">Activat DAGs que materialitzen dades amb dbt<a class="headerlink" href="#activar-dags-materialitzacio" title="Permalink">&para;</a></h3>
+<p>No oblidar-se de activar els DAGs que s'han desactivat en <a href="#aturar-dags-materialitzacio">les passes anteriors</a></p>
 
 
 
