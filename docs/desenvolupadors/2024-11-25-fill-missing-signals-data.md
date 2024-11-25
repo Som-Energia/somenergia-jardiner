@@ -3,8 +3,8 @@ description: Passes a seguir a l'hora d'omplir forats de dades de senyals manual
 lang: ca_ES
 tags: [pipe, jardiner, forats]
 date: 2024-11-25
+slug: omplir-forats-dades-dset
 
----
 # Omplir forats de dades de senyals
 
 Actualment, el sistema de monitoratge de senyals de les plantes pot tenir forats de dades. Aquests forats poden ser deguts a problemes de comunicació, errors en la recollida de dades, etc.
@@ -24,6 +24,8 @@ Segons el escenari, el procediment a seguir és diferent.
 
 ## Dades de comptadors
 
+### Descripció del script d'ingesta {#script-ingesta}
+
 Actualment les dades de comptadors es llegeixen diàriament amb un DAG d'Airflow ([aqui](https://airflow.somenergia.coop/dags/dset_reader_meters_dag_v2/)). Aquest DAG llegeix executa un script que es pot trobar a [aquí](https://gitlab.somenergia.coop/et/somenergia-plant-reader/-/blob/main/scripts/read_dset_meters.py).
 
 De manera resumida, el script fa el següent:
@@ -36,6 +38,17 @@ De manera resumida, el script fa el següent:
    3. Si les dates no hi son a la nostra base de dades, les descarreguem i les guardem a la base de dades de SomEnergia.
 4. Aixó té un _caveat_ que afecta a forats: si hi ha un forat però tenim dades més recents, no les podrem detectar per que ja tenim una mesura més recent.
 5. Per això, si hi ha un forat, s'ha de fer manualment.
+
+
+### Resum
+
+Tot el procediment es pot resumir de la manera següent
+
+1. Buscar i eliminar dades en el rang que es vol reomplir les dades
+2. Tornar a descarregar les dades amb el [script d'ingesta](#script-ingesta)
+3. Aturar DAGs d'Airflow que materialitzen dades en temps real amb `dbt
+4. Tirar `dbt` amb `--full-refresh`
+5. Tornar a activar DAGs desactivats
 
 ### Esborrar i tornar a llegir les dades
 
@@ -103,6 +116,10 @@ Per omplir forats de dades de comptadors, s'ha de seguir el següent procediment
 
 5. Si les dades s'han omplert correctament, ja hauràs acabat. Si no, revisa els logs del script per veure si hi ha hagut algun error.
 
+### Aturar DAGs que materialitzen dades amb dbt {#aturar-dags-materialitzacio}
+
+Actualment hi ha un [DAG d'Airflow](https://airflow.somenergia.coop/dags/dset_materialize_dag_v1/) que está constantment materalitztant les últimes capes del pipe per que els models finals vagin més rápid. Abans de tocar les dades amb `dbt` al següent pas, caldrà aturar aquest DAG per que en altre cas la db bloquejarà un dels dos processos.
+
 ### Executar `dbt --full-refresh`
 
 Amb els forats omplerts, s'han de refer i propagar calculs fets amb dbt al passat amb les dades noves. Com no fem aquest calcul cada vegada al ser molt intensiu, només el fem per els últims dos dies de dades. Aquesta lógica es troba [aquí](https://gitlab.somenergia.coop/et/somenergia-jardiner/-/blob/0364c13c43983bdc0bd931f8cd33100ebfb3eee3/dbt_jardiner/models/jardiner/intermediate/dset/int_dset_responses__values_incremental.sql#L34)
@@ -115,3 +132,7 @@ dbt build -s tag:jardiner --store-failures --full-refresh --target prod
 ```
 
 Aquesta tasca és molt intensiva i pot trigar molta estona. Per això, s'ha de fer amb cura i en un moment de baixa càrrega.
+
+### Activat DAGs que materialitzen dades amb dbt {#activar-dags-materialitzacio}
+
+No oblidar-se de activar els DAGs que s'han desactivat en [les passes anteriors](#aturar-dags-materialitzacio)
