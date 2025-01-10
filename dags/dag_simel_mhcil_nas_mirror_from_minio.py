@@ -69,7 +69,7 @@ with DAG(
         "MINIO_SECRET_KEY": Variable.get("MINIO_SOM_AIRBYTE_SECRET_KEY"),
         "MINIO_ALIAS": MINIO_ALIAS,
         "MIRROR_ORIG_PATH": "/mercat-electric/20_SIMEL/1394_pen/MHCIL",
-        "MIRROR_DEST_PATH": f"/{MINIO_ALIAS}/simel-mhcil-nas",
+        "MIRROR_DEST_PATH": f"{MINIO_ALIAS}/simel-mhcil-nas",
     }
 
     cmd = [
